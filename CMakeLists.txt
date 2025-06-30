@@ -51,4 +51,4 @@ endif()
 find_package(gtest REQUIRED CONFIG)
 
 add_subdirectory(ThirdRep)
-add_subdirectory(ButtonScanner)
+add_subdirectory(ZipperScanner)

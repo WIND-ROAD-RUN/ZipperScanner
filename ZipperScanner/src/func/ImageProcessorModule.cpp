@@ -92,6 +92,18 @@ void ImageProcessorZipper::run()
 
 		auto& globalData = GlobalStructDataZipper::getInstance();
 
+		// 获取当前时间点
+		auto now = std::chrono::system_clock::now();
+		// 转换为time_t格式
+		std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+		// 转换为本地时间
+		std::tm* local_time = std::localtime(&now_time);
+
+		// 格式化输出：比如：2024-06-22 17:12:30
+		std::cout << std::put_time(local_time, "%Y-%m-%d %H:%M:%S") << std::endl;
+
+
+
 		auto currentRunningState = globalData.runningState.load();
 		switch (currentRunningState)
 		{
@@ -585,7 +597,7 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	config.imagePretreatmentPolicy = rw::ImagePretreatmentPolicy::LetterBox;
 	config.letterBoxColor = cv::Scalar(114, 114, 114);
 	config.modelPath = enginePath.toStdString();
-	_modelEngine = rw::ModelEngineFactory::createModelEngine(config, rw::ModelType::Yolov11_Det, rw::ModelEngineDeployType::TensorRT);
+	_modelEngine = rw::ModelEngineFactory::createModelEngine(config, rw::ModelType::Yolov11_Seg, rw::ModelEngineDeployType::TensorRT);
 }
 
 std::vector<std::vector<size_t>> ImageProcessorZipper::filterEffectiveIndexes_debug(std::vector<rw::DetectionRectangleInfo> info)

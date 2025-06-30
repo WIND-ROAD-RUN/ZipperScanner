@@ -98,6 +98,15 @@ void DlgIOTrigger::btn_shoudongchongkong_clicked()
 		auto chongkongshijian = globalStruct.setConfig.chongkongshijian;
 		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
 		QThread::msleep(yanchichongkongshijian);
+
+		// 停止电机
+		bool isStop = globalStruct.zmotion.stopAllAxis();
+
+		if (!isStop)
+		{
+			//QMessageBox::warning(this, "警告", "停止电机失败!");
+		}
+		// 冲孔
 		bool isSet = globalStruct.zmotion.SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
 
 		if (!isSet) {

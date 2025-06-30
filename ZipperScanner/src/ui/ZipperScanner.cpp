@@ -57,6 +57,17 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 	// 启用所有后台线程
 	start_threads();
+
+	//默认开启剔除功能
+	globalStruct.generalConfig = *globalStruct.storeContext->load(globalPath.generalConfigPath.toStdString());
+	// 加载主窗体UI的设置
+	globalStruct.generalConfig.isDefect = true; // 默认开启剔废模式
+	rbtn_stop_clicked(true); // 默认停止
+	rbtn_removeFunc_checked(true);
+	ui->rbtn_removeFunc->setChecked(globalStruct.generalConfig.isDefect);
+	ui->rbtn_strongLight->setChecked(globalStruct.generalConfig.qiangGuang);
+	ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
+	ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
 }
 
 ZipperScanner::~ZipperScanner()
@@ -394,18 +405,6 @@ void ZipperScanner::read_config_GeneralConfig()
 		globalStruct.storeContext->save(globalStruct.generalConfig, globalPath.generalConfigPath.toStdString());
 		return;
 	}
-	else
-	{
-		globalStruct.generalConfig = *globalStruct.storeContext->load(globalPath.generalConfigPath.toStdString());
-		// 加载主窗体UI的设置
-		globalStruct.generalConfig.isDefect = true; // 默认开启剔废模式
-		rbtn_stop_clicked(true); // 默认停止
-		rbtn_removeFunc_checked(true);
-		ui->rbtn_removeFunc->setChecked(globalStruct.generalConfig.isDefect);
-		ui->rbtn_strongLight->setChecked(globalStruct.generalConfig.qiangGuang);
-		ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
-		ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
-	}
 }
 
 // 读取分数配置
@@ -610,6 +609,7 @@ void ZipperScanner::rbtn_takePicture_checked()
 
 void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 {
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	if (checked)
 	{
 		auto& globalStruct = GlobalStructDataZipper::getInstance();
@@ -629,7 +629,6 @@ void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 	}
 	else
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
 		globalStruct.runningState = RunningState::Stop;
 	}
 }

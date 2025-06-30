@@ -178,49 +178,56 @@ void ImageProcessorZipper::run_monitor(MatInfo& frame)
 
 void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 {
-	//AI开始识别
-	ZipperDefectInfo defectInfo;
-	auto startTime = std::chrono::high_resolution_clock::now();
+	try
+	{
+		//AI开始识别
+		ZipperDefectInfo defectInfo;
+		auto startTime = std::chrono::high_resolution_clock::now();
 
-	auto processResult = _modelEngine->processImg(frame.image);
-	auto endTime = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
-	defectInfo.time = QString("处理时间: %1 ms").arg(duration);
-	//AI识别完成
+		auto processResult = _modelEngine->processImg(frame.image);
+		auto endTime = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+		defectInfo.time = QString("处理时间: %1 ms").arg(duration);
+		//AI识别完成
 
-	//过滤出有效索引
-	auto processResultIndex = filterEffectiveIndexes_defect(processResult);
-	//获取到当前图像的缺陷信息
-	getEliminationInfo_defect(defectInfo, processResult, processResultIndex, frame.image);
+		//过滤出有效索引
+		auto processResultIndex = filterEffectiveIndexes_defect(processResult);
+		//获取到当前图像的缺陷信息
+		getEliminationInfo_defect(defectInfo, processResult, processResultIndex, frame.image);
 
-	// 剔除逻辑获取_isbad以及绘制defect错误信息
-	run_OpenRemoveFunc_process_defect_info(defectInfo, frame, processResult);
-	//如果_isbad为true，将错误信息发送到剔除队列中
-	run_OpenRemoveFunc_emitErrorInfo(frame);
+		// 剔除逻辑获取_isbad以及绘制defect错误信息
+		run_OpenRemoveFunc_process_defect_info(defectInfo, frame, processResult);
+		//如果_isbad为true，将错误信息发送到剔除队列中
+		run_OpenRemoveFunc_emitErrorInfo(frame);
 
-	//绘制defect信息
-	auto qImage = cvMatToQImage(frame.image);
+		//绘制defect信息
+		auto qImage = cvMatToQImage(frame.image);
 
-	// 画限位线
-	drawBoundariesLines(qImage);
-	// 不满足剔废条件的缺陷用绿色显示
-	drawDefectRec(qImage, processResult, processResultIndex, defectInfo);
-	// 满足剔废条件的缺陷用红色显示
-	drawDefectRec_error(qImage, processResult, processResultIndex, defectInfo);
+		// 画限位线
+		drawBoundariesLines(qImage);
+		// 不满足剔废条件的缺陷用绿色显示
+		drawDefectRec(qImage, processResult, processResultIndex, defectInfo);
+		// 满足剔废条件的缺陷用红色显示
+		drawDefectRec_error(qImage, processResult, processResultIndex, defectInfo);
 
-	drawZipperDefectInfoText_defect(qImage, defectInfo);
+		drawZipperDefectInfoText_defect(qImage, defectInfo);
 
-	rw::rqw::ImageInfo imageInfo(cvMatToQImage(frame.image));
-	//保存图像
-	save_image(imageInfo, qImage);
+		rw::rqw::ImageInfo imageInfo(cvMatToQImage(frame.image));
+		//保存图像
+		save_image(imageInfo, qImage);
 
-	QPixmap pixmap = QPixmap::fromImage(qImage);
+		QPixmap pixmap = QPixmap::fromImage(qImage);
 
-	// 显示图像
-	emit imageReady(pixmap);
+		// 显示图像
+		emit imageReady(pixmap);
 
-	// 显示NG图像
-	emit imageNGReady(pixmap, imageProcessingModuleIndex,_isbad);
+		// 显示NG图像
+		emit imageNGReady(pixmap, imageProcessingModuleIndex, _isbad);
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info, MatInfo& frame, std::vector<rw::DetectionRectangleInfo>& processResult)
@@ -229,11 +236,11 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectIn
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	if (frame.index == 1)
 	{
-		globalStruct.minDefectLocation1 = 0;
+		globalStruct.maxDefectLocation1 = 0;
 	}
 	else
 	{
-		globalStruct.minDefectLocation2 = 0;
+		globalStruct.maxDefectLocation2 = 0;
 	}
 
 	run_OpenRemoveFunc_process_defect_info_QueYa(info, processResult, frame.index);
@@ -258,21 +265,23 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDe
 			if (item.score >= productSet.queYaScore && item.area >= productSet.queYaArea)
 			{
 				_isbad = true; // 有缺牙就认为是坏品
+
 				// 计算最小位置的缺陷
 				if (cameraIndex == 1)
 				{
-					if (globalStruct.minDefectLocation1 > processResult[item.index].center_x)
+					if (globalStruct.maxDefectLocation1 < processResult[item.index].center_x)
 					{
-						globalStruct.minDefectLocation1 = processResult[item.index].center_x;
+						globalStruct.maxDefectLocation1 = processResult[item.index].center_x;
 					}
 				}
 				else if (cameraIndex == 2)
 				{
-					if (globalStruct.minDefectLocation2 > processResult[item.index].center_x)
+					if (globalStruct.maxDefectLocation2 < processResult[item.index].center_x)
 					{
-						globalStruct.minDefectLocation2 = processResult[item.index].center_x;
+						globalStruct.maxDefectLocation2 = processResult[item.index].center_x;
 					}
 				}
+
 			}
 		}
 	}
@@ -297,16 +306,16 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(Zipp
 				// 计算最小位置的缺陷
 				if (cameraIndex == 1)
 				{
-					if (globalStruct.minDefectLocation1 > processResult[item.index].center_x)
+					if (globalStruct.maxDefectLocation1 < processResult[item.index].center_x)
 					{
-						globalStruct.minDefectLocation1 = processResult[item.index].center_x;
+						globalStruct.maxDefectLocation1 = processResult[item.index].center_x;
 					}
 				}
 				else if (cameraIndex == 2)
 				{
-					if (globalStruct.minDefectLocation2 > processResult[item.index].center_x)
+					if (globalStruct.maxDefectLocation2 < processResult[item.index].center_x)
 					{
-						globalStruct.minDefectLocation2 = processResult[item.index].center_x;
+						globalStruct.maxDefectLocation2 = processResult[item.index].center_x;
 					}
 				}
 			}
@@ -334,16 +343,16 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperD
 				// 计算最小位置的缺陷
 				if (cameraIndex == 1)
 				{
-					if (globalStruct.minDefectLocation1 > processResult[item.index].center_x)
+					if (globalStruct.maxDefectLocation1 < processResult[item.index].center_x)
 					{
-						globalStruct.minDefectLocation1 = processResult[item.index].center_x;
+						globalStruct.maxDefectLocation1 = processResult[item.index].center_x;
 					}
 				}
 				else if (cameraIndex == 2)
 				{
-					if (globalStruct.minDefectLocation2 > processResult[item.index].center_x)
+					if (globalStruct.maxDefectLocation2 < processResult[item.index].center_x)
 					{
-						globalStruct.minDefectLocation2 = processResult[item.index].center_x;
+						globalStruct.maxDefectLocation2 = processResult[item.index].center_x;
 					}
 				}
 			}
@@ -379,10 +388,10 @@ void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(const MatInfo& frame
 		switch (imageProcessingModuleIndex)
 		{
 		case 1:
-			globalStruct.priorityQueue1->insert(frame.location, frame.location);
+			globalStruct.priorityQueue1->push(frame.location);
 			break;
 		case 2:
-			globalStruct.priorityQueue2->insert(frame.location, frame.location);
+			globalStruct.priorityQueue2->push(frame.location);
 			break;
 		default:
 			break;
@@ -939,7 +948,7 @@ void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 	MatInfo mat;
 	mat.image = frame;
 	mat.index = index;
-	mat.location = globalStruct.zmotion.getModbus(0,1);	// 获取拍照的位置
+	mat.location = globalStruct.zmotion.getModbus(2, 1);	// 获取拍照的位置
 	_queue.enqueue(mat);
 	_condition.wakeOne();
 }

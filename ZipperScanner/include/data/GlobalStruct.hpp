@@ -11,7 +11,7 @@
 #include "rqw_CameraObjectThread.hpp"
 #include "ZipperScannerDlgExposureTimeSet.hpp"
 #include "ImageProcessorModule.h"
-#include "dsl_PriorityQueue.hpp"
+#include "dsl_ThreadSafeMinHeap.h"
 #include "Utilty.hpp"
 #include "CameraAndCardStateThread.h"
 #include <chrono>
@@ -70,11 +70,11 @@ signals:
 	void emit_InPutSignal(size_t index, bool state);
 	void emit_OutPutSignal(size_t index, bool state);
 public:
-	std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float> > priorityQueue1;
-	std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float> > priorityQueue2;
+	std::unique_ptr<ThreadSafeMinHeap> priorityQueue1;
+	std::unique_ptr<ThreadSafeMinHeap> priorityQueue2;
 
-	float minDefectLocation1 = 0;
-	float minDefectLocation2 = 0;
+	float maxDefectLocation1 = 0;
+	float maxDefectLocation2 = 0;
 public:
 	void build_PriorityQueue();
 	void destroy_PriorityQueue();

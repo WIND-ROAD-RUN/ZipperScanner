@@ -68,7 +68,7 @@ void DlgIOTrigger::btn_shoudongladai_pressed()
 	auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
 	double acc = setConfig.jiajiansushijian;
 	auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc);
+	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
 	double speed = setConfig.shoudongsudu;
 	auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
 	auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);

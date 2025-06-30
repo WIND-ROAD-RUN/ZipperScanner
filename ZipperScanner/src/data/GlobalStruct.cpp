@@ -81,8 +81,8 @@ void GlobalStructDataZipper::build_PriorityQueue()
 		return a < b;
 		};
 
-	priorityQueue1 = std::make_unique<rw::dsl::ThreadSafeDHeap<float, float> >(compareNodeEqual, compareNodePriority);
-	priorityQueue2 = std::make_unique<rw::dsl::ThreadSafeDHeap<float, float> >(compareNodeEqual, compareNodePriority);
+	priorityQueue1 = std::make_unique<ThreadSafeMinHeap >();
+	priorityQueue2 = std::make_unique<ThreadSafeMinHeap >();
 }
 
 void GlobalStructDataZipper::destroy_PriorityQueue()

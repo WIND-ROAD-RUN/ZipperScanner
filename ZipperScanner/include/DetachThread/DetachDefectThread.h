@@ -25,8 +25,8 @@ public:
 
 	void stopThread();
 
-	void processQueue1(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>> &queue, float minDefectLocation);
-	void processQueue2(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>> &queue, float minDefectLocation);
+	void processQueue1(std::unique_ptr<ThreadSafeMinHeap>& queue, float minDefectLocation);
+	void processQueue2(std::unique_ptr<ThreadSafeMinHeap>& queue, float minDefectLocation);
 
 signals:
 	void findIsBad(size_t index);

@@ -1015,7 +1015,7 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 		}
 		ui->btn_xiangjichufachangdu->setText(value);
 		globalStructSetConfig.xiangjichufachangdu = value.toDouble();
-		bool isSet = globalStruct.zmotion.setModbus(0, 4, value.toDouble());
+		bool isSet = globalStruct.zmotion.setModbus(4, 1, value.toFloat());
 
 		if (!isSet)
 		{
@@ -1050,7 +1050,7 @@ void DlgProductSet::btn_shoudongladai_pressed()
 	auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
 	double acc = setConfig.jiajiansushijian;
 	auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc);
+	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
 	double speed = setConfig.shoudongsudu;
 	auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
 	auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);

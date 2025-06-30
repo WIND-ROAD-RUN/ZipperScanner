@@ -182,7 +182,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	getEliminationInfo_defect(defectInfo, processResult, processResultIndex, frame.image);
 
 	// 剔除逻辑获取_isbad以及绘制defect错误信息
-	run_OpenRemoveFunc_process_defect_info(defectInfo);
+	run_OpenRemoveFunc_process_defect_info(defectInfo, frame, processResult);
 	//如果_isbad为true，将错误信息发送到剔除队列中
 	run_OpenRemoveFunc_emitErrorInfo(frame);
 
@@ -211,18 +211,26 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	emit imageNGReady(pixmap, imageProcessingModuleIndex,_isbad);
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info, MatInfo& frame, std::vector<rw::DetectionRectangleInfo>& processResult)
 {
 	_isbad = false; // 重置坏品标志
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	if (frame.index == 1)
+	{
+		globalStruct.minDefectLocation1 = 0;
+	}
+	else
+	{
+		globalStruct.minDefectLocation2 = 0;
+	}
 
-	run_OpenRemoveFunc_process_defect_info_QueYa(info);
-	run_OpenRemoveFunc_process_defect_info_TangShang(info);
-	run_OpenRemoveFunc_process_defect_info_ZangWu(info);
+	run_OpenRemoveFunc_process_defect_info_QueYa(info, processResult, frame.index);
+	run_OpenRemoveFunc_process_defect_info_TangShang(info, processResult, frame.index);
+	run_OpenRemoveFunc_process_defect_info_ZangWu(info, processResult, frame.index);
 
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDefectInfo& info)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& productSet = globalStruct.scoreConfig;
@@ -238,13 +246,27 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDe
 			if (item.score >= productSet.queYaScore && item.area >= productSet.queYaArea)
 			{
 				_isbad = true; // 有缺牙就认为是坏品
-				break; // 找到一个符合条件的缺牙就可以了
+				// 计算最小位置的缺陷
+				if (cameraIndex == 1)
+				{
+					if (globalStruct.minDefectLocation1 > processResult[item.index].center_x)
+					{
+						globalStruct.minDefectLocation1 = processResult[item.index].center_x;
+					}
+				}
+				else if (cameraIndex == 2)
+				{
+					if (globalStruct.minDefectLocation2 > processResult[item.index].center_x)
+					{
+						globalStruct.minDefectLocation2 = processResult[item.index].center_x;
+					}
+				}
 			}
 		}
 	}
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& productSet = globalStruct.scoreConfig;
@@ -260,13 +282,27 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(Zipp
 			if (item.score >= productSet.tangShangScore && item.area >= productSet.tangShangArea)
 			{
 				_isbad = true; // 有烫伤就认为是坏品
-				break; // 找到一个符合条件的烫伤就可以了
+				// 计算最小位置的缺陷
+				if (cameraIndex == 1)
+				{
+					if (globalStruct.minDefectLocation1 > processResult[item.index].center_x)
+					{
+						globalStruct.minDefectLocation1 = processResult[item.index].center_x;
+					}
+				}
+				else if (cameraIndex == 2)
+				{
+					if (globalStruct.minDefectLocation2 > processResult[item.index].center_x)
+					{
+						globalStruct.minDefectLocation2 = processResult[item.index].center_x;
+					}
+				}
 			}
 		}
 	}
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& productSet = globalStruct.scoreConfig;
@@ -283,7 +319,21 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperD
 			if (item.score >= productSet.zangWuScore && item.area >= productSet.zangWuArea)
 			{
 				_isbad = true; // 有脏污就认为是坏品
-				break; // 找到一个符合条件的脏污就可以了
+				// 计算最小位置的缺陷
+				if (cameraIndex == 1)
+				{
+					if (globalStruct.minDefectLocation1 > processResult[item.index].center_x)
+					{
+						globalStruct.minDefectLocation1 = processResult[item.index].center_x;
+					}
+				}
+				else if (cameraIndex == 2)
+				{
+					if (globalStruct.minDefectLocation2 > processResult[item.index].center_x)
+					{
+						globalStruct.minDefectLocation2 = processResult[item.index].center_x;
+					}
+				}
 			}
 		}
 	}

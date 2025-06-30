@@ -9,8 +9,6 @@ QPixmap cvMatToQPixmap(const cv::Mat& mat);
 
 using Time = std::chrono::system_clock::time_point;
 
-using DefectValueInfo = Time;
-
 struct WarningId
 {
 	static constexpr int cairPressureAlarm = 0;

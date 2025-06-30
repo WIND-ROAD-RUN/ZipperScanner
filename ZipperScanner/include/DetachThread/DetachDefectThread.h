@@ -25,8 +25,8 @@ public:
 
 	void stopThread();
 
-	void processQueue1(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>> &queue);
-	void processQueue2(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>> &queue);
+	void processQueue1(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>> &queue, float minDefectLocation);
+	void processQueue2(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>> &queue, float minDefectLocation);
 
 signals:
 	void findIsBad(size_t index);
@@ -34,6 +34,4 @@ protected:
 	void run() override;
 private:
 	std::atomic<bool> running; // 使用原子变量保证线程安全
-
-	float preLocation{ 0.0f };
 };

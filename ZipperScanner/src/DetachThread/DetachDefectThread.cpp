@@ -24,21 +24,44 @@ void DetachDefectThreadZipper::stopThread()
 	running = false; // 停止线程
 }
 
-void DetachDefectThreadZipper::processQueue1(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>>& queue)
+void DetachDefectThreadZipper::processQueue1(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>>& queue, float minDefectLocation)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 
 	try
 	{
-		bool isGetLocation = false;
-		float nowLocation = globalStruct.zmotion.getAxisLocation(0, isGetLocation);
-		auto tifeijuli1 = setConfig.tifeijuli1;
-		if (isGetLocation != false && (abs(nowLocation - preLocation) > tifeijuli1))
+		float nowLocation = queue->peek();
+		if (nowLocation > 0)
 		{
+			queue->top();
+		}
+		auto tifeijuli1 = setConfig.tifeijuli1;
+		auto tifeichixushijian1 = setConfig.tiFeiChiXuShiJian1;
+		minDefectLocation = minDefectLocation * globalStruct.setConfig.xiangSuDangLiang1;
+		if (abs(nowLocation - minDefectLocation) > tifeijuli1)
+		{
+			// 停止电机
+			bool isStop = globalStruct.zmotion.stopAllAxis();
+
+			if (!isStop)
+			{
+				//QMessageBox::warning(this, "警告", "停止电机失败!");
+			}
 			//冲孔
-			//bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT,true);
-			//emit findIsBad(1);
+			bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT,true);
+
+			emit findIsBad(1);
+
+			// 等待冲孔完毕
+			QThread::msleep(tifeichixushijian1);
+
+			// 启动电机
+			auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+			if (!isAxisRun)
+			{
+				//QMessageBox::warning(this, "警告", "启动电机失败!");
+			}
 		}
 	}
 	catch (const std::runtime_error&)
@@ -47,21 +70,44 @@ void DetachDefectThreadZipper::processQueue1(std::unique_ptr<rw::dsl::ThreadSafe
 	}
 }
 
-void DetachDefectThreadZipper::processQueue2(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>>& queue)
+void DetachDefectThreadZipper::processQueue2(std::unique_ptr<rw::dsl::ThreadSafeDHeap<float, float>>& queue, float minDefectLocation)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 
 	try
 	{
-		bool isGetLocation = false;
-		float nowLocation = globalStruct.zmotion.getAxisLocation(0, isGetLocation);
-		auto tifeijuli2 = setConfig.tifeijuli2;
-		if (isGetLocation != false && (abs(nowLocation - preLocation) > tifeijuli2))
+		float nowLocation = queue->peek();
+		if (nowLocation > 0)
 		{
+			queue->top();
+		}
+		auto tifeijuli2 = setConfig.tifeijuli2;
+		auto tifeichixushijian2 = setConfig.tiFeiChiXuShiJian2;
+		minDefectLocation = minDefectLocation * globalStruct.setConfig.xiangSuDangLiang2;
+		if (abs(nowLocation - minDefectLocation) > tifeijuli2)
+		{
+			// 停止电机
+			bool isStop = globalStruct.zmotion.stopAllAxis();
+
+			if (!isStop)
+			{
+				//QMessageBox::warning(this, "警告", "停止电机失败!");
+			}
 			//冲孔
-			//bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, true);
-			//emit findIsBad(2);
+			bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, true);
+
+			emit findIsBad(2);
+
+			// 等待冲孔完毕
+			QThread::msleep(tifeichixushijian2);
+
+			// 启动电机
+			auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+			if (!isAxisRun)
+			{
+				//QMessageBox::warning(this, "警告", "启动电机失败!");
+			}
 		}
 	}
 	catch (const std::runtime_error&)
@@ -72,12 +118,13 @@ void DetachDefectThreadZipper::processQueue2(std::unique_ptr<rw::dsl::ThreadSafe
 
 void DetachDefectThreadZipper::run()
 {
-	auto& priorityQueue1 = GlobalStructDataZipper::getInstance().priorityQueue1;
-	auto& priorityQueue2 = GlobalStructDataZipper::getInstance().priorityQueue2;
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& priorityQueue1 = globalStruct.priorityQueue1;
+	auto& priorityQueue2 = globalStruct.priorityQueue2;
 
 	while (running) {
 		QThread::msleep(10);
-		processQueue1(priorityQueue1);
-		processQueue2(priorityQueue2);
+		processQueue1(priorityQueue1,globalStruct.minDefectLocation1);
+		processQueue2(priorityQueue2,globalStruct.minDefectLocation2);
 	}
 }

@@ -54,7 +54,7 @@
       "name": "6.7.3_msvc2022_64",
       "inherits": "Qt",
       "environment": {
-        "QTDIR": "D:/Development/framework/Qt/6.7.3/msvc2022_64"
+        "QTDIR": "D:/Development/FrameWork/Qt/6.7.3/msvc2019_64"
       },
       "architecture": {
         "strategy": "external",
@@ -63,14 +63,14 @@
       "generator": "Ninja",
       "vendor": {
         "qt-project.org/Version": {
-          "checksum": "VBBv+JoBsp9VVWk8WmESyw/QnWI="
+          "checksum": "tTY3M+aQPog9YC+NEd2xKErQk20="
         }
       }
     }
   ],
   "vendor": {
     "qt-project.org/Presets": {
-      "checksum": "2JzGU/oYDkU8XQL420rCI+zEftc="
+      "checksum": "87K+CCy+4pnBs2M/2DjGqyrcLiA="
     }
   }
 }

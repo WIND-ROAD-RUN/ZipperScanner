@@ -365,6 +365,9 @@ void ZipperScanner::destroyComponents()
 {
 
 	auto& globalStructData = GlobalStructDataZipper::getInstance();
+	// 关闭剔废功能并停止冲孔与轴运动
+	rbtn_stop_clicked(true); // 默认停止
+	rbtn_removeFunc_checked(false);
 	// 销毁主窗体启停IO监控线程
 	globalStructData.destroy_monitorStartOrStopThread();
 	// 销毁运动控制器IO状态监控线程

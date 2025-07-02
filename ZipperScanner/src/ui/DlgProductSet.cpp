@@ -77,6 +77,7 @@ void DlgProductSet::read_config()
 	ui->pbtn_ruozengyi->setText(QString::number(globalConfig.ruoZengYi));
 
 	// 调试模式默认为关闭
+	globalConfig.debugMode = false;
 	ui->cbox_debugMode->setChecked(globalConfig.debugMode);
 
 	// 基本功能

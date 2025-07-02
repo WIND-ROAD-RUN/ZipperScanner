@@ -43,6 +43,10 @@ void DetachDefectThreadZipper::processQueue1(std::unique_ptr<ThreadSafeMinHeap>&
 			return;
 		}
 
+		//如果有瑕疵直接降速
+		auto isshoudongsudu = globalStruct.zmotion.setAxisRunSpeed(0,globalStruct.setConfig.shoudongsudu);
+
+
 		auto tifeijuli1 = setConfig.tifeijuli1;
 		auto tifeichixushijian1 = setConfig.tiFeiChiXuShiJian1;
 		minDefectLocation = minDefectLocation * globalStruct.setConfig.xiangSuDangLiang1;
@@ -70,6 +74,8 @@ void DetachDefectThreadZipper::processQueue1(std::unique_ptr<ThreadSafeMinHeap>&
 			if (globalStruct.generalConfig.isStart == true)
 			{
 				// 启动电机
+				auto iszidongladaisudu = globalStruct.zmotion.setAxisRunSpeed(0, globalStruct.setConfig.zidongladaisudu);
+
 				auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
 				if (!isAxisRun)
 				{

@@ -100,9 +100,19 @@ void ImageProcessorZipper::run()
 		std::tm* local_time = std::localtime(&now_time);
 
 		// 格式化输出：比如：2024-06-22 17:12:30
-		std::cout << std::put_time(local_time, "%Y-%m-%d %H:%M:%S") << std::endl;
+		//std::cout << std::put_time(local_time, "%Y-%m-%d %H:%M:%S") << std::endl;
 
+		/*bool isget = false;
+		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		float aa = globalStruct.zmotion.getAxisLocation(0, isget);
+		if (abs(globalStruct.maxDefectLocation2- aa)>80)
+		{
+			std::cout << "stoplocation" << aa << std::endl;
+			std::cout << "sub" << abs(globalStruct.maxDefectLocation2 - aa) << std::endl;
 
+		}
+
+		globalStruct.maxDefectLocation2 = aa;*/
 
 		auto currentRunningState = globalData.runningState.load();
 		switch (currentRunningState)
@@ -183,7 +193,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 		//AI开始识别
 		ZipperDefectInfo defectInfo;
 		auto startTime = std::chrono::high_resolution_clock::now();
-
+		
 		auto processResult = _modelEngine->processImg(frame.image);
 		auto endTime = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
@@ -194,11 +204,27 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 		auto processResultIndex = filterEffectiveIndexes_defect(processResult);
 		//获取到当前图像的缺陷信息
 		getEliminationInfo_defect(defectInfo, processResult, processResultIndex, frame.image);
-
+		float maxlefLocation = 0;
 		// 剔除逻辑获取_isbad以及绘制defect错误信息
-		run_OpenRemoveFunc_process_defect_info(defectInfo, frame, processResult);
+		run_OpenRemoveFunc_process_defect_info(defectInfo, frame, processResult, maxlefLocation);
+		
+		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		frame.location = frame.location - maxlefLocation * globalStruct.setConfig.xiangSuDangLiang1;
+		
+		//std::cout << "frame.location" << frame.location << std::endl;
+		//globalStruct.maxDefectLocation1 = frame.location;
+
+		/*if (_isbad == true)
+		{
+			std::cout << "maxlefLocation" << maxlefLocation * globalStruct.setConfig.xiangSuDangLiang1 << std::endl;
+			std::cout << "frame.location" << frame.location << std::endl;
+
+		}*/
 		//如果_isbad为true，将错误信息发送到剔除队列中
 		run_OpenRemoveFunc_emitErrorInfo(frame);
+		//将frame里面的location修改为最左侧
+		
+
 
 		//绘制defect信息
 		auto qImage = cvMatToQImage(frame.image);
@@ -230,26 +256,31 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	}
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info, MatInfo& frame, std::vector<rw::DetectionRectangleInfo>& processResult)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info, MatInfo& frame, std::vector<rw::DetectionRectangleInfo>& processResult, float& maxLefLocation)
 {
 	_isbad = false; // 重置坏品标志
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	if (frame.index == 1)
-	{
-		globalStruct.maxDefectLocation1 = 0;
-	}
-	else
-	{
-		globalStruct.maxDefectLocation2 = 0;
-	}
+	maxLefLocation = 0;
+	
+	float maxQueyaLefLocation = 999999;
+	float maxTangshangLefLocation = 999999;
+	float maxzangwuLefLocation = 999999;
 
-	run_OpenRemoveFunc_process_defect_info_QueYa(info, processResult, frame.index);
-	run_OpenRemoveFunc_process_defect_info_TangShang(info, processResult, frame.index);
-	run_OpenRemoveFunc_process_defect_info_ZangWu(info, processResult, frame.index);
+	run_OpenRemoveFunc_process_defect_info_QueYa(info, processResult, frame.index, maxQueyaLefLocation);
+
+	run_OpenRemoveFunc_process_defect_info_TangShang(info, processResult, frame.index, maxTangshangLefLocation);
+	run_OpenRemoveFunc_process_defect_info_ZangWu(info, processResult, frame.index, maxzangwuLefLocation);
+
+	maxLefLocation = std::min({ maxQueyaLefLocation, maxTangshangLefLocation, maxzangwuLefLocation });
+
+	if (maxLefLocation== 999999)
+	{
+		maxLefLocation = 0;
+	}
 
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& productSet = globalStruct.scoreConfig;
@@ -269,25 +300,28 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDe
 				// 计算最小位置的缺陷
 				if (cameraIndex == 1)
 				{
-					if (globalStruct.maxDefectLocation1 < processResult[item.index].center_x)
+					if (maxLefLocation > processResult[item.index].center_x)
 					{
-						globalStruct.maxDefectLocation1 = processResult[item.index].center_x;
+						maxLefLocation = processResult[item.index].center_x;
 					}
 				}
 				else if (cameraIndex == 2)
 				{
-					if (globalStruct.maxDefectLocation2 < processResult[item.index].center_x)
+					if (maxLefLocation > processResult[item.index].center_x)
 					{
-						globalStruct.maxDefectLocation2 = processResult[item.index].center_x;
+						maxLefLocation = processResult[item.index].center_x;
 					}
 				}
 
 			}
 		}
+
+
+
 	}
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& productSet = globalStruct.scoreConfig;
@@ -306,16 +340,16 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(Zipp
 				// 计算最小位置的缺陷
 				if (cameraIndex == 1)
 				{
-					if (globalStruct.maxDefectLocation1 < processResult[item.index].center_x)
+					if (maxLefLocation > processResult[item.index].center_x)
 					{
-						globalStruct.maxDefectLocation1 = processResult[item.index].center_x;
+						maxLefLocation = processResult[item.index].center_x;
 					}
 				}
 				else if (cameraIndex == 2)
 				{
-					if (globalStruct.maxDefectLocation2 < processResult[item.index].center_x)
+					if (maxLefLocation > processResult[item.index].center_x)
 					{
-						globalStruct.maxDefectLocation2 = processResult[item.index].center_x;
+						maxLefLocation = processResult[item.index].center_x;
 					}
 				}
 			}
@@ -323,11 +357,10 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_TangShang(Zipp
 	}
 }
 
-void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex)
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& productSet = globalStruct.scoreConfig;
-
 	if (productSet.zangWu)
 	{
 		auto& Zangwu = info.zangWuList;
@@ -343,16 +376,16 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperD
 				// 计算最小位置的缺陷
 				if (cameraIndex == 1)
 				{
-					if (globalStruct.maxDefectLocation1 < processResult[item.index].center_x)
+					if (maxLefLocation > processResult[item.index].center_x)
 					{
-						globalStruct.maxDefectLocation1 = processResult[item.index].center_x;
+						maxLefLocation = processResult[item.index].center_x;
 					}
 				}
 				else if (cameraIndex == 2)
 				{
-					if (globalStruct.maxDefectLocation2 < processResult[item.index].center_x)
+					if (maxLefLocation > processResult[item.index].center_x)
 					{
-						globalStruct.maxDefectLocation2 = processResult[item.index].center_x;
+						maxLefLocation = processResult[item.index].center_x;
 					}
 				}
 			}

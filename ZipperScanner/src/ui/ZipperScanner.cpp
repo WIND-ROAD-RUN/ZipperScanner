@@ -687,7 +687,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		double acc = setConfig.jiajiansushijian;
 		auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
 		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
-		double speed = setConfig.shoudongsudu;
+		double speed = setConfig.zidongladaisudu;
 		auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
 		auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
 

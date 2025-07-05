@@ -86,13 +86,13 @@ private:
 private:
 	void run_OpenRemoveFunc(MatInfo& frame);	// 开启剔废功能时的处理模式
 	// 处理拉链缺陷信息
-	void run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info, MatInfo& frame, std::vector<rw::DetectionRectangleInfo>& processResult);
+	void run_OpenRemoveFunc_process_defect_info(ZipperDefectInfo& info, MatInfo& frame, std::vector<rw::DetectionRectangleInfo>& processResult, float& maxLefLocation);
 	// 处理缺牙
-	void run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex);
+	void run_OpenRemoveFunc_process_defect_info_QueYa(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation);
 	// 处理烫伤
-	void run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex);
+	void run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation);
 	// 处理脏污
-	void run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex);
+	void run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation);
 	// 检测到缺陷后发出错误信息
 	void run_OpenRemoveFunc_emitErrorInfo(const MatInfo& frame) const;
 

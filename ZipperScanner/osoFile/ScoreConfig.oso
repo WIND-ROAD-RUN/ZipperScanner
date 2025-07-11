@@ -15,5 +15,9 @@ namespace cdm {
 		zangWu : bool :default = false;
 		zangWuScore : double :default = 0;
 		zangWuArea : double :default = 0;
+
+        suoXiao : bool :default = false;
+		suoXiaoScore : double :default = 0;
+		suoXiaoArea : double :default = 0;
 	};
 }

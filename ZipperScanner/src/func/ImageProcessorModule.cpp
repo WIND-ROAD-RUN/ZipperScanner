@@ -265,13 +265,13 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info(ZipperDefectIn
 	float maxQueyaLefLocation = 999999;
 	float maxTangshangLefLocation = 999999;
 	float maxzangwuLefLocation = 999999;
+	float maxsuoxiaoLefLocation = 999999;
 
 	run_OpenRemoveFunc_process_defect_info_QueYa(info, processResult, frame.index, maxQueyaLefLocation);
-
 	run_OpenRemoveFunc_process_defect_info_TangShang(info, processResult, frame.index, maxTangshangLefLocation);
 	run_OpenRemoveFunc_process_defect_info_ZangWu(info, processResult, frame.index, maxzangwuLefLocation);
-
-	maxLefLocation = std::min({ maxQueyaLefLocation, maxTangshangLefLocation, maxzangwuLefLocation });
+	run_OpenRemoveFunc_process_defect_info_SuoXiao(info, processResult, frame.index, maxsuoxiaoLefLocation);
+	maxLefLocation = std::min({ maxQueyaLefLocation, maxTangshangLefLocation, maxzangwuLefLocation, maxsuoxiaoLefLocation });
 
 	if (maxLefLocation== 999999)
 	{
@@ -371,6 +371,43 @@ void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperD
 		for (const auto& item : Zangwu)
 		{
 			if (item.score >= productSet.zangWuScore && item.area >= productSet.zangWuArea)
+			{
+				_isbad = true; // 有脏污就认为是坏品
+				// 计算最小位置的缺陷
+				if (cameraIndex == 1)
+				{
+					if (maxLefLocation > processResult[item.index].center_x)
+					{
+						maxLefLocation = processResult[item.index].center_x;
+					}
+				}
+				else if (cameraIndex == 2)
+				{
+					if (maxLefLocation > processResult[item.index].center_x)
+					{
+						maxLefLocation = processResult[item.index].center_x;
+					}
+				}
+			}
+		}
+	}
+}
+
+void ImageProcessorZipper::run_OpenRemoveFunc_process_defect_info_SuoXiao(ZipperDefectInfo& info,
+	std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation)
+{
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& productSet = globalStruct.scoreConfig;
+	if (productSet.suoXiao)
+	{
+		auto& Suoxiao = info.suoXiaoList;
+		if (Suoxiao.empty())
+		{
+			return;
+		}
+		for (const auto& item : Suoxiao)
+		{
+			if (item.score >= productSet.suoXiaoScore && item.area >= productSet.suoXiaoArea)
 			{
 				_isbad = true; // 有脏污就认为是坏品
 				// 计算最小位置的缺陷
@@ -498,6 +535,7 @@ void ImageProcessorZipper::getEliminationInfo_defect(ZipperDefectInfo& info,
 	getQueyaInfo(info, processResult, index[ClassId::Queya]);
 	getTangshangInfo(info, processResult, index[ClassId::Tangshang]);
 	getZangwuInfo(info, processResult, index[ClassId::Zangwu]);
+	getSuoxiaoInfo(info, processResult, index[ClassId::Suoxiao]);
 }
 
 void ImageProcessorZipper::getQueyaInfo(ZipperDefectInfo& info, const std::vector<rw::DetectionRectangleInfo>& processResult,
@@ -610,6 +648,43 @@ void ImageProcessorZipper::getZangwuInfo(ZipperDefectInfo& info, const std::vect
 		}
 		defectItem.index = static_cast<int>(item);
 		info.zangWuList.emplace_back(defectItem);
+	}
+}
+
+void ImageProcessorZipper::getSuoxiaoInfo(ZipperDefectInfo& info,
+	const std::vector<rw::DetectionRectangleInfo>& processResult, const std::vector<size_t>& processIndex)
+{
+	if (processIndex.size() == 0)
+	{
+		return;
+	}
+
+	auto& scoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
+
+	double pixToWorld = 0;
+
+	if (imageProcessingModuleIndex == 1)
+	{
+		pixToWorld = setConfig.xiangSuDangLiang1;
+	}
+	else if (imageProcessingModuleIndex == 2)
+	{
+		pixToWorld = setConfig.xiangSuDangLiang2;
+	}
+
+	for (const auto& item : processIndex)
+	{
+		ZipperDefectInfo::DetectItem defectItem;
+
+		auto suoxiaoScore = processResult[item].score * 100; // 将分数转换为百分比
+		auto suoxiaoArea = static_cast<double>(processResult[item].area * pixToWorld * pixToWorld); // 获取面积
+		if (scoreConfig.suoXiao && suoxiaoScore >= scoreConfig.suoXiaoScore && suoxiaoArea >= scoreConfig.suoXiaoArea)
+		{
+			defectItem.isDraw = true;
+		}
+		defectItem.index = static_cast<int>(item);
+		info.suoXiaoList.emplace_back(defectItem);
 	}
 }
 
@@ -742,6 +817,7 @@ void ImageProcessorZipper::drawZipperDefectInfoText_defect(QImage& image, const 
 		appendQueyaDectInfo(textList, info);
 		appendTangshangDectInfo(textList, info);
 		appendZangwuDectInfo(textList, info);
+		appendSuoxiaoDectInfo(textList, info);
 	}
 
 	// 将信息显示到左上角
@@ -790,6 +866,21 @@ void ImageProcessorZipper::appendZangwuDectInfo(QVector<QString>& textList, cons
 		}
 		zangwuText.append(QString(" 目标分数: %1,目标面积: %2").arg(static_cast<int>(productScore.zangWuScore)).arg(static_cast<int>(productScore.zangWuArea)));
 		textList.push_back(zangwuText);
+	}
+}
+
+void ImageProcessorZipper::appendSuoxiaoDectInfo(QVector<QString>& textList, const ZipperDefectInfo& info)
+{
+	auto& productScore = GlobalStructDataZipper::getInstance().scoreConfig;
+	if (_isbad && productScore.suoXiao && !info.suoXiaoList.empty())
+	{
+		QString suoxiaoText("小拉链:");
+		for (const auto& item : info.suoXiaoList)
+		{
+			suoxiaoText.append(QString(" %1 %2").arg(item.score, 0, 'f', 0).arg(item.area, 0, 'f', 2));
+		}
+		suoxiaoText.append(QString(" 目标分数: %1,目标面积: %2").arg(static_cast<int>(productScore.suoXiaoScore)).arg(static_cast<int>(productScore.suoXiaoArea)));
+		textList.push_back(suoxiaoText);
 	}
 }
 
@@ -865,6 +956,14 @@ void ImageProcessorZipper::drawZipperDefectInfoText_Debug(QImage& image, const Z
 		}
 		textList.push_back(zangwuText);
 	}
+	// 小拉链
+	if (!info.suoXiaoList.empty()) {
+		QString suoxiaoText("小拉链:");
+		for (const auto& item : info.suoXiaoList) {
+			suoxiaoText.append(QString(" %1 %2").arg(item.score, 0, 'f', 0).arg(item.area, 0, 'f', 2));
+		}
+		textList.push_back(suoxiaoText);
+	}
 
 	// 显示到左上角
 	rw::rqw::ImagePainter::drawTextOnImage(image, textList, configList, 0.05);
@@ -916,6 +1015,17 @@ void ImageProcessorZipper::drawDefectRec(QImage& image, const std::vector<rw::De
 		}
 	}
 
+	// 小拉链
+	for (const auto& item : info.suoXiaoList)
+	{
+		if (!item.isDraw)
+		{
+			auto& suoxiaoItem = processResult[item.index];
+			config.text = QString("小拉链 %1 %2").arg(item.score, 0, 'f', 0).arg(item.area, 0, 'f', 2);
+			rw::rqw::ImagePainter::drawShapesOnSourceImg(image, suoxiaoItem, config);
+		}
+	}
+
 }
 
 void ImageProcessorZipper::drawDefectRec_error(QImage& image, const std::vector<rw::DetectionRectangleInfo>& processResult,
@@ -964,6 +1074,17 @@ void ImageProcessorZipper::drawDefectRec_error(QImage& image, const std::vector<
 			auto& zangwuItem = processResult[item.index];
 			config.text = QString("脏污 %1 %2").arg(item.score, 0, 'f', 0).arg(item.area, 0, 'f', 2);
 			rw::rqw::ImagePainter::drawShapesOnSourceImg(image, zangwuItem, config);
+		}
+	}
+
+	// 小拉链
+	for (const auto& item : info.suoXiaoList)
+	{
+		if (item.isDraw)
+		{
+			auto& suoxiaoItem = processResult[item.index];
+			config.text = QString("小拉链 %1 %2").arg(item.score, 0, 'f', 0).arg(item.area, 0, 'f', 2);
+			rw::rqw::ImagePainter::drawShapesOnSourceImg(image, suoxiaoItem, config);
 		}
 	}
 }

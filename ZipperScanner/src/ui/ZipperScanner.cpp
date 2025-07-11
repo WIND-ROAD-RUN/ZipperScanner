@@ -71,7 +71,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 	//记得删除
 	
-	QThread* thread = QThread::create([]() {
+	/*QThread* thread = QThread::create([]() {
 		std::unique_ptr<rw::ModelEngine> engine;
 		rw::ModelEngineConfig config;
 		config.conf_threshold = 0.1f;
@@ -88,7 +88,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 			engine->processImg(mat3);
 		}
 		});
-	thread->start();
+	thread->start();*/
 }
 
 ZipperScanner::~ZipperScanner()

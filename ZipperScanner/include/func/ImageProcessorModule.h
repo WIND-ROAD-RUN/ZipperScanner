@@ -34,7 +34,7 @@ public:
 	std::vector<DetectItem> queYaList;		// 缺牙
 	std::vector<DetectItem> tangShangList;	// 烫伤
 	std::vector<DetectItem> zangWuList;		// 脏污
-
+	std::vector<DetectItem> suoXiaoList;	// 小拉链
 };
 
 // 图片画图模块
@@ -93,6 +93,8 @@ private:
 	void run_OpenRemoveFunc_process_defect_info_TangShang(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation);
 	// 处理脏污
 	void run_OpenRemoveFunc_process_defect_info_ZangWu(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation);
+	// 处理小拉链
+	void run_OpenRemoveFunc_process_defect_info_SuoXiao(ZipperDefectInfo& info, std::vector<rw::DetectionRectangleInfo>& processResult, size_t cameraIndex, float& maxLefLocation);
 	// 检测到缺陷后发出错误信息
 	void run_OpenRemoveFunc_emitErrorInfo(const MatInfo& frame) const;
 
@@ -116,6 +118,8 @@ private:
 	void getTangshangInfo(ZipperDefectInfo& info, const std::vector<rw::DetectionRectangleInfo>& processResult, const std::vector<size_t>& processIndex);
 	// 抓取脏污信息
 	void getZangwuInfo(ZipperDefectInfo& info, const std::vector<rw::DetectionRectangleInfo>& processResult, const std::vector<size_t>& processIndex);
+	// 抓取小拉链信息
+	void getSuoxiaoInfo(ZipperDefectInfo& info, const std::vector<rw::DetectionRectangleInfo>& processResult, const std::vector<size_t>& processIndex);
 
 	static std::vector<std::vector<size_t>> getClassIndex(const std::vector<rw::DetectionRectangleInfo>& info);
 
@@ -145,6 +149,7 @@ public:
 	void appendQueyaDectInfo(QVector<QString>& textList, const ZipperDefectInfo& info);
 	void appendTangshangDectInfo(QVector<QString>& textList, const ZipperDefectInfo& info);
 	void appendZangwuDectInfo(QVector<QString>& textList, const ZipperDefectInfo& info);
+	void appendSuoxiaoDectInfo(QVector<QString>& textList, const ZipperDefectInfo& info);
 
 
 public:

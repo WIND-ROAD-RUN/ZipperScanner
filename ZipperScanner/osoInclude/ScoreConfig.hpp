@@ -28,6 +28,9 @@ namespace cdm {
         bool zangWu{ false };
         double zangWuScore{ 0 };
         double zangWuArea{ 0 };
+        bool suoXiao{ false };
+        double suoXiaoScore{ 0 };
+        double suoXiaoArea{ 0 };
     };
 
     inline ScoreConfig::ScoreConfig(const rw::oso::ObjectStoreAssembly& assembly)
@@ -82,6 +85,21 @@ namespace cdm {
             throw std::runtime_error("$variable$zangWuArea is not found");
         }
         zangWuArea = zangWuAreaItem->getValueAsDouble();
+        auto suoXiaoItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$suoXiao$"));
+        if (!suoXiaoItem) {
+            throw std::runtime_error("$variable$suoXiao is not found");
+        }
+        suoXiao = suoXiaoItem->getValueAsBool();
+        auto suoXiaoScoreItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$suoXiaoScore$"));
+        if (!suoXiaoScoreItem) {
+            throw std::runtime_error("$variable$suoXiaoScore is not found");
+        }
+        suoXiaoScore = suoXiaoScoreItem->getValueAsDouble();
+        auto suoXiaoAreaItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$suoXiaoArea$"));
+        if (!suoXiaoAreaItem) {
+            throw std::runtime_error("$variable$suoXiaoArea is not found");
+        }
+        suoXiaoArea = suoXiaoAreaItem->getValueAsDouble();
     }
 
     inline ScoreConfig::ScoreConfig(const ScoreConfig& obj)
@@ -95,6 +113,9 @@ namespace cdm {
         zangWu = obj.zangWu;
         zangWuScore = obj.zangWuScore;
         zangWuArea = obj.zangWuArea;
+        suoXiao = obj.suoXiao;
+        suoXiaoScore = obj.suoXiaoScore;
+        suoXiaoArea = obj.suoXiaoArea;
     }
 
     inline ScoreConfig& ScoreConfig::operator=(const ScoreConfig& obj)
@@ -109,6 +130,9 @@ namespace cdm {
             zangWu = obj.zangWu;
             zangWuScore = obj.zangWuScore;
             zangWuArea = obj.zangWuArea;
+            suoXiao = obj.suoXiao;
+            suoXiaoScore = obj.suoXiaoScore;
+            suoXiaoArea = obj.suoXiaoArea;
         }
         return *this;
     }
@@ -153,12 +177,24 @@ namespace cdm {
         zangWuAreaItem->setName("$variable$zangWuArea$");
         zangWuAreaItem->setValueFromDouble(zangWuArea);
         assembly.addItem(zangWuAreaItem);
+        auto suoXiaoItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        suoXiaoItem->setName("$variable$suoXiao$");
+        suoXiaoItem->setValueFromBool(suoXiao);
+        assembly.addItem(suoXiaoItem);
+        auto suoXiaoScoreItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        suoXiaoScoreItem->setName("$variable$suoXiaoScore$");
+        suoXiaoScoreItem->setValueFromDouble(suoXiaoScore);
+        assembly.addItem(suoXiaoScoreItem);
+        auto suoXiaoAreaItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        suoXiaoAreaItem->setName("$variable$suoXiaoArea$");
+        suoXiaoAreaItem->setValueFromDouble(suoXiaoArea);
+        assembly.addItem(suoXiaoAreaItem);
         return assembly;
     }
 
     inline bool ScoreConfig::operator==(const ScoreConfig& obj) const
     {
-        return queYa == obj.queYa && queYaScore == obj.queYaScore && queYaArea == obj.queYaArea && tangShang == obj.tangShang && tangShangScore == obj.tangShangScore && tangShangArea == obj.tangShangArea && zangWu == obj.zangWu && zangWuScore == obj.zangWuScore && zangWuArea == obj.zangWuArea;
+        return queYa == obj.queYa && queYaScore == obj.queYaScore && queYaArea == obj.queYaArea && tangShang == obj.tangShang && tangShangScore == obj.tangShangScore && tangShangArea == obj.tangShangArea && zangWu == obj.zangWu && zangWuScore == obj.zangWuScore && zangWuArea == obj.zangWuArea && suoXiao == obj.suoXiao && suoXiaoScore == obj.suoXiaoScore && suoXiaoArea == obj.suoXiaoArea;
     }
 
     inline bool ScoreConfig::operator!=(const ScoreConfig& obj) const

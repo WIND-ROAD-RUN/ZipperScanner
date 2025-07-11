@@ -39,6 +39,7 @@ struct ClassId
 	static constexpr int Queya = 0;
 	static constexpr int Tangshang = 1;
 	static constexpr int Zangwu = 2;
+	static constexpr int Suoxiao = 3;
 };
 
 inline struct GlobalPath

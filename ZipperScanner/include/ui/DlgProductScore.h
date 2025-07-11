@@ -32,6 +32,9 @@ private slots:
 	void rbtn_zangwuEnable_checked();
 	void ptn_zangwuSimilarity_clicked();
 	void ptn_zangwuArea_clicked();
+	void rbtn_suoxiaoEnable_checked();
+	void pbtn_suoxiaoSimilarity_clicked();
+	void pbtn_suoxiaoArea_clicked();
 
 
 

@@ -691,6 +691,14 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
 		auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
 
+		//记录当前位置
+		float nowLocation = 0;
+		bool isget = false;
+		nowLocation = GlobalStructDataZipper::getInstance().zmotion.getAxisLocation(0, isget);
+
+		GlobalStructDataZipper::getInstance().startLocation = nowLocation;
+
+
 		if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 		{
 			QMessageBox::warning(this, "警告", "电机参数设置失败");
@@ -828,6 +836,11 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 		{
 			ui->rbtn_start->setChecked(true);
 			rbtn_start_clicked(state);
+			//启动的时候记录当前位置
+			float nowLocation = 0;
+			bool isget = false;
+			nowLocation = GlobalStructDataZipper::getInstance().zmotion.getAxisLocation(0, isget);
+			GlobalStructDataZipper::getInstance().startLocation = nowLocation;
 		}
 		else
 		{

@@ -73,8 +73,7 @@ public:
 	std::unique_ptr<ThreadSafeMinHeap> priorityQueue1;
 	std::unique_ptr<ThreadSafeMinHeap> priorityQueue2;
 
-	float maxDefectLocation1 = 0;
-	float maxDefectLocation2 = 0;
+	float startLocation = 0;
 public:
 	void build_PriorityQueue();
 	void destroy_PriorityQueue();

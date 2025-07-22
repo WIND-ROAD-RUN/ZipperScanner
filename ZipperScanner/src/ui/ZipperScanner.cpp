@@ -69,26 +69,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
 
-	//记得删除
-	
-	QThread* thread = QThread::create([]() {
-		std::unique_ptr<rw::ModelEngine> engine;
-		rw::ModelEngineConfig config;
-		config.conf_threshold = 0.1f;
-		config.nms_threshold = 0.1f;
-		config.imagePretreatmentPolicy = rw::ImagePretreatmentPolicy::LetterBox;
-		config.letterBoxColor = cv::Scalar(114, 114, 114);
-		config.modelPath = globalPath.modelPath.toStdString();
-		engine = rw::ModelEngineFactory::createModelEngine(config, rw::ModelType::Yolov11_Seg, rw::ModelEngineDeployType::TensorRT);
-
-
-		while (1) {
-			QThread::msleep(100);
-			cv::Mat mat3 = cv::Mat::zeros(640, 640, CV_8UC3);
-			engine->processImg(mat3);
-		}
-		});
-	thread->start();
 }
 
 ZipperScanner::~ZipperScanner()

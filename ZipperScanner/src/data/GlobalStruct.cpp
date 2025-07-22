@@ -341,8 +341,8 @@ void GlobalStructDataZipper::buildConfigManager(rw::oso::StorageType type)
 
 void GlobalStructDataZipper::buildImageProcessorModules(const QString& path)
 {
-	modelCamera1 = std::make_unique<ImageProcessingModuleZipper>(2);
-	modelCamera2 = std::make_unique<ImageProcessingModuleZipper>(2);
+	modelCamera1 = std::make_unique<ImageProcessingModuleZipper>(1);
+	modelCamera2 = std::make_unique<ImageProcessingModuleZipper>(1);
 
 	modelCamera1->modelEnginePath = path;
 	modelCamera2->modelEnginePath = path;

@@ -148,7 +148,7 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	modelEngineConfig.imagePretreatmentPolicy = rw::ImagePretreatmentPolicy::LetterBox;
 	modelEngineConfig.letterBoxColor = cv::Scalar(114, 114, 114);
 	modelEngineConfig.modelPath = enginePath.toStdString();
-	auto engine = rw::ModelEngineFactory::createModelEngine(modelEngineConfig, rw::ModelType::Yolov11_Seg_with_mask, rw::ModelEngineDeployType::TensorRT);
+	auto engine = rw::ModelEngineFactory::createModelEngine(modelEngineConfig, rw::ModelType::Yolov11_Seg, rw::ModelEngineDeployType::TensorRT);
 
 	_imgProcess = std::make_unique<rw::imgPro::ImageProcess>(engine);
 	auto& context = _imgProcess->getContext();
@@ -224,6 +224,17 @@ void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 
 void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 {
+	// 手动读取本地图片
+	std::string imagePath = "C:\\Users\\zzw\\Desktop\\saveimage\\123.jpg"; // 替换为你的图片路径
+	cv::Mat frame1 = cv::imread(imagePath, cv::IMREAD_COLOR);
+	frame = frame1.clone();
+	if (frame.channels() == 4) {
+		cv::cvtColor(frame, frame, cv::COLOR_BGRA2BGR);
+	}
+	if (frame.type() != CV_8UC3) {
+		frame.convertTo(frame, CV_8UC3);
+	}
+
 	if (frame.empty()) {
 		return; // 跳过空帧
 	}

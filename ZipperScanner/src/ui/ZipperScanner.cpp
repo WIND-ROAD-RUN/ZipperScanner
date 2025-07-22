@@ -666,7 +666,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
 		double acc = setConfig.jiajiansushijian;
 		auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
+		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc * 2);
 		double speed = setConfig.zidongladaisudu;
 		auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
 		auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
@@ -743,13 +743,18 @@ void ZipperScanner::onCamera2Display(QPixmap image)
 
 void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 {
-	if (isbad)
+	if (index == 1)
 	{
-		if (index == 1)
+		ui->label_imgDisplay_1->setPixmap(image.scaled(ui->label_imgDisplay_1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+		if (isbad)
 		{
 			ui->label_imgDisplay_2->setPixmap(image.scaled(ui->label_imgDisplay_2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		}
-		else if (index == 2)
+	}
+	else if (index == 2)
+	{
+		ui->label_imgDisplay_3->setPixmap(image.scaled(ui->label_imgDisplay_3->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+		if (isbad)
 		{
 			ui->label_imgDisplay_4->setPixmap(image.scaled(ui->label_imgDisplay_4->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		}

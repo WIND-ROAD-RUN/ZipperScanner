@@ -57,10 +57,10 @@ public:
 	// 构建模型引擎
 	void buildSegModelEngine(const QString& enginePath);		// Segmentation 模型
 public:
-	// 在指定位置画竖线
-	void drawVerticalLine_locate(QImage& image, size_t locate);
 	// 在指定位置画横线
 	void drawBoundariesLines(QImage& image);
+	// 更新屏蔽线
+	void updateShieldWires();
 private:
 	// 判断是否有缺陷
 	bool _isbad{ false };	
@@ -72,6 +72,10 @@ private:
 	int _workIndex;
 public:
 	int imageProcessingModuleIndex;
+	int leftShieldWire{ -1 };
+	int rightShieldWire{ -1 };
+	int topShieldWire{ -1 };
+	int bottomShieldWire{ -1 };
 };
 
 

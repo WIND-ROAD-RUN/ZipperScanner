@@ -62,15 +62,33 @@ void ImageProcessorZipper::run()
 			break;
 		}
 	}
-
 }
 
 void ImageProcessorZipper::run_debug(MatInfo& frame)
 {
 	auto& imgPro = *_imgProcess;
 	imgPro(frame.image);
+	// 更新屏蔽线
+	updateShieldWires();
+	imgPro.getContext().indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) -> bool {
+		bool isInShieldWires = false;
+		if (-1 == leftShieldWire || -1 == rightShieldWire || -1 == topShieldWire || -1 == bottomShieldWire)
+		{
+			return false;
+		}
+		if (info.center_x < rightShieldWire && info.center_x > leftShieldWire)
+		{
+			if (info.center_y > topShieldWire && info.center_y < bottomShieldWire)
+			{
+				isInShieldWires = true;
+			}
+		}
+		return !isInShieldWires;
+		};
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
+
+	drawBoundariesLines(maskImg);
 
 	emit imageReady(QPixmap::fromImage(maskImg));
 }
@@ -84,8 +102,27 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 {
 	auto& imgPro = *_imgProcess;
 	imgPro(frame.image);
+	// 更新屏蔽线
+	updateShieldWires();
+	imgPro.getContext().indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) -> bool {
+		bool isInShieldWires = false;
+		if (-1 == leftShieldWire || -1 == rightShieldWire || -1 == topShieldWire || -1 == bottomShieldWire)
+		{
+			return false;
+		}
+		if (info.center_x < rightShieldWire && info.center_x > leftShieldWire)
+		{
+			if (info.center_y > topShieldWire && info.center_y < bottomShieldWire)
+			{
+				isInShieldWires = true;
+			}
+		}
+		return !isInShieldWires;
+		};
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
+
+	drawBoundariesLines(maskImg);
 
 	emit imageNGReady(QPixmap::fromImage(maskImg), frame.index, defectResult.isBad);
 }
@@ -184,28 +221,12 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	context.defectDrawCfg = drawConfig;
 }
 
-void ImageProcessorZipper::drawVerticalLine_locate(QImage& image, size_t locate)
-{
-	if (image.isNull() || locate >= static_cast<size_t>(image.width())) {
-		return; // 如果图像无效或 locate 超出图像宽度，直接返回
-	}
-
-	QPainter painter(&image);
-	painter.setRenderHint(QPainter::Antialiasing); // 开启抗锯齿
-	painter.setPen(QPen(Qt::red, 2)); // 设置画笔颜色为红色，线宽为2像素
-
-	// 绘制竖线，从图像顶部到底部
-	painter.drawLine(QPoint(locate, 0), QPoint(locate, image.height()));
-
-	painter.end(); // 结束绘制
-}
-
 void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 {
 	auto& index = imageProcessingModuleIndex;
 	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
 	rw::rqw::ImagePainter::PainterConfig painterConfig;
-	painterConfig.color = rw::rqw::ImagePainter::toQColor(rw::rqw::ImagePainter::BasicColor::Orange);
+	painterConfig.color = rw::rqw::ImagePainter::toQColor(rw::rqw::ImagePainter::BasicColor::Red);
 	if (index == 1)
 	{
 		rw::rqw::ImagePainter::drawHorizontalLine(image, setConfig.shangXianWei1, painterConfig);
@@ -220,6 +241,16 @@ void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 		rw::rqw::ImagePainter::drawVerticalLine(image, setConfig.zuoXianWei2, painterConfig);
 		rw::rqw::ImagePainter::drawVerticalLine(image, setConfig.youXianWei2, painterConfig);
 	}
+}
+
+void ImageProcessorZipper::updateShieldWires()
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+
+	leftShieldWire = globalStructSetConfig.zuoXianWei1;
+	rightShieldWire = globalStructSetConfig.youXianWei1;
+	topShieldWire = globalStructSetConfig.shangXianWei1;
+	bottomShieldWire = globalStructSetConfig.xiaXianWei1;
 }
 
 void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)

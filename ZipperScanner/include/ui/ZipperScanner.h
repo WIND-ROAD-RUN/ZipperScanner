@@ -20,7 +20,7 @@ class ZipperScanner : public QMainWindow
 	Q_OBJECT
 
 public:
-	ZipperScanner(QWidget *parent = nullptr);
+	ZipperScanner(QWidget* parent = nullptr);
 	~ZipperScanner();
 
 public:
@@ -32,12 +32,12 @@ public:
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
 
-public :
+public:
 	void build_ui();
 	void build_connect();
 	void build_camera();
 	void build_motion();
-    
+
 	void build_ZipperScannerData();
 	void build_DlgProductSetData();
 	void build_DlgProductScore();
@@ -75,6 +75,10 @@ private slots:
 	void rbtn_stop_clicked(bool checked);
 	void pbtn_IOTrigger_clicked();
 
+signals:
+	void shibiekaungChanged();
+	void wenziChanged();
+
 
 private slots:
 	void updateCameraLabelState(int cameraIndex, bool state);
@@ -90,5 +94,5 @@ private slots:
 	// 监控启停IO
 	void getStartOrStopSignal(size_t index, bool state);
 private:
-	Ui::ZipperScannerClass *ui;
+	Ui::ZipperScannerClass* ui;
 };

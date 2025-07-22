@@ -4,7 +4,7 @@
 #include <QPainter>
 
 #include "GlobalStruct.hpp"
-#include"rqw_ImagePainter.h"
+#include"imgPro_ImagePainter.hpp"
 #include "Utilty.hpp"
 
 ImageProcessorZipper::ImageProcessorZipper(QQueue<MatInfo>& queue, QMutex& mutex, QWaitCondition& condition, int workIndex, QObject* parent)
@@ -70,21 +70,6 @@ void ImageProcessorZipper::run_debug(MatInfo& frame)
 	imgPro(frame.image);
 	// 更新屏蔽线
 	updateShieldWires();
-	imgPro.getContext().indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) -> bool {
-		bool isInShieldWires = false;
-		if (-1 == leftShieldWire || -1 == rightShieldWire || -1 == topShieldWire || -1 == bottomShieldWire)
-		{
-			return false;
-		}
-		if (info.center_x < rightShieldWire && info.center_x > leftShieldWire)
-		{
-			if (info.center_y > topShieldWire && info.center_y < bottomShieldWire)
-			{
-				isInShieldWires = true;
-			}
-		}
-		return !isInShieldWires;
-		};
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
 
@@ -100,31 +85,58 @@ void ImageProcessorZipper::run_monitor(MatInfo& frame)
 
 void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 {
+	leftLocationX = 0;
 	auto& imgPro = *_imgProcess;
 	imgPro(frame.image);
 	// 更新屏蔽线
 	updateShieldWires();
-	imgPro.getContext().indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) -> bool {
-		bool isInShieldWires = false;
-		if (-1 == leftShieldWire || -1 == rightShieldWire || -1 == topShieldWire || -1 == bottomShieldWire)
-		{
-			return false;
-		}
-		if (info.center_x < rightShieldWire && info.center_x > leftShieldWire)
-		{
-			if (info.center_y > topShieldWire && info.center_y < bottomShieldWire)
-			{
-				isInShieldWires = true;
-			}
-		}
-		return !isInShieldWires;
-		};
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
+
+	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);
 
 	drawBoundariesLines(maskImg);
 
 	emit imageNGReady(QPixmap::fromImage(maskImg), frame.index, defectResult.isBad);
+}
+
+void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
+{
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+
+	if (isbad)
+	{
+		++globalStruct.statisticalInfo.wasteCount;
+	}
+
+	if (imageProcessingModuleIndex == 1 || imageProcessingModuleIndex == 2)
+	{
+		++globalStruct.statisticalInfo.produceCount;
+	}
+
+	if (imageProcessingModuleIndex == 1)
+	{
+		++globalStruct.statisticalInfo.produceCount1;
+	}
+	else if (imageProcessingModuleIndex == 2)
+	{
+		++globalStruct.statisticalInfo.produceCount2;
+	}
+
+	if (isbad)
+	{
+		switch (imageProcessingModuleIndex)
+		{
+		case 1:
+			globalStruct.priorityQueue1->push(leftLocationX);
+			break;
+		case 2:
+			globalStruct.priorityQueue2->push(leftLocationX);
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImage& image)
@@ -188,14 +200,47 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	auto engine = rw::ModelEngineFactory::createModelEngine(modelEngineConfig, rw::ModelType::Yolov11_Seg, rw::ModelEngineDeployType::TensorRT);
 
 	_imgProcess = std::make_unique<rw::imgPro::ImageProcess>(engine);
+
+	iniIndexGetContext();
+	iniEliminationInfoFunc();
+	iniEliminationInfoGetContext();
+	iniDefectResultInfoFunc();
+	iniDefectResultGetContext();
+	iniDefectDrawConfig();
+	iniRunTextConfig();
+}
+
+void ImageProcessorZipper::iniIndexGetContext()
+{
+	auto& context = _imgProcess->getContext();
+
+	context.indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) {
+		bool isInShieldWires = false;
+		if (-1 == leftShieldWire || -1 == rightShieldWire || -1 == topShieldWire || -1 == bottomShieldWire)
+		{
+			return false;
+		}
+		if (info.center_x < rightShieldWire && info.center_x > leftShieldWire)
+		{
+			if (info.center_y > topShieldWire && info.center_y < bottomShieldWire)
+			{
+				isInShieldWires = true;
+			}
+		}
+		return !isInShieldWires;
+		};
+}
+
+void ImageProcessorZipper::iniEliminationInfoFunc()
+{
 	auto& context = _imgProcess->getContext();
 
 	rw::imgPro::EliminationInfoFunc::ClassIdWithConfigMap eliminationInfoGetConfigs;
-	rw::imgPro::EliminationInfoFunc::EliminationInfoGetConfig eliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig eliminationInfoGetConfig;
 
 	eliminationInfoGetConfig.areaFactor = 1;//这里设置为像素当量
 	eliminationInfoGetConfig.scoreFactor = 100;//这里设置为百分比当量
-	eliminationInfoGetConfig.isUsingArea = false;//这里设置为不使用面积
+	eliminationInfoGetConfig.isUsingArea = true;//这里设置为使用面积
 	eliminationInfoGetConfig.isUsingScore = true;//这里设置为使用分数
 	eliminationInfoGetConfig.scoreRange = { 0,100 };
 	eliminationInfoGetConfig.areaRange = { 0,100 };
@@ -204,6 +249,22 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	eliminationInfoGetConfigs[ClassId::Tangshang] = eliminationInfoGetConfig;
 	eliminationInfoGetConfigs[ClassId::Zangwu] = eliminationInfoGetConfig;
 	context.eliminationCfg = eliminationInfoGetConfigs;
+}
+
+void ImageProcessorZipper::iniEliminationInfoGetContext()
+{
+	auto& context = _imgProcess->getContext();
+
+	context.eliminationInfoGetContext.getEliminationItemFuncSpecialOperator = [this](rw::imgPro::EliminationItem& item,
+		const rw::DetectionRectangleInfo& info,
+		const rw::imgPro::EliminationInfoGetConfig& cfg) {
+			item.customFields["LocationX"] = static_cast<int>(info.center_x);
+		};
+}
+
+void ImageProcessorZipper::iniDefectResultInfoFunc()
+{
+	auto& context = _imgProcess->getContext();
 
 	rw::imgPro::DefectResultInfoFunc::DefectResultGetConfig defectConfig;
 	rw::imgPro::DefectResultInfoFunc::ClassIdWithConfigMap defectConfigs;
@@ -214,32 +275,68 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	defectConfig.isEnable = true;
 	defectConfigs[ClassId::Zangwu] = defectConfig;
 	context.defectCfg = defectConfigs;
+}
+
+void ImageProcessorZipper::iniDefectResultGetContext()
+{
+	auto& context = _imgProcess->getContext();
+	context.defectResultGetContext.getDefectResultExtraOperate = [this](const rw::imgPro::EliminationItem& item) {
+		auto find = item.customFields.find("LocationX");
+		if (find != item.customFields.end())
+		{
+			leftLocationX = (std::max)(leftLocationX, std::any_cast<int>(find->second));
+		}
+		};
+}
+
+void ImageProcessorZipper::iniDefectDrawConfig()
+{
+	auto& context = _imgProcess->getContext();
 
 	rw::imgPro::DefectDrawFunc::DefectDrawConfig drawConfig;
-	drawConfig.isDrawDefects = true;
-	drawConfig.isDrawDisableDefects = true;
+	updateDrawRec();
+	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Green, true);
+	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Red, false);
 	context.defectDrawCfg = drawConfig;
+}
+
+void ImageProcessorZipper::iniRunTextConfig()
+{
+	auto& context = _imgProcess->getContext();
+
+	rw::imgPro::DefectDrawFunc::RunTextConfig runTextConfig;
+	updateDrawText();
+	context.runTextCfg = runTextConfig;
 }
 
 void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 {
 	auto& index = imageProcessingModuleIndex;
 	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
-	rw::rqw::ImagePainter::PainterConfig painterConfig;
-	painterConfig.color = rw::rqw::ImagePainter::toQColor(rw::rqw::ImagePainter::BasicColor::Red);
+	rw::imgPro::ConfigDrawLine configDrawLine;
+	configDrawLine.color = rw::imgPro::Color::Red;
+	configDrawLine.thickness = 3;
 	if (index == 1)
 	{
-		rw::rqw::ImagePainter::drawHorizontalLine(image, setConfig.shangXianWei1, painterConfig);
-		rw::rqw::ImagePainter::drawHorizontalLine(image, setConfig.xiaXianWei1, painterConfig);
-		rw::rqw::ImagePainter::drawVerticalLine(image, setConfig.zuoXianWei1, painterConfig);
-		rw::rqw::ImagePainter::drawVerticalLine(image, setConfig.youXianWei1, painterConfig);
+		configDrawLine.position = setConfig.shangXianWei1;
+		rw::imgPro::ImagePainter::drawHorizontalLine(image, configDrawLine);
+		configDrawLine.position = setConfig.xiaXianWei1;
+		rw::imgPro::ImagePainter::drawHorizontalLine(image, configDrawLine);
+		configDrawLine.position = setConfig.zuoXianWei1;
+		rw::imgPro::ImagePainter::drawVerticalLine(image, configDrawLine);
+		configDrawLine.position = setConfig.youXianWei1;
+		rw::imgPro::ImagePainter::drawVerticalLine(image, configDrawLine);
 	}
 	else if (index == 2)
 	{
-		rw::rqw::ImagePainter::drawHorizontalLine(image, setConfig.shangXianWei2, painterConfig);
-		rw::rqw::ImagePainter::drawHorizontalLine(image, setConfig.xiaXianWei2, painterConfig);
-		rw::rqw::ImagePainter::drawVerticalLine(image, setConfig.zuoXianWei2, painterConfig);
-		rw::rqw::ImagePainter::drawVerticalLine(image, setConfig.youXianWei2, painterConfig);
+		configDrawLine.position = setConfig.shangXianWei2;
+		rw::imgPro::ImagePainter::drawHorizontalLine(image, configDrawLine);
+		configDrawLine.position = setConfig.xiaXianWei2;
+		rw::imgPro::ImagePainter::drawHorizontalLine(image, configDrawLine);
+		configDrawLine.position = setConfig.zuoXianWei2;
+		rw::imgPro::ImagePainter::drawVerticalLine(image, configDrawLine);
+		configDrawLine.position = setConfig.youXianWei2;
+		rw::imgPro::ImagePainter::drawVerticalLine(image, configDrawLine);
 	}
 }
 
@@ -251,6 +348,36 @@ void ImageProcessorZipper::updateShieldWires()
 	rightShieldWire = globalStructSetConfig.youXianWei1;
 	topShieldWire = globalStructSetConfig.shangXianWei1;
 	bottomShieldWire = globalStructSetConfig.xiaXianWei1;
+}
+
+void ImageProcessorZipper::updateDrawRec()
+{
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& context = _imgProcess->getContext();
+	if (globalStruct.generalConfig.isshibiekuang)
+	{
+		context.defectDrawCfg.isDrawDefects = true;
+		context.defectDrawCfg.isDrawDisableDefects = true;
+	}
+	else
+	{
+		context.defectDrawCfg.isDrawDefects = false;
+		context.defectDrawCfg.isDrawDisableDefects = false;
+	}
+}
+
+void ImageProcessorZipper::updateDrawText()
+{
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& context = _imgProcess->getContext();
+	if (globalStruct.generalConfig.iswenzi)
+	{
+		context.runTextCfg.isDrawExtraText = true;
+	}
+	else
+	{
+		context.runTextCfg.isDrawExtraText = false;
+	}
 }
 
 void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
@@ -291,7 +418,8 @@ void ImageProcessingModuleZipper::BuildModule()
 		processor->imageProcessingModuleIndex = index;
 		connect(processor, &ImageProcessorZipper::imageReady, this, &ImageProcessingModuleZipper::imageReady, Qt::QueuedConnection);
 		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModuleZipper::imageNGReady, Qt::QueuedConnection);
-
+		connect(this,&ImageProcessingModuleZipper::shibiekaungChanged, processor,&ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
+		connect(this, &ImageProcessingModuleZipper::wenziChanged, processor, &ImageProcessorZipper::updateDrawText, Qt::QueuedConnection);
 		_processors.push_back(processor);
 		processor->start();
 	}

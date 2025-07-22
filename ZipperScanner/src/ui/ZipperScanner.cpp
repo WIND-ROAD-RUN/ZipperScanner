@@ -312,7 +312,10 @@ void ZipperScanner::build_imageProcessorModule()
 
 	QObject::connect(globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::imageReady, this, &ZipperScanner::onCamera1Display);
 	QObject::connect(globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::imageReady, this, &ZipperScanner::onCamera2Display);
-
+	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
+	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
+	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::wenziChanged);
+	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::wenziChanged);
 }
 
 void ZipperScanner::build_imageSaveEngine()
@@ -641,12 +644,16 @@ void ZipperScanner::ckb_shibiekuang_checked(bool checked)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	globalStruct.generalConfig.isshibiekuang = ui->ckb_shibiekuang->isChecked();
+
+	emit shibiekaungChanged();
 }
 
 void ZipperScanner::ckb_wenzi_checked(bool checked)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	globalStruct.generalConfig.iswenzi = ui->ckb_wenzi->isChecked();
+
+	emit wenziChanged();
 }
 
 void ZipperScanner::rbtn_start_clicked(bool checked)

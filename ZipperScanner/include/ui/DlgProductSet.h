@@ -12,7 +12,7 @@ class DlgProductSet : public QDialog
 	Q_OBJECT
 
 public:
-	DlgProductSet(QWidget *parent = nullptr);
+	DlgProductSet(QWidget* parent = nullptr);
 	~DlgProductSet();
 
 public:
@@ -30,6 +30,9 @@ private:
 
 	// 关闭所有可以点动的IO按钮
 	void closeAllIOBtn();
+
+signals:
+	void pixToWorldChanged();
 
 private:
 	// IO监控页面的调试模式
@@ -115,6 +118,6 @@ private slots:
 	void monitorOutPutSignal(size_t index, bool state);
 
 private:
-	Ui::DlgProductSetClass *ui;
+	Ui::DlgProductSetClass* ui;
 };
 

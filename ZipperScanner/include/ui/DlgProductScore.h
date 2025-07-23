@@ -33,7 +33,8 @@ private slots:
 	void ptn_zangwuSimilarity_clicked();
 	void ptn_zangwuArea_clicked();
 
-
+signals:
+	void scoreFormClosed();
 
 private:
 	Ui::DlgProductScoreClass* ui;

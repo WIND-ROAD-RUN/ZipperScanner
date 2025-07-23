@@ -29,19 +29,19 @@ void DlgProductScore::build_ui()
 void DlgProductScore::read_config()
 {
 	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-	// ³õÊ¼»¯²ÎÊý
+	// åˆå§‹åŒ–å‚æ•°
 
-	// È±ÑÀ
+	// ç¼ºç‰™
 	ui->rbtn_queyaEnable->setChecked(globalScoreConfig.queYa);
 	ui->ptn_queyaSimilarity->setText(QString::number(globalScoreConfig.queYaScore));
 	ui->ptn_queyaArea->setText(QString::number(globalScoreConfig.queYaArea));
 
-	// ÌÌÉË
+	// çƒ«ä¼¤
 	ui->rbtn_tangshangEnable->setChecked(globalScoreConfig.tangShang);
 	ui->pbtn_tangshangSimilarity->setText(QString::number(globalScoreConfig.tangShangScore));
 	ui->pbtn_tangshangArea->setText(QString::number(globalScoreConfig.tangShangArea));
 
-	// ÔàÎÛ
+	// è„æ±¡
 	ui->rbtn_zangwuEnable->setChecked(globalScoreConfig.zangWu);
 	ui->pbtn_zangwuSimilarity->setText(QString::number(globalScoreConfig.zangWuScore));
 	ui->pbtn_zangwuArea->setText(QString::number(globalScoreConfig.zangWuArea));
@@ -75,6 +75,7 @@ void DlgProductScore::pbtn_close_clicked()
 {
 	auto& GlobalStructData = GlobalStructDataZipper::getInstance();
 	GlobalStructData.saveDlgProductScoreConfig();
+	emit scoreFormClosed();
 	this->close();
 }
 
@@ -95,7 +96,7 @@ void DlgProductScore::ptn_queyaSimilarity_clicked()
 		auto value = numKeyBord.getValue();
 		if (value.toDouble() < 0)
 		{
-			QMessageBox::warning(this, "ÌáÊ¾", "ÇëÊäÈë´óÓÚ0µÄÊýÖµ");
+			QMessageBox::warning(this, "æç¤º", "è¯·è¾“å…¥å¤§äºŽ0çš„æ•°å€¼");
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
@@ -114,7 +115,7 @@ void DlgProductScore::ptn_queyaArea_clicked()
 		auto value = numKeyBord.getValue();
 		if (value.toDouble() < 0)
 		{
-			QMessageBox::warning(this, "ÌáÊ¾", "ÇëÊäÈë´óÓÚ0µÄÊýÖµ");
+			QMessageBox::warning(this, "æç¤º", "è¯·è¾“å…¥å¤§äºŽ0çš„æ•°å€¼");
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
@@ -140,7 +141,7 @@ void DlgProductScore::ptn_tangshangSimilarity_clicked()
 		auto value = numKeyBord.getValue();
 		if (value.toDouble() < 0)
 		{
-			QMessageBox::warning(this, "ÌáÊ¾", "ÇëÊäÈë´óÓÚ0µÄÊýÖµ");
+			QMessageBox::warning(this, "æç¤º", "è¯·è¾“å…¥å¤§äºŽ0çš„æ•°å€¼");
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
@@ -159,7 +160,7 @@ void DlgProductScore::ptn_tangshangArea_clicked()
 		auto value = numKeyBord.getValue();
 		if (value.toDouble() < 0)
 		{
-			QMessageBox::warning(this, "ÌáÊ¾", "ÇëÊäÈë´óÓÚ0µÄÊýÖµ");
+			QMessageBox::warning(this, "æç¤º", "è¯·è¾“å…¥å¤§äºŽ0çš„æ•°å€¼");
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
@@ -185,7 +186,7 @@ void DlgProductScore::ptn_zangwuSimilarity_clicked()
 		auto value = numKeyBord.getValue();
 		if (value.toDouble() < 0)
 		{
-			QMessageBox::warning(this, "ÌáÊ¾", "ÇëÊäÈë´óÓÚ0µÄÊýÖµ");
+			QMessageBox::warning(this, "æç¤º", "è¯·è¾“å…¥å¤§äºŽ0çš„æ•°å€¼");
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
@@ -204,7 +205,7 @@ void DlgProductScore::ptn_zangwuArea_clicked()
 		auto value = numKeyBord.getValue();
 		if (value.toDouble() < 0)
 		{
-			QMessageBox::warning(this, "ÌáÊ¾", "ÇëÊäÈë´óÓÚ0µÄÊýÖµ");
+			QMessageBox::warning(this, "æç¤º", "è¯·è¾“å…¥å¤§äºŽ0çš„æ•°å€¼");
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;

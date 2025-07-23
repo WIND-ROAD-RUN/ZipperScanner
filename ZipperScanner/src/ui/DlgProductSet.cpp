@@ -589,6 +589,7 @@ void DlgProductSet::pbtn_xiangsudangliang1_clicked()
 		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
 		ui->pbtn_xiangsudangliang1->setText(value);
 		globalStructSetConfig.xiangSuDangLiang1 = value.toDouble();
+		emit pixToWorldChanged();
 	}
 }
 
@@ -684,6 +685,7 @@ void DlgProductSet::pbtn_xiangsudangliang2_clicked()
 		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
 		ui->pbtn_xiangsudangliang2->setText(value);
 		globalStructSetConfig.xiangSuDangLiang2 = value.toDouble();
+		emit pixToWorldChanged();
 	}
 }
 

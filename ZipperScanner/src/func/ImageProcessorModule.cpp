@@ -233,22 +233,7 @@ void ImageProcessorZipper::iniIndexGetContext()
 
 void ImageProcessorZipper::iniEliminationInfoFunc()
 {
-	auto& context = _imgProcess->getContext();
-
-	rw::imgPro::EliminationInfoFunc::ClassIdWithConfigMap eliminationInfoGetConfigs;
-	rw::imgPro::EliminationInfoGetConfig eliminationInfoGetConfig;
-
-	eliminationInfoGetConfig.areaFactor = 1;//这里设置为像素当量
-	eliminationInfoGetConfig.scoreFactor = 100;//这里设置为百分比当量
-	eliminationInfoGetConfig.isUsingArea = true;//这里设置为使用面积
-	eliminationInfoGetConfig.isUsingScore = true;//这里设置为使用分数
-	eliminationInfoGetConfig.scoreRange = { 0,100 };
-	eliminationInfoGetConfig.areaRange = { 0,100 };
-	eliminationInfoGetConfig.scoreIsUsingComplementarySet = false;//这里设置为不使用补集
-	eliminationInfoGetConfigs[ClassId::Queya] = eliminationInfoGetConfig;
-	eliminationInfoGetConfigs[ClassId::Tangshang] = eliminationInfoGetConfig;
-	eliminationInfoGetConfigs[ClassId::Zangwu] = eliminationInfoGetConfig;
-	context.eliminationCfg = eliminationInfoGetConfigs;
+	updateParamMapsFromGlobalStruct();
 }
 
 void ImageProcessorZipper::iniEliminationInfoGetContext()
@@ -268,11 +253,11 @@ void ImageProcessorZipper::iniDefectResultInfoFunc()
 
 	rw::imgPro::DefectResultInfoFunc::DefectResultGetConfig defectConfig;
 	rw::imgPro::DefectResultInfoFunc::ClassIdWithConfigMap defectConfigs;
-	defectConfig.isEnable = true;
+	defectConfig.isEnable = queyaMap["enable"];
 	defectConfigs[ClassId::Queya] = defectConfig;
-	defectConfig.isEnable = true;
+	defectConfig.isEnable = tangshangMap["enable"];
 	defectConfigs[ClassId::Tangshang] = defectConfig;
-	defectConfig.isEnable = true;
+	defectConfig.isEnable = zangwuMap["enable"];
 	defectConfigs[ClassId::Zangwu] = defectConfig;
 	context.defectCfg = defectConfigs;
 }
@@ -297,16 +282,94 @@ void ImageProcessorZipper::iniDefectDrawConfig()
 	updateDrawRec();
 	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Green, true);
 	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Red, false);
+	drawConfig.classIdNameMap[0] = "缺牙";
+	drawConfig.classIdNameMap[1] = "烫伤";
+	drawConfig.classIdNameMap[2] = "脏污";
 	context.defectDrawCfg = drawConfig;
 }
 
 void ImageProcessorZipper::iniRunTextConfig()
 {
-	auto& context = _imgProcess->getContext();
-
-	rw::imgPro::DefectDrawFunc::RunTextConfig runTextConfig;
 	updateDrawText();
-	context.runTextCfg = runTextConfig;
+}
+
+void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
+{
+	auto& context = _imgProcess->getContext();
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+
+	queyaMap["classId"] = 0;
+	queyaMap["maxArea"] = globalStruct.scoreConfig.queYaArea;
+	queyaMap["maxScore"] = globalStruct.scoreConfig.queYaScore;
+	queyaMap["enable"] = globalStruct.scoreConfig.queYa;
+	if (1 == imageProcessingModuleIndex)
+	{
+		queyaMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+	}
+	else
+	{
+		queyaMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+	}
+
+	tangshangMap["classId"] = 1;
+	tangshangMap["maxArea"] = globalStruct.scoreConfig.tangShangArea;
+	tangshangMap["maxScore"] = globalStruct.scoreConfig.tangShangScore;
+	tangshangMap["enable"] = globalStruct.scoreConfig.tangShang;
+	if (1 == imageProcessingModuleIndex)
+	{
+		tangshangMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+	}
+	else
+	{
+		tangshangMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+	}
+
+	zangwuMap["classId"] = 2;
+	zangwuMap["maxArea"] = globalStruct.scoreConfig.zangWuArea;
+	zangwuMap["maxScore"] = globalStruct.scoreConfig.zangWuScore;
+	zangwuMap["enable"] = globalStruct.scoreConfig.zangWu;
+	if (1 == imageProcessingModuleIndex)
+	{
+		zangwuMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+	}
+	else
+	{
+		zangwuMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+	}
+
+	rw::imgPro::EliminationInfoFunc::ClassIdWithConfigMap eliminationInfoGetConfigs;
+	rw::imgPro::EliminationInfoGetConfig queyaEliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig tangshangEliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig zangwuEliminationInfoGetConfig;
+
+	queyaEliminationInfoGetConfig.areaFactor = queyaMap["pixToWorld"];//这里设置为像素当量
+	queyaEliminationInfoGetConfig.scoreFactor = 100;//这里设置为百分比当量
+	queyaEliminationInfoGetConfig.isUsingArea = true;//这里设置为使用面积
+	queyaEliminationInfoGetConfig.isUsingScore = true;//这里设置为使用分数
+	queyaEliminationInfoGetConfig.scoreRange = { 0,queyaMap["maxScore"] };
+	queyaEliminationInfoGetConfig.areaRange = { 0,queyaMap["maxArea"] };
+	queyaEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;//这里设置为不使用补集
+	eliminationInfoGetConfigs[ClassId::Queya] = queyaEliminationInfoGetConfig;
+
+	tangshangEliminationInfoGetConfig.areaFactor = tangshangMap["pixToWorld"];//这里设置为像素当量
+	tangshangEliminationInfoGetConfig.scoreFactor = 100;//这里设置为百分比当量
+	tangshangEliminationInfoGetConfig.isUsingArea = true;//这里设置为使用面积
+	tangshangEliminationInfoGetConfig.isUsingScore = true;//这里设置为使用分数
+	tangshangEliminationInfoGetConfig.scoreRange = { 0,tangshangMap["maxScore"] };
+	tangshangEliminationInfoGetConfig.areaRange = { 0,tangshangMap["maxArea"] };
+	tangshangEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;//这里设置为不使用补集
+	eliminationInfoGetConfigs[ClassId::Tangshang] = tangshangEliminationInfoGetConfig;
+
+	zangwuEliminationInfoGetConfig.areaFactor = zangwuMap["pixToWorld"];//这里设置为像素当量
+	zangwuEliminationInfoGetConfig.scoreFactor = 100;//这里设置为百分比当量
+	zangwuEliminationInfoGetConfig.isUsingArea = true;//这里设置为使用面积
+	zangwuEliminationInfoGetConfig.isUsingScore = true;//这里设置为使用分数
+	zangwuEliminationInfoGetConfig.scoreRange = { 0,zangwuMap["maxScore"] };
+	zangwuEliminationInfoGetConfig.areaRange = { 0,zangwuMap["maxArea"] };
+	zangwuEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;//这里设置为不使用补集
+	eliminationInfoGetConfigs[ClassId::Zangwu] = zangwuEliminationInfoGetConfig;
+
+	context.eliminationCfg = eliminationInfoGetConfigs;
 }
 
 void ImageProcessorZipper::drawBoundariesLines(QImage& image)
@@ -420,6 +483,7 @@ void ImageProcessingModuleZipper::BuildModule()
 		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModuleZipper::imageNGReady, Qt::QueuedConnection);
 		connect(this,&ImageProcessingModuleZipper::shibiekaungChanged, processor,&ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModuleZipper::wenziChanged, processor, &ImageProcessorZipper::updateDrawText, Qt::QueuedConnection);
+		connect(this, &ImageProcessingModuleZipper::paramMapsChanged, processor, &ImageProcessorZipper::updateParamMapsFromGlobalStruct, Qt::QueuedConnection);
 		_processors.push_back(processor);
 		processor->start();
 	}

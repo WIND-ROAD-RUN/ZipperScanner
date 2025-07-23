@@ -66,17 +66,24 @@ public:
 	void iniDefectResultGetContext();
 	void iniDefectDrawConfig();
 	void iniRunTextConfig();
+	
+
 public:
 	// 在指定位置画横线
 	void drawBoundariesLines(QImage& image);
 	// 更新屏蔽线
 	void updateShieldWires();
+	
 public slots:
 	void updateDrawRec();
 	void updateDrawText();
+	void updateParamMapsFromGlobalStruct();
 private:
 	// 判断是否有缺陷
 	bool _isbad{ false };	
+	std::map<std::string, double> queyaMap{};
+	std::map<std::string, double> tangshangMap{};
+	std::map<std::string, double> zangwuMap{};
 
 private:
 	QQueue<MatInfo>& _queue;
@@ -114,6 +121,7 @@ signals:
 	void imageNGReady(QPixmap image, size_t index, bool isbad);
 	void shibiekaungChanged();
 	void wenziChanged();
+	void paramMapsChanged();
 
 public:
 	std::vector<ImageProcessorZipper*> getProcessors() const {

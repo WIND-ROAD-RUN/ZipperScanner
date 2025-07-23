@@ -279,6 +279,7 @@ void ZipperScanner::build_DlgProductSetData()
 // 通过实现DlgProductScore的构造函数进行初始化
 void ZipperScanner::build_DlgProductScore()
 {
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	_dlgProductScore = new DlgProductScore(this);
 }
 
@@ -316,6 +317,10 @@ void ZipperScanner::build_imageProcessorModule()
 	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
 	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::wenziChanged);
 	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::wenziChanged);
+	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::paramMapsChanged);
 }
 
 void ZipperScanner::build_imageSaveEngine()

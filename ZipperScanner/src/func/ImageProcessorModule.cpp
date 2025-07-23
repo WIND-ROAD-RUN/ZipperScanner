@@ -212,7 +212,7 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 
 void ImageProcessorZipper::iniIndexGetContext()
 {
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 
 	context.indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) {
 		bool isInShieldWires = false;
@@ -238,7 +238,7 @@ void ImageProcessorZipper::iniEliminationInfoFunc()
 
 void ImageProcessorZipper::iniEliminationInfoGetContext()
 {
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 
 	context.eliminationInfoGetContext.getEliminationItemFuncSpecialOperator = [this](rw::imgPro::EliminationItem& item,
 		const rw::DetectionRectangleInfo& info,
@@ -249,7 +249,7 @@ void ImageProcessorZipper::iniEliminationInfoGetContext()
 
 void ImageProcessorZipper::iniDefectResultInfoFunc()
 {
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 
 	rw::imgPro::DefectResultInfoFunc::DefectResultGetConfig defectConfig;
 	rw::imgPro::DefectResultInfoFunc::ClassIdWithConfigMap defectConfigs;
@@ -264,7 +264,7 @@ void ImageProcessorZipper::iniDefectResultInfoFunc()
 
 void ImageProcessorZipper::iniDefectResultGetContext()
 {
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 	context.defectResultGetContext.getDefectResultExtraOperate = [this](const rw::imgPro::EliminationItem& item) {
 		auto find = item.customFields.find("LocationX");
 		if (find != item.customFields.end())
@@ -276,7 +276,7 @@ void ImageProcessorZipper::iniDefectResultGetContext()
 
 void ImageProcessorZipper::iniDefectDrawConfig()
 {
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 
 	rw::imgPro::DefectDrawFunc::DefectDrawConfig drawConfig;
 	updateDrawRec();
@@ -295,7 +295,7 @@ void ImageProcessorZipper::iniRunTextConfig()
 
 void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 {
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 
 	queyaMap["classId"] = 0;
@@ -416,7 +416,7 @@ void ImageProcessorZipper::updateShieldWires()
 void ImageProcessorZipper::updateDrawRec()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 	if (globalStruct.generalConfig.isshibiekuang)
 	{
 		context.defectDrawCfg.isDrawDefects = true;
@@ -432,7 +432,7 @@ void ImageProcessorZipper::updateDrawRec()
 void ImageProcessorZipper::updateDrawText()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& context = _imgProcess->getContext();
+	auto& context = _imgProcess->context();
 	if (globalStruct.generalConfig.iswenzi)
 	{
 		context.runTextCfg.isDrawExtraText = true;

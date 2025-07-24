@@ -279,7 +279,6 @@ void ZipperScanner::build_DlgProductSetData()
 // 通过实现DlgProductScore的构造函数进行初始化
 void ZipperScanner::build_DlgProductScore()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	_dlgProductScore = new DlgProductScore(this);
 }
 

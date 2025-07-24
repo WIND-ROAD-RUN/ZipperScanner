@@ -98,6 +98,10 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	drawBoundariesLines(maskImg);
 
 	emit imageNGReady(QPixmap::fromImage(maskImg), frame.index, defectResult.isBad);
+
+	rw::rqw::ImageInfo imageInfo(maskImg);
+	
+	save_image(imageInfo, rw::rqw::cvMatToQImage(frame.image));
 }
 
 void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
@@ -370,6 +374,8 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 	eliminationInfoGetConfigs[ClassId::Zangwu] = zangwuEliminationInfoGetConfig;
 
 	context.eliminationCfg = eliminationInfoGetConfigs;
+
+	iniDefectResultInfoFunc();
 }
 
 void ImageProcessorZipper::drawBoundariesLines(QImage& image)

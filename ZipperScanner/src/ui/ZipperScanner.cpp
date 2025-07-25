@@ -214,6 +214,7 @@ void ZipperScanner::build_motion()
 
 		bool isSetXiangJiChuFaChangDu = globalStruct.zmotion.setModbus(4, 1, globalStruct.setConfig.xiangjichufachangdu);
 		bool isSetdangqianweizhi = globalStruct.zmotion.setModbus(2, 1, 0);
+		 isSetdangqianweizhi = globalStruct.zmotion.setModbus(6, 1, 0);
 
 		bool isOK = true;
 		for (int i = 3; i < 13; i++)

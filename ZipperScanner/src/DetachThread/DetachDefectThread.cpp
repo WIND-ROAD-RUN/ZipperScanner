@@ -24,7 +24,7 @@ void DetachDefectThreadZipper::stopThread()
 	running = false; // 停止线程
 }
 
-void DetachDefectThreadZipper::processQueue1(std::unique_ptr<ThreadSafeMinHeap>& queue)
+void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& queue)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& setConfig = globalStruct.setConfig;
@@ -75,8 +75,6 @@ void DetachDefectThreadZipper::processQueue1(std::unique_ptr<ThreadSafeMinHeap>&
 			bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, true);
 
 			queue->tryPopMin(nowLocation);
-
-			emit findIsBad(1);
 
 			// 等待冲孔完毕
 			QThread::msleep(tifeichixushijian1);
@@ -133,27 +131,14 @@ void DetachDefectThreadZipper::processQueue1(std::unique_ptr<ThreadSafeMinHeap>&
 	}
 }
 
-void DetachDefectThreadZipper::processQueue2(std::unique_ptr<ThreadSafeMinHeap>& queue)
-{
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& setConfig = globalStruct.setConfig;
-
-
-}
-
 void DetachDefectThreadZipper::run()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& priorityQueue1 = globalStruct.priorityQueue1;
-	auto& priorityQueue2 = globalStruct.priorityQueue2;
+	auto& priorityQueue = globalStruct.priorityQueue;
 
 	while (running) {
-		QThread::msleep(0);
+		QThread::msleep(1);
 
-
-
-
-		processQueue1(priorityQueue1);
-		processQueue2(priorityQueue2);
+		processQueue(priorityQueue);
 	}
 }

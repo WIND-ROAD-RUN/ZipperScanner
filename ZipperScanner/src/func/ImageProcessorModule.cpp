@@ -100,7 +100,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	emit imageNGReady(QPixmap::fromImage(maskImg), frame.index, defectResult.isBad);
 
 	rw::rqw::ImageInfo imageInfo(maskImg);
-	
+
 	save_image(imageInfo, rw::rqw::cvMatToQImage(frame.image));
 }
 
@@ -129,17 +129,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 
 	if (isbad)
 	{
-		switch (imageProcessingModuleIndex)
-		{
-		case 1:
-			globalStruct.priorityQueue1->push(leftLocationX);
-			break;
-		case 2:
-			globalStruct.priorityQueue2->push(leftLocationX);
-			break;
-		default:
-			break;
-		}
+		globalStruct.priorityQueue->push(leftLocationX);
 	}
 }
 
@@ -472,7 +462,16 @@ void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 	MatInfo mat;
 	mat.image = frame;
 	mat.index = index;
-	mat.location = globalStruct.zmotion.getModbus(2, 1);	// 获取拍照的位置
+	if (index==1)
+	{
+		mat.location = globalStruct.zmotion.getModbus(2, 1);	// 获取拍照的位置
+
+	}
+	else
+	{
+		mat.location = globalStruct.zmotion.getModbus(6, 1);	// 获取拍照的位置
+
+	}
 	_queue.enqueue(mat);
 	_condition.wakeOne();
 }
@@ -487,7 +486,7 @@ void ImageProcessingModuleZipper::BuildModule()
 		processor->imageProcessingModuleIndex = index;
 		connect(processor, &ImageProcessorZipper::imageReady, this, &ImageProcessingModuleZipper::imageReady, Qt::QueuedConnection);
 		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModuleZipper::imageNGReady, Qt::QueuedConnection);
-		connect(this,&ImageProcessingModuleZipper::shibiekaungChanged, processor,&ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
+		connect(this, &ImageProcessingModuleZipper::shibiekaungChanged, processor, &ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModuleZipper::wenziChanged, processor, &ImageProcessorZipper::updateDrawText, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModuleZipper::paramMapsChanged, processor, &ImageProcessorZipper::updateParamMapsFromGlobalStruct, Qt::QueuedConnection);
 		_processors.push_back(processor);

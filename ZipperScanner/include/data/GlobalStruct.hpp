@@ -70,8 +70,7 @@ signals:
 	void emit_InPutSignal(size_t index, bool state);
 	void emit_OutPutSignal(size_t index, bool state);
 public:
-	std::unique_ptr<ThreadSafeMinHeap> priorityQueue1;
-	std::unique_ptr<ThreadSafeMinHeap> priorityQueue2;
+	std::unique_ptr<ThreadSafeMinHeap> priorityQueue;
 
 	float startLocation = 0;
 public:
@@ -82,8 +81,6 @@ public:
 public:
 	void build_DetachDefectThreadZipper();
 	void destroy_DetachDefectThreadZipper();
-public slots:
-	void onCameraReject(size_t index);
 public:
 	CameraAndCardStateThreadZipper* cameraAndCardStateThreadZipper;
 public:

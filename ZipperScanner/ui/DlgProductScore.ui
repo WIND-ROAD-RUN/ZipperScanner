@@ -1244,7 +1244,7 @@ QRadioButton::indicator:pressed {
 }</string>
                </property>
                <property name="text">
-                <string>脏污</string>
+                <string>缩小</string>
                </property>
               </widget>
              </item>

@@ -86,6 +86,7 @@ void DlgProductScore::pbtn_close_clicked()
 {
 	auto& GlobalStructData = GlobalStructDataZipper::getInstance();
 	GlobalStructData.saveDlgProductScoreConfig();
+	emit scoreFormClosed();
 	this->close();
 }
 

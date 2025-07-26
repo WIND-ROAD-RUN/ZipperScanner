@@ -36,7 +36,8 @@ private slots:
 	void pbtn_suoxiaoSimilarity_clicked();
 	void pbtn_suoxiaoArea_clicked();
 
-
+signals:
+	void scoreFormClosed();
 
 private:
 	Ui::DlgProductScoreClass* ui;

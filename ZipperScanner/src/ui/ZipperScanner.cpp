@@ -69,26 +69,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
 
-	//记得删除
-	
-	/*QThread* thread = QThread::create([]() {
-		std::unique_ptr<rw::ModelEngine> engine;
-		rw::ModelEngineConfig config;
-		config.conf_threshold = 0.1f;
-		config.nms_threshold = 0.1f;
-		config.imagePretreatmentPolicy = rw::ImagePretreatmentPolicy::LetterBox;
-		config.letterBoxColor = cv::Scalar(114, 114, 114);
-		config.modelPath = globalPath.modelPath.toStdString();
-		engine = rw::ModelEngineFactory::createModelEngine(config, rw::ModelType::Yolov11_Seg, rw::ModelEngineDeployType::TensorRT);
-
-
-		while (1) {
-			QThread::msleep(100);
-			cv::Mat mat3 = cv::Mat::zeros(640, 640, CV_8UC3);
-			engine->processImg(mat3);
-		}
-		});
-	thread->start();*/
 }
 
 ZipperScanner::~ZipperScanner()
@@ -234,6 +214,7 @@ void ZipperScanner::build_motion()
 
 		bool isSetXiangJiChuFaChangDu = globalStruct.zmotion.setModbus(4, 1, globalStruct.setConfig.xiangjichufachangdu);
 		bool isSetdangqianweizhi = globalStruct.zmotion.setModbus(2, 1, 0);
+		 isSetdangqianweizhi = globalStruct.zmotion.setModbus(6, 1, 0);
 
 		bool isOK = true;
 		for (int i = 3; i < 13; i++)
@@ -332,7 +313,14 @@ void ZipperScanner::build_imageProcessorModule()
 
 	QObject::connect(globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::imageReady, this, &ZipperScanner::onCamera1Display);
 	QObject::connect(globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::imageReady, this, &ZipperScanner::onCamera2Display);
-
+	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
+	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
+	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::wenziChanged);
+	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::wenziChanged);
+	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::paramMapsChanged);
 }
 
 void ZipperScanner::build_imageSaveEngine()
@@ -661,12 +649,16 @@ void ZipperScanner::ckb_shibiekuang_checked(bool checked)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	globalStruct.generalConfig.isshibiekuang = ui->ckb_shibiekuang->isChecked();
+
+	emit shibiekaungChanged();
 }
 
 void ZipperScanner::ckb_wenzi_checked(bool checked)
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	globalStruct.generalConfig.iswenzi = ui->ckb_wenzi->isChecked();
+
+	emit wenziChanged();
 }
 
 void ZipperScanner::rbtn_start_clicked(bool checked)
@@ -686,7 +678,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
 		double acc = setConfig.jiajiansushijian;
 		auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
+		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc * 2);
 		double speed = setConfig.zidongladaisudu;
 		auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
 		auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
@@ -763,13 +755,18 @@ void ZipperScanner::onCamera2Display(QPixmap image)
 
 void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 {
-	if (isbad)
+	if (index == 1)
 	{
-		if (index == 1)
+		ui->label_imgDisplay_1->setPixmap(image.scaled(ui->label_imgDisplay_1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+		if (isbad)
 		{
 			ui->label_imgDisplay_2->setPixmap(image.scaled(ui->label_imgDisplay_2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		}
-		else if (index == 2)
+	}
+	else if (index == 2)
+	{
+		ui->label_imgDisplay_3->setPixmap(image.scaled(ui->label_imgDisplay_3->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+		if (isbad)
 		{
 			ui->label_imgDisplay_4->setPixmap(image.scaled(ui->label_imgDisplay_4->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		}

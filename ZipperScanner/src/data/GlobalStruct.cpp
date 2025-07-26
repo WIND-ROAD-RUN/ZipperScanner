@@ -81,23 +81,17 @@ void GlobalStructDataZipper::build_PriorityQueue()
 		return a < b;
 		};
 
-	priorityQueue1 = std::make_unique<ThreadSafeMinHeap >();
-	priorityQueue2 = std::make_unique<ThreadSafeMinHeap >();
+	priorityQueue = std::make_unique<ThreadSafeMinHeap >();
 }
 
 void GlobalStructDataZipper::destroy_PriorityQueue()
 {
-	priorityQueue1.reset();
-	priorityQueue2.reset();
+	priorityQueue.reset();
 }
 
 void GlobalStructDataZipper::build_DetachDefectThreadZipper()
 {
 	detachDefectThreadZipper = new DetachDefectThreadZipper(this);
-
-	// 连接剔废功能
-	QObject::connect(detachDefectThreadZipper, &DetachDefectThreadZipper::findIsBad
-		,this, &GlobalStructDataZipper::onCameraReject);
 }
 
 void GlobalStructDataZipper::destroy_DetachDefectThreadZipper()
@@ -230,22 +224,6 @@ void GlobalStructDataZipper::destroy_Camera2()
 	destroyCamera2();
 }
 
-void GlobalStructDataZipper::onCameraReject(size_t index)
-{
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	if (globalStruct.runningState == RunningState::OpenRemoveFunc)
-	{
-		if (index == 1)
-		{
-			camera1->outTrigger();
-		}
-		else if (index == 2)
-		{
-			camera2->outTrigger();
-		}
-	}
-}
-
 GlobalStructDataZipper::GlobalStructDataZipper()
 {
 
@@ -341,8 +319,8 @@ void GlobalStructDataZipper::buildConfigManager(rw::oso::StorageType type)
 
 void GlobalStructDataZipper::buildImageProcessorModules(const QString& path)
 {
-	modelCamera1 = std::make_unique<ImageProcessingModuleZipper>(2);
-	modelCamera2 = std::make_unique<ImageProcessingModuleZipper>(2);
+	modelCamera1 = std::make_unique<ImageProcessingModuleZipper>(1);
+	modelCamera2 = std::make_unique<ImageProcessingModuleZipper>(1);
 
 	modelCamera1->modelEnginePath = path;
 	modelCamera2->modelEnginePath = path;

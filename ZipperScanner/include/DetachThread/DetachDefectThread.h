@@ -25,12 +25,8 @@ public:
 
 	void stopThread();
 
-	void processQueue1(std::unique_ptr<ThreadSafeMinHeap>& queue);
-	void processQueue2(std::unique_ptr<ThreadSafeMinHeap>& queue);
+	void processQueue(std::unique_ptr<ThreadSafeMinHeap>& queue);
 
-
-signals:
-	void findIsBad(size_t index);
 protected:
 	void run() override;
 private:

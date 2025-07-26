@@ -442,9 +442,9 @@ void ImageProcessorZipper::updateDrawText()
 void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 {
 	// 手动读取本地图片
-	std::string imagePath = "C:\\Users\\zzw\\Desktop\\saveimage\\123.jpg"; // 替换为你的图片路径
-	cv::Mat frame1 = cv::imread(imagePath, cv::IMREAD_COLOR);
-	frame = frame1.clone();
+	//std::string imagePath = "C:\\Users\\zzw\\Desktop\\saveimage\\123.jpg"; // 替换为你的图片路径
+	//cv::Mat frame1 = cv::imread(imagePath, cv::IMREAD_COLOR);
+	//frame = frame1.clone();
 	if (frame.channels() == 4) {
 		cv::cvtColor(frame, frame, cv::COLOR_BGRA2BGR);
 	}

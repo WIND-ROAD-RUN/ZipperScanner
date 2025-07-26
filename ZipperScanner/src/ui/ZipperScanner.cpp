@@ -392,31 +392,14 @@ void ZipperScanner::read_config_GeneralConfig()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 
-	auto& generalConfigPath = globalPath.generalConfigPath;
-
-	QFileInfo generalConfigFile(generalConfigPath);
-
-	// 如果文件不存在
-	if (!generalConfigFile.exists())
+	globalStruct.storeContext->ensureFileExistsSafe(globalPath.generalConfigPath.toStdString(), cdm::GeneralConfig());
+	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.generalConfigPath.toStdString());
+	if (!loadResult)
 	{
-		QDir configDir = QFileInfo(generalConfigPath).absoluteDir();
-		if (!configDir.exists())
-		{
-			configDir.mkpath(".");
-		}
-		QFile file(generalConfigPath);
-		if (file.open(QIODevice::WriteOnly))
-		{
-			file.close();
-		}
-		else
-		{
-			QMessageBox::critical(this, "Error", "无法创建配置文件generalConfig.xml");
-		}
-		globalStruct.generalConfig = cdm::GeneralConfig();
-		globalStruct.storeContext->save(globalStruct.generalConfig, globalPath.generalConfigPath.toStdString());
+		globalStruct.storeContext->saveSafe(cdm::GeneralConfig(), globalPath.generalConfigPath.toStdString());
 		return;
 	}
+	globalStruct.generalConfig = *loadResult;
 }
 
 // 读取分数配置
@@ -424,66 +407,28 @@ void ZipperScanner::read_config_ScoreConfig()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 
-	auto& scoreConfigPathFull = globalPath.scoreConfigPath;
-
-	QFileInfo scoreConfigFile(scoreConfigPathFull);
-
-	if (!scoreConfigFile.exists())
+	globalStruct.storeContext->ensureFileExistsSafe(globalPath.scoreConfigPath.toStdString(), cdm::ScoreConfig());
+	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.scoreConfigPath.toStdString());
+	if (!loadResult)
 	{
-		QDir configDir = QFileInfo(scoreConfigPathFull).absoluteDir();
-		if (!configDir.exists())
-		{
-			configDir.mkpath(".");
-		}
-		QFile file(scoreConfigPathFull);
-		if (file.open(QIODevice::WriteOnly))
-		{
-			file.close();
-		}
-		else
-		{
-			QMessageBox::critical(this, "Error", "无法创建配置文件scoreConfig.xml");
-		}
-		globalStruct.scoreConfig = cdm::ScoreConfig();
-		globalStruct.storeContext->save(globalStruct.scoreConfig, globalPath.scoreConfigPath.toStdString());
+		globalStruct.storeContext->saveSafe(cdm::ScoreConfig(), globalPath.scoreConfigPath.toStdString());
 		return;
 	}
-	else
-	{
-		globalStruct.scoreConfig = *globalStruct.storeContext->load(globalPath.scoreConfigPath.toStdString());
-	}
+	globalStruct.scoreConfig = *loadResult;
 }
 
 // 读取设置配置
 void ZipperScanner::read_config_SetConfig()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& setConfigPathFull = globalPath.setConfigPath;
-	QFileInfo setConfigFile(setConfigPathFull);
-	if (!setConfigFile.exists())
+	globalStruct.storeContext->ensureFileExistsSafe(globalPath.setConfigPath.toStdString(), cdm::SetConfig());
+	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.setConfigPath.toStdString());
+	if (!loadResult)
 	{
-		QDir configDir = QFileInfo(setConfigPathFull).absoluteDir();
-		if (!configDir.exists())
-		{
-			configDir.mkpath(".");
-		}
-		QFile file(setConfigPathFull);
-		if (file.open(QIODevice::WriteOnly))
-		{
-			file.close();
-		}
-		else
-		{
-			QMessageBox::critical(this, "Error", "无法创建配置文件setConfig.xml");
-		}
-		globalStruct.setConfig = cdm::SetConfig();
-		globalStruct.storeContext->save(globalStruct.setConfig, globalPath.setConfigPath.toStdString());
+		globalStruct.storeContext->saveSafe(cdm::SetConfig(), globalPath.setConfigPath.toStdString());
 		return;
 	}
-	else
-	{
-		globalStruct.setConfig = *globalStruct.storeContext->load(globalPath.setConfigPath.toStdString());
-	}
+	globalStruct.setConfig = *loadResult;
 }
 
 void ZipperScanner::pbtn_exit_clicked()

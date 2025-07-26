@@ -353,7 +353,7 @@ void GlobalStructDataZipper::destroyImageSaveEngine()
 void GlobalStructDataZipper::saveGeneralConfig()
 {
 	std::string generalConfigPath = globalPath.generalConfigPath.toStdString();
-	storeContext->save(generalConfig, generalConfigPath);
+	storeContext->saveSafe(generalConfig, generalConfigPath);
 }
 
 void GlobalStructDataZipper::saveDlgProductSetConfig()
@@ -361,18 +361,18 @@ void GlobalStructDataZipper::saveDlgProductSetConfig()
 	// 调试模式默认为不开启
 	setConfig.debugMode = false;
 	std::string setConfigPath = globalPath.setConfigPath.toStdString();
-	storeContext->save(setConfig, setConfigPath);
+	storeContext->saveSafe(setConfig, setConfigPath);
 }
 
 void GlobalStructDataZipper::saveDlgProductScoreConfig()
 {
 	std::string scoreConfigPath = globalPath.scoreConfigPath.toStdString();
-	storeContext->save(scoreConfig, scoreConfigPath);
+	storeContext->saveSafe(scoreConfig, scoreConfigPath);
 }
 
 void GlobalStructDataZipper::saveDlgExposureTimeSetConfig()
 {
-	storeContext->save(dlgExposureTimeSetConfig, globalPath.dlgExposureTimeSetFilePath.toStdString());
+	storeContext->saveSafe(dlgExposureTimeSetConfig, globalPath.dlgExposureTimeSetFilePath.toStdString());
 }
 
 void GlobalStructDataZipper::buildCamera()

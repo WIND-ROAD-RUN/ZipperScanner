@@ -135,6 +135,7 @@ void GlobalStructDataZipper::rebuild_Camera1()
 		{
 			camera1 = std::make_unique<rw::rqw::CameraPassiveThread>(this);
 			camera1->initCamera(cameraMetaData1, rw::rqw::CameraObjectTrigger::Hardware);
+			camera1->setTriggerState(true);
 			camera1->cameraIndex = 1;
 			camera1->setFrameRate(50);
 			camera1->setHeartbeatTime(5000);
@@ -182,6 +183,7 @@ void GlobalStructDataZipper::rebuild_Camera2()
 		{
 			camera2 = std::make_unique<rw::rqw::CameraPassiveThread>(this);
 			camera2->initCamera(cameraMetaData2, rw::rqw::CameraObjectTrigger::Hardware);
+			camera2->setTriggerState(true);
 			camera2->cameraIndex = 2;
 			camera2->setFrameRate(50);
 			camera2->setHeartbeatTime(5000);
@@ -396,6 +398,7 @@ bool GlobalStructDataZipper::buildCamera1()
 		{
 			camera1 = std::make_unique<rw::rqw::CameraPassiveThread>(this);
 			camera1->initCamera(cameraMetaData1, rw::rqw::CameraObjectTrigger::Hardware);
+			camera1->setTriggerState(true);
 			camera1->cameraIndex = 1;
 			camera1->setFrameRate(50);
 			camera1->setHeartbeatTime(5000);
@@ -448,6 +451,7 @@ bool GlobalStructDataZipper::buildCamera2()
 		{
 			camera2 = std::make_unique<rw::rqw::CameraPassiveThread>(this);
 			camera2->initCamera(cameraMetaData2, rw::rqw::CameraObjectTrigger::Hardware);
+			camera2->setTriggerState(true);
 			camera2->cameraIndex = 2;
 			camera2->setFrameRate(50);
 			camera2->setHeartbeatTime(5000);

@@ -167,8 +167,8 @@ void ZipperScanner::build_connect()
 void ZipperScanner::build_camera()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	globalStruct.cameraIp1 = "11";
-	globalStruct.cameraIp2 = "12";
+	globalStruct.cameraIp1 = "1";
+	globalStruct.cameraIp2 = "2";
 
 	auto build1Result = globalStruct.buildCamera1();
 	updateCameraLabelState(1, build1Result);
@@ -479,10 +479,12 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 			GlobalStructData.runningState = RunningState::Debug;
 			if (GlobalStructData.camera1)
 			{
+				GlobalStructData.camera1->setTriggerState(false);
 				GlobalStructData.camera1->setFrameRate(5);
 			}
 			if (GlobalStructData.camera2)
 			{
+				GlobalStructData.camera2->setTriggerState(false);
 				GlobalStructData.camera2->setFrameRate(5);
 			}
 			//GlobalThread.strobeLightThread->startThread();
@@ -574,10 +576,12 @@ void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 		_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
 		if (globalStruct.camera1)
 		{
+			globalStruct.camera1->setTriggerState(true);
 			globalStruct.camera1->setFrameRate(50);
 		}
 		if (globalStruct.camera2)
 		{
+			globalStruct.camera2->setTriggerState(true);
 			globalStruct.camera2->setFrameRate(50);
 		}
 		ui->rbtn_debug->setChecked(false);

@@ -43,6 +43,9 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	// 构建图像保存引擎
 	build_imageSaveEngine();
 
+	// 构建图片放大查看器
+	build_ImageEnlargedDisplay();
+
 	// 构建图像处理模块
 	build_imageProcessorModule();
 
@@ -376,6 +379,8 @@ void ZipperScanner::destroyComponents()
 	globalStructData.destory_motion();
 	// 销毁图像处理模块
 	globalStructData.destroyImageProcessingModule();
+	// 销毁图片放大查看器
+	destroy_ImageEnlargedDisplay();
 	// 销毁图像保存模块
 	globalStructData.destroyImageSaveEngine();
 	// 销毁异步剔废线程
@@ -704,19 +709,39 @@ void ZipperScanner::pbtn_IOTrigger_clicked()
 
 void ZipperScanner::onCamera1Display(QPixmap image)
 {
-	ui->label_imgDisplay_1->setPixmap(image.scaled(ui->label_imgDisplay_1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	if (!_isImageEnlargedDisplay)
+	{
+		imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	}
+	else
+	{
+		if (0 == _currentImageEnlargedDisplayIndex) {
+			_imageEnlargedDisplay->setShowImg(image);
+		}
+	}
+	_lastImage1 = image;
 }
 
 void ZipperScanner::onCamera2Display(QPixmap image)
 {
-	ui->label_imgDisplay_3->setPixmap(image.scaled(ui->label_imgDisplay_1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	if (!_isImageEnlargedDisplay)
+	{
+		imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	}
+	else
+	{
+		if (1 == _currentImageEnlargedDisplayIndex) {
+			_imageEnlargedDisplay->setShowImg(image);
+		}
+	}
+	_lastImage2 = image;
 }
 
 void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 {
 	if (index == 1)
 	{
-		ui->label_imgDisplay_1->setPixmap(image.scaled(ui->label_imgDisplay_1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+		imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		if (isbad)
 		{
 			ui->label_imgDisplay_2->setPixmap(image.scaled(ui->label_imgDisplay_2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -724,7 +749,7 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 	}
 	else if (index == 2)
 	{
-		ui->label_imgDisplay_3->setPixmap(image.scaled(ui->label_imgDisplay_3->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+		imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		if (isbad)
 		{
 			ui->label_imgDisplay_4->setPixmap(image.scaled(ui->label_imgDisplay_4->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -816,6 +841,79 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 		break;
 	default:
 		break;
+	}
+}
+
+void ZipperScanner::imgDis1_clicked()
+{
+	if (!_lastImage1.isNull())
+	{
+		_imageEnlargedDisplay->setShowImg(_lastImage1);
+	}
+	else
+	{
+		_imageEnlargedDisplay->clearImgDis();
+	}
+	_currentImageEnlargedDisplayIndex = 0;
+	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
+	_imageEnlargedDisplay->show();
+}
+
+void ZipperScanner::imgDis2_clicked()
+{
+	if (!_lastImage2.isNull())
+	{
+		_imageEnlargedDisplay->setShowImg(_lastImage2);
+	}
+	else
+	{
+		_imageEnlargedDisplay->clearImgDis();
+	}
+	_currentImageEnlargedDisplayIndex = 1;
+	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
+	_imageEnlargedDisplay->show();
+}
+
+void ZipperScanner::build_ImageEnlargedDisplay()
+{
+	imgDis1 = new rw::rqw::ClickableLabel(this);
+	imgDis1->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+
+	imgDis2 = new rw::rqw::ClickableLabel(this);
+	imgDis2->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+
+	ui->gBoix_ImageDisplay->layout()->replaceWidget(ui->label_imgDisplay_1, imgDis1);
+	ui->gBoix_ImageDisplay->layout()->replaceWidget(ui->label_imgDisplay_3, imgDis2);
+
+	delete ui->label_imgDisplay_1;
+	delete ui->label_imgDisplay_3;
+
+	QObject::connect(imgDis1, &rw::rqw::ClickableLabel::clicked
+		, this, &ZipperScanner::imgDis1_clicked);
+	QObject::connect(imgDis2, &rw::rqw::ClickableLabel::clicked
+		, this, &ZipperScanner::imgDis2_clicked);
+
+	_workStationTitleMap = {
+		{0,"一号工位"},
+		{1,"二号工位"}
+	};
+
+	_imageEnlargedDisplay = new ImageEnlargedDisplay(this);
+	_imageEnlargedDisplay->setMonitorValue(&_isImageEnlargedDisplay);
+	_imageEnlargedDisplay->setMonitorDisImgIndex(&_currentImageEnlargedDisplayIndex);
+	_imageEnlargedDisplay->initWorkStationTitleMap(_workStationTitleMap);
+	_imageEnlargedDisplay->setNum(2);
+	_imageEnlargedDisplay->show();
+	_imageEnlargedDisplay->close();
+}
+
+void ZipperScanner::destroy_ImageEnlargedDisplay()
+{
+	if (_imageEnlargedDisplay)
+	{
+		_imageEnlargedDisplay->close();
+		delete _imageEnlargedDisplay;
+		_imageEnlargedDisplay = nullptr;
 	}
 }
 

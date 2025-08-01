@@ -10,6 +10,8 @@
 #include <opencv2/core/mat.hpp>
 
 #include "PictureViewerThumbnails.h"
+#include "ImageEnlargedDisplay.h"
+#include"rqw_LabelClickable.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ZipperScannerClass; };
@@ -95,6 +97,26 @@ private slots:
 
 	// 监控启停IO
 	void getStartOrStopSignal(size_t index, bool state);
+
+private:
+	bool _isImageEnlargedDisplay{ false };
+	int _currentImageEnlargedDisplayIndex{ 0 };
+	std::map<int, QString> _workStationTitleMap{};
+
+	QPixmap _lastImage1{};
+	QPixmap _lastImage2{};
+
+	rw::rqw::ClickableLabel* imgDis1 = nullptr;
+	rw::rqw::ClickableLabel* imgDis2 = nullptr;
+private slots:
+	void imgDis1_clicked();
+	void imgDis2_clicked();
+private:
+	ImageEnlargedDisplay* _imageEnlargedDisplay = nullptr;
+public:
+	void build_ImageEnlargedDisplay();
+	void destroy_ImageEnlargedDisplay();
+
 private:
 	Ui::ZipperScannerClass* ui;
 };

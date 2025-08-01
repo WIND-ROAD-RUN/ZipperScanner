@@ -154,7 +154,6 @@ void GlobalStructDataZipper::rebuild_Camera1()
 				// 弱光照明
 				setLightLevel(LightLevel::WeakLight);
 			}
-			camera1->startMonitor();
 			// 设置剔废IO输出
 			//auto config = rw::rqw::OutTriggerConfig({ 2,8,5,DurationTime,0,0,true });
 			//camera1->setOutTriggerConfig(config);
@@ -205,7 +204,6 @@ void GlobalStructDataZipper::rebuild_Camera2()
 			// 设置剔废IO输出
 			//auto config = rw::rqw::OutTriggerConfig({ 2,8,5,DurationTime,0,0,true });
 			//camera2->setOutTriggerConfig(config);
-			camera2->startMonitor();
 			QObject::connect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
 				modelCamera2.get(), &ImageProcessingModuleZipper::onFrameCaptured, Qt::DirectConnection);
 		}
@@ -473,7 +471,6 @@ bool GlobalStructDataZipper::buildCamera2()
 			// 设置剔废IO输出
 			//auto config = rw::rqw::OutTriggerConfig({ 2,8,5,DurationTime,0,0,true });
 			//camera2->setOutTriggerConfig(config);
-			camera2->startMonitor();
 			QObject::connect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
 				modelCamera2.get(), &ImageProcessingModuleZipper::onFrameCaptured, Qt::DirectConnection);
 			return true;
@@ -485,6 +482,20 @@ bool GlobalStructDataZipper::buildCamera2()
 		}
 	}
 	return false;
+}
+
+void GlobalStructDataZipper::start_Camera1Monitor()
+{
+	if (camera1) {
+		camera1->startMonitor();
+	}
+}
+
+void GlobalStructDataZipper::start_Camera2Monitor()
+{
+	if (camera2) {
+		camera2->startMonitor();
+	}
 }
 
 void GlobalStructDataZipper::destroyCamera()

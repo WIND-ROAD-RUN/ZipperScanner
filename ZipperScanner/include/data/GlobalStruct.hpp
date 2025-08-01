@@ -173,6 +173,8 @@ public:
 
 	bool buildCamera1();
 	bool buildCamera2();
+	void start_Camera1Monitor();
+	void start_Camera2Monitor();
 
 	void destroyCamera();
 

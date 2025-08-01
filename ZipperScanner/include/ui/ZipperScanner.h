@@ -47,7 +47,9 @@ public:
 	void build_imageProcessorModule();
 	void build_imageSaveEngine();
 
-	void start_threads();
+	void start_Threads();
+
+	void start_CameraMonitor();
 
 public:
 	void destroyComponents();

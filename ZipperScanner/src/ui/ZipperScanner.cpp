@@ -56,7 +56,10 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	build_connect();
 
 	// 启用所有后台线程
-	start_threads();
+	start_Threads();
+
+	// 开启相机出图
+	start_CameraMonitor();
 
 	//默认开启剔除功能
 	globalStruct.generalConfig = *globalStruct.storeContext->load(globalPath.generalConfigPath.toStdString());
@@ -340,13 +343,20 @@ void ZipperScanner::build_imageSaveEngine()
 	globalStruct.imageSaveEngine->startEngine();
 }
 
-void ZipperScanner::start_threads()
+void ZipperScanner::start_Threads()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	// 启动异步剔废线程
 	globalStruct.detachDefectThreadZipper->startThread();
 	// 启动相机重连线程
 	globalStruct.cameraAndCardStateThreadZipper->startThread();
+}
+
+void ZipperScanner::start_CameraMonitor()
+{
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	globalStruct.start_Camera1Monitor();
+	globalStruct.start_Camera2Monitor();
 }
 
 void ZipperScanner::destroyComponents()

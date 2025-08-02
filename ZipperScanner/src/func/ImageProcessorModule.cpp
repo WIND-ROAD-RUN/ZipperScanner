@@ -245,7 +245,7 @@ void ImageProcessorZipper::iniDefectResultInfoFunc()
 {
 	auto& context = _imgProcess->context();
 
-	rw::imgPro::DefectResultInfoFunc::DefectResultGetConfig defectConfig;
+	rw::imgPro::DefectResultInfoFunc::Config defectConfig;
 	rw::imgPro::DefectResultInfoFunc::ClassIdWithConfigMap defectConfigs;
 	defectConfig.isEnable = queyaMap["enable"];
 	defectConfigs[ClassId::Queya] = defectConfig;
@@ -272,7 +272,7 @@ void ImageProcessorZipper::iniDefectDrawConfig()
 {
 	auto& context = _imgProcess->context();
 
-	rw::imgPro::DefectDrawFunc::DefectDrawConfig drawConfig;
+	rw::imgPro::DefectDrawFunc::ConfigDefectDraw drawConfig;
 	updateDrawRec();
 	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Green, true);
 	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Red, false);

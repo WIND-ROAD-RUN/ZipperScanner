@@ -213,19 +213,19 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_jiajiansushijian_clicked);
 
 	// 监控IO
-	QObject::connect(ui->cbox_DIqidonganniu, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DIqidonganniu, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DIqidonganniu_clicked);
-	QObject::connect(ui->cbox_DIjiting, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DIjiting, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DIjiting_clicked);
-	QObject::connect(ui->cbox_DIlalianlawan, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DIlalianlawan, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DIlalianlawan_clicked);
-	QObject::connect(ui->cbox_DObujindianjimaichong, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DObujindianjimaichong, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DObujindianjimaichong_clicked);
-	QObject::connect(ui->cbox_DOchongkong, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DOchongkong, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DOchongkong_clicked);
-	QObject::connect(ui->cbox_DOtuoji, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DOtuoji, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DOtuoji_clicked);
-	QObject::connect(ui->cbox_DOchufapaizhao, &QPushButton::clicked,
+	QObject::connect(ui->cbox_DOchufapaizhao, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DOchufapaizhao_clicked);
 	QObject::connect(ui->tabWidget, &QTabWidget::currentChanged,
 		this, &DlgProductSet::tabWidget_indexChanged);

@@ -105,12 +105,18 @@ private:
 
 	QPixmap _lastImage1{};
 	QPixmap _lastImage2{};
+	QPixmap _lastNgImage1{};
+	QPixmap _lastNgImage2{};
 
 	rw::rqw::ClickableLabel* imgDis1 = nullptr;
 	rw::rqw::ClickableLabel* imgDis2 = nullptr;
+	rw::rqw::ClickableLabel* imgNgDis1 = nullptr;
+	rw::rqw::ClickableLabel* imgNgDis2 = nullptr;
 private slots:
 	void imgDis1_clicked();
 	void imgDis2_clicked();
+	void imgNgDis1_clicked();
+	void imgNgDis2_clicked();
 private:
 	ImageEnlargedDisplay* _imageEnlargedDisplay = nullptr;
 public:

@@ -744,7 +744,7 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 		imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		if (isbad)
 		{
-			ui->label_imgDisplay_2->setPixmap(image.scaled(ui->label_imgDisplay_2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			imgNgDis1->setPixmap(image.scaled(imgNgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		}
 	}
 	else if (index == 2)
@@ -752,7 +752,7 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 		imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		if (isbad)
 		{
-			ui->label_imgDisplay_4->setPixmap(image.scaled(ui->label_imgDisplay_4->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			imgNgDis2->setPixmap(image.scaled(imgNgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 		}
 	}
 }
@@ -874,6 +874,36 @@ void ZipperScanner::imgDis2_clicked()
 	_imageEnlargedDisplay->show();
 }
 
+void ZipperScanner::imgNgDis1_clicked()
+{
+	if (!_lastNgImage1.isNull())
+	{
+		_imageEnlargedDisplay->setShowImg(_lastNgImage1);
+	}
+	else
+	{
+		_imageEnlargedDisplay->clearImgDis();
+	}
+	_currentImageEnlargedDisplayIndex = 2;
+	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
+	_imageEnlargedDisplay->show();
+}
+
+void ZipperScanner::imgNgDis2_clicked()
+{
+	if (!_lastNgImage2.isNull())
+	{
+		_imageEnlargedDisplay->setShowImg(_lastNgImage2);
+	}
+	else
+	{
+		_imageEnlargedDisplay->clearImgDis();
+	}
+	_currentImageEnlargedDisplayIndex = 3;
+	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
+	_imageEnlargedDisplay->show();
+}
+
 void ZipperScanner::build_ImageEnlargedDisplay()
 {
 	imgDis1 = new rw::rqw::ClickableLabel(this);
@@ -882,20 +912,36 @@ void ZipperScanner::build_ImageEnlargedDisplay()
 	imgDis2 = new rw::rqw::ClickableLabel(this);
 	imgDis2->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
 
+	imgNgDis1 = new rw::rqw::ClickableLabel(this);
+	imgNgDis1->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+
+	imgNgDis2 = new rw::rqw::ClickableLabel(this);
+	imgNgDis2->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+
 	ui->gBoix_ImageDisplay->layout()->replaceWidget(ui->label_imgDisplay_1, imgDis1);
 	ui->gBoix_ImageDisplay->layout()->replaceWidget(ui->label_imgDisplay_3, imgDis2);
+	ui->gBoix_ImageDisplay->layout()->replaceWidget(ui->label_imgDisplay_2, imgNgDis1);
+	ui->gBoix_ImageDisplay->layout()->replaceWidget(ui->label_imgDisplay_4, imgNgDis2);
 
 	delete ui->label_imgDisplay_1;
 	delete ui->label_imgDisplay_3;
+	delete ui->label_imgDisplay_2;
+	delete ui->label_imgDisplay_4;
 
 	QObject::connect(imgDis1, &rw::rqw::ClickableLabel::clicked
 		, this, &ZipperScanner::imgDis1_clicked);
 	QObject::connect(imgDis2, &rw::rqw::ClickableLabel::clicked
 		, this, &ZipperScanner::imgDis2_clicked);
+	QObject::connect(imgNgDis1, &rw::rqw::ClickableLabel::clicked
+		, this, &ZipperScanner::imgNgDis1_clicked);
+	QObject::connect(imgNgDis2, &rw::rqw::ClickableLabel::clicked
+		, this, &ZipperScanner::imgNgDis2_clicked);
 
 	_workStationTitleMap = {
 		{0,"一号工位"},
-		{1,"二号工位"}
+		{1,"二号工位"},
+		{2,"一号NG工位"},
+		{3,"二号NG工位"}
 	};
 
 	_imageEnlargedDisplay = new ImageEnlargedDisplay(this);

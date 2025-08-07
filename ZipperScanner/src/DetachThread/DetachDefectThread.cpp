@@ -60,7 +60,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 		auto tifeijuli1 = setConfig.tifeijuli1;
 		auto tifeichixushijian1 = setConfig.tiFeiChiXuShiJian1;
-		if (abs(abs(nowLocation)-  abs(minlocation )) > tifeijuli1)
+		if (nowLocation - minlocation > 0)
 		{
 			//std::cout << "stopsendlocation" << globalStruct.zmotion.getAxisLocation(0, isget) << std::endl;
 

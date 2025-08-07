@@ -93,6 +93,11 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
 
+	if (1 == imageProcessingModuleIndex)
+	{
+		leftLocationX = leftLocationX * pixToWorld + tifeijuli;
+	}
+
 	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);
 
 	drawBoundariesLines(maskImg);
@@ -403,10 +408,24 @@ void ImageProcessorZipper::updateShieldWires()
 {
 	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
 
-	leftShieldWire = globalStructSetConfig.zuoXianWei1;
-	rightShieldWire = globalStructSetConfig.youXianWei1;
-	topShieldWire = globalStructSetConfig.shangXianWei1;
-	bottomShieldWire = globalStructSetConfig.xiaXianWei1;
+	if (1 == imageProcessingModuleIndex)
+	{
+		leftShieldWire = globalStructSetConfig.zuoXianWei1;
+		rightShieldWire = globalStructSetConfig.youXianWei1;
+		topShieldWire = globalStructSetConfig.shangXianWei1;
+		bottomShieldWire = globalStructSetConfig.xiaXianWei1;
+		pixToWorld = globalStructSetConfig.xiangSuDangLiang1;
+		tifeijuli = globalStructSetConfig.tifeijuli1;
+	}
+	else if (2 == imageProcessingModuleIndex)
+	{
+		leftShieldWire = globalStructSetConfig.zuoXianWei2;
+		rightShieldWire = globalStructSetConfig.youXianWei2;
+		topShieldWire = globalStructSetConfig.shangXianWei2;
+		bottomShieldWire = globalStructSetConfig.xiaXianWei2;
+		pixToWorld = globalStructSetConfig.xiangSuDangLiang2;
+		tifeijuli = globalStructSetConfig.tifeijuli2;
+	}
 }
 
 void ImageProcessorZipper::updateDrawRec()

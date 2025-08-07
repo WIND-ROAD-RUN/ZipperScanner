@@ -96,6 +96,8 @@ public:
 	int rightShieldWire{ -1 };
 	int topShieldWire{ -1 };
 	int bottomShieldWire{ -1 };
+	double pixToWorld{ 0 };
+	double tifeijuli{ 0 };
 	int leftLocationX{ 0 };
 };
 

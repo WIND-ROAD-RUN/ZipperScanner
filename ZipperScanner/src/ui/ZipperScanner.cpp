@@ -741,18 +741,54 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 {
 	if (index == 1)
 	{
-		imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-		if (isbad)
+		if (!_isImageEnlargedDisplay)
 		{
-			imgNgDis1->setPixmap(image.scaled(imgNgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			if (isbad)
+			{
+				imgNgDis1->setPixmap(image.scaled(imgNgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+				_lastNgImage1 = image;
+				_lastImage1 = image;
+			}
+		}
+		else
+		{
+			if (0 == _currentImageEnlargedDisplayIndex)
+			{
+				_imageEnlargedDisplay->setShowImg(image);
+			}
+			if (isbad && 2 == _currentImageEnlargedDisplayIndex)
+			{
+				_imageEnlargedDisplay->setShowImg(image);
+				_lastNgImage1 = image;
+			}
+			_lastImage1 = image;
 		}
 	}
 	else if (index == 2)
 	{
-		imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-		if (isbad)
+		if (!_isImageEnlargedDisplay)
 		{
-			imgNgDis2->setPixmap(image.scaled(imgNgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			if (isbad)
+			{
+				imgNgDis2->setPixmap(image.scaled(imgNgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+				_lastNgImage2 = image;
+				_lastImage2 = image;
+			}
+		}
+		else
+		{
+			if (1 == _currentImageEnlargedDisplayIndex)
+			{
+				_imageEnlargedDisplay->setShowImg(image);
+			}
+			if (isbad && 3 == _currentImageEnlargedDisplayIndex)
+			{
+				_imageEnlargedDisplay->setShowImg(image);
+				_lastNgImage2 = image;
+			}
+			_lastImage2 = image;
 		}
 	}
 }

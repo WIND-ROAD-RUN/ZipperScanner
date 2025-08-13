@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1395</width>
-    <height>1088</height>
+    <width>1280</width>
+    <height>960</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -732,37 +732,61 @@ QGroupBox::title {
                   <widget class="QCheckBox" name="cBox_takeCamera1Pictures">
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color: lightgray; /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(255, 152, 83); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -777,37 +801,61 @@ QCheckBox::indicator:checked:hover {
                   <widget class="QCheckBox" name="cBox_takeCamera2Pictures">
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color: lightgray; /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(255, 152, 83); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -826,37 +874,61 @@ QCheckBox::indicator:checked:hover {
                   <widget class="QCheckBox" name="cBox_takeNgPictures">
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color: lightgray; /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(255, 152, 83); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -871,37 +943,61 @@ QCheckBox::indicator:checked:hover {
                   <widget class="QCheckBox" name="cBox_takeMaskPictures">
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color: lightgray; /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(255, 152, 83); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -916,37 +1012,61 @@ QCheckBox::indicator:checked:hover {
                   <widget class="QCheckBox" name="cBox_takeOkPictures">
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color: lightgray; /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(255, 152, 83); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -4191,7 +4311,7 @@ QTabBar::tab:hover {
 }</string>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="tab_0">
         <attribute name="title">
@@ -4234,37 +4354,61 @@ QGroupBox::title {
                     <widget class="QCheckBox" name="cbox_qiyongerxiangji">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4276,37 +4420,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_qiyongyundongkongzhiqi">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4318,37 +4486,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_yundongkongzhiqichonglian">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4360,37 +4552,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_DIAirPressure">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4406,37 +4622,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_DICameraTrigger1">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4448,37 +4688,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_DICameraTrigger2">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4490,37 +4754,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_DICameraTrigger3">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -4532,37 +4820,61 @@ QCheckBox::indicator:checked:hover {
                     <widget class="QCheckBox" name="cbox_DICameraTrigger4">
                      <property name="styleSheet">
                       <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                      </property>
                      <property name="text">
@@ -7515,37 +7827,61 @@ QCheckBox::indicator:checked:hover {
                <widget class="QCheckBox" name="cbox_debugMode">
                 <property name="styleSheet">
                  <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 8px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;        
+    color:  rgb(0, 0, 0);       
 }
 
+/* 未选中状态 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
     width: 20px;
     height: 20px;
+    border-radius: 4px; /* 方形，圆角可适当调整 */
+    border: 2px solid #999;
+    background: #ffffff;
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color: lightgray; /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(255, 85, 127); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #2196F3;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #2196F3,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用状态 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #eee;
+}
+
+/* 选中时的文字颜色 */
+QCheckBox:checked {
+    color: #2196F3;
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #1565C0;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #BBDEFB,
+        stop:1 transparent
+    );
 }</string>
                 </property>
                 <property name="text">

@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QProcess>
 
 #include "GlobalStruct.hpp"
 #include "NumberKeyboard.h"
@@ -465,7 +466,53 @@ void ZipperScanner::read_config_SetConfig()
 
 void ZipperScanner::pbtn_exit_clicked()
 {
+#ifdef NDEBUG
+	// 创建一个定时器
+	QTimer* timer = new QTimer(this);
+	timer->setSingleShot(true);
+
+	// 创建一个消息框
+	QMessageBox* msgBox = new QMessageBox(
+		QMessageBox::Question,
+		"退出确认",
+		"是否要关机？\n点击“OK”将关闭程序并关机，点击“Cancel”仅关闭程序。\n（5秒后自动关机）",
+		QMessageBox::Ok | QMessageBox::Cancel,
+		this
+	);
+
+	// 标记是否已响应
+	bool* responded = new bool(false);
+
+	// 定时器超时槽
+	connect(timer, &QTimer::timeout, this, [=]() {
+		if (!(*responded)) {
+			msgBox->done(QMessageBox::Ok); // 自动选择OK
+		}
+		});
+
+	// 消息框响应槽
+	connect(msgBox, &QMessageBox::finished, this, [=](int result) {
+		*responded = true;
+		this->close();
+		if (result == QMessageBox::Ok) {
+#if defined(Q_OS_WIN)
+			QProcess::startDetached("cmd", QStringList() << "/c" << "shutdown -s -t 3");
+#elif defined(Q_OS_LINUX)
+			QProcess::startDetached("shutdown", QStringList() << "-h" << "now");
+#elif defined(Q_OS_MAC)
+			QProcess::startDetached("osascript", QStringList() << "-e" << "tell app \"System Events\" to shut down");
+#endif
+		}
+		timer->deleteLater();
+		msgBox->deleteLater();
+		delete responded;
+		});
+
+	timer->start(5000); // 5秒
+	msgBox->show();
+#else
 	this->close();
+#endif
 }
 
 void ZipperScanner::pbtn_set_clicked()

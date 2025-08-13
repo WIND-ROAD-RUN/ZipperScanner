@@ -33,7 +33,7 @@ public:
 
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
-
+	rw::rqw::ClickableLabel* clickableTitle = nullptr;
 public:
 	void build_ui();
 	void build_connect();
@@ -45,6 +45,7 @@ public:
 	void build_DlgProductScore();
 	void build_DlgExposureTimeSet();
 	void build_DlgIOTrigger();
+	void ini_clickableTitle();
 
 	void build_imageProcessorModule();
 	void build_imageSaveEngine();
@@ -79,6 +80,7 @@ private slots:
 	void rbtn_stop_clicked(bool checked);
 	void pbtn_IOTrigger_clicked();
 
+	void lb_title_clicked();
 signals:
 	void shibiekaungChanged();
 	void wenziChanged();
@@ -125,4 +127,5 @@ public:
 
 private:
 	Ui::ZipperScannerClass* ui;
+	int minimizeCount{ 3 };
 };

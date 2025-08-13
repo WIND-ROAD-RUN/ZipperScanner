@@ -167,6 +167,10 @@ void ZipperScanner::build_connect()
 	// 连接IO触发窗体
 	QObject::connect(ui->pbtn_IOTrigger, &QPushButton::clicked,
 		this, &ZipperScanner::pbtn_IOTrigger_clicked);
+
+	// 连接显示标题
+	QObject::connect(clickableTitle, &rw::rqw::ClickableLabel::clicked,
+		this, &ZipperScanner::lb_title_clicked);
 }
 
 // 构建相机
@@ -275,6 +279,8 @@ void ZipperScanner::build_ZipperScannerData()
 
 	// 初始化图像查看器
 	_picturesViewer = new PictureViewerThumbnails(this);
+
+	ini_clickableTitle();
 }
 
 // 通过实现DlgProductSet的构造函数进行初始化
@@ -297,6 +303,17 @@ void ZipperScanner::build_DlgExposureTimeSet()
 void ZipperScanner::build_DlgIOTrigger()
 {
 	_dlgIOTrigger = new DlgIOTrigger(this);
+}
+
+void ZipperScanner::ini_clickableTitle()
+{
+	// 初始化标题label
+	clickableTitle = new rw::rqw::ClickableLabel(this);
+	auto layoutTitle = ui->groupBox_head->layout();
+	layoutTitle->replaceWidget(ui->label_title, clickableTitle);
+	delete ui->label_title;
+	clickableTitle->setText("拉链检测");
+	clickableTitle->setStyleSheet("QLabel {font-size: 30px;font-weight: bold;color: rgb(255, 255, 255);padding: 5px 5px;border-bottom: 2px solid #cccccc;}");
 }
 
 void ZipperScanner::build_imageProcessorModule()
@@ -705,6 +722,31 @@ void ZipperScanner::pbtn_IOTrigger_clicked()
 	QPoint center = this->geometry().center() - QPoint(_dlgIOTrigger->width() / 2, _dlgIOTrigger->height() / 2);
 	_dlgIOTrigger->move(center);
 	_dlgIOTrigger->exec();
+}
+
+void ZipperScanner::lb_title_clicked()
+{
+	if (0 != minimizeCount)
+	{
+		minimizeCount--;
+	}
+	else if (0 >= minimizeCount)
+	{
+		// 最小化主窗体
+		this->showMinimized();
+
+		// 最小化所有子窗体（如果已创建且可见）
+		if (_dlgProductSet && _dlgProductSet->isVisible())
+			_dlgProductSet->showMinimized();
+		if (_dlgProductScore && _dlgProductScore->isVisible())
+			_dlgProductScore->showMinimized();
+		if (_picturesViewer && _picturesViewer->isVisible())
+			_picturesViewer->showMinimized();
+		if (_imageEnlargedDisplay && _imageEnlargedDisplay->isVisible())
+			_imageEnlargedDisplay->showMinimized();
+
+		minimizeCount = 3; // 重置最小化计数器
+	}
 }
 
 void ZipperScanner::onCamera1Display(QPixmap image)

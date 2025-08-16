@@ -19,5 +19,37 @@ namespace cdm {
         suoXiao : bool :default = false;
 		suoXiaoScore : double :default = 0;
 		suoXiaoArea : double :default = 0;
+
+		extra1 : bool :default = false;
+		extra1Score : double :default = 0;
+		extra1Area : double :default = 0;
+
+		extra2 : bool :default = false;
+		extra2Score : double :default = 0;
+		extra2Area : double :default = 0;
+
+		extra3 : bool :default = false;
+		extra3Score : double :default = 0;
+		extra3Area : double :default = 0;
+
+		extra4 : bool :default = false;
+		extra4Score : double :default = 0;
+		extra4Area : double :default = 0;
+
+		extra5 : bool :default = false;
+		extra5Score : double :default = 0;
+		extra5Area : double :default = 0;
+
+		extra6 : bool :default = false;
+		extra6Score : double :default = 0;
+		extra6Area : double :default = 0;
+
+		extra7 : bool :default = false;
+		extra7Score : double :default = 0;
+		extra7Area : double :default = 0;
+
+		extra8 : bool :default = false;
+		extra8Score : double :default = 0;
+		extra8Area : double :default = 0;
 	};
 }

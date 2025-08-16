@@ -32,57 +32,106 @@ void DlgProductScore::read_config()
 	// 初始化参数
 
 	// 缺牙
-	ui->rbtn_queyaEnable->setChecked(globalScoreConfig.queYa);
-	ui->ptn_queyaSimilarity->setText(QString::number(globalScoreConfig.queYaScore));
-	ui->ptn_queyaArea->setText(QString::number(globalScoreConfig.queYaArea));
+	ui->ckb_queya->setChecked(globalScoreConfig.queYa);
+	ui->btn_queyascore->setText(QString::number(globalScoreConfig.queYaScore));
+	ui->btn_queyaarea->setText(QString::number(globalScoreConfig.queYaArea));
 
 	// 烫伤
-	ui->rbtn_tangshangEnable->setChecked(globalScoreConfig.tangShang);
-	ui->pbtn_tangshangSimilarity->setText(QString::number(globalScoreConfig.tangShangScore));
-	ui->pbtn_tangshangArea->setText(QString::number(globalScoreConfig.tangShangArea));
+	ui->ckb_tangshang->setChecked(globalScoreConfig.tangShang);
+	ui->btn_tangshangscore->setText(QString::number(globalScoreConfig.tangShangScore));
+	ui->btn_tangshangarea->setText(QString::number(globalScoreConfig.tangShangArea));
 
 	// 脏污
-	ui->rbtn_zangwuEnable->setChecked(globalScoreConfig.zangWu);
-	ui->pbtn_zangwuSimilarity->setText(QString::number(globalScoreConfig.zangWuScore));
-	ui->pbtn_zangwuArea->setText(QString::number(globalScoreConfig.zangWuArea));
+	ui->ckb_zangwu->setChecked(globalScoreConfig.zangWu);
+	ui->btn_zangwuscore->setText(QString::number(globalScoreConfig.zangWuScore));
+	ui->btn_zangwuarea->setText(QString::number(globalScoreConfig.zangWuArea));
 
 	// 缩小
-	ui->rbtn_suoxiaoEnable->setChecked(globalScoreConfig.suoXiao);
-	ui->pbtn_suoxiaoSimilarity->setText(QString::number(globalScoreConfig.suoXiaoScore));
-	ui->pbtn_suoxiaoArea->setText(QString::number(globalScoreConfig.suoXiaoArea));
+	ui->ckb_suoxiao->setChecked(globalScoreConfig.suoXiao);
+	ui->btn_suoxiaoscore->setText(QString::number(globalScoreConfig.suoXiaoScore));
+	ui->btn_suoxiaoarea->setText(QString::number(globalScoreConfig.suoXiaoArea));
 }
 
 void DlgProductScore::build_connect()
 {
-	QObject::connect(ui->pbtn_close, &QPushButton::clicked,
-		this, &DlgProductScore::pbtn_close_clicked);
-	QObject::connect(ui->rbtn_queyaEnable, &QRadioButton::clicked,
-		this, &DlgProductScore::rbtn_queyaEnable_checked);
-	QObject::connect(ui->ptn_queyaSimilarity, &QPushButton::clicked,
-		this, &DlgProductScore::ptn_queyaSimilarity_clicked);
-	QObject::connect(ui->ptn_queyaArea, &QPushButton::clicked,
-		this, &DlgProductScore::ptn_queyaArea_clicked);
-	QObject::connect(ui->rbtn_tangshangEnable, &QRadioButton::clicked,
-		this, &DlgProductScore::rbtn_tangshangEnable_checked);
-	QObject::connect(ui->pbtn_tangshangSimilarity, &QPushButton::clicked,
-		this, &DlgProductScore::ptn_tangshangSimilarity_clicked);
-	QObject::connect(ui->pbtn_tangshangArea, &QPushButton::clicked,
-		this, &DlgProductScore::ptn_tangshangArea_clicked);
-	QObject::connect(ui->rbtn_zangwuEnable, &QRadioButton::clicked,
-		this, &DlgProductScore::rbtn_zangwuEnable_checked);
-	QObject::connect(ui->pbtn_zangwuSimilarity, &QPushButton::clicked,
-		this, &DlgProductScore::ptn_zangwuSimilarity_clicked);
-	QObject::connect(ui->pbtn_zangwuArea, &QPushButton::clicked,
-		this, &DlgProductScore::ptn_zangwuArea_clicked);
-	QObject::connect(ui->rbtn_suoxiaoEnable, &QRadioButton::clicked,
-		this, &DlgProductScore::rbtn_suoxiaoEnable_checked);
-	QObject::connect(ui->pbtn_suoxiaoSimilarity, &QPushButton::clicked,
-		this, &DlgProductScore::pbtn_suoxiaoSimilarity_clicked);
-	QObject::connect(ui->pbtn_suoxiaoArea, &QPushButton::clicked,
-		this, &DlgProductScore::pbtn_suoxiaoArea_clicked);
+	QObject::connect(ui->btn_close, &QPushButton::clicked,
+		this, &DlgProductScore::btn_close_clicked);
+	QObject::connect(ui->ckb_queya, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_queya_checked);
+	QObject::connect(ui->btn_queyascore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_queyascore_clicked);
+	QObject::connect(ui->btn_queyaarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_queyaarea_clicked);
+	QObject::connect(ui->ckb_tangshang, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_tangshang_checked);
+	QObject::connect(ui->btn_tangshangscore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_tangshangscore_clicked);
+	QObject::connect(ui->btn_tangshangarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_tangshangarea_clicked);
+	QObject::connect(ui->ckb_zangwu, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_zangwu_checked);
+	QObject::connect(ui->btn_zangwuscore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_zangwuscore_clicked);
+	QObject::connect(ui->btn_zangwuarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_zangwuarea_clicked);
+	QObject::connect(ui->ckb_suoxiao, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_suoxiao_checked);
+	QObject::connect(ui->btn_suoxiaoscore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_suoxiaoscore_clicked);
+	QObject::connect(ui->btn_suoxiaoarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_suoxiaoarea_clicked);
+
+	QObject::connect(ui->ckb_extra1, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra1_checked);
+	QObject::connect(ui->btn_extra1score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra1score_clicked);
+	QObject::connect(ui->btn_extra1area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra1area_clicked);
+	QObject::connect(ui->ckb_extra2, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra2_checked);
+	QObject::connect(ui->btn_extra2score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra2score_clicked);
+	QObject::connect(ui->btn_extra2area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra2area_clicked);
+	QObject::connect(ui->ckb_extra3, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra3_checked);
+	QObject::connect(ui->btn_extra3score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra3score_clicked);
+	QObject::connect(ui->btn_extra3area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra3area_clicked);
+	QObject::connect(ui->ckb_extra4, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra4_checked);
+	QObject::connect(ui->btn_extra4score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra4score_clicked);
+	QObject::connect(ui->btn_extra4area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra4area_clicked);
+	QObject::connect(ui->ckb_extra5, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra5_checked);
+	QObject::connect(ui->btn_extra5score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra5score_clicked);
+	QObject::connect(ui->btn_extra5area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra5area_clicked);
+	QObject::connect(ui->ckb_extra6, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra6_checked);
+	QObject::connect(ui->btn_extra6score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra6score_clicked);
+	QObject::connect(ui->btn_extra6area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra6area_clicked);
+	QObject::connect(ui->ckb_extra7, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra7_checked);
+	QObject::connect(ui->btn_extra7score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra7score_clicked);
+	QObject::connect(ui->btn_extra7area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra7area_clicked);
+	QObject::connect(ui->ckb_extra8, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_extra8_checked);
+	QObject::connect(ui->btn_extra8score, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra8score_clicked);
+	QObject::connect(ui->btn_extra8area, &QPushButton::clicked,
+		this, &DlgProductScore::btn_extra8area_clicked);
 }
 
-void DlgProductScore::pbtn_close_clicked()
+void DlgProductScore::btn_close_clicked()
 {
 	auto& GlobalStructData = GlobalStructDataZipper::getInstance();
 	GlobalStructData.saveDlgProductScoreConfig();
@@ -90,14 +139,14 @@ void DlgProductScore::pbtn_close_clicked()
 	this->close();
 }
 
-void DlgProductScore::rbtn_queyaEnable_checked()
+void DlgProductScore::ckb_queya_checked()
 {
 	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-	globalScoreConfig.queYa = ui->rbtn_queyaEnable->isChecked();
+	globalScoreConfig.queYa = ui->ckb_queya->isChecked();
 	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::ptn_queyaSimilarity_clicked()
+void DlgProductScore::btn_queyascore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -111,12 +160,12 @@ void DlgProductScore::ptn_queyaSimilarity_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->ptn_queyaSimilarity->setText(value);
+		ui->btn_queyascore->setText(value);
 		globalStructScoreConfig.queYaScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::ptn_queyaArea_clicked()
+void DlgProductScore::btn_queyaarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -130,19 +179,19 @@ void DlgProductScore::ptn_queyaArea_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->ptn_queyaArea->setText(value);
+		ui->btn_queyaarea->setText(value);
 		globalStructScoreConfig.queYaArea = value.toDouble();
 	}
 }
 
-void DlgProductScore::rbtn_tangshangEnable_checked()
+void DlgProductScore::ckb_tangshang_checked()
 {
 	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-	globalScoreConfig.tangShang = ui->rbtn_tangshangEnable->isChecked();
+	globalScoreConfig.tangShang = ui->ckb_tangshang->isChecked();
 	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::ptn_tangshangSimilarity_clicked()
+void DlgProductScore::btn_tangshangscore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -156,12 +205,12 @@ void DlgProductScore::ptn_tangshangSimilarity_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->pbtn_tangshangSimilarity->setText(value);
+		ui->btn_tangshangscore->setText(value);
 		globalStructScoreConfig.tangShangScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::ptn_tangshangArea_clicked()
+void DlgProductScore::btn_tangshangarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -175,19 +224,19 @@ void DlgProductScore::ptn_tangshangArea_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->pbtn_tangshangArea->setText(value);
+		ui->btn_tangshangarea->setText(value);
 		globalStructScoreConfig.tangShangArea = value.toDouble();
 	}
 }
 
-void DlgProductScore::rbtn_zangwuEnable_checked()
+void DlgProductScore::ckb_zangwu_checked()
 {
 	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-	globalScoreConfig.zangWu = ui->rbtn_zangwuEnable->isChecked();
+	globalScoreConfig.zangWu = ui->ckb_zangwu->isChecked();
 	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::ptn_zangwuSimilarity_clicked()
+void DlgProductScore::btn_zangwuscore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -201,12 +250,12 @@ void DlgProductScore::ptn_zangwuSimilarity_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->pbtn_zangwuSimilarity->setText(value);
+		ui->btn_zangwuscore->setText(value);
 		globalStructScoreConfig.zangWuScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::ptn_zangwuArea_clicked()
+void DlgProductScore::btn_zangwuarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -220,19 +269,19 @@ void DlgProductScore::ptn_zangwuArea_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->pbtn_zangwuArea->setText(value);
+		ui->btn_zangwuarea->setText(value);
 		globalStructScoreConfig.zangWuArea = value.toDouble();
 	}
 }
 
-void DlgProductScore::rbtn_suoxiaoEnable_checked()
+void DlgProductScore::ckb_suoxiao_checked()
 {
 	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-	globalScoreConfig.suoXiao = ui->rbtn_suoxiaoEnable->isChecked();
+	globalScoreConfig.suoXiao = ui->ckb_suoxiao->isChecked();
 	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::pbtn_suoxiaoSimilarity_clicked()
+void DlgProductScore::btn_suoxiaoscore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -246,12 +295,12 @@ void DlgProductScore::pbtn_suoxiaoSimilarity_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->pbtn_suoxiaoSimilarity->setText(value);
+		ui->btn_suoxiaoscore->setText(value);
 		globalStructScoreConfig.suoXiaoScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::pbtn_suoxiaoArea_clicked()
+void DlgProductScore::btn_suoxiaoarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -265,9 +314,371 @@ void DlgProductScore::pbtn_suoxiaoArea_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
-		ui->pbtn_suoxiaoArea->setText(value);
+		ui->btn_suoxiaoarea->setText(value);
 		globalStructScoreConfig.suoXiaoArea = value.toDouble();
 	}
 }
+
+void DlgProductScore::ckb_extra1_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra1 = ui->ckb_extra1->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra1score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra1score->setText(value);
+		globalStructScoreConfig.extra1Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra1area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra1area->setText(value);
+		globalStructScoreConfig.extra1Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra2_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra2 = ui->ckb_extra2->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra2score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra2score->setText(value);
+		globalStructScoreConfig.extra2Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra2area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra2area->setText(value);
+		globalStructScoreConfig.extra2Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra3_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra3 = ui->ckb_extra3->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra3score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra3score->setText(value);
+		globalStructScoreConfig.extra3Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra3area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra3area->setText(value);
+		globalStructScoreConfig.extra3Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra4_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra4 = ui->ckb_extra4->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra4score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra4score->setText(value);
+		globalStructScoreConfig.extra4Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra4area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra4area->setText(value);
+		globalStructScoreConfig.extra4Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra5_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra5 = ui->ckb_extra5->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra5score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra5score->setText(value);
+		globalStructScoreConfig.extra5Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra5area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra5area->setText(value);
+		globalStructScoreConfig.extra5Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra6_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra6 = ui->ckb_extra6->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra6score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra6score->setText(value);
+		globalStructScoreConfig.extra6Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra6area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra6area->setText(value);
+		globalStructScoreConfig.extra6Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra7_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra7 = ui->ckb_extra7->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra7score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra7score->setText(value);
+		globalStructScoreConfig.extra7Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra7area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra7area->setText(value);
+		globalStructScoreConfig.extra7Area = value.toDouble();
+	}
+}
+
+void DlgProductScore::ckb_extra8_checked()
+{
+	auto& globalScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+	globalScoreConfig.extra8 = ui->ckb_extra8->isChecked();
+	GlobalStructDataZipper::getInstance().saveDlgProductScoreConfig();
+}
+
+void DlgProductScore::btn_extra8score_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra8score->setText(value);
+		globalStructScoreConfig.extra8Score = value.toDouble();
+	}
+}
+
+void DlgProductScore::btn_extra8area_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& globalStructScoreConfig = GlobalStructDataZipper::getInstance().scoreConfig;
+		ui->btn_extra8area->setText(value);
+		globalStructScoreConfig.extra8Area = value.toDouble();
+	}
+}
+
+
 
 

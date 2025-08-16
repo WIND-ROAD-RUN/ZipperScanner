@@ -84,7 +84,15 @@ private:
 	std::map<std::string, double> queyaMap{};
 	std::map<std::string, double> tangshangMap{};
 	std::map<std::string, double> zangwuMap{};
-
+	std::map<std::string, double> suoxiaoMap{};
+	std::map<std::string, double> extra1Map{};
+	std::map<std::string, double> extra2Map{};
+	std::map<std::string, double> extra3Map{};
+	std::map<std::string, double> extra4Map{};
+	std::map<std::string, double> extra5Map{};
+	std::map<std::string, double> extra6Map{};
+	std::map<std::string, double> extra7Map{};
+	std::map<std::string, double> extra8Map{};
 private:
 	QQueue<MatInfo>& _queue;
 	QMutex& _mutex;

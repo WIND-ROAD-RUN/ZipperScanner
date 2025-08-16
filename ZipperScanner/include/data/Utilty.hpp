@@ -40,6 +40,14 @@ struct ClassId
 	static constexpr int Tangshang = 1;
 	static constexpr int Zangwu = 2;
 	static constexpr int Suoxiao = 3;
+	static constexpr int Extra1 = 4;
+	static constexpr int Extra2 = 5;
+	static constexpr int Extra3 = 6;
+	static constexpr int Extra4 = 7;
+	static constexpr int Extra5 = 8;
+	static constexpr int Extra6 = 9;
+	static constexpr int Extra7 = 10;
+	static constexpr int Extra8 = 11;
 };
 
 inline struct GlobalPath

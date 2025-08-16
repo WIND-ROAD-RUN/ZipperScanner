@@ -70,7 +70,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
-	qproperty-icon: url(:/icons/closeBlack.png);  
+	qproperty-icon: url(:/ZipperScanner/icons/closeBlack.png);  
     qproperty-iconSize: 30px 30px;
     font-size: 30px; 
 }

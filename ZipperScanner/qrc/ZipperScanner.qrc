@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/ZipperScanner">
-        <file>image/close.png</file>
-        <file>image/exit.png</file>
+        <file>icons/closeBlack.png</file>
+        <file>icons/closeGray.png</file>
     </qresource>
 </RCC>

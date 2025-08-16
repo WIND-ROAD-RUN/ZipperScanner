@@ -65,7 +65,7 @@ private slots:
 signals:
 	void scoreFormClosed();
 
-private:
+public:
 	Ui::DlgProductScoreClass* ui;
 };
 

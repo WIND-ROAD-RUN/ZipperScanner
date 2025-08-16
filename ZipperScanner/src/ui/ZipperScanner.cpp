@@ -89,7 +89,10 @@ void ZipperScanner::build_ui()
 {
 	build_ZipperScannerData();
 	build_DlgProductSetData();
+	ini_dlgProductSetCheckList();
 	build_DlgProductScore();
+	ini_dlgProductScoreGroupList();
+	connectSetAndScore();
 	build_DlgExposureTimeSet();
 	build_DlgIOTrigger();
 }
@@ -290,10 +293,54 @@ void ZipperScanner::build_DlgProductSetData()
 	_dlgProductSet = new DlgProductSet(this);
 }
 
+void ZipperScanner::ini_dlgProductSetCheckList()
+{
+	_dlgProductSetCheckList = {
+		_dlgProductSet->ui->ckb_queya,
+		_dlgProductSet->ui->ckb_tangshang,
+		_dlgProductSet->ui->ckb_zangwu,
+		_dlgProductSet->ui->ckb_suoxiao,
+		_dlgProductSet->ui->ckb_extra1,
+		_dlgProductSet->ui->ckb_extra2,
+		_dlgProductSet->ui->ckb_extra3,
+		_dlgProductSet->ui->ckb_extra4,
+		_dlgProductSet->ui->ckb_extra5,
+		_dlgProductSet->ui->ckb_extra6,
+		_dlgProductSet->ui->ckb_extra7,
+		_dlgProductSet->ui->ckb_extra8
+	};
+}
+
 // 通过实现DlgProductScore的构造函数进行初始化
 void ZipperScanner::build_DlgProductScore()
 {
 	_dlgProductScore = new DlgProductScore(this);
+}
+
+void ZipperScanner::ini_dlgProductScoreGroupList()
+{
+	_dlgProductScoreGroupList = {
+		_dlgProductScore->ui->widget_queya,
+		_dlgProductScore->ui->widget_tangshang,
+		_dlgProductScore->ui->widget_zangwu,
+		_dlgProductScore->ui->widget_suoxiao,
+		_dlgProductScore->ui->widget_extra1,
+		_dlgProductScore->ui->widget_extra2,
+		_dlgProductScore->ui->widget_extra3,
+		_dlgProductScore->ui->widget_extra4,
+		_dlgProductScore->ui->widget_extra5,
+		_dlgProductScore->ui->widget_extra6,
+		_dlgProductScore->ui->widget_extra7,
+		_dlgProductScore->ui->widget_extra8
+	};
+}
+
+void ZipperScanner::connectSetAndScore()
+{
+	for (int i = 0; i < _dlgProductSetCheckList.size(); ++i) {
+		connect(_dlgProductSetCheckList[i], &QCheckBox::toggled, _dlgProductScoreGroupList[i], &QWidget::setVisible);
+		_dlgProductScoreGroupList[i]->setVisible(_dlgProductSetCheckList[i]->isChecked());
+	}
 }
 
 void ZipperScanner::build_DlgExposureTimeSet()

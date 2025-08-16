@@ -109,6 +109,21 @@ void DlgProductSet::read_config()
 
 	// 默认显示第一个
 	ui->tabWidget->setCurrentIndex(0);
+
+	// 分数界面内容可选显示
+	ui->ckb_queya->setChecked(globalConfig.isQueya);
+	ui->ckb_tangshang->setChecked(globalConfig.isTangshang);
+	ui->ckb_zangwu->setChecked(globalConfig.isZangwu);
+	ui->ckb_suoxiao->setChecked(globalConfig.isSuoxiao);
+
+	ui->ckb_extra1->setChecked(globalConfig.isExtra1);
+	ui->ckb_extra2->setChecked(globalConfig.isExtra2);
+	ui->ckb_extra3->setChecked(globalConfig.isExtra3);
+	ui->ckb_extra4->setChecked(globalConfig.isExtra4);
+	ui->ckb_extra5->setChecked(globalConfig.isExtra5);
+	ui->ckb_extra6->setChecked(globalConfig.isExtra6);
+	ui->ckb_extra7->setChecked(globalConfig.isExtra7);
+	ui->ckb_extra8->setChecked(globalConfig.isExtra8);
 }
 
 void DlgProductSet::build_connect()
@@ -250,6 +265,32 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::monitorInPutSignal);
 	QObject::connect(&globalStruct, &GlobalStructDataZipper::emit_OutPutSignal,
 		this, &DlgProductSet::monitorOutPutSignal);
+
+	// 分数界面内容可选显示
+	QObject::connect(ui->ckb_queya, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_queya_checked);
+	QObject::connect(ui->ckb_tangshang, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_tangshang_checked);
+	QObject::connect(ui->ckb_zangwu, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_zangwu_checked);
+	QObject::connect(ui->ckb_suoxiao, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_suoxiao_checked);
+	QObject::connect(ui->ckb_extra1, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra1_checked);
+	QObject::connect(ui->ckb_extra2, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra2_checked);
+	QObject::connect(ui->ckb_extra3, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra3_checked);
+	QObject::connect(ui->ckb_extra4, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra4_checked);
+	QObject::connect(ui->ckb_extra5, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra5_checked);
+	QObject::connect(ui->ckb_extra6, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra6_checked);
+	QObject::connect(ui->ckb_extra7, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra7_checked);
+	QObject::connect(ui->ckb_extra8, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_extra8_checked);
 }
 
 std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
@@ -1618,6 +1659,81 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 		}
 	}
 }
+
+void DlgProductSet::ckb_queya_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isQueya = isChecked;
+}
+
+void DlgProductSet::ckb_tangshang_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isTangshang = isChecked;
+}
+
+void DlgProductSet::ckb_zangwu_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isZangwu = isChecked;
+}
+
+void DlgProductSet::ckb_suoxiao_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isSuoxiao = isChecked;
+}
+
+void DlgProductSet::ckb_extra1_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra1 = isChecked;
+}
+
+void DlgProductSet::ckb_extra2_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra2 = isChecked;
+}
+
+void DlgProductSet::ckb_extra3_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra3 = isChecked;
+}
+
+void DlgProductSet::ckb_extra4_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra4 = isChecked;
+}
+
+void DlgProductSet::ckb_extra5_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra5 = isChecked;
+}
+
+void DlgProductSet::ckb_extra6_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra6 = isChecked;
+}
+
+void DlgProductSet::ckb_extra7_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra7 = isChecked;
+}
+
+void DlgProductSet::ckb_extra8_checked(bool isChecked)
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.isExtra8 = isChecked;
+}
+
+
+
 
 
 

@@ -117,7 +117,20 @@ private slots:
 	void monitorInPutSignal(size_t index, bool state);
 	void monitorOutPutSignal(size_t index, bool state);
 
-private:
+	// 分数界面内容可选显示
+	void ckb_queya_checked(bool isChecked);
+	void ckb_tangshang_checked(bool isChecked);
+	void ckb_zangwu_checked(bool isChecked);
+	void ckb_suoxiao_checked(bool isChecked);
+	void ckb_extra1_checked(bool isChecked);
+	void ckb_extra2_checked(bool isChecked);
+	void ckb_extra3_checked(bool isChecked);
+	void ckb_extra4_checked(bool isChecked);
+	void ckb_extra5_checked(bool isChecked);
+	void ckb_extra6_checked(bool isChecked);
+	void ckb_extra7_checked(bool isChecked);
+	void ckb_extra8_checked(bool isChecked);
+public:
 	Ui::DlgProductSetClass* ui;
 };
 

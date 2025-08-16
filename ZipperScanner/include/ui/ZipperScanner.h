@@ -27,7 +27,9 @@ public:
 
 public:
 	DlgProductSet* _dlgProductSet = nullptr;
+	QVector<QCheckBox*> _dlgProductSetCheckList{};
 	DlgProductScore* _dlgProductScore = nullptr;
+	QVector<QWidget*> _dlgProductScoreGroupList{};
 	DlgExposureTimeSet* _dlgExposureTimeSet = nullptr;
 	DlgIOTrigger* _dlgIOTrigger = nullptr;
 
@@ -42,7 +44,10 @@ public:
 
 	void build_ZipperScannerData();
 	void build_DlgProductSetData();
+	void ini_dlgProductSetCheckList();
 	void build_DlgProductScore();
+	void ini_dlgProductScoreGroupList();
+	void connectSetAndScore();
 	void build_DlgExposureTimeSet();
 	void build_DlgIOTrigger();
 	void ini_clickableTitle();

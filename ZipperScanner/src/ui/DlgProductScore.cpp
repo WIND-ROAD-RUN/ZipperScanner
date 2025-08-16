@@ -50,6 +50,46 @@ void DlgProductScore::read_config()
 	ui->ckb_suoxiao->setChecked(globalScoreConfig.suoXiao);
 	ui->btn_suoxiaoscore->setText(QString::number(globalScoreConfig.suoXiaoScore));
 	ui->btn_suoxiaoarea->setText(QString::number(globalScoreConfig.suoXiaoArea));
+
+	// 额外1
+	ui->ckb_extra1->setChecked(globalScoreConfig.extra1);
+	ui->btn_extra1score->setText(QString::number(globalScoreConfig.extra1Score));
+	ui->btn_extra1area->setText(QString::number(globalScoreConfig.extra1Area));
+
+	// 额外2
+	ui->ckb_extra2->setChecked(globalScoreConfig.extra2);
+	ui->btn_extra2score->setText(QString::number(globalScoreConfig.extra2Score));
+	ui->btn_extra2area->setText(QString::number(globalScoreConfig.extra2Area));
+
+	// 额外3
+	ui->ckb_extra3->setChecked(globalScoreConfig.extra3);
+	ui->btn_extra3score->setText(QString::number(globalScoreConfig.extra3Score));
+	ui->btn_extra3area->setText(QString::number(globalScoreConfig.extra3Area));
+
+	// 额外4
+	ui->ckb_extra4->setChecked(globalScoreConfig.extra4);
+	ui->btn_extra4score->setText(QString::number(globalScoreConfig.extra4Score));
+	ui->btn_extra4area->setText(QString::number(globalScoreConfig.extra4Area));
+
+	// 额外5
+	ui->ckb_extra5->setChecked(globalScoreConfig.extra5);
+	ui->btn_extra5score->setText(QString::number(globalScoreConfig.extra5Score));
+	ui->btn_extra5area->setText(QString::number(globalScoreConfig.extra5Area));
+
+	// 额外6
+	ui->ckb_extra6->setChecked(globalScoreConfig.extra6);
+	ui->btn_extra6score->setText(QString::number(globalScoreConfig.extra6Score));
+	ui->btn_extra6area->setText(QString::number(globalScoreConfig.extra6Area));
+
+	// 额外7
+	ui->ckb_extra7->setChecked(globalScoreConfig.extra7);
+	ui->btn_extra7score->setText(QString::number(globalScoreConfig.extra7Score));
+	ui->btn_extra7area->setText(QString::number(globalScoreConfig.extra7Area));
+
+	// 额外8
+	ui->ckb_extra8->setChecked(globalScoreConfig.extra8);
+	ui->btn_extra8score->setText(QString::number(globalScoreConfig.extra8Score));
+	ui->btn_extra8area->setText(QString::number(globalScoreConfig.extra8Area));
 }
 
 void DlgProductScore::build_connect()

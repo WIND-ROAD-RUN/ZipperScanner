@@ -63,5 +63,18 @@ namespace cdm {
 		bujindianjimaichongOUT : int :default = 0;
 		chongkongOUT : int :default = 0;
 		tuojiOUT : int :default = 0;
+
+		isQueya : bool :default = false;
+		isTangshang : bool :default = false;
+		isZangwu : bool :default = false;
+		isSuoxiao : bool :default = false;
+		isExtra1 : bool :default = false;
+		isExtra2 : bool :default = false;
+		isExtra3 : bool :default = false;
+		isExtra4 : bool :default = false;
+		isExtra5 : bool :default = false;
+		isExtra6 : bool :default = false;
+		isExtra7 : bool :default = false;
+		isExtra8 : bool :default = false;
 	};
 }

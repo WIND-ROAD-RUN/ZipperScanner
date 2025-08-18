@@ -58,12 +58,10 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 		auto isshoudongsudu = globalStruct.zmotion.setAxisRunSpeed(0,globalStruct.setConfig.shoudongsudu);
 		
 
-		auto tifeijuli1 = setConfig.tifeijuli1;
 		auto tifeichixushijian1 = setConfig.tiFeiChiXuShiJian1;
 		if (nowLocation - minlocation > 0)
 		{
-			//std::cout << "stopsendlocation" << globalStruct.zmotion.getAxisLocation(0, isget) << std::endl;
-
+			std::cout << "|---------BEGIN----------|" << std::endl;
 			// 停止电机
 			bool isStop = globalStruct.zmotion.stopAllAxis();
 
@@ -81,26 +79,26 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 			isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
 			QThread::msleep(1000);
-			std::cout << "stoplocation" << minlocation << std::endl;
+			std::cout << "stoplocation:" << minlocation << std::endl;
 
-			//删除重复location
-			for (size_t i = 0; i < queue->size(); i++)
+			std::cout << "queue->size() before delete:" << queue->size() << std::endl;
+			auto queueSize = queue->size();
+			for (size_t i = 0; i < queueSize; i++)
 			{
 				float location = 0;
 				queue->tryGetMin(location);
 				float nowlocation = globalStruct.zmotion.getAxisLocation(0, isget);
-				//std::cout << "nowlocation" << nowlocation << std::endl;
-				//std::cout << "location" << location << std::endl;
 
 				if (abs(location - nowlocation) <30)
 				{
-
 					queue->tryPopMin(location);
-					std::cout << "删除"  << std::endl;
+					std::cout << "delete location:"  <<location <<std::endl;
 				}
 
 
 			}
+
+			std::cout << "queue->size() after delete:" << queue->size() << std::endl;
 
 
 
@@ -119,6 +117,8 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 			{
 				isStop = globalStruct.zmotion.stopAllAxis();
 			}
+
+			std::cout << "|----------END-----------|" << std::endl;
 		}
 	
 	

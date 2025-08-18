@@ -31,7 +31,6 @@ public:
 	static size_t bujindianjimaichongOut ;
 	static size_t chongkongOUT ;
 	static size_t tuojiOut ;
-	static size_t chufapaizhaoOUT ;
 };
 
 struct ClassId

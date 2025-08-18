@@ -38,11 +38,11 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 		float minlocation = 0;
 
 		//如果拉带长度超过设定值则停机
-		if (abs(globalStruct.startLocation- nowLocation)> globalStruct.setConfig.shedingladaichangdu*1000)
+		/*if (abs(globalStruct.startLocation- nowLocation)> globalStruct.setConfig.shedingladaichangdu*1000)
 		{
 			globalStruct.zmotion.stopAllAxis();
 
-		}
+		}*/
 
 
 
@@ -74,14 +74,14 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 			//冲孔
 			bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, true);
 
-			queue->tryPopMin(nowLocation);
+			queue->tryPopMin(minlocation);
 
 			// 等待冲孔完毕
 			QThread::msleep(tifeichixushijian1);
 
 			isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
 			QThread::msleep(1000);
-			//std::cout << "stoplocation" << globalStruct.zmotion.getAxisLocation(0, isget) << std::endl;
+			std::cout << "stoplocation" << minlocation << std::endl;
 
 			//删除重复location
 			for (size_t i = 0; i < queue->size(); i++)
@@ -92,10 +92,11 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 				//std::cout << "nowlocation" << nowlocation << std::endl;
 				//std::cout << "location" << location << std::endl;
 
-				if (abs(location+ tifeijuli1 - nowlocation) <30)
+				if (abs(location - nowlocation) <30)
 				{
 
 					queue->tryPopMin(location);
+					std::cout << "删除"  << std::endl;
 				}
 
 

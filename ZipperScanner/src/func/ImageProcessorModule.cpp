@@ -95,7 +95,18 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 
 	if (1 == imageProcessingModuleIndex)
 	{
-		leftLocationX = leftLocationX * pixToWorld + tifeijuli;
+		if (leftLocationX>0)
+		{
+			auto& globalStruct = GlobalStructDataZipper::getInstance();
+			//globalStruct.zmotion.stopAllAxis();
+			//std::cout << "leftLocationX" << leftLocationX << std::endl;
+
+			leftLocationX = frame.location- leftLocationX * pixToWorld + tifeijuli;
+			//std::cout << " frame.location" << frame.location << std::endl;
+			//std::cout << "leftLocationX1" << leftLocationX << std::endl;
+
+
+		}
 	}
 
 	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);

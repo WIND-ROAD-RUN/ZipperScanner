@@ -1407,7 +1407,7 @@ void DlgProductSet::cbox_DOchufapaizhao_clicked(bool isChecked)
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chufapaizhaoOUT, isChecked);
+		//auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chufapaizhaoOUT, isChecked);
 	}
 }
 
@@ -1654,17 +1654,6 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 			else
 			{
 				ui->cbox_DOtuoji->setChecked(false);
-			}
-		}
-		else if (index == ControlLines::chufapaizhaoOUT) // 触发拍照按钮
-		{
-			if (state)
-			{
-				ui->cbox_DOchufapaizhao->setChecked(true);
-			}
-			else
-			{
-				ui->cbox_DOchufapaizhao->setChecked(false);
 			}
 		}
 	}

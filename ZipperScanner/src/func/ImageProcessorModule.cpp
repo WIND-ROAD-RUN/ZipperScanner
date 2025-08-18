@@ -196,7 +196,7 @@ void ImageProcessorZipper::buildSegModelEngine(const QString& enginePath)
 	modelEngineConfig.imagePretreatmentPolicy = rw::ImagePretreatmentPolicy::LetterBox;
 	modelEngineConfig.letterBoxColor = cv::Scalar(114, 114, 114);
 	modelEngineConfig.modelPath = enginePath.toStdString();
-	auto engine = rw::ModelEngineFactory::createModelEngine(modelEngineConfig, rw::ModelType::Yolov11_Seg_CudaAcc, rw::ModelEngineDeployType::TensorRT);
+	auto engine = rw::ModelEngineFactory::createModelEngine(modelEngineConfig, rw::ModelType::Yolov11_Seg, rw::ModelEngineDeployType::TensorRT);
 
 	_imgProcess = std::make_unique<rw::imgPro::ImageProcess>(engine);
 

@@ -982,14 +982,13 @@ void ZipperScanner::updateUiLabels(int index, bool isConnected)
 
 void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 {
-	switch (index)
+	if (index == ControlLines::qidonganniuIn)
 	{
-	case ControlLines::qidonganniuIn:
 		if (state)
 		{
 			ui->rbtn_start->setChecked(true);
 			rbtn_start_clicked(state);
-			//启动的时候记录当前位置
+			// 启动的时候记录当前位置
 			float nowLocation = 0;
 			bool isget = false;
 			nowLocation = GlobalStructDataZipper::getInstance().zmotion.getAxisLocation(0, isget);
@@ -999,8 +998,9 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 		{
 			ui->rbtn_start->setChecked(false);
 		}
-		break;
-	case ControlLines::jitingIn:
+	}
+	else if (index == ControlLines::jitingIn)
+	{
 		if (state)
 		{
 			ui->rbtn_stop->setChecked(true);
@@ -1010,9 +1010,6 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 		{
 			ui->rbtn_stop->setChecked(false);
 		}
-		break;
-	default:
-		break;
 	}
 }
 

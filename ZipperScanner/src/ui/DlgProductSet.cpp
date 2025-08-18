@@ -124,6 +124,15 @@ void DlgProductSet::read_config()
 	ui->ckb_extra6->setChecked(globalConfig.isExtra6);
 	ui->ckb_extra7->setChecked(globalConfig.isExtra7);
 	ui->ckb_extra8->setChecked(globalConfig.isExtra8);
+
+	ControlLines::qidonganniuIn = globalConfig.qidonganniuIN;
+	ControlLines::jitingIn = globalConfig.jitingIN;
+	ControlLines::lalianlawanIn = globalConfig.lalianlawanIN;
+	ControlLines::bujindianjimaichongOut = globalConfig.bujindianjimaichongOUT;
+	ControlLines::chongkongOUT = globalConfig.chongkongOUT;
+	ControlLines::tuojiOut = globalConfig.tuojiOUT;
+	//ControlLines::chufapaizhaoOUT = globalConfig;
+
 }
 
 void DlgProductSet::build_connect()
@@ -1572,9 +1581,8 @@ void DlgProductSet::monitorInPutSignal(size_t index, bool state)
 {
 	if (isDebugIO == false)
 	{
-		switch (index)
+		if (index == ControlLines::qidonganniuIn) // 启动按钮
 		{
-		case ControlLines::qidonganniuIn: // 启动按钮
 			if (state)
 			{
 				ui->cbox_DIqidonganniu->setChecked(true);
@@ -1583,8 +1591,9 @@ void DlgProductSet::monitorInPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DIqidonganniu->setChecked(false);
 			}
-			break;
-		case ControlLines::jitingIn: // 急停按钮
+		}
+		else if (index == ControlLines::jitingIn) // 急停按钮
+		{
 			if (state)
 			{
 				ui->cbox_DIjiting->setChecked(true);
@@ -1593,8 +1602,9 @@ void DlgProductSet::monitorInPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DIjiting->setChecked(false);
 			}
-			break;
-		case ControlLines::lalianlawanIn: // 拉链拉完按钮
+		}
+		else if (index == ControlLines::lalianlawanIn) // 拉链拉完按钮
+		{
 			if (state)
 			{
 				ui->cbox_DIlalianlawan->setChecked(true);
@@ -1603,7 +1613,6 @@ void DlgProductSet::monitorInPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DIlalianlawan->setChecked(false);
 			}
-			break;
 		}
 
 	}
@@ -1614,9 +1623,8 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 {
 	if (isDebugIO == false)
 	{
-		switch (index)
+		if (index == ControlLines::bujindianjimaichongOut) // 步进电机脉冲按钮
 		{
-		case ControlLines::bujindianjimaichongOut: // 步进电机脉冲按钮
 			if (state)
 			{
 				ui->cbox_DObujindianjimaichong->setChecked(true);
@@ -1625,8 +1633,9 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DObujindianjimaichong->setChecked(false);
 			}
-			break;
-		case ControlLines::chongkongOUT: // 冲孔按钮
+		}
+		else if (index == ControlLines::chongkongOUT) // 冲孔按钮
+		{
 			if (state)
 			{
 				ui->cbox_DOchongkong->setChecked(true);
@@ -1635,8 +1644,9 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DOchongkong->setChecked(false);
 			}
-			break;
-		case ControlLines::tuojiOut: // 脱机按钮
+		}
+		else if (index == ControlLines::tuojiOut) // 脱机按钮
+		{
 			if (state)
 			{
 				ui->cbox_DOtuoji->setChecked(true);
@@ -1645,8 +1655,9 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DOtuoji->setChecked(false);
 			}
-			break;
-		case ControlLines::chufapaizhaoOUT: // 触发拍照按钮
+		}
+		else if (index == ControlLines::chufapaizhaoOUT) // 触发拍照按钮
+		{
 			if (state)
 			{
 				ui->cbox_DOchufapaizhao->setChecked(true);
@@ -1655,7 +1666,6 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 			{
 				ui->cbox_DOchufapaizhao->setChecked(false);
 			}
-			break;
 		}
 	}
 }

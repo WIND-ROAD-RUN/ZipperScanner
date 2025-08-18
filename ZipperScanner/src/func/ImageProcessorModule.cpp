@@ -716,7 +716,18 @@ void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;
-	cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); // 逆时针旋转90度
+
+	if (index==1)
+	{
+		cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); // 逆时针旋转90度
+	}
+	else
+	{
+		cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); // 逆时针旋转90度
+
+	}
+
+	
 	mat.image = frame;
 	mat.index = index;
 	if (index==1)

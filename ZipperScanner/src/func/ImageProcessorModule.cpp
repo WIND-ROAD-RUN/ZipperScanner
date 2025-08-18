@@ -93,21 +93,20 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
 
-	if (1 == imageProcessingModuleIndex)
+
+	if (leftLocationX > 0)
 	{
-		if (leftLocationX>0)
-		{
-			auto& globalStruct = GlobalStructDataZipper::getInstance();
-			//globalStruct.zmotion.stopAllAxis();
-			//std::cout << "leftLocationX" << leftLocationX << std::endl;
+		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		//globalStruct.zmotion.stopAllAxis();
+		//std::cout << "leftLocationX" << leftLocationX << std::endl;
 
-			leftLocationX = frame.location- leftLocationX * pixToWorld + tifeijuli;
-			//std::cout << " frame.location" << frame.location << std::endl;
-			//std::cout << "leftLocationX1" << leftLocationX << std::endl;
+		leftLocationX = frame.location - leftLocationX * pixToWorld + tifeijuli;
+		//std::cout << " frame.location" << frame.location << std::endl;
+		//std::cout << "leftLocationX1" << leftLocationX << std::endl;
 
 
-		}
 	}
+	
 
 	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);
 
@@ -118,6 +117,20 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	rw::rqw::ImageInfo imageInfo(maskImg);
 
 	save_image(imageInfo, rw::rqw::cvMatToQImage(frame.image));
+
+	if (imageProcessingModuleIndex == 1)
+	{
+
+		static int camera1Count = 1;
+		std::cout << "camera1Count" << camera1Count << std::endl;
+		camera1Count++;
+	}
+	else
+	{
+		static int camera2Count = 1;
+		std::cout << "camera1Count" << camera2Count << std::endl;
+		camera2Count++;
+	}
 }
 
 void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
@@ -719,12 +732,12 @@ void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 
 	if (index==1)
 	{
+
 		cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); // 逆时针旋转90度
 	}
 	else
 	{
 		cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); // 逆时针旋转90度
-
 	}
 
 	

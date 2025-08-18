@@ -686,25 +686,26 @@ void ImageProcessorZipper::updateDrawText()
 
 void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 {
-	// 手动读取本地图片
-	std::string imagePath = R"(C:\Users\zfkj4090\Desktop\TestImg\lalian\Image_20250411152145599.jpg)"; // 替换为你的图片路径
-	cv::Mat frame1 = cv::imread(imagePath, cv::IMREAD_COLOR);
-	frame = frame1.clone();
-	if (frame.channels() == 4) {
-		cv::cvtColor(frame, frame, cv::COLOR_BGRA2BGR);
-	}
-	if (frame.type() != CV_8UC3) {
-		frame.convertTo(frame, CV_8UC3);
-	}
+	//// 手动读取本地图片
+	//std::string imagePath = R"(C:\Users\zfkj4090\Desktop\TestImg\lalian\Image_20250411152145599.jpg)"; // 替换为你的图片路径
+	//cv::Mat frame1 = cv::imread(imagePath, cv::IMREAD_COLOR);
+	//frame = frame1.clone();
+	//if (frame.channels() == 4) {
+	//	cv::cvtColor(frame, frame, cv::COLOR_BGRA2BGR);
+	//}
+	//if (frame.type() != CV_8UC3) {
+	//	frame.convertTo(frame, CV_8UC3);
+	//}
 
-	if (frame.empty()) {
-		return; // 跳过空帧
-	}
+	//if (frame.empty()) {
+	//	return; // 跳过空帧
+	//}
 
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;
+	cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); // 逆时针旋转90度
 	mat.image = frame;
 	mat.index = index;
 	if (index==1)
@@ -727,8 +728,8 @@ void ImageProcessingModuleZipper::BuildModule()
 		static size_t workIndexCount = 0;
 		ImageProcessorZipper* processor = new ImageProcessorZipper(_queue, _mutex, _condition, workIndexCount, this);
 		workIndexCount++;
-		processor->buildSegModelEngine(modelEnginePath);
 		processor->imageProcessingModuleIndex = index;
+		processor->buildSegModelEngine(modelEnginePath);
 		connect(processor, &ImageProcessorZipper::imageReady, this, &ImageProcessingModuleZipper::imageReady, Qt::QueuedConnection);
 		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModuleZipper::imageNGReady, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModuleZipper::shibiekaungChanged, processor, &ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);

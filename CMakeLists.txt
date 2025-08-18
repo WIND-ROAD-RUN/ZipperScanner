@@ -6,6 +6,10 @@ endif()
 
 project(ZipperScannerSolution VERSION 0.1 LANGUAGES CXX CUDA)
 
+if(CUDA_IS_12)
+	set(CMAKE_CUDA_ARCHITECTURES 89)
+endif()
+
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/iniRW_UL.cmake)

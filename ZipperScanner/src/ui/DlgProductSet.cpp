@@ -99,8 +99,6 @@ void DlgProductSet::read_config()
 
 	// 基本参数
 	ui->btn_shedingladaichangdu->setText(QString::number(globalConfig.shedingladaichangdu));
-	ui->btn_chongkongjishu->setText(QString::number(globalConfig.chongkongjishu));
-	ui->btn_dangqianchangdu->setText(QString::number(globalConfig.dangqianchangdu));
 	ui->btn_xiangjichufachangdu->setText(QString::number(globalConfig.xiangjichufachangdu));
 	ui->btn_yanshichongkong->setText(QString::number(globalConfig.yanshichongkong));
 	ui->btn_chongkongshijian->setText(QString::number(globalConfig.chongkongshijian));
@@ -205,10 +203,6 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_shedingladaichangdu_clicked);
 	QObject::connect(ui->btn_xiangjichufachangdu, &QPushButton::clicked,
 		this, &DlgProductSet::btn_xiangjichufachangdu_clicked);
-	QObject::connect(ui->btn_jishuqingling, &QPushButton::clicked,
-		this, &DlgProductSet::btn_jishuqingling_clicked);
-	QObject::connect(ui->btn_changduqingling, &QPushButton::clicked,
-		this, &DlgProductSet::btn_changduqingling_clicked);
 	QObject::connect(ui->btn_shoudongladai, &QPushButton::pressed,
 		this, &DlgProductSet::btn_shoudongladai_pressed);
 	QObject::connect(ui->btn_shoudongladai, &QPushButton::released,
@@ -1111,20 +1105,6 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 			QMessageBox::warning(this, "警告", "设定拉袋长度失败!");
 		}
 	}
-}
-
-void DlgProductSet::btn_jishuqingling_clicked()
-{
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.chongkongjishu = 0;
-	ui->btn_chongkongjishu->setText("0");
-}
-
-void DlgProductSet::btn_changduqingling_clicked()
-{
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.dangqianchangdu = 0;
-	ui->btn_dangqianchangdu->setText("0");
 }
 
 void DlgProductSet::btn_shoudongladai_pressed()

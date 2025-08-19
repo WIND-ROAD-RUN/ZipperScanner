@@ -1099,7 +1099,8 @@ void ZipperScanner::imgDis1_clicked()
 	}
 	_currentImageEnlargedDisplayIndex = 0;
 	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
-	_imageEnlargedDisplay->show();
+	_imageEnlargedDisplay->exec();
+	refreshShowImages();
 }
 
 void ZipperScanner::imgDis2_clicked()
@@ -1114,7 +1115,8 @@ void ZipperScanner::imgDis2_clicked()
 	}
 	_currentImageEnlargedDisplayIndex = 1;
 	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
-	_imageEnlargedDisplay->show();
+	_imageEnlargedDisplay->exec();
+	refreshShowImages();
 }
 
 void ZipperScanner::imgNgDis1_clicked()
@@ -1129,7 +1131,8 @@ void ZipperScanner::imgNgDis1_clicked()
 	}
 	_currentImageEnlargedDisplayIndex = 2;
 	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
-	_imageEnlargedDisplay->show();
+	_imageEnlargedDisplay->exec();
+	refreshShowImages();
 }
 
 void ZipperScanner::imgNgDis2_clicked()
@@ -1144,7 +1147,28 @@ void ZipperScanner::imgNgDis2_clicked()
 	}
 	_currentImageEnlargedDisplayIndex = 3;
 	_imageEnlargedDisplay->setGboxTitle(_workStationTitleMap[_currentImageEnlargedDisplayIndex]);
-	_imageEnlargedDisplay->show();
+	_imageEnlargedDisplay->exec();
+	refreshShowImages();
+}
+
+void ZipperScanner::refreshShowImages()
+{
+	if (!_lastImage1.isNull())
+	{
+		imgDis1->setPixmap(_lastImage1.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	}
+	if (!_lastImage2.isNull())
+	{
+		imgDis2->setPixmap(_lastImage2.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	}
+	if (!_lastNgImage1.isNull())
+	{
+		imgNgDis1->setPixmap(_lastNgImage1.scaled(imgNgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	}
+	if (!_lastNgImage2.isNull())
+	{
+		imgNgDis2->setPixmap(_lastNgImage2.scaled(imgNgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	}
 }
 
 void ZipperScanner::build_ImageEnlargedDisplay()

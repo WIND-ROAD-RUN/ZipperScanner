@@ -132,6 +132,8 @@ private slots:
 	void imgDis2_clicked();
 	void imgNgDis1_clicked();
 	void imgNgDis2_clicked();
+
+	void refreshShowImages();
 private:
 	ImageEnlargedDisplay* _imageEnlargedDisplay = nullptr;
 public:

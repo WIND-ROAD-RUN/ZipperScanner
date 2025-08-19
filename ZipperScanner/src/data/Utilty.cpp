@@ -4,7 +4,6 @@ size_t ControlLines::qidonganniuIn = 0;
 size_t ControlLines::jitingIn = 0;
 size_t ControlLines::lalianlawanIn = 0;
 size_t ControlLines::guanjiIn = 0;
-size_t ControlLines::bujindianjimaichongOut = 0;
 size_t ControlLines::chongkongOUT = 0;
 size_t ControlLines::tuojiOut = 0;
 

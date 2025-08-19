@@ -29,7 +29,6 @@ public:
 	static size_t lalianlawanIn ;
 	static size_t guanjiIn;
 public:
-	static size_t bujindianjimaichongOut ;
 	static size_t chongkongOUT ;
 	static size_t tuojiOut ;
 };

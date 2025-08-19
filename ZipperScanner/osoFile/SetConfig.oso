@@ -59,7 +59,6 @@ namespace cdm {
 		lalianlawanIn : int :default = 0;
 		jitingIn : int :default = 0;
 		guanjiIn : int :default = 0;
-		bujindianjimaichongOut : int :default = 0;
 		chongkongOut : int :default = 0;
 		tuojiOut : int :default = 0;
 

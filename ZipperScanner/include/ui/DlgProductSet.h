@@ -93,7 +93,6 @@ private slots:
 	void cbox_DIjiting_clicked(bool isChecked);
 	void cbox_DIlalianlawan_clicked(bool isChecked);
 
-	void cbox_DObujindianjimaichong_clicked(bool isChecked);
 	void cbox_DOchongkong_clicked(bool isChecked);
 	void cbox_DOtuoji_clicked(bool isChecked);
 	void cbox_DOchufapaizhao_clicked(bool isChecked);
@@ -105,7 +104,6 @@ private slots:
 	void btn_setqidonganniu_clicked();
 	void btn_setlalianlawan_clicked();
 	void btn_setjiting_clicked();
-	void btn_setbujindianjimaichong_clicked();
 	void btn_setchongkong_clicked();
 	void btn_settuoji_clicked();
 	void btn_guanji_clicked();

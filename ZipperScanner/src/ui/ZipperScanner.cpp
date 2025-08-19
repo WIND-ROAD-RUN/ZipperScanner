@@ -469,7 +469,6 @@ void ZipperScanner::read_config()
 	ControlLines::jitingIn = setCfg.jitingIn;
 	ControlLines::lalianlawanIn = setCfg.lalianlawanIn;
 	ControlLines::guanjiIn = setCfg.guanjiIn;
-	ControlLines::bujindianjimaichongOut = setCfg.bujindianjimaichongOut;
 	ControlLines::chongkongOUT = setCfg.chongkongOut;
 	ControlLines::tuojiOut = setCfg.tuojiOut;
 }

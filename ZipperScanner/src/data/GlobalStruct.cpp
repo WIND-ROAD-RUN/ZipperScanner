@@ -19,7 +19,7 @@ void GlobalStructDataZipper::build_MonitorZMotionIOStateThread()
 {
 	monitorZMotionMonitorThread.setMonitorObject(zmotion);
 	QVector<size_t> monitorIList = {ControlLines::qidonganniuIn,ControlLines::lalianlawanIn,ControlLines::jitingIn,ControlLines::guanjiIn};
-	QVector<size_t> monitorOList = {ControlLines::bujindianjimaichongOut,ControlLines::chongkongOUT,ControlLines::tuojiOut};
+	QVector<size_t> monitorOList = {ControlLines::chongkongOUT,ControlLines::tuojiOut};
 	monitorZMotionMonitorThread.setMonitorIList(monitorIList);
 	monitorZMotionMonitorThread.setMonitorOList(monitorOList);
 	monitorZMotionMonitorThread.setMonitorFrequency(20);

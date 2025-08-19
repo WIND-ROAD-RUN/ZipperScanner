@@ -101,7 +101,6 @@ void DlgProductSet::read_config()
 	ui->btn_setqidonganniu->setText(QString::number(globalConfig.qidonganniuIn));
 	ui->btn_setlalianlawan->setText(QString::number(globalConfig.lalianlawanIn));
 	ui->btn_setjiting->setText(QString::number(globalConfig.jitingIn));
-	ui->btn_setbujindianjimaichong->setText(QString::number(globalConfig.bujindianjimaichongOut));
 	ui->btn_setchongkong->setText(QString::number(globalConfig.chongkongOut));
 	ui->btn_settuoji->setText(QString::number(globalConfig.tuojiOut));
 	ui->btn_guanji->setText(QString::number(globalConfig.guanjiIn));
@@ -231,8 +230,6 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::cbox_DIjiting_clicked);
 	QObject::connect(ui->cbox_DIlalianlawan, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DIlalianlawan_clicked);
-	QObject::connect(ui->cbox_DObujindianjimaichong, &QCheckBox::clicked,
-		this, &DlgProductSet::cbox_DObujindianjimaichong_clicked);
 	QObject::connect(ui->cbox_DOchongkong, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DOchongkong_clicked);
 	QObject::connect(ui->cbox_DOtuoji, &QCheckBox::clicked,
@@ -249,8 +246,6 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_setlalianlawan_clicked);
 	QObject::connect(ui->btn_setjiting, &QPushButton::clicked,
 		this, &DlgProductSet::btn_setjiting_clicked);
-	QObject::connect(ui->btn_setbujindianjimaichong, &QPushButton::clicked,
-		this, &DlgProductSet::btn_setbujindianjimaichong_clicked);
 	QObject::connect(ui->btn_setchongkong, &QPushButton::clicked,
 		this, &DlgProductSet::btn_setchongkong_clicked);
 	QObject::connect(ui->btn_settuoji, &QPushButton::clicked,
@@ -296,7 +291,6 @@ std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
 {
 	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
 	std::vector<int> values = {
-		setConfig.bujindianjimaichongOut,
 		setConfig.chongkongOut,
 		setConfig.tuojiOut
 	};
@@ -384,7 +378,6 @@ void DlgProductSet::closeAllIOBtn()
 
 void DlgProductSet::setDOErrorInfo(const std::vector<std::vector<int>>& index)
 {
-	ui->lb_bujindianjimaichong->clear();
 	ui->lb_chongkong->clear();
 	ui->lb_tuoji->clear();
 
@@ -403,12 +396,9 @@ void DlgProductSet::setDOErrorInfo(int index)
 	switch (index)
 	{
 	case 0:
-		ui->lb_bujindianjimaichong->setText(text);
-		break;
-	case 1:
 		ui->lb_chongkong->setText(text);
 		break;
-	case 2:
+	case 1:
 		ui->lb_tuoji->setText(text);
 		break;
 	}
@@ -1328,15 +1318,6 @@ void DlgProductSet::cbox_DIlalianlawan_clicked(bool isChecked)
 	}
 }
 
-void DlgProductSet::cbox_DObujindianjimaichong_clicked(bool isChecked)
-{
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
-	if (isDebugIO)
-	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::bujindianjimaichongOut, isChecked);
-	}
-}
 
 void DlgProductSet::cbox_DOchongkong_clicked(bool isChecked)
 {
@@ -1430,29 +1411,6 @@ void DlgProductSet::btn_setjiting_clicked()
 		}
 		ui->btn_setjiting->setText(value);
 		globalStructSetConfig.jitingIn = value.toDouble();
-		auto indicesDO = DOFindAllDuplicateIndices();
-		setDOErrorInfo(indicesDO);
-		auto indicesDI = DIFindAllDuplicateIndices();
-		setDIErrorInfo(indicesDI);
-	}
-}
-
-void DlgProductSet::btn_setbujindianjimaichong_clicked()
-{
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
-	NumberKeyboard numKeyBord;
-	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-	auto isAccept = numKeyBord.exec();
-	if (isAccept == QDialog::Accepted)
-	{
-		auto value = numKeyBord.getValue();
-		if (value.toDouble() < 0)
-		{
-			QMessageBox::warning(this, "提示", "请输入大于0的数值");
-			return;
-		}
-		ui->btn_setbujindianjimaichong->setText(value);
-		globalStructSetConfig.bujindianjimaichongOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1603,18 +1561,7 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 {
 	if (isDebugIO == false)
 	{
-		if (index == ControlLines::bujindianjimaichongOut) // 步进电机脉冲按钮
-		{
-			if (state)
-			{
-				ui->cbox_DObujindianjimaichong->setChecked(true);
-			}
-			else
-			{
-				ui->cbox_DObujindianjimaichong->setChecked(false);
-			}
-		}
-		else if (index == ControlLines::chongkongOUT) // 冲孔按钮
+		if (index == ControlLines::chongkongOUT) // 冲孔按钮
 		{
 			if (state)
 			{

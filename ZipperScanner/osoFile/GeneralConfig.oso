@@ -6,7 +6,6 @@ namespace cdm {
 	public:
 		produceLength : double :default = 0;
 		punchCount : int :default = 0;
-		productionYield : double :default = 0.0;
 		qiangGuang : bool :default = false;
 		zhongGuang : bool :default = false;
 		ruoGuang : bool :default = false;

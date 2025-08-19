@@ -21,7 +21,6 @@ namespace cdm {
     public:
         double produceLength{ 0 };
         int punchCount{ 0 };
-        double productionYield{ 0.0 };
         bool qiangGuang{ false };
         bool zhongGuang{ false };
         bool ruoGuang{ false };
@@ -51,11 +50,6 @@ namespace cdm {
             throw std::runtime_error("$variable$punchCount is not found");
         }
         punchCount = punchCountItem->getValueAsInt();
-        auto productionYieldItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$productionYield$"));
-        if (!productionYieldItem) {
-            throw std::runtime_error("$variable$productionYield is not found");
-        }
-        productionYield = productionYieldItem->getValueAsDouble();
         auto qiangGuangItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangGuang$"));
         if (!qiangGuangItem) {
             throw std::runtime_error("$variable$qiangGuang is not found");
@@ -112,7 +106,6 @@ namespace cdm {
     {
         produceLength = obj.produceLength;
         punchCount = obj.punchCount;
-        productionYield = obj.productionYield;
         qiangGuang = obj.qiangGuang;
         zhongGuang = obj.zhongGuang;
         ruoGuang = obj.ruoGuang;
@@ -130,7 +123,6 @@ namespace cdm {
         if (this != &obj) {
             produceLength = obj.produceLength;
             punchCount = obj.punchCount;
-            productionYield = obj.productionYield;
             qiangGuang = obj.qiangGuang;
             zhongGuang = obj.zhongGuang;
             ruoGuang = obj.ruoGuang;
@@ -157,10 +149,6 @@ namespace cdm {
         punchCountItem->setName("$variable$punchCount$");
         punchCountItem->setValueFromInt(punchCount);
         assembly.addItem(punchCountItem);
-        auto productionYieldItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        productionYieldItem->setName("$variable$productionYield$");
-        productionYieldItem->setValueFromDouble(productionYield);
-        assembly.addItem(productionYieldItem);
         auto qiangGuangItem = std::make_shared<rw::oso::ObjectStoreItem>();
         qiangGuangItem->setName("$variable$qiangGuang$");
         qiangGuangItem->setValueFromBool(qiangGuang);
@@ -206,7 +194,7 @@ namespace cdm {
 
     inline bool GeneralConfig::operator==(const GeneralConfig& obj) const
     {
-        return produceLength == obj.produceLength && punchCount == obj.punchCount && productionYield == obj.productionYield && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop;
+        return produceLength == obj.produceLength && punchCount == obj.punchCount && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop;
     }
 
     inline bool GeneralConfig::operator!=(const GeneralConfig& obj) const

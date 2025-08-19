@@ -12,6 +12,7 @@
 #include "PictureViewerThumbnails.h"
 #include "ImageEnlargedDisplay.h"
 #include"rqw_LabelClickable.h"
+#include <QSpinBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ZipperScannerClass; };
@@ -20,7 +21,14 @@ QT_END_NAMESPACE
 class ZipperScanner : public QMainWindow
 {
 	Q_OBJECT
-
+#ifdef BUILD_WITHOUT_HARDWARE
+private:
+	QCheckBox* _testIfPushImg;
+	QSpinBox* _pushImgTime;
+public slots:
+	void cbox_testIfPushImg_clicked(bool states);
+	void sBox_pushImgTime_valueChanged(int value);
+#endif
 public:
 	ZipperScanner(QWidget* parent = nullptr);
 	~ZipperScanner();

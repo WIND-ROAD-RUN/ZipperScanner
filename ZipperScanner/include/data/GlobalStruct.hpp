@@ -21,7 +21,6 @@
 
 class DetachDefectThreadZipper;
 
-// 状态机
 enum class RunningState
 {
 	Debug,
@@ -34,6 +33,24 @@ enum class LightLevel {
 	StrongLight,
 	MediumLight,
 	WeakLight
+};
+
+class GlobalThread
+	:public QObject
+{
+	Q_OBJECT
+public:
+	static GlobalThread& getInstance()
+	{
+		static GlobalThread instance;
+		return instance;
+	}
+
+	GlobalThread(const GlobalThread&) = delete;
+	GlobalThread& operator=(const GlobalThread&) = delete;
+private:
+	GlobalThread() = default;
+	~GlobalThread() = default;
 };
 
 class GlobalData

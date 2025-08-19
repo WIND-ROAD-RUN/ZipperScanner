@@ -12,7 +12,9 @@ endif()
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CMakeCahceIni.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/iniRW_UL.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ComplierIni.cmake)
 
 
 set(INSTALL_PATH ${CMAKE_SOURCE_DIR}/install/${CMAKE_BUILD_TYPE})

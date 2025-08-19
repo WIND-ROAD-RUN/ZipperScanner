@@ -98,12 +98,13 @@ void DlgProductSet::read_config()
 	ui->btn_shedingzhouchang->setText(QString::number(globalConfig.shedingzhouchang));
 
 	// 设置IO
-	ui->btn_setqidonganniu->setText(QString::number(globalConfig.qidonganniuIN));
-	ui->btn_setlalianlawan->setText(QString::number(globalConfig.lalianlawanIN));
-	ui->btn_setjiting->setText(QString::number(globalConfig.jitingIN));
-	ui->btn_setbujindianjimaichong->setText(QString::number(globalConfig.bujindianjimaichongOUT));
-	ui->btn_setchongkong->setText(QString::number(globalConfig.chongkongOUT));
-	ui->btn_settuoji->setText(QString::number(globalConfig.tuojiOUT));
+	ui->btn_setqidonganniu->setText(QString::number(globalConfig.qidonganniuIn));
+	ui->btn_setlalianlawan->setText(QString::number(globalConfig.lalianlawanIn));
+	ui->btn_setjiting->setText(QString::number(globalConfig.jitingIn));
+	ui->btn_setbujindianjimaichong->setText(QString::number(globalConfig.bujindianjimaichongOut));
+	ui->btn_setchongkong->setText(QString::number(globalConfig.chongkongOut));
+	ui->btn_settuoji->setText(QString::number(globalConfig.tuojiOut));
+	ui->btn_guanji->setText(QString::number(globalConfig.guanjiIn));
 
 	// 默认显示第一个
 	ui->tabWidget->setCurrentIndex(0);
@@ -123,13 +124,6 @@ void DlgProductSet::read_config()
 	ui->ckb_extra7->setChecked(globalConfig.isExtra7);
 	ui->ckb_extra8->setChecked(globalConfig.isExtra8);
 
-	ControlLines::qidonganniuIn = globalConfig.qidonganniuIN;
-	ControlLines::jitingIn = globalConfig.jitingIN;
-	ControlLines::lalianlawanIn = globalConfig.lalianlawanIN;
-	ControlLines::bujindianjimaichongOut = globalConfig.bujindianjimaichongOUT;
-	ControlLines::chongkongOUT = globalConfig.chongkongOUT;
-	ControlLines::tuojiOut = globalConfig.tuojiOUT;
-	//ControlLines::chufapaizhaoOUT = globalConfig;
 
 }
 
@@ -261,6 +255,8 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_setchongkong_clicked);
 	QObject::connect(ui->btn_settuoji, &QPushButton::clicked,
 		this, &DlgProductSet::btn_settuoji_clicked);
+	QObject::connect(ui->btn_guanji,&QPushButton::clicked,
+		this, &DlgProductSet::btn_guanji_clicked);
 
 
 	// 连接监控IO信号
@@ -300,9 +296,9 @@ std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
 {
 	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
 	std::vector<int> values = {
-		setConfig.bujindianjimaichongOUT,
-		setConfig.chongkongOUT,
-		setConfig.tuojiOUT
+		setConfig.bujindianjimaichongOut,
+		setConfig.chongkongOut,
+		setConfig.tuojiOut
 	};
 
 	std::unordered_map<int, std::vector<int>> valueToIndices;
@@ -336,6 +332,7 @@ void DlgProductSet::setDIErrorInfo(const std::vector<std::vector<int>>& index)
 	ui->lb_qidonganniu->clear();
 	ui->lb_lalianlawan->clear();
 	ui->lb_jiting->clear();
+	ui->lb_guanji->clear();
 
 	for (const auto& classic : index)
 	{
@@ -359,6 +356,9 @@ void DlgProductSet::setDIErrorInfo(int index)
 		break;
 	case 2:
 		ui->lb_jiting->setText(text);
+		break;
+	case 3:
+		ui->lb_guanji->setText(text);
 		break;
 	}
 }
@@ -418,9 +418,10 @@ std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 {
 	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
 	std::vector<int> values = {
-		setConfig.qidonganniuIN,
-		setConfig.lalianlawanIN,
-		setConfig.jitingIN
+		setConfig.qidonganniuIn,
+		setConfig.lalianlawanIn,
+		setConfig.jitingIn,
+		setConfig.guanjiIn
 	};
 
 	std::unordered_map<int, std::vector<int>> valueToIndices;
@@ -1382,7 +1383,7 @@ void DlgProductSet::btn_setqidonganniu_clicked()
 			return;
 		}
 		ui->btn_setqidonganniu->setText(value);
-		globalStructSetConfig.qidonganniuIN = value.toDouble();
+		globalStructSetConfig.qidonganniuIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1405,7 +1406,7 @@ void DlgProductSet::btn_setlalianlawan_clicked()
 			return;
 		}
 		ui->btn_setlalianlawan->setText(value);
-		globalStructSetConfig.lalianlawanIN = value.toDouble();
+		globalStructSetConfig.lalianlawanIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1428,7 +1429,7 @@ void DlgProductSet::btn_setjiting_clicked()
 			return;
 		}
 		ui->btn_setjiting->setText(value);
-		globalStructSetConfig.jitingIN = value.toDouble();
+		globalStructSetConfig.jitingIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1451,7 +1452,7 @@ void DlgProductSet::btn_setbujindianjimaichong_clicked()
 			return;
 		}
 		ui->btn_setbujindianjimaichong->setText(value);
-		globalStructSetConfig.bujindianjimaichongOUT = value.toDouble();
+		globalStructSetConfig.bujindianjimaichongOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1474,7 +1475,7 @@ void DlgProductSet::btn_setchongkong_clicked()
 			return;
 		}
 		ui->btn_setchongkong->setText(value);
-		globalStructSetConfig.chongkongOUT = value.toDouble();
+		globalStructSetConfig.chongkongOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1497,7 +1498,30 @@ void DlgProductSet::btn_settuoji_clicked()
 			return;
 		}
 		ui->btn_settuoji->setText(value);
-		globalStructSetConfig.tuojiOUT = value.toDouble();
+		globalStructSetConfig.tuojiOut = value.toDouble();
+		auto indicesDO = DOFindAllDuplicateIndices();
+		setDOErrorInfo(indicesDO);
+		auto indicesDI = DIFindAllDuplicateIndices();
+		setDIErrorInfo(indicesDI);
+	}
+}
+
+void DlgProductSet::btn_guanji_clicked()
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toInt() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		ui->btn_guanji->setText(value);
+		globalStructSetConfig.guanjiIn = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();

@@ -108,6 +108,7 @@ private slots:
 	void btn_setbujindianjimaichong_clicked();
 	void btn_setchongkong_clicked();
 	void btn_settuoji_clicked();
+	void btn_guanji_clicked();
 
 	void tabWidget_indexChanged(int index);
 

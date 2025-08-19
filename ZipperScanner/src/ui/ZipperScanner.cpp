@@ -464,6 +464,14 @@ void ZipperScanner::read_config()
 	read_config_ScoreConfig();
 	read_config_SetConfig();
 
+	auto& setCfg = globalStruct.setConfig;
+	ControlLines::qidonganniuIn = setCfg.qidonganniuIn;
+	ControlLines::jitingIn = setCfg.jitingIn;
+	ControlLines::lalianlawanIn = setCfg.lalianlawanIn;
+	ControlLines::guanjiIn = setCfg.guanjiIn;
+	ControlLines::bujindianjimaichongOut = setCfg.bujindianjimaichongOut;
+	ControlLines::chongkongOUT = setCfg.chongkongOut;
+	ControlLines::tuojiOut = setCfg.tuojiOut;
 }
 
 // 读取通用配置

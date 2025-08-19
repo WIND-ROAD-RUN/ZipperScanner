@@ -27,6 +27,7 @@ public:
 	static size_t qidonganniuIn ;
 	static size_t jitingIn ;
 	static size_t lalianlawanIn ;
+	static size_t guanjiIn;
 public:
 	static size_t bujindianjimaichongOut ;
 	static size_t chongkongOUT ;

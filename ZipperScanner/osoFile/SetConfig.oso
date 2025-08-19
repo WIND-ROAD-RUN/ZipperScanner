@@ -55,12 +55,13 @@ namespace cdm {
 		yanshiziqi : double :default = 0;
 		jiajiansushijian : double :default = 0;
 
-		qidonganniuIN : int :default = 0;
-		lalianlawanIN : int :default = 0;
-		jitingIN : int :default = 0;
-		bujindianjimaichongOUT : int :default = 0;
-		chongkongOUT : int :default = 0;
-		tuojiOUT : int :default = 0;
+		qidonganniuIn : int :default = 0;
+		lalianlawanIn : int :default = 0;
+		jitingIn : int :default = 0;
+		guanjiIn : int :default = 0;
+		bujindianjimaichongOut : int :default = 0;
+		chongkongOut : int :default = 0;
+		tuojiOut : int :default = 0;
 
 		isQueya : bool :default = false;
 		isTangshang : bool :default = false;

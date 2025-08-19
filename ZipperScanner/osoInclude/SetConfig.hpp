@@ -58,12 +58,13 @@ namespace cdm {
         double chongkongshijian{ 0 };
         double yanshiziqi{ 0 };
         double jiajiansushijian{ 0 };
-        int qidonganniuIN{ 0 };
-        int lalianlawanIN{ 0 };
-        int jitingIN{ 0 };
-        int bujindianjimaichongOUT{ 0 };
-        int chongkongOUT{ 0 };
-        int tuojiOUT{ 0 };
+        int qidonganniuIn{ 0 };
+        int lalianlawanIn{ 0 };
+        int jitingIn{ 0 };
+        int guanjiIn{ 0 };
+        int bujindianjimaichongOut{ 0 };
+        int chongkongOut{ 0 };
+        int tuojiOut{ 0 };
         bool isQueya{ false };
         bool isTangshang{ false };
         bool isZangwu{ false };
@@ -280,36 +281,41 @@ namespace cdm {
             throw std::runtime_error("$variable$jiajiansushijian is not found");
         }
         jiajiansushijian = jiajiansushijianItem->getValueAsDouble();
-        auto qidonganniuINItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qidonganniuIN$"));
-        if (!qidonganniuINItem) {
-            throw std::runtime_error("$variable$qidonganniuIN is not found");
+        auto qidonganniuInItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qidonganniuIn$"));
+        if (!qidonganniuInItem) {
+            throw std::runtime_error("$variable$qidonganniuIn is not found");
         }
-        qidonganniuIN = qidonganniuINItem->getValueAsInt();
-        auto lalianlawanINItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$lalianlawanIN$"));
-        if (!lalianlawanINItem) {
-            throw std::runtime_error("$variable$lalianlawanIN is not found");
+        qidonganniuIn = qidonganniuInItem->getValueAsInt();
+        auto lalianlawanInItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$lalianlawanIn$"));
+        if (!lalianlawanInItem) {
+            throw std::runtime_error("$variable$lalianlawanIn is not found");
         }
-        lalianlawanIN = lalianlawanINItem->getValueAsInt();
-        auto jitingINItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$jitingIN$"));
-        if (!jitingINItem) {
-            throw std::runtime_error("$variable$jitingIN is not found");
+        lalianlawanIn = lalianlawanInItem->getValueAsInt();
+        auto jitingInItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$jitingIn$"));
+        if (!jitingInItem) {
+            throw std::runtime_error("$variable$jitingIn is not found");
         }
-        jitingIN = jitingINItem->getValueAsInt();
-        auto bujindianjimaichongOUTItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$bujindianjimaichongOUT$"));
-        if (!bujindianjimaichongOUTItem) {
-            throw std::runtime_error("$variable$bujindianjimaichongOUT is not found");
+        jitingIn = jitingInItem->getValueAsInt();
+        auto guanjiInItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$guanjiIn$"));
+        if (!guanjiInItem) {
+            throw std::runtime_error("$variable$guanjiIn is not found");
         }
-        bujindianjimaichongOUT = bujindianjimaichongOUTItem->getValueAsInt();
-        auto chongkongOUTItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$chongkongOUT$"));
-        if (!chongkongOUTItem) {
-            throw std::runtime_error("$variable$chongkongOUT is not found");
+        guanjiIn = guanjiInItem->getValueAsInt();
+        auto bujindianjimaichongOutItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$bujindianjimaichongOut$"));
+        if (!bujindianjimaichongOutItem) {
+            throw std::runtime_error("$variable$bujindianjimaichongOut is not found");
         }
-        chongkongOUT = chongkongOUTItem->getValueAsInt();
-        auto tuojiOUTItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$tuojiOUT$"));
-        if (!tuojiOUTItem) {
-            throw std::runtime_error("$variable$tuojiOUT is not found");
+        bujindianjimaichongOut = bujindianjimaichongOutItem->getValueAsInt();
+        auto chongkongOutItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$chongkongOut$"));
+        if (!chongkongOutItem) {
+            throw std::runtime_error("$variable$chongkongOut is not found");
         }
-        tuojiOUT = tuojiOUTItem->getValueAsInt();
+        chongkongOut = chongkongOutItem->getValueAsInt();
+        auto tuojiOutItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$tuojiOut$"));
+        if (!tuojiOutItem) {
+            throw std::runtime_error("$variable$tuojiOut is not found");
+        }
+        tuojiOut = tuojiOutItem->getValueAsInt();
         auto isQueyaItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$isQueya$"));
         if (!isQueyaItem) {
             throw std::runtime_error("$variable$isQueya is not found");
@@ -413,12 +419,13 @@ namespace cdm {
         chongkongshijian = obj.chongkongshijian;
         yanshiziqi = obj.yanshiziqi;
         jiajiansushijian = obj.jiajiansushijian;
-        qidonganniuIN = obj.qidonganniuIN;
-        lalianlawanIN = obj.lalianlawanIN;
-        jitingIN = obj.jitingIN;
-        bujindianjimaichongOUT = obj.bujindianjimaichongOUT;
-        chongkongOUT = obj.chongkongOUT;
-        tuojiOUT = obj.tuojiOUT;
+        qidonganniuIn = obj.qidonganniuIn;
+        lalianlawanIn = obj.lalianlawanIn;
+        jitingIn = obj.jitingIn;
+        guanjiIn = obj.guanjiIn;
+        bujindianjimaichongOut = obj.bujindianjimaichongOut;
+        chongkongOut = obj.chongkongOut;
+        tuojiOut = obj.tuojiOut;
         isQueya = obj.isQueya;
         isTangshang = obj.isTangshang;
         isZangwu = obj.isZangwu;
@@ -475,12 +482,13 @@ namespace cdm {
             chongkongshijian = obj.chongkongshijian;
             yanshiziqi = obj.yanshiziqi;
             jiajiansushijian = obj.jiajiansushijian;
-            qidonganniuIN = obj.qidonganniuIN;
-            lalianlawanIN = obj.lalianlawanIN;
-            jitingIN = obj.jitingIN;
-            bujindianjimaichongOUT = obj.bujindianjimaichongOUT;
-            chongkongOUT = obj.chongkongOUT;
-            tuojiOUT = obj.tuojiOUT;
+            qidonganniuIn = obj.qidonganniuIn;
+            lalianlawanIn = obj.lalianlawanIn;
+            jitingIn = obj.jitingIn;
+            guanjiIn = obj.guanjiIn;
+            bujindianjimaichongOut = obj.bujindianjimaichongOut;
+            chongkongOut = obj.chongkongOut;
+            tuojiOut = obj.tuojiOut;
             isQueya = obj.isQueya;
             isTangshang = obj.isTangshang;
             isZangwu = obj.isZangwu;
@@ -657,30 +665,34 @@ namespace cdm {
         jiajiansushijianItem->setName("$variable$jiajiansushijian$");
         jiajiansushijianItem->setValueFromDouble(jiajiansushijian);
         assembly.addItem(jiajiansushijianItem);
-        auto qidonganniuINItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        qidonganniuINItem->setName("$variable$qidonganniuIN$");
-        qidonganniuINItem->setValueFromInt(qidonganniuIN);
-        assembly.addItem(qidonganniuINItem);
-        auto lalianlawanINItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        lalianlawanINItem->setName("$variable$lalianlawanIN$");
-        lalianlawanINItem->setValueFromInt(lalianlawanIN);
-        assembly.addItem(lalianlawanINItem);
-        auto jitingINItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        jitingINItem->setName("$variable$jitingIN$");
-        jitingINItem->setValueFromInt(jitingIN);
-        assembly.addItem(jitingINItem);
-        auto bujindianjimaichongOUTItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        bujindianjimaichongOUTItem->setName("$variable$bujindianjimaichongOUT$");
-        bujindianjimaichongOUTItem->setValueFromInt(bujindianjimaichongOUT);
-        assembly.addItem(bujindianjimaichongOUTItem);
-        auto chongkongOUTItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        chongkongOUTItem->setName("$variable$chongkongOUT$");
-        chongkongOUTItem->setValueFromInt(chongkongOUT);
-        assembly.addItem(chongkongOUTItem);
-        auto tuojiOUTItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        tuojiOUTItem->setName("$variable$tuojiOUT$");
-        tuojiOUTItem->setValueFromInt(tuojiOUT);
-        assembly.addItem(tuojiOUTItem);
+        auto qidonganniuInItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        qidonganniuInItem->setName("$variable$qidonganniuIn$");
+        qidonganniuInItem->setValueFromInt(qidonganniuIn);
+        assembly.addItem(qidonganniuInItem);
+        auto lalianlawanInItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        lalianlawanInItem->setName("$variable$lalianlawanIn$");
+        lalianlawanInItem->setValueFromInt(lalianlawanIn);
+        assembly.addItem(lalianlawanInItem);
+        auto jitingInItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        jitingInItem->setName("$variable$jitingIn$");
+        jitingInItem->setValueFromInt(jitingIn);
+        assembly.addItem(jitingInItem);
+        auto guanjiInItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        guanjiInItem->setName("$variable$guanjiIn$");
+        guanjiInItem->setValueFromInt(guanjiIn);
+        assembly.addItem(guanjiInItem);
+        auto bujindianjimaichongOutItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        bujindianjimaichongOutItem->setName("$variable$bujindianjimaichongOut$");
+        bujindianjimaichongOutItem->setValueFromInt(bujindianjimaichongOut);
+        assembly.addItem(bujindianjimaichongOutItem);
+        auto chongkongOutItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        chongkongOutItem->setName("$variable$chongkongOut$");
+        chongkongOutItem->setValueFromInt(chongkongOut);
+        assembly.addItem(chongkongOutItem);
+        auto tuojiOutItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        tuojiOutItem->setName("$variable$tuojiOut$");
+        tuojiOutItem->setValueFromInt(tuojiOut);
+        assembly.addItem(tuojiOutItem);
         auto isQueyaItem = std::make_shared<rw::oso::ObjectStoreItem>();
         isQueyaItem->setName("$variable$isQueya$");
         isQueyaItem->setValueFromBool(isQueya);
@@ -734,7 +746,7 @@ namespace cdm {
 
     inline bool SetConfig::operator==(const SetConfig& obj) const
     {
-        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIN == obj.qidonganniuIN && lalianlawanIN == obj.lalianlawanIN && jitingIN == obj.jitingIN && bujindianjimaichongOUT == obj.bujindianjimaichongOUT && chongkongOUT == obj.chongkongOUT && tuojiOUT == obj.tuojiOUT && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8;
+        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && bujindianjimaichongOut == obj.bujindianjimaichongOut && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8;
     }
 
     inline bool SetConfig::operator!=(const SetConfig& obj) const

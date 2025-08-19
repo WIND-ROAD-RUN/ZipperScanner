@@ -92,6 +92,7 @@ private slots:
 	void rbtn_start_clicked(bool checked);
 	void rbtn_stop_clicked(bool checked);
 	void pbtn_IOTrigger_clicked();
+	void btn_shedingladaichangdu_clicked();
 
 	void lb_title_clicked();
 signals:

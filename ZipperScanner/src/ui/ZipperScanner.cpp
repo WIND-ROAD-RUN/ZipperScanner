@@ -215,6 +215,10 @@ void ZipperScanner::build_connect()
 	// 连接显示标题
 	QObject::connect(clickableTitle, &rw::rqw::ClickableLabel::clicked,
 		this, &ZipperScanner::lb_title_clicked);
+
+	// 连接设置拉带长度按钮
+	QObject::connect(ui->btn_shedingladaichangdu, &QPushButton::clicked,
+		this, &ZipperScanner::btn_shedingladaichangdu_clicked);
 }
 
 // 构建相机
@@ -307,6 +311,7 @@ void ZipperScanner::build_ZipperScannerData()
 	ui->rbtn_strongLight->setChecked(zipperScannerConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(zipperScannerConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(zipperScannerConfig.ruoGuang);
+	ui->btn_shedingladaichangdu->setText(QString::number(zipperScannerConfig.shedingladaichangdu));
 
 	// 去掉标题栏
 	this->setWindowFlags(Qt::FramelessWindowHint);
@@ -890,6 +895,30 @@ void ZipperScanner::pbtn_IOTrigger_clicked()
 	QPoint center = this->geometry().center() - QPoint(_dlgIOTrigger->width() / 2, _dlgIOTrigger->height() / 2);
 	_dlgIOTrigger->move(center);
 	_dlgIOTrigger->exec();
+}
+
+void ZipperScanner::btn_shedingladaichangdu_clicked()
+{
+	auto& globalStruct = GlobalData::getInstance();
+	auto& generalConfig = globalStruct.generalConfig;
+	// 弹出数字键盘对话框
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		bool ok;
+		double value = numKeyBord.getValue().toDouble(&ok);
+		if (ok && value > 0)
+		{
+			generalConfig.shedingladaichangdu = value;
+			ui->btn_shedingladaichangdu->setText(QString::number(value));
+		}
+		else
+		{
+			QMessageBox::warning(this, "Error", "请输入大于0的数值");
+		}
+	}
 }
 
 void ZipperScanner::lb_title_clicked()

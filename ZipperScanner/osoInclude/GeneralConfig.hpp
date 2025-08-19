@@ -31,6 +31,7 @@ namespace cdm {
         bool iswenzi{ true };
         bool isStart{ false };
         bool isStop{ false };
+        double shedingladaichangdu{ 0 };
     };
 
     inline GeneralConfig::GeneralConfig(const rw::oso::ObjectStoreAssembly& assembly)
@@ -100,6 +101,11 @@ namespace cdm {
             throw std::runtime_error("$variable$isStop is not found");
         }
         isStop = isStopItem->getValueAsBool();
+        auto shedingladaichangduItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$shedingladaichangdu$"));
+        if (!shedingladaichangduItem) {
+            throw std::runtime_error("$variable$shedingladaichangdu is not found");
+        }
+        shedingladaichangdu = shedingladaichangduItem->getValueAsDouble();
     }
 
     inline GeneralConfig::GeneralConfig(const GeneralConfig& obj)
@@ -116,6 +122,7 @@ namespace cdm {
         iswenzi = obj.iswenzi;
         isStart = obj.isStart;
         isStop = obj.isStop;
+        shedingladaichangdu = obj.shedingladaichangdu;
     }
 
     inline GeneralConfig& GeneralConfig::operator=(const GeneralConfig& obj)
@@ -133,6 +140,7 @@ namespace cdm {
             iswenzi = obj.iswenzi;
             isStart = obj.isStart;
             isStop = obj.isStop;
+            shedingladaichangdu = obj.shedingladaichangdu;
         }
         return *this;
     }
@@ -189,12 +197,16 @@ namespace cdm {
         isStopItem->setName("$variable$isStop$");
         isStopItem->setValueFromBool(isStop);
         assembly.addItem(isStopItem);
+        auto shedingladaichangduItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        shedingladaichangduItem->setName("$variable$shedingladaichangdu$");
+        shedingladaichangduItem->setValueFromDouble(shedingladaichangdu);
+        assembly.addItem(shedingladaichangduItem);
         return assembly;
     }
 
     inline bool GeneralConfig::operator==(const GeneralConfig& obj) const
     {
-        return produceLength == obj.produceLength && punchCount == obj.punchCount && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop;
+        return produceLength == obj.produceLength && punchCount == obj.punchCount && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop && shedingladaichangdu == obj.shedingladaichangdu;
     }
 
     inline bool GeneralConfig::operator!=(const GeneralConfig& obj) const

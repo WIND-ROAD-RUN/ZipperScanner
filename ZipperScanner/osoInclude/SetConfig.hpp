@@ -46,7 +46,6 @@ namespace cdm {
         bool qiyongerxiangji{ false };
         bool qiyongyundongkongzhiqi{ false };
         bool yundongkongzhiqichonglian{ false };
-        double shedingladaichangdu{ 0 };
         double chongkongjishu{ 0 };
         double dangqianchangdu{ 0 };
         double xiangjichufachangdu{ 0 };
@@ -226,11 +225,6 @@ namespace cdm {
             throw std::runtime_error("$variable$yundongkongzhiqichonglian is not found");
         }
         yundongkongzhiqichonglian = yundongkongzhiqichonglianItem->getValueAsBool();
-        auto shedingladaichangduItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$shedingladaichangdu$"));
-        if (!shedingladaichangduItem) {
-            throw std::runtime_error("$variable$shedingladaichangdu is not found");
-        }
-        shedingladaichangdu = shedingladaichangduItem->getValueAsDouble();
         auto chongkongjishuItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$chongkongjishu$"));
         if (!chongkongjishuItem) {
             throw std::runtime_error("$variable$chongkongjishu is not found");
@@ -437,7 +431,6 @@ namespace cdm {
         qiyongerxiangji = obj.qiyongerxiangji;
         qiyongyundongkongzhiqi = obj.qiyongyundongkongzhiqi;
         yundongkongzhiqichonglian = obj.yundongkongzhiqichonglian;
-        shedingladaichangdu = obj.shedingladaichangdu;
         chongkongjishu = obj.chongkongjishu;
         dangqianchangdu = obj.dangqianchangdu;
         xiangjichufachangdu = obj.xiangjichufachangdu;
@@ -505,7 +498,6 @@ namespace cdm {
             qiyongerxiangji = obj.qiyongerxiangji;
             qiyongyundongkongzhiqi = obj.qiyongyundongkongzhiqi;
             yundongkongzhiqichonglian = obj.yundongkongzhiqichonglian;
-            shedingladaichangdu = obj.shedingladaichangdu;
             chongkongjishu = obj.chongkongjishu;
             dangqianchangdu = obj.dangqianchangdu;
             xiangjichufachangdu = obj.xiangjichufachangdu;
@@ -657,10 +649,6 @@ namespace cdm {
         yundongkongzhiqichonglianItem->setName("$variable$yundongkongzhiqichonglian$");
         yundongkongzhiqichonglianItem->setValueFromBool(yundongkongzhiqichonglian);
         assembly.addItem(yundongkongzhiqichonglianItem);
-        auto shedingladaichangduItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        shedingladaichangduItem->setName("$variable$shedingladaichangdu$");
-        shedingladaichangduItem->setValueFromDouble(shedingladaichangdu);
-        assembly.addItem(shedingladaichangduItem);
         auto chongkongjishuItem = std::make_shared<rw::oso::ObjectStoreItem>();
         chongkongjishuItem->setName("$variable$chongkongjishu$");
         chongkongjishuItem->setValueFromDouble(chongkongjishu);
@@ -806,7 +794,7 @@ namespace cdm {
 
     inline bool SetConfig::operator==(const SetConfig& obj) const
     {
-        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8 && imgIsSaveJpeg == obj.imgIsSaveJpeg && imgIsSaveBmp == obj.imgIsSaveBmp && imgIsSavePng == obj.imgIsSavePng && imgSaveQuality == obj.imgSaveQuality && imgRotateCount1 == obj.imgRotateCount1 && imgRotateCount2 == obj.imgRotateCount2;
+        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8 && imgIsSaveJpeg == obj.imgIsSaveJpeg && imgIsSaveBmp == obj.imgIsSaveBmp && imgIsSavePng == obj.imgIsSavePng && imgSaveQuality == obj.imgSaveQuality && imgRotateCount1 == obj.imgRotateCount1 && imgRotateCount2 == obj.imgRotateCount2;
     }
 
     inline bool SetConfig::operator!=(const SetConfig& obj) const

@@ -77,7 +77,6 @@ private slots:
 	void cbox_yundongkongzhiqichonglian_checked();
 
 	// 基本参数
-	void btn_shedingladaichangdu_clicked();
 	void btn_xiangjichufachangdu_clicked();
 	void btn_shoudongladai_pressed();
 	void btn_shoudongladai_released();

@@ -42,7 +42,6 @@ namespace cdm {
 		qiyongyundongkongzhiqi : bool :default = false;
 		yundongkongzhiqichonglian : bool :default = false;
 
-		shedingladaichangdu : double :default = 0;
 		chongkongjishu : double :default = 0;
 		dangqianchangdu : double :default = 0;
 		xiangjichufachangdu : double :default = 0;

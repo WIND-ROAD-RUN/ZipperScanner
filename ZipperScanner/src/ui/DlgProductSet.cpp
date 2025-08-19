@@ -98,7 +98,6 @@ void DlgProductSet::read_config()
 	ui->cbox_yundongkongzhiqichonglian->setChecked(globalConfig.yundongkongzhiqichonglian);
 
 	// 基本参数
-	ui->btn_shedingladaichangdu->setText(QString::number(globalConfig.shedingladaichangdu));
 	ui->btn_xiangjichufachangdu->setText(QString::number(globalConfig.xiangjichufachangdu));
 	ui->btn_yanshichongkong->setText(QString::number(globalConfig.yanshichongkong));
 	ui->btn_chongkongshijian->setText(QString::number(globalConfig.chongkongshijian));
@@ -199,8 +198,6 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::cbox_yundongkongzhiqichonglian_checked);
 
 	// 基本参数
-	QObject::connect(ui->btn_shedingladaichangdu, &QPushButton::clicked,
-		this, &DlgProductSet::btn_shedingladaichangdu_clicked);
 	QObject::connect(ui->btn_xiangjichufachangdu, &QPushButton::clicked,
 		this, &DlgProductSet::btn_xiangjichufachangdu_clicked);
 	QObject::connect(ui->btn_shoudongladai, &QPushButton::pressed,
@@ -1059,26 +1056,6 @@ void DlgProductSet::cbox_yundongkongzhiqichonglian_checked()
 {
 	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.yundongkongzhiqichonglian = ui->cbox_yundongkongzhiqichonglian->isChecked();
-}
-
-void DlgProductSet::btn_shedingladaichangdu_clicked()
-{
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
-	NumberKeyboard numKeyBord;
-	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-	auto isAccept = numKeyBord.exec();
-	if (isAccept == QDialog::Accepted)
-	{
-		auto value = numKeyBord.getValue();
-		if (value.toDouble() < 0)
-		{
-			QMessageBox::warning(this, "提示", "请输入大于0的数值");
-			return;
-		}
-		ui->btn_shedingladaichangdu->setText(value);
-		globalStructSetConfig.shedingladaichangdu = value.toDouble();
-	}
 }
 
 void DlgProductSet::btn_xiangjichufachangdu_clicked()

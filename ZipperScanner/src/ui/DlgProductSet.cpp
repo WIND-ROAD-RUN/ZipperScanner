@@ -38,9 +38,7 @@ void DlgProductSet::read_config()
 	auto& globalConfig = GlobalStructDataZipper::getInstance().setConfig;
 
 	// 剔废时间
-	ui->pbtn_tifeichixushijian1->setText(QString::number(globalConfig.tiFeiChiXuShiJian1));
 	ui->pbtn_tifeijuli1->setText(QString::number(globalConfig.tifeijuli1));
-	ui->pbtn_tifeichixushijian2->setText(QString::number(globalConfig.tiFeiChiXuShiJian2));
 	ui->pbtn_tifeijuli2->setText(QString::number(globalConfig.tifeijuli2));
 
 	// 采图
@@ -139,12 +137,8 @@ void DlgProductSet::build_connect()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 
-	QObject::connect(ui->pbtn_tifeichixushijian1, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_tifeichixushijian1_clicked);
 	QObject::connect(ui->pbtn_tifeijuli1, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_yanchitifeishijian1_clicked);
-	QObject::connect(ui->pbtn_tifeichixushijian2, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_tifeichixushijian2_clicked);
 	QObject::connect(ui->pbtn_tifeijuli2, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_yanchitifeishijian2_clicked);
 	QObject::connect(ui->pbtn_shangxianwei1, &QPushButton::clicked,
@@ -471,25 +465,6 @@ void DlgProductSet::pbtn_close_clicked()
 }
 
 
-void DlgProductSet::pbtn_tifeichixushijian1_clicked()
-{
-	NumberKeyboard numKeyBord;
-	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-	auto isAccept = numKeyBord.exec();
-	if (isAccept == QDialog::Accepted)
-	{
-		auto value = numKeyBord.getValue();
-		if (value.toDouble() < 0)
-		{
-			QMessageBox::warning(this, "提示", "请输入大于0的数值");
-			return;
-		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
-		ui->pbtn_tifeichixushijian1->setText(value);
-		globalStructSetConfig.tiFeiChiXuShiJian1 = value.toDouble();
-	}
-}
-
 void DlgProductSet::pbtn_yanchitifeishijian1_clicked()
 {
 	NumberKeyboard numKeyBord;
@@ -506,25 +481,6 @@ void DlgProductSet::pbtn_yanchitifeishijian1_clicked()
 		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
 		ui->pbtn_tifeijuli1->setText(value);
 		globalStructSetConfig.tifeijuli1 = value.toDouble();
-	}
-}
-
-void DlgProductSet::pbtn_tifeichixushijian2_clicked()
-{
-	NumberKeyboard numKeyBord;
-	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-	auto isAccept = numKeyBord.exec();
-	if (isAccept == QDialog::Accepted)
-	{
-		auto value = numKeyBord.getValue();
-		if (value.toDouble() < 0)
-		{
-			QMessageBox::warning(this, "提示", "请输入大于0的数值");
-			return;
-		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
-		ui->pbtn_tifeichixushijian2->setText(value);
-		globalStructSetConfig.tiFeiChiXuShiJian2 = value.toDouble();
 	}
 }
 

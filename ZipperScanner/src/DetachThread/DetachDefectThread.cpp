@@ -58,7 +58,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 		auto isshoudongsudu = globalStruct.zmotion.setAxisRunSpeed(0,globalStruct.setConfig.shoudongsudu);
 		
 
-		auto tifeichixushijian1 = setConfig.tiFeiChiXuShiJian1;
+		auto tifeichixushijian1 = setConfig.chongkongshijian;
 		if (nowLocation - minlocation > 0)
 		{
 			std::cout << "|---------BEGIN----------|" << std::endl;

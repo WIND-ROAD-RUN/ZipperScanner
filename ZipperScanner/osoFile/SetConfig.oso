@@ -4,10 +4,8 @@ namespace cdm {
 	class SetConfig
 	{
 	public:
-		tiFeiChiXuShiJian1 : double :default = 0;
 		tifeijuli1 : double :default = 0;
 
-		tiFeiChiXuShiJian2 : double :default = 0;
 		tifeijuli2 : double :default = 0;
 
 		shangXianWei1 : double :default = 0;

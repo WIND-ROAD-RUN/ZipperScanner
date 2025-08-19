@@ -126,9 +126,6 @@ void GlobalStructDataZipper::rebuild_Camera1()
 
 	auto cameraMetaData1 = cameraMetaDataCheck(cameraIp1, cameraList);
 
-	// 剔废持续时间
-	long DurationTime = setConfig.tiFeiChiXuShiJian1 * 1000;
-
 	if (cameraMetaData1.ip != "0")
 	{
 		try
@@ -172,9 +169,6 @@ void GlobalStructDataZipper::rebuild_Camera2()
 	auto cameraList = rw::rqw::CheckCameraList();
 
 	auto cameraMetaData2 = cameraMetaDataCheck(cameraIp2, cameraList);
-
-	// 剔废持续时间
-	long DurationTime = setConfig.tiFeiChiXuShiJian2 * 1000;
 
 	if (cameraMetaData2.ip != "0")
 	{
@@ -387,9 +381,6 @@ bool GlobalStructDataZipper::buildCamera1()
 
 	auto cameraMetaData1 = cameraMetaDataCheck(cameraIp1, cameraList);
 
-	// 剔废持续时间
-	long DurationTime = setConfig.tiFeiChiXuShiJian1 * 1000;
-
 	if (cameraMetaData1.ip != "0")
 	{
 		try
@@ -439,9 +430,6 @@ bool GlobalStructDataZipper::buildCamera2()
 	auto cameraList = rw::rqw::CheckCameraList();
 
 	auto cameraMetaData2 = cameraMetaDataCheck(cameraIp2, cameraList);
-
-	// 剔废持续时间
-	long DurationTime = setConfig.tiFeiChiXuShiJian2 * 1000;
 
 	if (cameraMetaData2.ip != "0")
 	{

@@ -19,9 +19,7 @@ namespace cdm {
         bool operator!=(const SetConfig& obj) const;
 
     public:
-        double tiFeiChiXuShiJian1{ 0 };
         double tifeijuli1{ 0 };
-        double tiFeiChiXuShiJian2{ 0 };
         double tifeijuli2{ 0 };
         double shangXianWei1{ 0 };
         double xiaXianWei1{ 0 };
@@ -87,21 +85,11 @@ namespace cdm {
         {
             throw std::runtime_error("Assembly is not $class$SetConfig$");
         }
-        auto tiFeiChiXuShiJian1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$tiFeiChiXuShiJian1$"));
-        if (!tiFeiChiXuShiJian1Item) {
-            throw std::runtime_error("$variable$tiFeiChiXuShiJian1 is not found");
-        }
-        tiFeiChiXuShiJian1 = tiFeiChiXuShiJian1Item->getValueAsDouble();
         auto tifeijuli1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$tifeijuli1$"));
         if (!tifeijuli1Item) {
             throw std::runtime_error("$variable$tifeijuli1 is not found");
         }
         tifeijuli1 = tifeijuli1Item->getValueAsDouble();
-        auto tiFeiChiXuShiJian2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$tiFeiChiXuShiJian2$"));
-        if (!tiFeiChiXuShiJian2Item) {
-            throw std::runtime_error("$variable$tiFeiChiXuShiJian2 is not found");
-        }
-        tiFeiChiXuShiJian2 = tiFeiChiXuShiJian2Item->getValueAsDouble();
         auto tifeijuli2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$tifeijuli2$"));
         if (!tifeijuli2Item) {
             throw std::runtime_error("$variable$tifeijuli2 is not found");
@@ -386,9 +374,7 @@ namespace cdm {
 
     inline SetConfig::SetConfig(const SetConfig& obj)
     {
-        tiFeiChiXuShiJian1 = obj.tiFeiChiXuShiJian1;
         tifeijuli1 = obj.tifeijuli1;
-        tiFeiChiXuShiJian2 = obj.tiFeiChiXuShiJian2;
         tifeijuli2 = obj.tifeijuli2;
         shangXianWei1 = obj.shangXianWei1;
         xiaXianWei1 = obj.xiaXianWei1;
@@ -450,9 +436,7 @@ namespace cdm {
     inline SetConfig& SetConfig::operator=(const SetConfig& obj)
     {
         if (this != &obj) {
-            tiFeiChiXuShiJian1 = obj.tiFeiChiXuShiJian1;
             tifeijuli1 = obj.tifeijuli1;
-            tiFeiChiXuShiJian2 = obj.tiFeiChiXuShiJian2;
             tifeijuli2 = obj.tifeijuli2;
             shangXianWei1 = obj.shangXianWei1;
             xiaXianWei1 = obj.xiaXianWei1;
@@ -517,18 +501,10 @@ namespace cdm {
     {
         rw::oso::ObjectStoreAssembly assembly;
         assembly.setName("$class$SetConfig$");
-        auto tiFeiChiXuShiJian1Item = std::make_shared<rw::oso::ObjectStoreItem>();
-        tiFeiChiXuShiJian1Item->setName("$variable$tiFeiChiXuShiJian1$");
-        tiFeiChiXuShiJian1Item->setValueFromDouble(tiFeiChiXuShiJian1);
-        assembly.addItem(tiFeiChiXuShiJian1Item);
         auto tifeijuli1Item = std::make_shared<rw::oso::ObjectStoreItem>();
         tifeijuli1Item->setName("$variable$tifeijuli1$");
         tifeijuli1Item->setValueFromDouble(tifeijuli1);
         assembly.addItem(tifeijuli1Item);
-        auto tiFeiChiXuShiJian2Item = std::make_shared<rw::oso::ObjectStoreItem>();
-        tiFeiChiXuShiJian2Item->setName("$variable$tiFeiChiXuShiJian2$");
-        tiFeiChiXuShiJian2Item->setValueFromDouble(tiFeiChiXuShiJian2);
-        assembly.addItem(tiFeiChiXuShiJian2Item);
         auto tifeijuli2Item = std::make_shared<rw::oso::ObjectStoreItem>();
         tifeijuli2Item->setName("$variable$tifeijuli2$");
         tifeijuli2Item->setValueFromDouble(tifeijuli2);
@@ -758,7 +734,7 @@ namespace cdm {
 
     inline bool SetConfig::operator==(const SetConfig& obj) const
     {
-        return tiFeiChiXuShiJian1 == obj.tiFeiChiXuShiJian1 && tifeijuli1 == obj.tifeijuli1 && tiFeiChiXuShiJian2 == obj.tiFeiChiXuShiJian2 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIN == obj.qidonganniuIN && lalianlawanIN == obj.lalianlawanIN && jitingIN == obj.jitingIN && bujindianjimaichongOUT == obj.bujindianjimaichongOUT && chongkongOUT == obj.chongkongOUT && tuojiOUT == obj.tuojiOUT && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8;
+        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIN == obj.qidonganniuIN && lalianlawanIN == obj.lalianlawanIN && jitingIN == obj.jitingIN && bujindianjimaichongOUT == obj.bujindianjimaichongOUT && chongkongOUT == obj.chongkongOUT && tuojiOUT == obj.tuojiOUT && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8;
     }
 
     inline bool SetConfig::operator!=(const SetConfig& obj) const

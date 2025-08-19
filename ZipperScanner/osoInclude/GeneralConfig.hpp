@@ -19,8 +19,8 @@ namespace cdm {
         bool operator!=(const GeneralConfig& obj) const;
 
     public:
-        int totalProductionVolume{ 0 };
-        int totalDefectiveVolume{ 0 };
+        double produceLength{ 0 };
+        int punchCount{ 0 };
         double productionYield{ 0.0 };
         bool qiangGuang{ false };
         bool zhongGuang{ false };
@@ -41,16 +41,16 @@ namespace cdm {
         {
             throw std::runtime_error("Assembly is not $class$GeneralConfig$");
         }
-        auto totalProductionVolumeItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$totalProductionVolume$"));
-        if (!totalProductionVolumeItem) {
-            throw std::runtime_error("$variable$totalProductionVolume is not found");
+        auto produceLengthItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$produceLength$"));
+        if (!produceLengthItem) {
+            throw std::runtime_error("$variable$produceLength is not found");
         }
-        totalProductionVolume = totalProductionVolumeItem->getValueAsInt();
-        auto totalDefectiveVolumeItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$totalDefectiveVolume$"));
-        if (!totalDefectiveVolumeItem) {
-            throw std::runtime_error("$variable$totalDefectiveVolume is not found");
+        produceLength = produceLengthItem->getValueAsDouble();
+        auto punchCountItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$punchCount$"));
+        if (!punchCountItem) {
+            throw std::runtime_error("$variable$punchCount is not found");
         }
-        totalDefectiveVolume = totalDefectiveVolumeItem->getValueAsInt();
+        punchCount = punchCountItem->getValueAsInt();
         auto productionYieldItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$productionYield$"));
         if (!productionYieldItem) {
             throw std::runtime_error("$variable$productionYield is not found");
@@ -110,8 +110,8 @@ namespace cdm {
 
     inline GeneralConfig::GeneralConfig(const GeneralConfig& obj)
     {
-        totalProductionVolume = obj.totalProductionVolume;
-        totalDefectiveVolume = obj.totalDefectiveVolume;
+        produceLength = obj.produceLength;
+        punchCount = obj.punchCount;
         productionYield = obj.productionYield;
         qiangGuang = obj.qiangGuang;
         zhongGuang = obj.zhongGuang;
@@ -128,8 +128,8 @@ namespace cdm {
     inline GeneralConfig& GeneralConfig::operator=(const GeneralConfig& obj)
     {
         if (this != &obj) {
-            totalProductionVolume = obj.totalProductionVolume;
-            totalDefectiveVolume = obj.totalDefectiveVolume;
+            produceLength = obj.produceLength;
+            punchCount = obj.punchCount;
             productionYield = obj.productionYield;
             qiangGuang = obj.qiangGuang;
             zhongGuang = obj.zhongGuang;
@@ -149,14 +149,14 @@ namespace cdm {
     {
         rw::oso::ObjectStoreAssembly assembly;
         assembly.setName("$class$GeneralConfig$");
-        auto totalProductionVolumeItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        totalProductionVolumeItem->setName("$variable$totalProductionVolume$");
-        totalProductionVolumeItem->setValueFromInt(totalProductionVolume);
-        assembly.addItem(totalProductionVolumeItem);
-        auto totalDefectiveVolumeItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        totalDefectiveVolumeItem->setName("$variable$totalDefectiveVolume$");
-        totalDefectiveVolumeItem->setValueFromInt(totalDefectiveVolume);
-        assembly.addItem(totalDefectiveVolumeItem);
+        auto produceLengthItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        produceLengthItem->setName("$variable$produceLength$");
+        produceLengthItem->setValueFromDouble(produceLength);
+        assembly.addItem(produceLengthItem);
+        auto punchCountItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        punchCountItem->setName("$variable$punchCount$");
+        punchCountItem->setValueFromInt(punchCount);
+        assembly.addItem(punchCountItem);
         auto productionYieldItem = std::make_shared<rw::oso::ObjectStoreItem>();
         productionYieldItem->setName("$variable$productionYield$");
         productionYieldItem->setValueFromDouble(productionYield);
@@ -206,7 +206,7 @@ namespace cdm {
 
     inline bool GeneralConfig::operator==(const GeneralConfig& obj) const
     {
-        return totalProductionVolume == obj.totalProductionVolume && totalDefectiveVolume == obj.totalDefectiveVolume && productionYield == obj.productionYield && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop;
+        return produceLength == obj.produceLength && punchCount == obj.punchCount && productionYield == obj.productionYield && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop;
     }
 
     inline bool GeneralConfig::operator!=(const GeneralConfig& obj) const

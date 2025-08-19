@@ -262,9 +262,8 @@ void ZipperScanner::build_ZipperScannerData()
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& zipperScannerConfig = globalStruct.generalConfig;
 	// 初始化全局数据
-	ui->label_produceTotalValue->setText(QString::number(zipperScannerConfig.totalProductionVolume));
-	ui->label_wasteProductsValue->setText(QString::number(zipperScannerConfig.totalDefectiveVolume));
-	ui->label_productionYieldValue->setText(QString::number(zipperScannerConfig.productionYield) + QString(" %"));
+	ui->label_produceLength->setText(QString::number(zipperScannerConfig.produceLength));
+	ui->label_punchCount->setText(QString::number(zipperScannerConfig.punchCount));
 	ui->rbtn_strongLight->setChecked(zipperScannerConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(zipperScannerConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(zipperScannerConfig.ruoGuang);

@@ -34,6 +34,9 @@ public:
 	~ZipperScanner();
 
 public:
+	void build_detachThread();
+	void destory_detachThread();
+public:
 	DlgProductSet* _dlgProductSet = nullptr;
 	QVector<QCheckBox*> _dlgProductSetCheckList{};
 	DlgProductScore* _dlgProductScore = nullptr;
@@ -148,4 +151,10 @@ public:
 private:
 	Ui::ZipperScannerClass* ui;
 	int minimizeCount{ 3 };
+
+public slots:
+	void onFinishProduce();
+	void onUpdateStatisticalInfo();
+public slots:
+	void shutdownComputerTrigger(int time);
 };

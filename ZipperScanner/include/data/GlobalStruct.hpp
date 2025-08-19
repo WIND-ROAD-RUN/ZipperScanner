@@ -15,6 +15,9 @@
 #include "Utilty.hpp"
 #include "CameraAndCardStateThread.h"
 #include <chrono>
+
+#include "DetachUtiltyThread.h"
+#include "MonitorProduceLengthThread.hpp"
 #include"rqw_ZMotion.hpp"
 #include"rqw_MonitorMotionIO.hpp"
 #include "TestImgPushThread.hpp"
@@ -55,11 +58,23 @@ private:
 public:
 	void buildDetachThread();
 	void destroyDetachThread();
+	void startDetachThread();
+public:
+	std::unique_ptr<MonitorProduceLengthThread> monitorProduceLengthThread{ nullptr };
+	std::unique_ptr<DetachUtiltyThread> detachUtiltyThread{ nullptr };
+
 #ifdef BUILD_WITHOUT_HARDWARE
 public:
 	std::unique_ptr<TestImgPushThread> testImgPushThread{ nullptr };
 	std::atomic_bool testImgPush{ false };
 #endif
+public:
+	std::atomic_bool goToGetStartLocation{false};
+	std::atomic_bool goToGetStopLocation{ false };
+	std::atomic_bool isMonitorProduceLocation{false};
+	std::atomic<double> startLocation{ 0.0 };
+	std::atomic<double> stopLocation{ 0.0 };
+	std::atomic<double> currentProducePulse { 0.0 };
 };
 
 class GlobalData
@@ -137,7 +152,8 @@ public:
 	struct StatisticalInfo
 	{
 		std::atomic_int punchCount{0};
-		std::atomic<double> produceLengthCount{0};
+		std::atomic<double> produceLengthBeforeStart{0};
+		std::atomic<double> produceLength{ 0 };
 	} statisticalInfo;
 
 public:

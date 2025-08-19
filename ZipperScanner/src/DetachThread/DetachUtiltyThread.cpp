@@ -4,18 +4,18 @@
 #include "rqw_CameraObjectZMotion.hpp"
 #include <Utilty.hpp>
 
-DetachUtiltyThreadZipper::DetachUtiltyThreadZipper(QObject* parent)
+DetachUtiltyThread::DetachUtiltyThread(QObject* parent)
 	: QThread(parent), running(false) {
 
 }
 
-DetachUtiltyThreadZipper::~DetachUtiltyThreadZipper()
+DetachUtiltyThread::~DetachUtiltyThread()
 {
 	stopThread();
 	wait(); // 等待线程安全退出
 }
 
-void DetachUtiltyThreadZipper::startThread()
+void DetachUtiltyThread::startThread()
 {
 	running = true;
 	if (!isRunning()) {
@@ -23,19 +23,16 @@ void DetachUtiltyThreadZipper::startThread()
 	}
 }
 
-void DetachUtiltyThreadZipper::stopThread()
+void DetachUtiltyThread::stopThread()
 {
 	running = false; // 停止线程
 }
 
-void DetachUtiltyThreadZipper::run()
+void DetachUtiltyThread::run()
 {
 	auto& globalStruct = GlobalData::getInstance();
 	auto& statisticalInfo = globalStruct.statisticalInfo;
 
-	/*lastWork1Count = statisticalInfo.produceCount1.load();
-	lastWork2Count = statisticalInfo.produceCount2.load();
-	olderWasteCount = statisticalInfo.produceCount.load();*/
 
 	static size_t s = 0;
 	while (running) {
@@ -43,6 +40,7 @@ void DetachUtiltyThreadZipper::run()
 		CalculateRealtimeInformation(s);
 		processWarningInfo(s);
 		processTrigger(s);
+		processShutdownIO(s);
 		++s;
 		if (s == 300)
 		{
@@ -51,38 +49,12 @@ void DetachUtiltyThreadZipper::run()
 	}
 }
 
-void DetachUtiltyThreadZipper::CalculateRealtimeInformation(size_t s)
+void DetachUtiltyThread::CalculateRealtimeInformation(size_t s)
 {
-	//auto& globalStruct = GlobalData::getInstance();
-	//auto& statisticalInfo = globalStruct.statisticalInfo;
-	//if (s % 30 == 0)
-	//{
-	//	auto newWasteCount = statisticalInfo.produceCount.load();
-	//	long long rate = newWasteCount - olderWasteCount;
-	//	if (rate > 0)
-	//	{
-	//		//removeRate后使用为生产速度计算
-	//		statisticalInfo.removeRate = rate * 2;
-	//		olderWasteCount = statisticalInfo.produceCount.load();
-	//	}
-	//	else {
-	//		olderWasteCount = newWasteCount;
-	//	}
-	//}
-	//// 计算生产良率
-	//auto totalCount = statisticalInfo.produceCount.load();
-	//auto wasteCount = statisticalInfo.wasteCount.load();
-	//if (totalCount != 0)
-	//{
-	//	if (totalCount > wasteCount)
-	//	{
-	//		statisticalInfo.productionYield = (static_cast<double>(totalCount - wasteCount) / totalCount) * 100;
-	//	}
-	//}
 	emit updateStatisticalInfo();
 }
 
-void DetachUtiltyThreadZipper::processWarningInfo(size_t s)
+void DetachUtiltyThread::processWarningInfo(size_t s)
 {
 	static rw::rqw::WarningInfo warningInfo;
 	if (isProcessFinish)
@@ -96,7 +68,7 @@ void DetachUtiltyThreadZipper::processWarningInfo(size_t s)
 	}
 }
 
-void DetachUtiltyThreadZipper::processOneWarnGet(rw::rqw::WarningInfo& info)
+void DetachUtiltyThread::processOneWarnGet(rw::rqw::WarningInfo& info)
 {
 	/*isProcessFinish = false;
 	auto isEmpty = warningLabel->isEmptyWarningListThreadSafe();
@@ -120,7 +92,7 @@ void DetachUtiltyThreadZipper::processOneWarnGet(rw::rqw::WarningInfo& info)
 	}*/
 }
 
-void DetachUtiltyThreadZipper::processOneWarnFinsh(rw::rqw::WarningInfo& info)
+void DetachUtiltyThread::processOneWarnFinsh(rw::rqw::WarningInfo& info)
 {
 	/*closeWarnAlarm(info);
 	info = warningLabel->popWarningListThreadSafe();
@@ -160,7 +132,7 @@ void DetachUtiltyThreadZipper::processOneWarnFinsh(rw::rqw::WarningInfo& info)
 //	motion->SetIOOut(ControlLines::warnGreenOut, true);
 //}
 
-void DetachUtiltyThreadZipper::processTrigger(size_t s)
+void DetachUtiltyThread::processTrigger(size_t s)
 {
 	/*if (s % 180 == 0)
 	{
@@ -195,5 +167,33 @@ void DetachUtiltyThreadZipper::processTrigger(size_t s)
 		{
 			isStopOnce = true;
 		}
+	}*/
+}
+
+void DetachUtiltyThread::processShutdownIO(size_t s)
+{
+	/*if (s % 1 == 0)
+	{
+		auto& motion = zwy::scc::GlobalMotion::getInstance().motionPtr;
+		auto isShutdown = motion->GetIOIn(ControlLines::shutdownComputerIn);
+
+		if (lastIsShutDown)
+		{
+			shutdownCount++;
+			emit shutdownComputer(shutdownCount);
+		}
+		else
+		{
+			if (isShutdown)
+			{
+				emit shutdownComputer(shutdownCount);
+			}
+			else
+			{
+				shutdownCount = 0;
+				emit shutdownComputer(-1);
+			}
+		}
+		lastIsShutDown = isShutdown;
 	}*/
 }

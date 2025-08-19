@@ -5,23 +5,21 @@
 #include"rqw_LabelWarning.h"
 
 
-class DetachUtiltyThreadZipper : public QThread
+class DetachUtiltyThread : public QThread
 {
 	Q_OBJECT
 public:
 	std::atomic_bool isProcessing{ false };
 	std::atomic_bool isProcessFinish{ false };
 public:
-	explicit DetachUtiltyThreadZipper(QObject* parent = nullptr);
+	explicit DetachUtiltyThread(QObject* parent = nullptr);
 
-	~DetachUtiltyThreadZipper() override;
+	~DetachUtiltyThread() override;
 
 	void startThread();
 
 	void stopThread();
 private:
-	unsigned long long lastWork1Count{ 0 };
-	unsigned long long lastWork2Count{ 0 };
 	bool isStopOnce{ false };
 public:
 	rw::rqw::LabelWarning* warningLabel{ nullptr };
@@ -36,10 +34,13 @@ private:
 	void processWarningInfo(size_t s);
 	void processOneWarnGet(rw::rqw::WarningInfo& info);
 	void processOneWarnFinsh(rw::rqw::WarningInfo& info);
-	void openWarnAlarm(const rw::rqw::WarningInfo& info);
-	void closeWarnAlarm(const rw::rqw::WarningInfo& info);
 private:
 	void processTrigger(size_t s);
+private:
+	void processShutdownIO(size_t s);
+private:
+	bool lastIsShutDown{ false };
+	int shutdownCount{ 0 };
 signals:
 	void updateStatisticalInfo();
 	void addWarningInfo(QString message, bool updateTimestampIfSame, int redDuration);
@@ -49,5 +50,5 @@ signals:
 	void workTriggerError(int index);
 
 private:
-	std::atomic<bool> running; // 使用原子变量保证线程安全
+	std::atomic<bool> running; // 浣跨敤鍘熷瓙鍙橀噺淇濊瘉绾跨▼瀹夊叏
 };

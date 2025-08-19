@@ -32,30 +32,24 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	: QMainWindow(parent)
 	, ui(new Ui::ZipperScannerClass())
 {
+	auto& globalStruct = GlobalData::getInstance();
+
 	ui->setupUi(this);
 
 	// 读取参数
 	read_config();
 
+	// 构建运动控制器
+	build_motion();
+
 	// 构建UI
 	build_ui();
-
-	auto& globalStruct = GlobalData::getInstance();
-
-	// 构建运动控制器IO状态监控线程
-	globalStruct.build_MonitorZMotionIOStateThread();
-
-	// 构建主窗体启停IO监控线程
-	globalStruct.build_monitorStartOrStopThread();
 
 	// 构建优先队列
 	globalStruct.build_PriorityQueue();
 
-	// 构建异步剔废线程
-	globalStruct.build_DetachDefectThreadZipper();
+	build_detachThread();
 
-	// 构建相机与板卡重连线程
-	globalStruct.build_CameraAndCardStateThreadZipper();
 
 	// 构建图像保存引擎
 	build_imageSaveEngine();
@@ -65,9 +59,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 	// 构建图像处理模块
 	build_imageProcessorModule();
-
-	// 构建运动控制器
-	build_motion();
 
 	// 连接相机
 	build_camera();
@@ -119,6 +110,44 @@ ZipperScanner::~ZipperScanner()
 {
 	destroyComponents();
 	delete ui;
+}
+
+void ZipperScanner::build_detachThread()
+{
+	auto& globalStruct = GlobalData::getInstance();
+	// 构建运动控制器IO状态监控线程
+	globalStruct.build_MonitorZMotionIOStateThread();
+
+	// 构建主窗体启停IO监控线程
+	globalStruct.build_monitorStartOrStopThread();
+
+	// 构建异步剔废线程
+	globalStruct.build_DetachDefectThreadZipper();
+
+	// 构建相机与板卡重连线程
+	globalStruct.build_CameraAndCardStateThreadZipper();
+
+	auto& globalThread = GlobalThread::getInstance();
+	globalThread.buildDetachThread();
+
+	QObject::connect(globalThread.monitorProduceLengthThread.get(), &MonitorProduceLengthThread::finishProduce,
+		this, &ZipperScanner::onFinishProduce,Qt::QueuedConnection);
+	QObject::connect(globalThread.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
+		this, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
+}
+
+void ZipperScanner::destory_detachThread()
+{
+	auto& globalStruct = GlobalData::getInstance();
+	// 销毁主窗体启停IO监控线程
+	globalStruct.destroy_monitorStartOrStopThread();
+	// 销毁运动控制器IO状态监控线程
+	globalStruct.destroy_MonitorZMotionIOStateThread();
+
+	globalStruct.destroy_DetachDefectThreadZipper();
+
+	auto& globalThread = GlobalThread::getInstance();
+	globalThread.destroyDetachThread();
 }
 
 // 构建UI
@@ -305,7 +334,7 @@ void ZipperScanner::build_ZipperScannerData()
 	// 初始化全局数据
 	ui->label_produceLength->setText(QString::number(zipperScannerConfig.produceLength));
 	ui->label_punchCount->setText(QString::number(zipperScannerConfig.punchCount));
-	globalStruct.statisticalInfo.produceLengthCount = zipperScannerConfig.produceLength;
+	globalStruct.statisticalInfo.produceLength = zipperScannerConfig.produceLength;
 	globalStruct.statisticalInfo.punchCount = zipperScannerConfig.punchCount;
 
 	ui->rbtn_strongLight->setChecked(zipperScannerConfig.qiangGuang);
@@ -486,6 +515,9 @@ void ZipperScanner::start_Threads()
 	globalStruct.detachDefectThreadZipper->startThread();
 	// 启动相机重连线程
 	globalStruct.cameraAndCardStateThreadZipper->startThread();
+
+	auto& globalThread = GlobalThread::getInstance();
+	globalThread.startDetachThread();
 }
 
 void ZipperScanner::start_CameraMonitor()
@@ -506,10 +538,8 @@ void ZipperScanner::destroyComponents()
 	// 关闭剔废功能并停止冲孔与轴运动
 	rbtn_stop_clicked(true); // 默认停止
 	rbtn_removeFunc_checked(false);
-	// 销毁主窗体启停IO监控线程
-	globalStructData.destroy_monitorStartOrStopThread();
-	// 销毁运动控制器IO状态监控线程
-	globalStructData.destroy_MonitorZMotionIOStateThread();
+
+	destory_detachThread();
 	// 销毁相机
 	globalStructData.destroyCamera();
 	// 销毁运动控制器
@@ -520,8 +550,6 @@ void ZipperScanner::destroyComponents()
 	destroy_ImageEnlargedDisplay();
 	// 销毁图像保存模块
 	globalStructData.destroyImageSaveEngine();
-	// 销毁异步剔废线程
-	globalStructData.destroy_DetachDefectThreadZipper();
 	// 销毁剔废优先队列
 	globalStructData.destroy_PriorityQueue();
 	// 保存参数
@@ -823,6 +851,7 @@ void ZipperScanner::ckb_wenzi_checked(bool checked)
 void ZipperScanner::rbtn_start_clicked(bool checked)
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto & globalThread= GlobalThread::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 	if (checked)
 	{
@@ -855,6 +884,8 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 			QMessageBox::warning(this, "警告", "电机参数设置失败");
 		}
 		changeRemoveFucState(true);
+
+		globalThread.goToGetStartLocation = true;
 	}
 	else
 	{
@@ -875,6 +906,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 void ZipperScanner::rbtn_stop_clicked(bool checked)
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto& globalThread = GlobalThread::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 	if (checked)
 	{
@@ -888,6 +920,8 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 
 		// 停止冲孔
 		isStop = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
+
+		globalThread.goToGetStopLocation = true;
 	}
 	else
 	{
@@ -938,7 +972,7 @@ void ZipperScanner::pbtn_resetProduct_clicked()
 	ui->label_produceLength->setText(QString::number(globalStruct.generalConfig.produceLength));
 	ui->label_punchCount->setText(QString::number(globalStruct.generalConfig.punchCount));
 
-	globalStruct.statisticalInfo.produceLengthCount = 0;
+	globalStruct.statisticalInfo.produceLength = 0;
 	globalStruct.statisticalInfo.punchCount = 0;
 }
 
@@ -1278,6 +1312,52 @@ void ZipperScanner::destroy_ImageEnlargedDisplay()
 		delete _imageEnlargedDisplay;
 		_imageEnlargedDisplay = nullptr;
 	}
+}
+
+void ZipperScanner::onFinishProduce()
+{
+	rbtn_stop_clicked(true);
+	ui->rbtn_stop->setChecked(true);
+	QMessageBox::information(this, "提示", "已生产到设定的拉带长度");
+
+}
+
+void ZipperScanner::onUpdateStatisticalInfo()
+{
+	auto& globalData = GlobalData::getInstance();
+	globalData.generalConfig.produceLength = globalData.statisticalInfo.produceLength;
+	ui->label_produceLength->setText(QString::number(globalData.generalConfig.produceLength, 'f', 2));
+	globalData.generalConfig.punchCount = globalData.statisticalInfo.punchCount;
+	ui->label_punchCount->setText(QString::number(globalData.generalConfig.punchCount));
+}
+
+void ZipperScanner::shutdownComputerTrigger(int time)
+{
+	/*if (!isConnnectCard)
+	{
+		return;
+	}
+
+	int shutDownBoundary = 7;
+	if (time == -1)
+	{
+		_dlgShutdownWarn->close();
+		return;
+	}
+	if (time == 0)
+	{
+		_dlgShutdownWarn->show();
+		_dlgShutdownWarn->setTimeValue(shutDownBoundary - time);
+		return;
+	}
+
+	_dlgShutdownWarn->setTimeValue((shutDownBoundary - time) % shutDownBoundary);
+
+	if ((shutDownBoundary - time) == 0)
+	{
+		isShutdownByIO = true;
+		this->close();
+	}*/
 }
 
 void ZipperScanner::updateCameraLabelState(int cameraIndex, bool state)

@@ -74,5 +74,10 @@ namespace cdm {
 		isExtra6 : bool :default = false;
 		isExtra7 : bool :default = false;
 		isExtra8 : bool :default = false;
+
+		imgIsSaveJpeg : bool : default = false;
+		imgIsSaveBmp : bool : default = false;
+		imgIsSavePng : bool : default = false;
+		imgSaveQuality : int : default = false;
 	};
 }

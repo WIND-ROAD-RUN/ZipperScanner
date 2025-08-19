@@ -2,6 +2,7 @@
 
 #include <QMessageBox>
 #include <QtConcurrent/qtconcurrentrun.h>
+#include <QButtonGroup>
 
 #include "GlobalStruct.hpp"
 #include "NumberKeyboard.h"
@@ -31,6 +32,14 @@ void DlgProductSet::build_ui()
 	setDOErrorInfo(indicesDO);
 	auto indicesDI = DIFindAllDuplicateIndices();
 	setDIErrorInfo(indicesDI);
+
+	// 在构造函数或 build_ui/build_connect 中添加如下代码
+	QButtonGroup* imageFormatGroup = new QButtonGroup(this);
+	imageFormatGroup->addButton(ui->rbtn_saveBmp);
+	imageFormatGroup->addButton(ui->rbtn_saveJpeg);
+	imageFormatGroup->addButton(ui->rbtn_savePng);
+
+	imageFormatGroup->setExclusive(true);
 }
 
 void DlgProductSet::read_config()
@@ -49,6 +58,11 @@ void DlgProductSet::read_config()
 	ui->cBox_takeNgPictures->setChecked(globalConfig.saveNGImg);
 	ui->cBox_takeMaskPictures->setChecked(globalConfig.saveMaskImg);
 	ui->cBox_takeOkPictures->setChecked(globalConfig.saveOKImg);
+	ui->btn_saveQuality->setText(QString::number(globalConfig.imgSaveQuality));
+	ui->rbtn_saveBmp->setChecked(globalConfig.imgIsSaveBmp);
+	ui->rbtn_saveJpeg->setChecked(!globalConfig.imgIsSaveJpeg);
+	ui->rbtn_savePng->setChecked(globalConfig.imgIsSavePng);
+
 
 	// 一工位的限位与像素当量
 	ui->pbtn_shangxianwei1->setText(QString::number(globalConfig.shangXianWei1));
@@ -166,12 +180,6 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::pbtn_zhongzengyi_clicked);
 	QObject::connect(ui->pbtn_ruozengyi, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_ruozengyi_clicked);
-	QObject::connect(ui->cBox_takeNgPictures, &QCheckBox::clicked,
-		this, &DlgProductSet::cBox_takeNgPictures_checked);
-	QObject::connect(ui->cBox_takeMaskPictures, &QCheckBox::clicked,
-		this, &DlgProductSet::cBox_takeMaskPictures_checked);
-	QObject::connect(ui->cBox_takeOkPictures, &QCheckBox::clicked,
-		this, &DlgProductSet::cBox_takeOkPictures_checked);
 	QObject::connect(ui->cbox_debugMode, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_debugMode_checked);
 	QObject::connect(ui->pbtn_close, &QPushButton::clicked,
@@ -285,6 +293,25 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::ckb_extra7_checked);
 	QObject::connect(ui->ckb_extra8, &QCheckBox::clicked,
 		this, &DlgProductSet::ckb_extra8_checked);
+
+	//存图
+	QObject::connect(ui->cBox_takeNgPictures, &QCheckBox::clicked,
+		this, &DlgProductSet::cBox_takeNgPictures_checked);
+	QObject::connect(ui->cBox_takeMaskPictures, &QCheckBox::clicked,
+		this, &DlgProductSet::cBox_takeMaskPictures_checked);
+	QObject::connect(ui->cBox_takeOkPictures, &QCheckBox::clicked,
+		this, &DlgProductSet::cBox_takeOkPictures_checked);
+	// 存图质量
+	QObject::connect(ui->btn_saveQuality, &QPushButton::clicked,
+		this, &DlgProductSet::btn_saveQuality_clicked);
+	// 存图格式
+	QObject::connect(ui->rbtn_saveBmp, &QRadioButton::clicked,
+		this, &DlgProductSet::rbtn_saveBmp_checked);
+	QObject::connect(ui->rbtn_saveJpeg, &QRadioButton::clicked,
+		this, &DlgProductSet::rbtn_saveJpeg_checked);
+	QObject::connect(ui->rbtn_savePng, &QRadioButton::clicked,
+		this, &DlgProductSet::rbtn_savePng_checked);
+
 }
 
 std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
@@ -958,6 +985,49 @@ void DlgProductSet::cBox_takeCamera2Pictures_checked()
 {
 	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
 	globalStructSetConfig.takeWork2Pictures = ui->cBox_takeCamera2Pictures->isChecked();
+}
+
+void DlgProductSet::rbtn_saveJpeg_checked()
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.imgIsSaveJpeg = ui->rbtn_saveJpeg->isChecked();
+	globalStructSetConfig.imgIsSavePng = false;
+	globalStructSetConfig.imgIsSaveBmp = false;
+}
+
+void DlgProductSet::rbtn_savePng_checked()
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.imgIsSavePng = ui->rbtn_savePng->isChecked();
+	globalStructSetConfig.imgIsSaveJpeg = false;
+	globalStructSetConfig.imgIsSaveBmp = false;
+}
+
+void DlgProductSet::rbtn_saveBmp_checked()
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	globalStructSetConfig.imgIsSaveBmp = ui->rbtn_saveBmp->isChecked();
+	globalStructSetConfig.imgIsSaveJpeg = false;
+	globalStructSetConfig.imgIsSavePng = false;
+}
+
+void DlgProductSet::btn_saveQuality_clicked()
+{
+	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 30 || value.toDouble() > 100)
+		{
+			QMessageBox::warning(this, "提示", "请输入30到100的数值");
+			return;
+		}
+		ui->btn_saveQuality->setText(value);
+		globalStructSetConfig.imgSaveQuality = value.toInt();
+	}
 }
 
 void DlgProductSet::cbox_qiyongerxiangji_checked()

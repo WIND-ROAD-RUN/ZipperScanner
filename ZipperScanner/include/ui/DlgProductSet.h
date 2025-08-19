@@ -60,11 +60,18 @@ private slots:
 	void pbtn_zhongzengyi_clicked();
 	void pbtn_ruozengyi_clicked();
 
+	//存图
 	void cBox_takeNgPictures_checked();
 	void cBox_takeMaskPictures_checked();
 	void cBox_takeOkPictures_checked();
 	void cBox_takeCamera1Pictures_checked();
 	void cBox_takeCamera2Pictures_checked();
+	void rbtn_saveJpeg_checked();
+	void rbtn_savePng_checked();
+	void rbtn_saveBmp_checked();
+	void btn_saveQuality_clicked();
+
+
 	void cbox_qiyongerxiangji_checked();
 	void cbox_qiyongyundongkongzhiqi_checked();
 	void cbox_yundongkongzhiqichonglian_checked();

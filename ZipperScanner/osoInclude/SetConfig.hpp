@@ -76,6 +76,10 @@ namespace cdm {
         bool isExtra6{ false };
         bool isExtra7{ false };
         bool isExtra8{ false };
+        bool imgIsSaveJpeg{ false };
+        bool imgIsSaveBmp{ false };
+        bool imgIsSavePng{ false };
+        int imgSaveQuality{ false };
     };
 
     inline SetConfig::SetConfig(const rw::oso::ObjectStoreAssembly& assembly)
@@ -370,6 +374,26 @@ namespace cdm {
             throw std::runtime_error("$variable$isExtra8 is not found");
         }
         isExtra8 = isExtra8Item->getValueAsBool();
+        auto imgIsSaveJpegItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$imgIsSaveJpeg$"));
+        if (!imgIsSaveJpegItem) {
+            throw std::runtime_error("$variable$imgIsSaveJpeg is not found");
+        }
+        imgIsSaveJpeg = imgIsSaveJpegItem->getValueAsBool();
+        auto imgIsSaveBmpItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$imgIsSaveBmp$"));
+        if (!imgIsSaveBmpItem) {
+            throw std::runtime_error("$variable$imgIsSaveBmp is not found");
+        }
+        imgIsSaveBmp = imgIsSaveBmpItem->getValueAsBool();
+        auto imgIsSavePngItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$imgIsSavePng$"));
+        if (!imgIsSavePngItem) {
+            throw std::runtime_error("$variable$imgIsSavePng is not found");
+        }
+        imgIsSavePng = imgIsSavePngItem->getValueAsBool();
+        auto imgSaveQualityItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$imgSaveQuality$"));
+        if (!imgSaveQualityItem) {
+            throw std::runtime_error("$variable$imgSaveQuality is not found");
+        }
+        imgSaveQuality = imgSaveQualityItem->getValueAsInt();
     }
 
     inline SetConfig::SetConfig(const SetConfig& obj)
@@ -431,6 +455,10 @@ namespace cdm {
         isExtra6 = obj.isExtra6;
         isExtra7 = obj.isExtra7;
         isExtra8 = obj.isExtra8;
+        imgIsSaveJpeg = obj.imgIsSaveJpeg;
+        imgIsSaveBmp = obj.imgIsSaveBmp;
+        imgIsSavePng = obj.imgIsSavePng;
+        imgSaveQuality = obj.imgSaveQuality;
     }
 
     inline SetConfig& SetConfig::operator=(const SetConfig& obj)
@@ -493,6 +521,10 @@ namespace cdm {
             isExtra6 = obj.isExtra6;
             isExtra7 = obj.isExtra7;
             isExtra8 = obj.isExtra8;
+            imgIsSaveJpeg = obj.imgIsSaveJpeg;
+            imgIsSaveBmp = obj.imgIsSaveBmp;
+            imgIsSavePng = obj.imgIsSavePng;
+            imgSaveQuality = obj.imgSaveQuality;
         }
         return *this;
     }
@@ -729,12 +761,28 @@ namespace cdm {
         isExtra8Item->setName("$variable$isExtra8$");
         isExtra8Item->setValueFromBool(isExtra8);
         assembly.addItem(isExtra8Item);
+        auto imgIsSaveJpegItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        imgIsSaveJpegItem->setName("$variable$imgIsSaveJpeg$");
+        imgIsSaveJpegItem->setValueFromBool(imgIsSaveJpeg);
+        assembly.addItem(imgIsSaveJpegItem);
+        auto imgIsSaveBmpItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        imgIsSaveBmpItem->setName("$variable$imgIsSaveBmp$");
+        imgIsSaveBmpItem->setValueFromBool(imgIsSaveBmp);
+        assembly.addItem(imgIsSaveBmpItem);
+        auto imgIsSavePngItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        imgIsSavePngItem->setName("$variable$imgIsSavePng$");
+        imgIsSavePngItem->setValueFromBool(imgIsSavePng);
+        assembly.addItem(imgIsSavePngItem);
+        auto imgSaveQualityItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        imgSaveQualityItem->setName("$variable$imgSaveQuality$");
+        imgSaveQualityItem->setValueFromInt(imgSaveQuality);
+        assembly.addItem(imgSaveQualityItem);
         return assembly;
     }
 
     inline bool SetConfig::operator==(const SetConfig& obj) const
     {
-        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8;
+        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && shedingladaichangdu == obj.shedingladaichangdu && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8 && imgIsSaveJpeg == obj.imgIsSaveJpeg && imgIsSaveBmp == obj.imgIsSaveBmp && imgIsSavePng == obj.imgIsSavePng && imgSaveQuality == obj.imgSaveQuality;
     }
 
     inline bool SetConfig::operator!=(const SetConfig& obj) const

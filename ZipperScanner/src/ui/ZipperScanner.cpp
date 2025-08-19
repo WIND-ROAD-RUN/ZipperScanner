@@ -212,6 +212,10 @@ void ZipperScanner::build_connect()
 	// 连接设置拉带长度按钮
 	QObject::connect(ui->btn_shedingladaichangdu, &QPushButton::clicked,
 		this, &ZipperScanner::btn_shedingladaichangdu_clicked);
+
+	// 连接重置产品按钮
+	QObject::connect(ui->pbtn_resetProduct, &QPushButton::clicked,
+		this, &ZipperScanner::pbtn_resetProduct_clicked);
 }
 
 // 构建相机
@@ -924,6 +928,18 @@ void ZipperScanner::btn_shedingladaichangdu_clicked()
 			QMessageBox::warning(this, "Error", "请输入大于0的数值");
 		}
 	}
+}
+
+void ZipperScanner::pbtn_resetProduct_clicked()
+{
+	auto& globalStruct = GlobalData::getInstance();
+	globalStruct.generalConfig.produceLength = 0;
+	globalStruct.generalConfig.punchCount = 0;
+	ui->label_produceLength->setText(QString::number(globalStruct.generalConfig.produceLength));
+	ui->label_punchCount->setText(QString::number(globalStruct.generalConfig.punchCount));
+
+	globalStruct.statisticalInfo.produceLengthCount = 0;
+	globalStruct.statisticalInfo.punchCount = 0;
 }
 
 void ZipperScanner::lb_title_clicked()

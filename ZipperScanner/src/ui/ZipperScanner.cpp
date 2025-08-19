@@ -301,6 +301,9 @@ void ZipperScanner::build_ZipperScannerData()
 	// 初始化全局数据
 	ui->label_produceLength->setText(QString::number(zipperScannerConfig.produceLength));
 	ui->label_punchCount->setText(QString::number(zipperScannerConfig.punchCount));
+	globalStruct.statisticalInfo.produceLengthCount = zipperScannerConfig.produceLength;
+	globalStruct.statisticalInfo.punchCount = zipperScannerConfig.punchCount;
+
 	ui->rbtn_strongLight->setChecked(zipperScannerConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(zipperScannerConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(zipperScannerConfig.ruoGuang);

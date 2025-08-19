@@ -33,9 +33,9 @@ void DetachUtiltyThreadZipper::run()
 	auto& globalStruct = GlobalData::getInstance();
 	auto& statisticalInfo = globalStruct.statisticalInfo;
 
-	lastWork1Count = statisticalInfo.produceCount1.load();
+	/*lastWork1Count = statisticalInfo.produceCount1.load();
 	lastWork2Count = statisticalInfo.produceCount2.load();
-	olderWasteCount = statisticalInfo.produceCount.load();
+	olderWasteCount = statisticalInfo.produceCount.load();*/
 
 	static size_t s = 0;
 	while (running) {
@@ -53,32 +53,32 @@ void DetachUtiltyThreadZipper::run()
 
 void DetachUtiltyThreadZipper::CalculateRealtimeInformation(size_t s)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& statisticalInfo = globalStruct.statisticalInfo;
-	if (s % 30 == 0)
-	{
-		auto newWasteCount = statisticalInfo.produceCount.load();
-		long long rate = newWasteCount - olderWasteCount;
-		if (rate > 0)
-		{
-			//removeRate后使用为生产速度计算
-			statisticalInfo.removeRate = rate * 2;
-			olderWasteCount = statisticalInfo.produceCount.load();
-		}
-		else {
-			olderWasteCount = newWasteCount;
-		}
-	}
-	// 计算生产良率
-	auto totalCount = statisticalInfo.produceCount.load();
-	auto wasteCount = statisticalInfo.wasteCount.load();
-	if (totalCount != 0)
-	{
-		if (totalCount > wasteCount)
-		{
-			statisticalInfo.productionYield = (static_cast<double>(totalCount - wasteCount) / totalCount) * 100;
-		}
-	}
+	//auto& globalStruct = GlobalData::getInstance();
+	//auto& statisticalInfo = globalStruct.statisticalInfo;
+	//if (s % 30 == 0)
+	//{
+	//	auto newWasteCount = statisticalInfo.produceCount.load();
+	//	long long rate = newWasteCount - olderWasteCount;
+	//	if (rate > 0)
+	//	{
+	//		//removeRate后使用为生产速度计算
+	//		statisticalInfo.removeRate = rate * 2;
+	//		olderWasteCount = statisticalInfo.produceCount.load();
+	//	}
+	//	else {
+	//		olderWasteCount = newWasteCount;
+	//	}
+	//}
+	//// 计算生产良率
+	//auto totalCount = statisticalInfo.produceCount.load();
+	//auto wasteCount = statisticalInfo.wasteCount.load();
+	//if (totalCount != 0)
+	//{
+	//	if (totalCount > wasteCount)
+	//	{
+	//		statisticalInfo.productionYield = (static_cast<double>(totalCount - wasteCount) / totalCount) * 100;
+	//	}
+	//}
 	emit updateStatisticalInfo();
 }
 
@@ -162,7 +162,7 @@ void DetachUtiltyThreadZipper::processOneWarnFinsh(rw::rqw::WarningInfo& info)
 
 void DetachUtiltyThreadZipper::processTrigger(size_t s)
 {
-	if (s % 180 == 0)
+	/*if (s % 180 == 0)
 	{
 		auto& globalStruct = GlobalData::getInstance();
 		auto& statisticalInfo = globalStruct.statisticalInfo;
@@ -195,5 +195,5 @@ void DetachUtiltyThreadZipper::processTrigger(size_t s)
 		{
 			isStopOnce = true;
 		}
-	}
+	}*/
 }

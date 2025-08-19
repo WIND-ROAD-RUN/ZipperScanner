@@ -136,12 +136,8 @@ public:
 	// 统计信息
 	struct StatisticalInfo
 	{
-		std::atomic_uint64_t produceCount{ 0 };
-		std::atomic_uint64_t wasteCount{ 0 };
-		std::atomic<double> productionYield{ 0 };
-		std::atomic<double> removeRate{ 0 };
-		std::atomic_uint64_t produceCount1{ 0 };
-		std::atomic_uint64_t produceCount2{ 0 };
+		std::atomic_int punchCount{0};
+		std::atomic<double> produceLengthCount{0};
 	} statisticalInfo;
 
 public:

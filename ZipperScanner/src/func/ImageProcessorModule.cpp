@@ -125,25 +125,6 @@ void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 
 	if (isbad)
 	{
-		++globalStruct.statisticalInfo.wasteCount;
-	}
-
-	if (imageProcessingModuleIndex == 1 || imageProcessingModuleIndex == 2)
-	{
-		++globalStruct.statisticalInfo.produceCount;
-	}
-
-	if (imageProcessingModuleIndex == 1)
-	{
-		++globalStruct.statisticalInfo.produceCount1;
-	}
-	else if (imageProcessingModuleIndex == 2)
-	{
-		++globalStruct.statisticalInfo.produceCount2;
-	}
-
-	if (isbad)
-	{
 		globalStruct.priorityQueue->push(leftLocationX);
 	}
 }

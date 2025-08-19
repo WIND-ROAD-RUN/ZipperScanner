@@ -407,6 +407,30 @@ void ZipperScanner::build_imageSaveEngine()
 
 	QString imagesFilePathFilePathFull = dir.absoluteFilePath(imageSaveEnginePath);
 	globalStruct.imageSaveEngine->setRootPath(imagesFilePathFilePathFull);
+
+	auto& setCfg = globalStruct.setConfig;
+	if (setCfg.imgIsSaveJpeg)
+	{
+		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
+	}
+	else if (setCfg.imgIsSavePng)
+	{
+		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
+	}
+	else if (setCfg.imgIsSaveBmp)
+	{
+		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
+	}
+	if (!setCfg.imgSaveQuality)
+	{
+		globalStruct.imageSaveEngine->setSaveImgQuality(80);
+	}
+	else
+	{
+		globalStruct.imageSaveEngine->setSaveImgQuality(setCfg.imgSaveQuality);
+	}
+
+
 	globalStruct.imageSaveEngine->startEngine();
 }
 

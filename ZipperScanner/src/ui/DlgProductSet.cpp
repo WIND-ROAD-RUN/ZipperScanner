@@ -60,7 +60,7 @@ void DlgProductSet::read_config()
 	ui->cBox_takeOkPictures->setChecked(globalConfig.saveOKImg);
 	ui->btn_saveQuality->setText(QString::number(globalConfig.imgSaveQuality));
 	ui->rbtn_saveBmp->setChecked(globalConfig.imgIsSaveBmp);
-	ui->rbtn_saveJpeg->setChecked(!globalConfig.imgIsSaveJpeg);
+	ui->rbtn_saveJpeg->setChecked(globalConfig.imgIsSaveJpeg);
 	ui->rbtn_savePng->setChecked(globalConfig.imgIsSavePng);
 
 
@@ -989,31 +989,38 @@ void DlgProductSet::cBox_takeCamera2Pictures_checked()
 
 void DlgProductSet::rbtn_saveJpeg_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
-	globalStructSetConfig.imgIsSaveJpeg = ui->rbtn_saveJpeg->isChecked();
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStructSetConfig = globalStruct.setConfig;
+	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
+	globalStructSetConfig.imgIsSaveJpeg = true;
 	globalStructSetConfig.imgIsSavePng = false;
 	globalStructSetConfig.imgIsSaveBmp = false;
 }
 
 void DlgProductSet::rbtn_savePng_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
-	globalStructSetConfig.imgIsSavePng = ui->rbtn_savePng->isChecked();
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStructSetConfig = globalStruct.setConfig;
+	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
+	globalStructSetConfig.imgIsSavePng = true;
 	globalStructSetConfig.imgIsSaveJpeg = false;
 	globalStructSetConfig.imgIsSaveBmp = false;
 }
 
 void DlgProductSet::rbtn_saveBmp_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
-	globalStructSetConfig.imgIsSaveBmp = ui->rbtn_saveBmp->isChecked();
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStructSetConfig = globalStruct.setConfig;
+	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
+	globalStructSetConfig.imgIsSaveBmp = true;
 	globalStructSetConfig.imgIsSaveJpeg = false;
 	globalStructSetConfig.imgIsSavePng = false;
 }
 
 void DlgProductSet::btn_saveQuality_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStructSetConfig = globalStruct.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1027,6 +1034,7 @@ void DlgProductSet::btn_saveQuality_clicked()
 		}
 		ui->btn_saveQuality->setText(value);
 		globalStructSetConfig.imgSaveQuality = value.toInt();
+		globalStruct.imageSaveEngine->setSaveImgQuality(globalStructSetConfig.imgSaveQuality);
 	}
 }
 

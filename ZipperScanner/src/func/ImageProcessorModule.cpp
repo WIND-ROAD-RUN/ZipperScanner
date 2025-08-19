@@ -698,6 +698,7 @@ void ImageProcessorZipper::updateDrawText()
 {
 	auto& globalStruct = GlobalStructDataZipper::getInstance();
 	auto& context = _imgProcess->context();
+	context.runTextCfg.isDisOperatorTime = false;
 	if (globalStruct.generalConfig.iswenzi)
 	{
 		context.runTextCfg.isDrawExtraText = true;

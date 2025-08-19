@@ -117,20 +117,6 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	rw::rqw::ImageInfo imageInfo(maskImg);
 
 	save_image(imageInfo, rw::rqw::cvMatToQImage(frame.image));
-
-	if (imageProcessingModuleIndex == 1)
-	{
-
-		static int camera1Count = 1;
-		std::cout << "camera1Count" << camera1Count << std::endl;
-		camera1Count++;
-	}
-	else
-	{
-		static int camera2Count = 1;
-		std::cout << "camera1Count" << camera2Count << std::endl;
-		camera2Count++;
-	}
 }
 
 void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
@@ -628,7 +614,7 @@ void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 	auto& index = imageProcessingModuleIndex;
 	auto& setConfig = GlobalData::getInstance().setConfig;
 	rw::imgPro::ConfigDrawLine configDrawLine;
-	configDrawLine.color = rw::imgPro::Color::Red;
+	configDrawLine.color = rw::imgPro::Color::Orange;
 	configDrawLine.thickness = 3;
 	if (index == 1)
 	{
@@ -699,6 +685,7 @@ void ImageProcessorZipper::updateDrawText()
 	auto& globalStruct = GlobalData::getInstance();
 	auto& context = _imgProcess->context();
 	context.runTextCfg.isDisOperatorTime = false;
+	context.runTextCfg.processImgTimeTextColor = rw::rqw::RQWColor::Green;
 	if (globalStruct.generalConfig.iswenzi)
 	{
 		context.runTextCfg.isDrawExtraText = true;
@@ -716,14 +703,37 @@ void ImageProcessingModule::onFrameCaptured(cv::Mat frame, size_t index)
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;
 
-	if (index==1)
+	if (index == 1)
 	{
-
-		cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); // 逆时针旋转90度
+		switch (globalStruct.imgRotateCount1) {
+		case 1:
+			cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); 
+			break;
+		case 2:
+			cv::rotate(frame, frame, cv::ROTATE_180); 
+			break;
+		case 3:
+			cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); 
+			break;
+		default:
+			break;
+		}
 	}
 	else
 	{
-		cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); // 逆时针旋转90度
+		switch (globalStruct.imgRotateCount2) {
+		case 1:
+			cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); 
+			break;
+		case 2:
+			cv::rotate(frame, frame, cv::ROTATE_180); 
+			break;
+		case 3:
+			cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); 
+			break;
+		default:
+			break;
+		}
 	}
 
 	

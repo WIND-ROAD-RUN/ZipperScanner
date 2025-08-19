@@ -79,5 +79,8 @@ namespace cdm {
 		imgIsSaveBmp : bool : default = false;
 		imgIsSavePng : bool : default = false;
 		imgSaveQuality : int : default = false;
+
+		imgRotateCount1 : int :default = 0;
+		imgRotateCount2 : int :default = 0;
 	};
 }

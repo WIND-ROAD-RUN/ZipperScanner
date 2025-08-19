@@ -88,7 +88,8 @@ void TestImgPushThread::readImg(size_t s)
 
 		for (int i = 0; i < 2; ++i) {
 
-			imgReady(selectedImgs[i], 1);
+			imgReady1(selectedImgs[i], 1);
+			imgReady2(selectedImgs[i], 2);
 		}
 	}
 }

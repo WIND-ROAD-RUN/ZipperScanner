@@ -67,6 +67,9 @@ class GlobalData
 {
 	Q_OBJECT
 public:
+	std::atomic_int imgRotateCount1{0};
+	std::atomic_int imgRotateCount2{ 0 };
+public:
 	rw::rqw::ZMotion  zmotion;
 	void destory_motion();
 

@@ -109,9 +109,9 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 
 	globalThread.testImgPushThread = std::make_unique<TestImgPushThread>(this);
-	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady,
+	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady1,
 		globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured);
-	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady,
+	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady2,
 		globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured);
 
 	globalThread.testImgPushThread->startThread();
@@ -316,7 +316,7 @@ void ZipperScanner::build_ZipperScannerData()
 	ui->ckb_wenzi->setVisible(false);
 
 	ui->ckb_shibiekuang->setChecked(true);
-	ui->ckb_wenzi->setChecked(true);
+	ui->ckb_wenzi->setChecked(false);
 
 	globalStruct.buildImageSaveEngine();
 

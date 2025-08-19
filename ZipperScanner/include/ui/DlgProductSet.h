@@ -134,6 +134,10 @@ private slots:
 	void ckb_extra6_checked(bool isChecked);
 	void ckb_extra7_checked(bool isChecked);
 	void ckb_extra8_checked(bool isChecked);
+
+	//图像旋转次数
+	void btn_rotateImgCount1_clicked();
+	void btn_rotateImgCount2_clicked();
 public:
 	Ui::DlgProductSetClass* ui;
 };

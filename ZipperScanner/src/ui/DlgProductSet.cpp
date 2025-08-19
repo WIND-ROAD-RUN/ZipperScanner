@@ -137,7 +137,12 @@ void DlgProductSet::read_config()
 	ui->ckb_extra7->setChecked(globalConfig.isExtra7);
 	ui->ckb_extra8->setChecked(globalConfig.isExtra8);
 
+	//图像旋转次数
+	ui->btn_rotateImgCount1->setText(QString::number(globalConfig.imgRotateCount1));
+	ui->btn_rotateImgCount2->setText(QString::number(globalConfig.imgRotateCount2));
 
+	GlobalData::getInstance().imgRotateCount1 = globalConfig.imgRotateCount1;
+	GlobalData::getInstance().imgRotateCount2 = globalConfig.imgRotateCount2;
 }
 
 void DlgProductSet::build_connect()
@@ -311,6 +316,12 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::rbtn_saveJpeg_checked);
 	QObject::connect(ui->rbtn_savePng, &QRadioButton::clicked,
 		this, &DlgProductSet::rbtn_savePng_checked);
+
+	// 图像旋转次数
+	QObject::connect(ui->btn_rotateImgCount1, &QPushButton::clicked,
+		this, &DlgProductSet::btn_rotateImgCount1_clicked);
+	QObject::connect(ui->btn_rotateImgCount2, &QPushButton::clicked,
+		this, &DlgProductSet::btn_rotateImgCount2_clicked);
 
 }
 
@@ -1734,6 +1745,48 @@ void DlgProductSet::ckb_extra8_checked(bool isChecked)
 {
 	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra8 = isChecked;
+}
+
+void DlgProductSet::btn_rotateImgCount1_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0 || value.toDouble() > 3)
+		{
+			QMessageBox::warning(this, "提示", "请输入0到3的数值");
+			return;
+		}
+		auto& globalStruct = GlobalData::getInstance();
+		auto& globalStructSetConfig = globalStruct.setConfig;
+		ui->btn_rotateImgCount1->setText(value);
+		globalStructSetConfig.imgRotateCount1 = value.toInt();
+		globalStruct.imgRotateCount1 = value.toInt();
+	}
+}
+
+void DlgProductSet::btn_rotateImgCount2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0 || value.toDouble() > 3)
+		{
+			QMessageBox::warning(this, "提示", "请输入0到3的数值");
+			return;
+		}
+		auto& globalStruct = GlobalData::getInstance();
+		auto& globalStructSetConfig = globalStruct.setConfig;
+		ui->btn_rotateImgCount2->setText(value);
+		globalStructSetConfig.imgRotateCount2 = value.toInt();
+		globalStruct.imgRotateCount2 = value.toInt();
+	}
 }
 
 

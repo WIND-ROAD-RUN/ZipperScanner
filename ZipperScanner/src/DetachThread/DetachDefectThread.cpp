@@ -79,6 +79,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 			isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
 			QThread::msleep(1000);
+			++globalStruct.statisticalInfo.punchCount;
 			std::cout << "stoplocation:" << minlocation << std::endl;
 
 			std::cout << "queue->size() before delete:" << queue->size() << std::endl;

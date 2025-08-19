@@ -320,7 +320,7 @@ QGroupBox::title {
         <property name="title">
          <string/>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,3,1,1,1,1,1,1">
+        <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,3,1,1,1,1,1">
          <item>
           <layout class="QHBoxLayout" name="hLayout_info" stretch="1,1">
            <item>
@@ -995,97 +995,6 @@ QRadioButton::indicator:pressed {
             </item>
            </layout>
           </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="hLayout_remove">
-           <item>
-            <widget class="QRadioButton" name="rbtn_removeFunc">
-             <property name="styleSheet">
-              <string notr="true">QRadioButton {
-    spacing: 8px;
-    font-size: 14px;
-    color: #333;
-    font-weight: bold;        
-    color:  rgb(0, 0, 0);       
-
-}
-
-/* 未选中状态 */
-QRadioButton::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    border: 2px solid #999;
-    background: #ffffff;
-}
-
-/* 悬停效果 */
-QRadioButton::indicator:hover {
-    border: 2px solid #666;
-}
-
-/* 选中状态 */
-QRadioButton::indicator:checked {
-    border: 2px solid #2196F3;
-}
-
-/* 选中时的内圆 */
-QRadioButton::indicator:checked {
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.4,
-        fx:0.5, fy:0.5,
-        stop:0 #2196F3,
-        stop:1 transparent
-    );
-}
-
-/* 禁用状态 */
-QRadioButton::indicator:disabled {
-    border: 2px solid #ccc;
-    background: #eee;
-}
-
-/* 选中时的文字颜色 */
-QRadioButton:checked {
-    color: #2196F3;
-    font-weight: 500;
-}
-
-/* 点击动画效果 */
-QRadioButton::indicator:pressed {
-    border: 2px solid #1565C0;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.5,
-        fx:0.5, fy:0.5,
-        stop:0 #BBDEFB,
-        stop:1 transparent
-    );
-}</string>
-             </property>
-             <property name="text">
-              <string>剔除功能</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_removeRate">
-             <property name="styleSheet">
-              <string notr="true">QLabel {
-       font-size: 20px;        
-       font-weight: bold;        
-       color:  rgb(89, 89, 89);       
-       padding: 5px 5px;     
-       border-bottom: 2px solid #cccccc; 
-    }</string>
-             </property>
-             <property name="text">
-              <string>0个/min</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>

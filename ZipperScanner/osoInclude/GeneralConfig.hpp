@@ -25,7 +25,6 @@ namespace cdm {
         bool zhongGuang{ false };
         bool ruoGuang{ false };
         bool isDebug{ false };
-        bool isDefect{ false };
         bool isSaveImg{ false };
         bool isshibiekuang{ true };
         bool iswenzi{ true };
@@ -71,11 +70,6 @@ namespace cdm {
             throw std::runtime_error("$variable$isDebug is not found");
         }
         isDebug = isDebugItem->getValueAsBool();
-        auto isDefectItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$isDefect$"));
-        if (!isDefectItem) {
-            throw std::runtime_error("$variable$isDefect is not found");
-        }
-        isDefect = isDefectItem->getValueAsBool();
         auto isSaveImgItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$isSaveImg$"));
         if (!isSaveImgItem) {
             throw std::runtime_error("$variable$isSaveImg is not found");
@@ -116,7 +110,6 @@ namespace cdm {
         zhongGuang = obj.zhongGuang;
         ruoGuang = obj.ruoGuang;
         isDebug = obj.isDebug;
-        isDefect = obj.isDefect;
         isSaveImg = obj.isSaveImg;
         isshibiekuang = obj.isshibiekuang;
         iswenzi = obj.iswenzi;
@@ -134,7 +127,6 @@ namespace cdm {
             zhongGuang = obj.zhongGuang;
             ruoGuang = obj.ruoGuang;
             isDebug = obj.isDebug;
-            isDefect = obj.isDefect;
             isSaveImg = obj.isSaveImg;
             isshibiekuang = obj.isshibiekuang;
             iswenzi = obj.iswenzi;
@@ -173,10 +165,6 @@ namespace cdm {
         isDebugItem->setName("$variable$isDebug$");
         isDebugItem->setValueFromBool(isDebug);
         assembly.addItem(isDebugItem);
-        auto isDefectItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        isDefectItem->setName("$variable$isDefect$");
-        isDefectItem->setValueFromBool(isDefect);
-        assembly.addItem(isDefectItem);
         auto isSaveImgItem = std::make_shared<rw::oso::ObjectStoreItem>();
         isSaveImgItem->setName("$variable$isSaveImg$");
         isSaveImgItem->setValueFromBool(isSaveImg);
@@ -206,7 +194,7 @@ namespace cdm {
 
     inline bool GeneralConfig::operator==(const GeneralConfig& obj) const
     {
-        return produceLength == obj.produceLength && punchCount == obj.punchCount && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isDefect == obj.isDefect && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop && shedingladaichangdu == obj.shedingladaichangdu;
+        return produceLength == obj.produceLength && punchCount == obj.punchCount && qiangGuang == obj.qiangGuang && zhongGuang == obj.zhongGuang && ruoGuang == obj.ruoGuang && isDebug == obj.isDebug && isSaveImg == obj.isSaveImg && isshibiekuang == obj.isshibiekuang && iswenzi == obj.iswenzi && isStart == obj.isStart && isStop == obj.isStop && shedingladaichangdu == obj.shedingladaichangdu;
     }
 
     inline bool GeneralConfig::operator!=(const GeneralConfig& obj) const

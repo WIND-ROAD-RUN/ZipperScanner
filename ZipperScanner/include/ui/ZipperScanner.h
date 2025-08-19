@@ -76,6 +76,9 @@ public:
 	void read_config_ScoreConfig();
 	void read_config_SetConfig();
 
+private:
+	void changeRemoveFucState(bool state);
+
 private slots:
 	void pbtn_exit_clicked();
 	void pbtn_set_clicked();

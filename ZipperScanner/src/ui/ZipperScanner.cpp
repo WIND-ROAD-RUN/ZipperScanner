@@ -84,10 +84,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	//默认开启剔除功能
 	globalStruct.generalConfig = *globalStruct.storeContext->load(globalPath.generalConfigPath.toStdString());
 	// 加载主窗体UI的设置
-	globalStruct.generalConfig.isDefect = true; // 默认开启剔废模式
 	rbtn_stop_clicked(true); // 默认停止
-	rbtn_removeFunc_checked(true);
-	ui->rbtn_removeFunc->setChecked(globalStruct.generalConfig.isDefect);
 	ui->rbtn_strongLight->setChecked(globalStruct.generalConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
@@ -174,10 +171,6 @@ void ZipperScanner::build_connect()
 	// 采图
 	QObject::connect(ui->rbtn_takePicture, &QRadioButton::clicked,
 		this, &ZipperScanner::rbtn_takePicture_checked);
-
-	// 剔废功能
-	QObject::connect(ui->rbtn_removeFunc, &QRadioButton::clicked,
-		this, &ZipperScanner::rbtn_removeFunc_checked);
 
 	// 是否识别框
 	QObject::connect(ui->ckb_shibiekuang, &QCheckBox::clicked,
@@ -590,6 +583,34 @@ void ZipperScanner::read_config_SetConfig()
 	globalStruct.setConfig = *loadResult;
 }
 
+void ZipperScanner::changeRemoveFucState(bool state)
+{
+	auto& globalStruct = GlobalData::getInstance();
+	if (state)
+	{
+		auto& globalStruct = GlobalData::getInstance();
+		globalStruct.runningState = RunningState::OpenRemoveFunc;
+		_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
+		if (globalStruct.camera1)
+		{
+			globalStruct.camera1->setTriggerState(true);
+			globalStruct.camera1->setFrameRate(50);
+		}
+		if (globalStruct.camera2)
+		{
+			globalStruct.camera2->setTriggerState(true);
+			globalStruct.camera2->setFrameRate(50);
+		}
+		ui->rbtn_debug->setChecked(false);
+		ui->ckb_shibiekuang->setVisible(false);
+		ui->ckb_wenzi->setVisible(false);
+	}
+	else
+	{
+		globalStruct.runningState = RunningState::Stop;
+	}
+}
+
 void ZipperScanner::pbtn_exit_clicked()
 {
 #ifdef NDEBUG
@@ -674,7 +695,7 @@ void ZipperScanner::pbtn_score_clicked()
 
 void ZipperScanner::rbtn_debug_checked(bool checked)
 {
-	auto isRuning = ui->rbtn_removeFunc->isChecked();
+	auto isRuning = ui->rbtn_start->isChecked();
 
 	auto& GlobalStructData = GlobalData::getInstance();
 	if (!isRuning) {
@@ -773,30 +794,7 @@ void ZipperScanner::rbtn_takePicture_checked()
 
 void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	if (checked)
-	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.runningState = RunningState::OpenRemoveFunc;
-		_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
-		if (globalStruct.camera1)
-		{
-			globalStruct.camera1->setTriggerState(true);
-			globalStruct.camera1->setFrameRate(50);
-		}
-		if (globalStruct.camera2)
-		{
-			globalStruct.camera2->setTriggerState(true);
-			globalStruct.camera2->setFrameRate(50);
-		}
-		ui->rbtn_debug->setChecked(false);
-		ui->ckb_shibiekuang->setVisible(false);
-		ui->ckb_wenzi->setVisible(false);
-	}
-	else
-	{
-		globalStruct.runningState = RunningState::Stop;
-	}
+	changeRemoveFucState(checked);
 }
 
 void ZipperScanner::ckb_shibiekuang_checked(bool checked)
@@ -849,6 +847,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		{
 			QMessageBox::warning(this, "警告", "电机参数设置失败");
 		}
+		changeRemoveFucState(true);
 	}
 	else
 	{
@@ -862,6 +861,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		{
 			QMessageBox::warning(this, "警告", "停止电机取消失败!");
 		}
+		changeRemoveFucState(false);
 	}
 }
 
@@ -871,6 +871,7 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 	auto& setConfig = globalStruct.setConfig;
 	if (checked)
 	{
+		changeRemoveFucState(false);
 		ui->rbtn_stop->setChecked(checked);
 		globalStruct.generalConfig.isStart = false;
 		globalStruct.generalConfig.isStop = true;
@@ -883,6 +884,7 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 	}
 	else
 	{
+		changeRemoveFucState(true);
 		globalStruct.generalConfig.isStart = true;
 		globalStruct.generalConfig.isStop = false;
 	}

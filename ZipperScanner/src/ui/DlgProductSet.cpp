@@ -44,7 +44,7 @@ void DlgProductSet::build_ui()
 
 void DlgProductSet::read_config()
 {
-	auto& globalConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalConfig = GlobalData::getInstance().setConfig;
 
 	// 剔废时间
 	ui->pbtn_tifeijuli1->setText(QString::number(globalConfig.tifeijuli1));
@@ -142,7 +142,7 @@ void DlgProductSet::read_config()
 
 void DlgProductSet::build_connect()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	QObject::connect(ui->pbtn_tifeijuli1, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_yanchitifeishijian1_clicked);
@@ -263,9 +263,9 @@ void DlgProductSet::build_connect()
 
 
 	// 连接监控IO信号
-	QObject::connect(&globalStruct, &GlobalStructDataZipper::emit_InPutSignal,
+	QObject::connect(&globalStruct, &GlobalData::emit_InPutSignal,
 		this, &DlgProductSet::monitorInPutSignal);
-	QObject::connect(&globalStruct, &GlobalStructDataZipper::emit_OutPutSignal,
+	QObject::connect(&globalStruct, &GlobalData::emit_OutPutSignal,
 		this, &DlgProductSet::monitorOutPutSignal);
 
 	// 分数界面内容可选显示
@@ -316,7 +316,7 @@ void DlgProductSet::build_connect()
 
 std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
 {
-	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& setConfig = GlobalData::getInstance().setConfig;
 	std::vector<int> values = {
 		setConfig.chongkongOut,
 		setConfig.tuojiOut
@@ -386,7 +386,7 @@ void DlgProductSet::setDIErrorInfo(int index)
 
 void DlgProductSet::closeAllIOBtn()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	bool isChongKongSet = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
 
 	// 冲孔
@@ -433,7 +433,7 @@ void DlgProductSet::setDOErrorInfo(int index)
 
 std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 {
-	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& setConfig = GlobalData::getInstance().setConfig;
 	std::vector<int> values = {
 		setConfig.qidonganniuIn,
 		setConfig.lalianlawanIn,
@@ -469,14 +469,14 @@ std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 
 void DlgProductSet::pbtn_close_clicked()
 {
-	auto& GlobalStructData = GlobalStructDataZipper::getInstance();
+	auto& GlobalStructData = GlobalData::getInstance();
 
 	// 关闭所有可以点动的IO按钮
 	closeAllIOBtn();
 
 	// 关闭监控IO线程
-	GlobalStructDataZipper::getInstance()._isUpdateMonitorInfo = false;
-	GlobalStructDataZipper::getInstance().monitorZMotionMonitorThread.setRunning(false);
+	GlobalData::getInstance()._isUpdateMonitorInfo = false;
+	GlobalData::getInstance().monitorZMotionMonitorThread.setRunning(false);
 
 	GlobalStructData.saveDlgProductSetConfig();
 	this->close();
@@ -496,7 +496,7 @@ void DlgProductSet::pbtn_yanchitifeishijian1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_tifeijuli1->setText(value);
 		globalStructSetConfig.tifeijuli1 = value.toDouble();
 	}
@@ -515,7 +515,7 @@ void DlgProductSet::pbtn_yanchitifeishijian2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_tifeijuli2->setText(value);
 		globalStructSetConfig.tifeijuli2 = value.toDouble();
 	}
@@ -534,7 +534,7 @@ void DlgProductSet::pbtn_shangxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_shangxianwei1->setText(value);
 		globalStructSetConfig.shangXianWei1 = value.toDouble();
 	}
@@ -553,7 +553,7 @@ void DlgProductSet::pbtn_xiaxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_xiaxianwei1->setText(value);
 		globalStructSetConfig.xiaXianWei1 = value.toDouble();
 	}
@@ -572,7 +572,7 @@ void DlgProductSet::pbtn_zuoxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_zuoxianwei1->setText(value);
 		globalStructSetConfig.zuoXianWei1 = value.toDouble();
 	}
@@ -591,7 +591,7 @@ void DlgProductSet::pbtn_youxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_youxianwei1->setText(value);
 		globalStructSetConfig.youXianWei1 = value.toDouble();
 	}
@@ -610,7 +610,7 @@ void DlgProductSet::pbtn_xiangsudangliang1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_xiangsudangliang1->setText(value);
 		globalStructSetConfig.xiangSuDangLiang1 = value.toDouble();
 		emit pixToWorldChanged();
@@ -630,7 +630,7 @@ void DlgProductSet::pbtn_shangxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_shangxianwei2->setText(value);
 		globalStructSetConfig.shangXianWei2 = value.toDouble();
 	}
@@ -649,7 +649,7 @@ void DlgProductSet::pbtn_xiaxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_xiaxianwei2->setText(value);
 		globalStructSetConfig.xiaXianWei2 = value.toDouble();
 	}
@@ -668,7 +668,7 @@ void DlgProductSet::pbtn_zuoxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_zuoxianwei2->setText(value);
 		globalStructSetConfig.zuoXianWei2 = value.toDouble();
 	}
@@ -687,7 +687,7 @@ void DlgProductSet::pbtn_youxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_youxianwei2->setText(value);
 		globalStructSetConfig.youXianWei2 = value.toDouble();
 	}
@@ -706,7 +706,7 @@ void DlgProductSet::pbtn_xiangsudangliang2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 		ui->pbtn_xiangsudangliang2->setText(value);
 		globalStructSetConfig.xiangSuDangLiang2 = value.toDouble();
 		emit pixToWorldChanged();
@@ -726,7 +726,7 @@ void DlgProductSet::pbtn_qiangbaoguang_clicked()
 			QMessageBox::warning(this, "提示", "请输入11到300的数值");
 			return;
 		}
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
 
@@ -759,7 +759,7 @@ void DlgProductSet::pbtn_qiangzengyi_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到16的数值");
 			return;
 		}
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
 		ui->pbtn_qiangzengyi->setText(value);
@@ -791,7 +791,7 @@ void DlgProductSet::pbtn_zhongbaoguang_clicked()
 			QMessageBox::warning(this, "提示", "请输入11到300的数值");
 			return;
 		}
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
 		ui->pbtn_zhongbaoguang->setText(value);
@@ -823,7 +823,7 @@ void DlgProductSet::pbtn_ruobaoguang_clicked()
 			QMessageBox::warning(this, "提示", "请输入11到300的数值");
 			return;
 		}
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
 		ui->pbtn_ruobaoguang->setText(value);
@@ -856,7 +856,7 @@ void DlgProductSet::pbtn_zhongzengyi_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到16的数值");
 			return;
 		}
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
 		ui->pbtn_zhongzengyi->setText(value);
@@ -889,7 +889,7 @@ void DlgProductSet::pbtn_ruozengyi_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到16的数值");
 			return;
 		}
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
 		ui->pbtn_ruozengyi->setText(value);
@@ -911,26 +911,26 @@ void DlgProductSet::pbtn_ruozengyi_clicked()
 
 void DlgProductSet::cBox_takeNgPictures_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.saveNGImg = ui->cBox_takeNgPictures->isChecked();
 }
 
 void DlgProductSet::cBox_takeMaskPictures_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.saveMaskImg = ui->cBox_takeMaskPictures->isChecked();
 }
 
 void DlgProductSet::cBox_takeOkPictures_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.saveOKImg = ui->cBox_takeOkPictures->isChecked();
 }
 
 void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 {
-	auto& isDebug = GlobalStructDataZipper::getInstance().setConfig.debugMode;
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& isDebug = GlobalData::getInstance().setConfig.debugMode;
+	auto& globalStruct = GlobalData::getInstance();
 	isDebug = ischecked;
 	isDebugIO = ischecked;
 	if (isDebugIO)
@@ -977,19 +977,19 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 
 void DlgProductSet::cBox_takeCamera1Pictures_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.takeWork1Pictures = ui->cBox_takeCamera1Pictures->isChecked();
 }
 
 void DlgProductSet::cBox_takeCamera2Pictures_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.takeWork2Pictures = ui->cBox_takeCamera2Pictures->isChecked();
 }
 
 void DlgProductSet::rbtn_saveJpeg_checked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
 	globalStructSetConfig.imgIsSaveJpeg = true;
@@ -999,7 +999,7 @@ void DlgProductSet::rbtn_saveJpeg_checked()
 
 void DlgProductSet::rbtn_savePng_checked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
 	globalStructSetConfig.imgIsSavePng = true;
@@ -1009,7 +1009,7 @@ void DlgProductSet::rbtn_savePng_checked()
 
 void DlgProductSet::rbtn_saveBmp_checked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
 	globalStructSetConfig.imgIsSaveBmp = true;
@@ -1019,7 +1019,7 @@ void DlgProductSet::rbtn_saveBmp_checked()
 
 void DlgProductSet::btn_saveQuality_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -1040,25 +1040,25 @@ void DlgProductSet::btn_saveQuality_clicked()
 
 void DlgProductSet::cbox_qiyongerxiangji_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.qiyongerxiangji = ui->cbox_qiyongerxiangji->isChecked();
 }
 
 void DlgProductSet::cbox_qiyongyundongkongzhiqi_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.qiyongyundongkongzhiqi = ui->cbox_qiyongyundongkongzhiqi->isChecked();
 }
 
 void DlgProductSet::cbox_yundongkongzhiqichonglian_checked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.yundongkongzhiqichonglian = ui->cbox_yundongkongzhiqichonglian->isChecked();
 }
 
 void DlgProductSet::btn_shedingladaichangdu_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -1078,7 +1078,7 @@ void DlgProductSet::btn_shedingladaichangdu_clicked()
 
 void DlgProductSet::btn_xiangjichufachangdu_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -1104,21 +1104,21 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 
 void DlgProductSet::btn_jishuqingling_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.chongkongjishu = 0;
 	ui->btn_chongkongjishu->setText("0");
 }
 
 void DlgProductSet::btn_changduqingling_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.dangqianchangdu = 0;
 	ui->btn_dangqianchangdu->setText("0");
 }
 
 void DlgProductSet::btn_shoudongladai_pressed()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto setConfig = globalStruct.setConfig;
 	auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
@@ -1141,7 +1141,7 @@ void DlgProductSet::btn_shoudongladai_pressed()
 
 void DlgProductSet::btn_shoudongladai_released()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	// 停止电机
 	bool isStop = globalStruct.zmotion.stopAllAxis();
 
@@ -1154,7 +1154,7 @@ void DlgProductSet::btn_shoudongladai_released()
 void DlgProductSet::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto chongkongshijian = globalStruct.setConfig.chongkongshijian;
 		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
 		QThread::msleep(yanchichongkongshijian);
@@ -1170,7 +1170,7 @@ void DlgProductSet::btn_shoudongchongkong_clicked()
 
 void DlgProductSet::btn_tuoji_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	bool isGetTuoJiOut = false;
 	bool tuojiState = globalStruct.zmotion.getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
@@ -1216,7 +1216,7 @@ void DlgProductSet::btn_xiangjichufa_clicked()
 
 void DlgProductSet::btn_shoudongsudu_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1235,7 +1235,7 @@ void DlgProductSet::btn_shoudongsudu_clicked()
 
 void DlgProductSet::btn_meizhuanmaichongshu_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1254,7 +1254,7 @@ void DlgProductSet::btn_meizhuanmaichongshu_clicked()
 
 void DlgProductSet::btn_zidongladaisudu_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1273,7 +1273,7 @@ void DlgProductSet::btn_zidongladaisudu_clicked()
 
 void DlgProductSet::btn_shedingzhouchang_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1292,7 +1292,7 @@ void DlgProductSet::btn_shedingzhouchang_clicked()
 
 void DlgProductSet::btn_yanshichongkong_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1311,7 +1311,7 @@ void DlgProductSet::btn_yanshichongkong_clicked()
 
 void DlgProductSet::btn_chongkongshijian_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1330,7 +1330,7 @@ void DlgProductSet::btn_chongkongshijian_clicked()
 
 void DlgProductSet::btn_yanshiziqi_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1349,7 +1349,7 @@ void DlgProductSet::btn_yanshiziqi_clicked()
 
 void DlgProductSet::btn_jiajiansushijian_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1368,7 +1368,7 @@ void DlgProductSet::btn_jiajiansushijian_clicked()
 
 void DlgProductSet::cbox_DIqidonganniu_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
@@ -1378,7 +1378,7 @@ void DlgProductSet::cbox_DIqidonganniu_clicked(bool isChecked)
 
 void DlgProductSet::cbox_DIjiting_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
@@ -1388,7 +1388,7 @@ void DlgProductSet::cbox_DIjiting_clicked(bool isChecked)
 
 void DlgProductSet::cbox_DIlalianlawan_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
@@ -1399,7 +1399,7 @@ void DlgProductSet::cbox_DIlalianlawan_clicked(bool isChecked)
 
 void DlgProductSet::cbox_DOchongkong_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
@@ -1409,7 +1409,7 @@ void DlgProductSet::cbox_DOchongkong_clicked(bool isChecked)
 
 void DlgProductSet::cbox_DOtuoji_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
@@ -1419,7 +1419,7 @@ void DlgProductSet::cbox_DOtuoji_clicked(bool isChecked)
 
 void DlgProductSet::cbox_DOchufapaizhao_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
@@ -1429,7 +1429,7 @@ void DlgProductSet::cbox_DOchufapaizhao_clicked(bool isChecked)
 
 void DlgProductSet::btn_setqidonganniu_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1452,7 +1452,7 @@ void DlgProductSet::btn_setqidonganniu_clicked()
 
 void DlgProductSet::btn_setlalianlawan_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1475,7 +1475,7 @@ void DlgProductSet::btn_setlalianlawan_clicked()
 
 void DlgProductSet::btn_setjiting_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1498,7 +1498,7 @@ void DlgProductSet::btn_setjiting_clicked()
 
 void DlgProductSet::btn_setchongkong_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1521,7 +1521,7 @@ void DlgProductSet::btn_setchongkong_clicked()
 
 void DlgProductSet::btn_settuoji_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1544,7 +1544,7 @@ void DlgProductSet::btn_settuoji_clicked()
 
 void DlgProductSet::btn_guanji_clicked()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1567,8 +1567,8 @@ void DlgProductSet::btn_guanji_clicked()
 
 void DlgProductSet::tabWidget_indexChanged(int index)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
-	auto& _isUpdateMonitorInfo = GlobalStructDataZipper::getInstance()._isUpdateMonitorInfo;
+	auto& globalStruct = GlobalData::getInstance();
+	auto& _isUpdateMonitorInfo = GlobalData::getInstance()._isUpdateMonitorInfo;
 	switch (index) {
 	case 0:
 		_isUpdateMonitorInfo = false;
@@ -1666,73 +1666,73 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 
 void DlgProductSet::ckb_queya_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isQueya = isChecked;
 }
 
 void DlgProductSet::ckb_tangshang_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isTangshang = isChecked;
 }
 
 void DlgProductSet::ckb_zangwu_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isZangwu = isChecked;
 }
 
 void DlgProductSet::ckb_suoxiao_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isSuoxiao = isChecked;
 }
 
 void DlgProductSet::ckb_extra1_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra1 = isChecked;
 }
 
 void DlgProductSet::ckb_extra2_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra2 = isChecked;
 }
 
 void DlgProductSet::ckb_extra3_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra3 = isChecked;
 }
 
 void DlgProductSet::ckb_extra4_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra4 = isChecked;
 }
 
 void DlgProductSet::ckb_extra5_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra5 = isChecked;
 }
 
 void DlgProductSet::ckb_extra6_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra6 = isChecked;
 }
 
 void DlgProductSet::ckb_extra7_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra7 = isChecked;
 }
 
 void DlgProductSet::ckb_extra8_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra8 = isChecked;
 }
 

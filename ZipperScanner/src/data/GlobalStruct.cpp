@@ -10,12 +10,12 @@
 
 
 
-void GlobalStructDataZipper::destory_motion()
+void GlobalData::destory_motion()
 {
 	bool isDisconnect = zmotion.disConnect();
 }
 
-void GlobalStructDataZipper::build_MonitorZMotionIOStateThread()
+void GlobalData::build_MonitorZMotionIOStateThread()
 {
 	monitorZMotionMonitorThread.setMonitorObject(zmotion);
 	QVector<size_t> monitorIList = {ControlLines::qidonganniuIn,ControlLines::lalianlawanIn,ControlLines::jitingIn,ControlLines::guanjiIn};
@@ -26,23 +26,23 @@ void GlobalStructDataZipper::build_MonitorZMotionIOStateThread()
 	monitorZMotionMonitorThread.setRunning(false);
 	monitorZMotionMonitorThread.start();
 	QObject::connect(&monitorZMotionMonitorThread, &rw::rqw::MonitorZMotionIOStateThread::DIState,
-		this, &GlobalStructDataZipper::getInPutSignal,Qt::QueuedConnection);
+		this, &GlobalData::getInPutSignal,Qt::QueuedConnection);
 	QObject::connect(&monitorZMotionMonitorThread, &rw::rqw::MonitorZMotionIOStateThread::DOState,
-		this, &GlobalStructDataZipper::getOutPutSignal, Qt::QueuedConnection);
+		this, &GlobalData::getOutPutSignal, Qt::QueuedConnection);
 }
 
-void GlobalStructDataZipper::destroy_MonitorZMotionIOStateThread()
+void GlobalData::destroy_MonitorZMotionIOStateThread()
 {
 	monitorZMotionMonitorThread.setRunning(false);
 	monitorZMotionMonitorThread.destroyThread();
 }
 
-void GlobalStructDataZipper::getStartOrStopSignal(size_t index, bool state)
+void GlobalData::getStartOrStopSignal(size_t index, bool state)
 {
 	emit emit_StartOrStopSignal(index, state);
 }
 
-void GlobalStructDataZipper::build_monitorStartOrStopThread()
+void GlobalData::build_monitorStartOrStopThread()
 {
 	monitorStartOrStopThread.setMonitorObject(zmotion);
 
@@ -53,26 +53,26 @@ void GlobalStructDataZipper::build_monitorStartOrStopThread()
 	monitorStartOrStopThread.start();
 
 	QObject::connect(&monitorStartOrStopThread, &rw::rqw::MonitorZMotionIOStateThread::DIState,
-		this, &GlobalStructDataZipper::getStartOrStopSignal, Qt::QueuedConnection);
+		this, &GlobalData::getStartOrStopSignal, Qt::QueuedConnection);
 }
 
-void GlobalStructDataZipper::destroy_monitorStartOrStopThread()
+void GlobalData::destroy_monitorStartOrStopThread()
 {
 	monitorStartOrStopThread.setRunning(false);
 	monitorStartOrStopThread.destroyThread();
 }
 
-void GlobalStructDataZipper::getInPutSignal(size_t index, bool state)
+void GlobalData::getInPutSignal(size_t index, bool state)
 {
 	emit emit_InPutSignal(index, state);
 }
 
-void GlobalStructDataZipper::getOutPutSignal(size_t index, bool state)
+void GlobalData::getOutPutSignal(size_t index, bool state)
 {
 	emit emit_OutPutSignal(index, state);
 }
 
-void GlobalStructDataZipper::build_PriorityQueue()
+void GlobalData::build_PriorityQueue()
 {
 	auto compareNodeEqual = [](const float& a, const float& b) {
 		return a == b;
@@ -84,17 +84,17 @@ void GlobalStructDataZipper::build_PriorityQueue()
 	priorityQueue = std::make_unique<ThreadSafeMinHeap >();
 }
 
-void GlobalStructDataZipper::destroy_PriorityQueue()
+void GlobalData::destroy_PriorityQueue()
 {
 	priorityQueue.reset();
 }
 
-void GlobalStructDataZipper::build_DetachDefectThreadZipper()
+void GlobalData::build_DetachDefectThreadZipper()
 {
 	detachDefectThreadZipper = new DetachDefectThreadZipper(this);
 }
 
-void GlobalStructDataZipper::destroy_DetachDefectThreadZipper()
+void GlobalData::destroy_DetachDefectThreadZipper()
 {
 	if (detachDefectThreadZipper)
 	{
@@ -102,25 +102,25 @@ void GlobalStructDataZipper::destroy_DetachDefectThreadZipper()
 	}
 }
 
-void GlobalStructDataZipper::build_CameraAndCardStateThreadZipper()
+void GlobalData::build_CameraAndCardStateThreadZipper()
 {
 	cameraAndCardStateThreadZipper = new CameraAndCardStateThreadZipper(this);
 	// 更新UI界面
 	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::updateCameraLabelState,
-		this, &GlobalStructDataZipper::emit_updateUiLabels, Qt::QueuedConnection);
+		this, &GlobalData::emit_updateUiLabels, Qt::QueuedConnection);
 	// 相机重连
 	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::buildCamera1,
-		this, &GlobalStructDataZipper::rebuild_Camera1, Qt::QueuedConnection);
+		this, &GlobalData::rebuild_Camera1, Qt::QueuedConnection);
 	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::buildCamera2,
-		this, &GlobalStructDataZipper::rebuild_Camera2, Qt::QueuedConnection);
+		this, &GlobalData::rebuild_Camera2, Qt::QueuedConnection);
 	// 相机销毁
 	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::destroyCamera1,
-		this, &GlobalStructDataZipper::destroy_Camera1, Qt::QueuedConnection);
+		this, &GlobalData::destroy_Camera1, Qt::QueuedConnection);
 	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::destroyCamera2,
-		this, &GlobalStructDataZipper::destroy_Camera2, Qt::QueuedConnection);
+		this, &GlobalData::destroy_Camera2, Qt::QueuedConnection);
 }
 
-void GlobalStructDataZipper::rebuild_Camera1()
+void GlobalData::rebuild_Camera1()
 {
 	auto cameraList = rw::rqw::CheckCameraList();
 
@@ -164,7 +164,7 @@ void GlobalStructDataZipper::rebuild_Camera1()
 	}
 }
 
-void GlobalStructDataZipper::rebuild_Camera2()
+void GlobalData::rebuild_Camera2()
 {
 	auto cameraList = rw::rqw::CheckCameraList();
 
@@ -208,22 +208,22 @@ void GlobalStructDataZipper::rebuild_Camera2()
 	}
 }
 
-void GlobalStructDataZipper::destroy_Camera1()
+void GlobalData::destroy_Camera1()
 {
 	destroyCamera1();
 }
 
-void GlobalStructDataZipper::destroy_Camera2()
+void GlobalData::destroy_Camera2()
 {
 	destroyCamera2();
 }
 
-GlobalStructDataZipper::GlobalStructDataZipper()
+GlobalData::GlobalData()
 {
 
 }
 
-bool GlobalStructDataZipper::isTargetCamera(const QString& cameraIndex, const QString& targetName)
+bool GlobalData::isTargetCamera(const QString& cameraIndex, const QString& targetName)
 {
 	QRegularExpression regex(R"((\d+)\.(\d+)\.(\d+)\.(\d+))");
 	QRegularExpressionMatch match = regex.match(targetName);
@@ -237,7 +237,7 @@ bool GlobalStructDataZipper::isTargetCamera(const QString& cameraIndex, const QS
 	return false;
 }
 
-void GlobalStructDataZipper::setCameraExposureTime(int cameraIndex, size_t exposureTime)
+void GlobalData::setCameraExposureTime(int cameraIndex, size_t exposureTime)
 {
 	switch (cameraIndex) {
 	case 1:
@@ -267,7 +267,7 @@ void GlobalStructDataZipper::setCameraExposureTime(int cameraIndex, size_t expos
 	}
 }
 
-void GlobalStructDataZipper::setLightLevel(const LightLevel& level)
+void GlobalData::setLightLevel(const LightLevel& level)
 {
 	switch (level)
 	{
@@ -306,12 +306,12 @@ void GlobalStructDataZipper::setLightLevel(const LightLevel& level)
 	}
 }
 
-void GlobalStructDataZipper::buildConfigManager(rw::oso::StorageType type)
+void GlobalData::buildConfigManager(rw::oso::StorageType type)
 {
 	storeContext = std::make_unique<rw::oso::StorageContext>(type);
 }
 
-void GlobalStructDataZipper::buildImageProcessorModules(const QString& path)
+void GlobalData::buildImageProcessorModules(const QString& path)
 {
 	modelCamera1 = std::make_unique<ImageProcessingModuleZipper>(2);
 	modelCamera2 = std::make_unique<ImageProcessingModuleZipper>(2);
@@ -327,30 +327,30 @@ void GlobalStructDataZipper::buildImageProcessorModules(const QString& path)
 
 }
 
-void GlobalStructDataZipper::destroyImageProcessingModule()
+void GlobalData::destroyImageProcessingModule()
 {
 	modelCamera1.reset();
 	modelCamera2.reset();
 }
 
-void GlobalStructDataZipper::buildImageSaveEngine()
+void GlobalData::buildImageSaveEngine()
 {
 	imageSaveEngine = std::make_unique<rw::rqw::ImageSaveEngine>(this, 2);
 }
 
-void GlobalStructDataZipper::destroyImageSaveEngine()
+void GlobalData::destroyImageSaveEngine()
 {
 	imageSaveEngine->stop();
 	imageSaveEngine.reset();
 }
 
-void GlobalStructDataZipper::saveGeneralConfig()
+void GlobalData::saveGeneralConfig()
 {
 	std::string generalConfigPath = globalPath.generalConfigPath.toStdString();
 	storeContext->saveSafe(generalConfig, generalConfigPath);
 }
 
-void GlobalStructDataZipper::saveDlgProductSetConfig()
+void GlobalData::saveDlgProductSetConfig()
 {
 	// 调试模式默认为不开启
 	setConfig.debugMode = false;
@@ -358,24 +358,24 @@ void GlobalStructDataZipper::saveDlgProductSetConfig()
 	storeContext->saveSafe(setConfig, setConfigPath);
 }
 
-void GlobalStructDataZipper::saveDlgProductScoreConfig()
+void GlobalData::saveDlgProductScoreConfig()
 {
 	std::string scoreConfigPath = globalPath.scoreConfigPath.toStdString();
 	storeContext->saveSafe(scoreConfig, scoreConfigPath);
 }
 
-void GlobalStructDataZipper::saveDlgExposureTimeSetConfig()
+void GlobalData::saveDlgExposureTimeSetConfig()
 {
 	storeContext->saveSafe(dlgExposureTimeSetConfig, globalPath.dlgExposureTimeSetFilePath.toStdString());
 }
 
-void GlobalStructDataZipper::buildCamera()
+void GlobalData::buildCamera()
 {
 	buildCamera1();
 	buildCamera2();
 }
 
-bool GlobalStructDataZipper::buildCamera1()
+bool GlobalData::buildCamera1()
 {
 	auto cameraList = rw::rqw::CheckCameraList();
 
@@ -425,7 +425,7 @@ bool GlobalStructDataZipper::buildCamera1()
 	return false;
 }
 
-bool GlobalStructDataZipper::buildCamera2()
+bool GlobalData::buildCamera2()
 {
 	auto cameraList = rw::rqw::CheckCameraList();
 
@@ -472,41 +472,41 @@ bool GlobalStructDataZipper::buildCamera2()
 	return false;
 }
 
-void GlobalStructDataZipper::start_Camera1Monitor()
+void GlobalData::start_Camera1Monitor()
 {
 	if (camera1) {
 		camera1->startMonitor();
 	}
 }
 
-void GlobalStructDataZipper::start_Camera2Monitor()
+void GlobalData::start_Camera2Monitor()
 {
 	if (camera2) {
 		camera2->startMonitor();
 	}
 }
 
-void GlobalStructDataZipper::destroyCamera()
+void GlobalData::destroyCamera()
 {
 	destroyCamera1();
 	destroyCamera2();
 }
 
-void GlobalStructDataZipper::destroyCamera1()
+void GlobalData::destroyCamera1()
 {
 	QObject::disconnect(camera1.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
 		modelCamera1.get(), &ImageProcessingModuleZipper::onFrameCaptured);
 	camera1.reset();
 }
 
-void GlobalStructDataZipper::destroyCamera2()
+void GlobalData::destroyCamera2()
 {
 	QObject::disconnect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
 		modelCamera2.get(), &ImageProcessingModuleZipper::onFrameCaptured);
 	camera2.reset();
 }
 
-rw::rqw::CameraMetaData GlobalStructDataZipper::cameraMetaDataCheck(const QString& cameraIndex, const QVector<rw::rqw::CameraMetaData>& cameraInfo)
+rw::rqw::CameraMetaData GlobalData::cameraMetaDataCheck(const QString& cameraIndex, const QVector<rw::rqw::CameraMetaData>& cameraInfo)
 {
 	for (const auto& cameraMetaData : cameraInfo) {
 		if (isTargetCamera(cameraIndex, cameraMetaData.ip)) {

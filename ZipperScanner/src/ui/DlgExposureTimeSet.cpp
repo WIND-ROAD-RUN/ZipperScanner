@@ -26,7 +26,7 @@ void DlgExposureTimeSet::setExposureTime(int exposureTime)
 
 void DlgExposureTimeSet::build_ui()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& exposureTimeSetConfig = globalStruct.dlgExposureTimeSetConfig;
 	ui->pbtn_exposureTimeValue->setText(QString::number(exposureTimeSetConfig.exposureTime));
 }
@@ -42,7 +42,7 @@ void DlgExposureTimeSet::build_connect()
 
 void DlgExposureTimeSet::SetCamera()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	if (globalStruct.camera1) {
 		globalStruct.camera1->setTriggerMode(rw::rqw::CameraObjectTrigger::Software);
@@ -57,7 +57,7 @@ void DlgExposureTimeSet::SetCamera()
 
 void DlgExposureTimeSet::ResetCamera()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	if (globalStruct.camera1)
 	{
@@ -88,7 +88,7 @@ void DlgExposureTimeSet::pbtn_exposureTimeValue_clicked()
 			return;
 		}
 
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		ui->pbtn_exposureTimeValue->setText(QString::number(newValue));
 		globalStruct.dlgExposureTimeSetConfig.exposureTime = newValue;
 

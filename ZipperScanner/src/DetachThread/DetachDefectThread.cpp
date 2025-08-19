@@ -26,7 +26,7 @@ void DetachDefectThreadZipper::stopThread()
 
 void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& queue)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 
 	try
@@ -134,7 +134,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 void DetachDefectThreadZipper::run()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& priorityQueue = globalStruct.priorityQueue;
 
 	while (running) {

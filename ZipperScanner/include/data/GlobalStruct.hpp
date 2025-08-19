@@ -36,7 +36,7 @@ enum class LightLevel {
 	WeakLight
 };
 
-class GlobalStructDataZipper
+class GlobalData
 	:public QObject
 {
 	Q_OBJECT
@@ -119,17 +119,17 @@ public:
 	std::atomic_bool isTakePictures{ false };
 
 public:
-	static GlobalStructDataZipper& getInstance()
+	static GlobalData& getInstance()
 	{
-		static GlobalStructDataZipper instance;
+		static GlobalData instance;
 		return instance;
 	}
 
-	GlobalStructDataZipper(const GlobalStructDataZipper&) = delete;
-	GlobalStructDataZipper& operator=(const GlobalStructDataZipper&) = delete;
+	GlobalData(const GlobalData&) = delete;
+	GlobalData& operator=(const GlobalData&) = delete;
 private:
-	GlobalStructDataZipper();
-	~GlobalStructDataZipper() = default;
+	GlobalData();
+	~GlobalData() = default;
 public:
 	void setLightLevel(const LightLevel& level);
 public:

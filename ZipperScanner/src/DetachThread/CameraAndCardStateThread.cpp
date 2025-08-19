@@ -6,7 +6,7 @@
 size_t CameraAndCardStateThreadZipper::runtimeCounts=0;
 
 CameraAndCardStateThreadZipper::CameraAndCardStateThreadZipper(QObject* parent)
-	: QThread(parent), running(false), _dlgProductSet(GlobalStructDataZipper::getInstance().setConfig){
+	: QThread(parent), running(false), _dlgProductSet(GlobalData::getInstance().setConfig){
 }
 
 CameraAndCardStateThreadZipper::~CameraAndCardStateThreadZipper()
@@ -57,7 +57,7 @@ void CameraAndCardStateThreadZipper::check_cameraState1()
 {
 	static bool isUpdateState = false;
 
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	if (runtimeCounts != 0) {
 		return;
@@ -72,7 +72,7 @@ void CameraAndCardStateThreadZipper::check_cameraState1()
 		else {
 			emit destroyCamera1();
 			emit updateCameraLabelState(1, false);
-			//emit addWarningInfo("相机1断连", true, 5000);
+			//emit addWarningInfo("鐩告満1鏂繛", true, 5000);
 		}
 	}
 	else {
@@ -87,7 +87,7 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 {
 	static bool isUpdateSate = false;
 
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	if (runtimeCounts != 1) {
 		return;
@@ -103,7 +103,7 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 		else {
 			emit destroyCamera2();
 			emit updateCameraLabelState(2, false);
-			//emit addWarningInfo("相机2断连", true, 5000);
+			//emit addWarningInfo("鐩告満2鏂繛", true, 5000);
 		}
 	}
 	else {
@@ -116,7 +116,7 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 
 void CameraAndCardStateThreadZipper::check_cardState()
 {
-	/*auto& globalStruct = GlobalStructDataZipper::getInstance();
+	/*auto& globalStruct = GlobalData::getInstance();
 
 	auto& motionPtr = zwy::scc::GlobalMotion::getInstance().motionPtr;
 

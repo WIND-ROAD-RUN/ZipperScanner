@@ -37,7 +37,7 @@ void DlgIOTrigger::build_connect()
 
 void DlgIOTrigger::pbtn_close_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	bool isChongKongSet = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
 
 	// 冲孔
@@ -58,7 +58,7 @@ void DlgIOTrigger::pbtn_close_clicked()
 
 void DlgIOTrigger::btn_shoudongladai_pressed()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto setConfig = globalStruct.setConfig;
 	auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
@@ -81,7 +81,7 @@ void DlgIOTrigger::btn_shoudongladai_pressed()
 
 void DlgIOTrigger::btn_shoudongladai_released()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	// 停止电机
 	bool isStop = globalStruct.zmotion.stopAllAxis();
 
@@ -94,7 +94,7 @@ void DlgIOTrigger::btn_shoudongladai_released()
 void DlgIOTrigger::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto chongkongshijian = globalStruct.setConfig.chongkongshijian;
 		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
 		QThread::msleep(yanchichongkongshijian);
@@ -119,7 +119,7 @@ void DlgIOTrigger::btn_shoudongchongkong_clicked()
 
 void DlgIOTrigger::btn_tuoji_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	bool isGetTuoJiOut = false;
 	bool tuojiState = globalStruct.zmotion.getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
@@ -158,7 +158,7 @@ void DlgIOTrigger::btn_tuoji_clicked()
 
 void DlgIOTrigger::btn_xiangjichufa_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, 10, true, 100);
 

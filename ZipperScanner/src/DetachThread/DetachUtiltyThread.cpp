@@ -12,25 +12,25 @@ DetachUtiltyThreadZipper::DetachUtiltyThreadZipper(QObject* parent)
 DetachUtiltyThreadZipper::~DetachUtiltyThreadZipper()
 {
 	stopThread();
-	wait(); // µÈ´ýÏß³Ì°²È«ÍË³ö
+	wait(); // ç­‰å¾…çº¿ç¨‹å®‰å…¨é€€å‡º
 }
 
 void DetachUtiltyThreadZipper::startThread()
 {
 	running = true;
 	if (!isRunning()) {
-		start(); // Æô¶¯Ïß³Ì
+		start(); // å¯åŠ¨çº¿ç¨‹
 	}
 }
 
 void DetachUtiltyThreadZipper::stopThread()
 {
-	running = false; // Í£Ö¹Ïß³Ì
+	running = false; // åœæ­¢çº¿ç¨‹
 }
 
 void DetachUtiltyThreadZipper::run()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& statisticalInfo = globalStruct.statisticalInfo;
 
 	lastWork1Count = statisticalInfo.produceCount1.load();
@@ -53,7 +53,7 @@ void DetachUtiltyThreadZipper::run()
 
 void DetachUtiltyThreadZipper::CalculateRealtimeInformation(size_t s)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& statisticalInfo = globalStruct.statisticalInfo;
 	if (s % 30 == 0)
 	{
@@ -61,7 +61,7 @@ void DetachUtiltyThreadZipper::CalculateRealtimeInformation(size_t s)
 		long long rate = newWasteCount - olderWasteCount;
 		if (rate > 0)
 		{
-			//removeRateºóÊ¹ÓÃÎªÉú²úËÙ¶È¼ÆËã
+			//removeRateåŽä½¿ç”¨ä¸ºç”Ÿäº§é€Ÿåº¦è®¡ç®—
 			statisticalInfo.removeRate = rate * 2;
 			olderWasteCount = statisticalInfo.produceCount.load();
 		}
@@ -69,7 +69,7 @@ void DetachUtiltyThreadZipper::CalculateRealtimeInformation(size_t s)
 			olderWasteCount = newWasteCount;
 		}
 	}
-	// ¼ÆËãÉú²úÁ¼ÂÊ
+	// è®¡ç®—ç”Ÿäº§è‰¯çŽ‡
 	auto totalCount = statisticalInfo.produceCount.load();
 	auto wasteCount = statisticalInfo.wasteCount.load();
 	if (totalCount != 0)
@@ -106,7 +106,7 @@ void DetachUtiltyThreadZipper::processOneWarnGet(rw::rqw::WarningInfo& info)
 	}
 	isProcessing = true;
 	info = warningLabel->topWarningListThreadSafe();
-	auto& config = GlobalStructDataZipper::getInstance().dlgWarningManagerConfig;
+	auto& config = GlobalData::getInstance().dlgWarningManagerConfig;
 	auto isOpenWarn = config.findIsOpen(info.warningId);
 	if (isOpenWarn)
 	{
@@ -132,7 +132,7 @@ void DetachUtiltyThreadZipper::processOneWarnFinsh(rw::rqw::WarningInfo& info)
 	}
 	isProcessing = true;
 	info = warningLabel->topWarningListThreadSafe();
-	auto& config = GlobalStructDataZipper::getInstance().dlgWarningManagerConfig;
+	auto& config = GlobalData::getInstance().dlgWarningManagerConfig;
 	auto isOpenWarn = config.findIsOpen(info.warningId);
 	if (isOpenWarn)
 	{
@@ -164,7 +164,7 @@ void DetachUtiltyThreadZipper::processTrigger(size_t s)
 {
 	if (s % 180 == 0)
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		auto& statisticalInfo = globalStruct.statisticalInfo;
 		auto& runningState = globalStruct.runningState;
 		bool isRun = runningState.load() == RunningState::OpenRemoveFunc;

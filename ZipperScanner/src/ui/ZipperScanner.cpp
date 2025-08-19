@@ -24,7 +24,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	// 构建UI
 	build_ui();
 
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	// 构建运动控制器IO状态监控线程
 	globalStruct.build_MonitorZMotionIOStateThread();
@@ -100,7 +100,7 @@ void ZipperScanner::build_ui()
 // 连接槽函数
 void ZipperScanner::build_connect()
 {
-	auto& GlobalStructDataZipper = GlobalStructDataZipper::getInstance();
+	auto& GlobalStructDataZipper = GlobalData::getInstance();
 	// 退出
 	QObject::connect(ui->pbtn_exit, &QPushButton::clicked,
 		this, &ZipperScanner::pbtn_exit_clicked);
@@ -154,11 +154,11 @@ void ZipperScanner::build_connect()
 		this, &ZipperScanner::onCameraNGDisplay);
 
 	// 连接UI更新
-	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalStructDataZipper::emit_updateUiLabels,
+	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_updateUiLabels,
 		this, &ZipperScanner::updateUiLabels);
 
 	// 连接监控启停按钮
-	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalStructDataZipper::emit_StartOrStopSignal,
+	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_StartOrStopSignal,
 		this, &ZipperScanner::getStartOrStopSignal);
 
 	// 连接启动按钮
@@ -180,7 +180,7 @@ void ZipperScanner::build_connect()
 // 构建相机
 void ZipperScanner::build_camera()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.cameraIp1 = "1";
 	globalStruct.cameraIp2 = "2";
 
@@ -212,12 +212,12 @@ void ZipperScanner::build_camera()
 
 void ZipperScanner::build_motion()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.zmotion.setIp("192.168.0.11");
 	bool isConnected = globalStruct.zmotion.connect();
 	if (isConnected)
 	{
-		auto& globalStructsetConfig = GlobalStructDataZipper::getInstance().setConfig;
+		auto& globalStructsetConfig = GlobalData::getInstance().setConfig;
 		auto meizhuanmaichongshu = globalStructsetConfig.meizhuanmaichongshu;
 		auto shedingzhouchang = globalStructsetConfig.shedingzhouchang;
 		auto value = meizhuanmaichongshu / shedingzhouchang;
@@ -259,7 +259,7 @@ void ZipperScanner::build_motion()
 // 加载ZipperScanner窗体数据
 void ZipperScanner::build_ZipperScannerData()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& zipperScannerConfig = globalStruct.generalConfig;
 	// 初始化全局数据
 	ui->label_produceLength->setText(QString::number(zipperScannerConfig.produceLength));
@@ -365,7 +365,7 @@ void ZipperScanner::ini_clickableTitle()
 
 void ZipperScanner::build_imageProcessorModule()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	QDir dir;
 
@@ -401,7 +401,7 @@ void ZipperScanner::build_imageSaveEngine()
 
 	//获取当前日期并设置保存路径
 	QString currentDate = QDate::currentDate().toString("yyyy_MM_dd");
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.buildImageSaveEngine();
 	QString imageSaveEnginePath = imageSavePath + currentDate;
 
@@ -436,7 +436,7 @@ void ZipperScanner::build_imageSaveEngine()
 
 void ZipperScanner::start_Threads()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	// 启动异步剔废线程
 	globalStruct.detachDefectThreadZipper->startThread();
 	// 启动相机重连线程
@@ -445,7 +445,7 @@ void ZipperScanner::start_Threads()
 
 void ZipperScanner::start_CameraMonitor()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.start_Camera1Monitor();
 	globalStruct.start_Camera2Monitor();
 }
@@ -453,7 +453,7 @@ void ZipperScanner::start_CameraMonitor()
 void ZipperScanner::destroyComponents()
 {
 
-	auto& globalStructData = GlobalStructDataZipper::getInstance();
+	auto& globalStructData = GlobalData::getInstance();
 	// 关闭剔废功能并停止冲孔与轴运动
 	rbtn_stop_clicked(true); // 默认停止
 	rbtn_removeFunc_checked(false);
@@ -481,7 +481,7 @@ void ZipperScanner::destroyComponents()
 
 void ZipperScanner::read_config()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.buildConfigManager(rw::oso::StorageType::Xml);
 
 	read_config_GeneralConfig();
@@ -500,7 +500,7 @@ void ZipperScanner::read_config()
 // 读取通用配置
 void ZipperScanner::read_config_GeneralConfig()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	globalStruct.storeContext->ensureFileExistsSafe(globalPath.generalConfigPath.toStdString(), cdm::GeneralConfig());
 	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.generalConfigPath.toStdString());
@@ -515,7 +515,7 @@ void ZipperScanner::read_config_GeneralConfig()
 // 读取分数配置
 void ZipperScanner::read_config_ScoreConfig()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	globalStruct.storeContext->ensureFileExistsSafe(globalPath.scoreConfigPath.toStdString(), cdm::ScoreConfig());
 	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.scoreConfigPath.toStdString());
@@ -530,7 +530,7 @@ void ZipperScanner::read_config_ScoreConfig()
 // 读取设置配置
 void ZipperScanner::read_config_SetConfig()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.storeContext->ensureFileExistsSafe(globalPath.setConfigPath.toStdString(), cdm::SetConfig());
 	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.setConfigPath.toStdString());
 	if (!loadResult)
@@ -627,7 +627,7 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 {
 	auto isRuning = ui->rbtn_removeFunc->isChecked();
 
-	auto& GlobalStructData = GlobalStructDataZipper::getInstance();
+	auto& GlobalStructData = GlobalData::getInstance();
 	if (!isRuning) {
 		if (checked) {
 			_dlgExposureTimeSet->SetCamera(); // 设置相机为实时采集
@@ -663,10 +663,10 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 
 void ZipperScanner::rbtn_strongLight_checked(bool checked)
 {
-	auto& generalConfig = GlobalStructDataZipper::getInstance().generalConfig;
+	auto& generalConfig = GlobalData::getInstance().generalConfig;
 	if (checked)
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		globalStruct.setLightLevel(LightLevel::StrongLight);
 		generalConfig.zhongGuang = false;
 		generalConfig.ruoGuang = false;
@@ -676,10 +676,10 @@ void ZipperScanner::rbtn_strongLight_checked(bool checked)
 
 void ZipperScanner::rbtn_mediumLight_checked(bool checked)
 {
-	auto& generalConfig = GlobalStructDataZipper::getInstance().generalConfig;
+	auto& generalConfig = GlobalData::getInstance().generalConfig;
 	if (checked)
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		globalStruct.setLightLevel(LightLevel::MediumLight);
 		generalConfig.qiangGuang = false;
 		generalConfig.ruoGuang = false;
@@ -689,10 +689,10 @@ void ZipperScanner::rbtn_mediumLight_checked(bool checked)
 
 void ZipperScanner::rbtn_weakLight_checked(bool checked)
 {
-	auto& generalConfig = GlobalStructDataZipper::getInstance().generalConfig;
+	auto& generalConfig = GlobalData::getInstance().generalConfig;
 	if (checked)
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		globalStruct.setLightLevel(LightLevel::WeakLight);
 		generalConfig.qiangGuang = false;
 		generalConfig.zhongGuang = false;
@@ -702,7 +702,7 @@ void ZipperScanner::rbtn_weakLight_checked(bool checked)
 
 void ZipperScanner::pbtn_openSaveLocation_clicked()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	QString imageSavePath = globalStruct.imageSaveEngine->getRootPath();
 
 	_picturesViewer->setRootPath(imageSavePath);
@@ -716,18 +716,18 @@ void ZipperScanner::rbtn_takePicture_checked()
 	{
 		ui->rbtn_takePicture->setChecked(false);
 	}
-	auto& generalConfig = GlobalStructDataZipper::getInstance().generalConfig;
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& generalConfig = GlobalData::getInstance().generalConfig;
+	auto& globalStruct = GlobalData::getInstance();
 	generalConfig.isSaveImg = ui->rbtn_takePicture->isChecked();
 	globalStruct.isTakePictures = ui->rbtn_takePicture->isChecked();
 }
 
 void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	if (checked)
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		globalStruct.runningState = RunningState::OpenRemoveFunc;
 		_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
 		if (globalStruct.camera1)
@@ -752,7 +752,7 @@ void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 
 void ZipperScanner::ckb_shibiekuang_checked(bool checked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.generalConfig.isshibiekuang = ui->ckb_shibiekuang->isChecked();
 
 	emit shibiekaungChanged();
@@ -760,7 +760,7 @@ void ZipperScanner::ckb_shibiekuang_checked(bool checked)
 
 void ZipperScanner::ckb_wenzi_checked(bool checked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.generalConfig.iswenzi = ui->ckb_wenzi->isChecked();
 
 	emit wenziChanged();
@@ -768,7 +768,7 @@ void ZipperScanner::ckb_wenzi_checked(bool checked)
 
 void ZipperScanner::rbtn_start_clicked(bool checked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 	if (checked)
 	{
@@ -791,9 +791,9 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		//记录当前位置
 		float nowLocation = 0;
 		bool isget = false;
-		nowLocation = GlobalStructDataZipper::getInstance().zmotion.getAxisLocation(0, isget);
+		nowLocation = GlobalData::getInstance().zmotion.getAxisLocation(0, isget);
 
-		GlobalStructDataZipper::getInstance().startLocation = nowLocation;
+		GlobalData::getInstance().startLocation = nowLocation;
 
 
 		if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
@@ -818,7 +818,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 
 void ZipperScanner::rbtn_stop_clicked(bool checked)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 	if (checked)
 	{
@@ -1021,8 +1021,8 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 			// 启动的时候记录当前位置
 			float nowLocation = 0;
 			bool isget = false;
-			nowLocation = GlobalStructDataZipper::getInstance().zmotion.getAxisLocation(0, isget);
-			GlobalStructDataZipper::getInstance().startLocation = nowLocation;
+			nowLocation = GlobalData::getInstance().zmotion.getAxisLocation(0, isget);
+			GlobalData::getInstance().startLocation = nowLocation;
 		}
 		else
 		{

@@ -37,7 +37,7 @@ void ImageProcessorZipper::run()
 			continue; // 跳过空帧
 		}
 
-		auto& globalData = GlobalStructDataZipper::getInstance();
+		auto& globalData = GlobalData::getInstance();
 
 		// 获取当前时间点
 		auto now = std::chrono::system_clock::now();
@@ -96,7 +96,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 
 	if (leftLocationX > 0)
 	{
-		auto& globalStruct = GlobalStructDataZipper::getInstance();
+		auto& globalStruct = GlobalData::getInstance();
 		//globalStruct.zmotion.stopAllAxis();
 		//std::cout << "leftLocationX" << leftLocationX << std::endl;
 
@@ -135,7 +135,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 
 void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	if (isbad)
 	{
@@ -164,7 +164,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 
 void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImage& image)
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& setConfig = globalStruct.setConfig;
 
 	if (!globalStruct.isTakePictures)
@@ -188,7 +188,7 @@ void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImag
 
 void ImageProcessorZipper::save_image_work(rw::rqw::ImageInfo& imageInfo, const QImage& image)
 {
-	auto& globalData = GlobalStructDataZipper::getInstance();
+	auto& globalData = GlobalData::getInstance();
 	auto& setConfig = globalData.setConfig;
 	if (_isbad) {
 		if (setConfig.saveNGImg)
@@ -338,7 +338,7 @@ void ImageProcessorZipper::iniRunTextConfig()
 void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 {
 	auto& context = _imgProcess->context();
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	queyaMap["classId"] = ClassId::Queya;
 	queyaMap["maxArea"] = globalStruct.scoreConfig.queYaArea;
@@ -626,7 +626,7 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 {
 	auto& index = imageProcessingModuleIndex;
-	auto& setConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& setConfig = GlobalData::getInstance().setConfig;
 	rw::imgPro::ConfigDrawLine configDrawLine;
 	configDrawLine.color = rw::imgPro::Color::Red;
 	configDrawLine.thickness = 3;
@@ -656,7 +656,7 @@ void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 
 void ImageProcessorZipper::updateShieldWires()
 {
-	auto& globalStructSetConfig = GlobalStructDataZipper::getInstance().setConfig;
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 
 	if (1 == imageProcessingModuleIndex)
 	{
@@ -680,7 +680,7 @@ void ImageProcessorZipper::updateShieldWires()
 
 void ImageProcessorZipper::updateDrawRec()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& context = _imgProcess->context();
 	if (globalStruct.generalConfig.isshibiekuang)
 	{
@@ -696,7 +696,7 @@ void ImageProcessorZipper::updateDrawRec()
 
 void ImageProcessorZipper::updateDrawText()
 {
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 	auto& context = _imgProcess->context();
 	context.runTextCfg.isDisOperatorTime = false;
 	if (globalStruct.generalConfig.iswenzi)
@@ -726,7 +726,7 @@ void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 	//	return; // 跳过空帧
 	//}
 
-	auto& globalStruct = GlobalStructDataZipper::getInstance();
+	auto& globalStruct = GlobalData::getInstance();
 
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;

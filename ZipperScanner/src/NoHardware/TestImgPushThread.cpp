@@ -64,11 +64,11 @@ void TestImgPushThread::stopThread()
 
 void TestImgPushThread::readImg(size_t s)
 {
-	//auto& isPushImg = Global::getInstance().testImgPush;
-	/*if (!isPushImg.load())
+	auto& isPushImg = GlobalThread::getInstance().testImgPush;
+	if (!isPushImg.load())
 	{
 		return;
-	}*/
+	}
 
 	if (s % _pushImgTime == 0 && imgCache.size() >= 4)
 	{
@@ -86,9 +86,9 @@ void TestImgPushThread::readImg(size_t s)
 			selectedImgs.append(imgCache[idx]);
 		}
 
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 2; ++i) {
 
-			imgReady(selectedImgs[i], static_cast<float>(s * 100 + i), 1);
+			imgReady(selectedImgs[i], 1);
 		}
 	}
 }

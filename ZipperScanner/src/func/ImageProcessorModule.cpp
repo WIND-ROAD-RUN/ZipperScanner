@@ -709,23 +709,8 @@ void ImageProcessorZipper::updateDrawText()
 	}
 }
 
-void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
+void ImageProcessingModule::onFrameCaptured(cv::Mat frame, size_t index)
 {
-	//// 手动读取本地图片
-	//std::string imagePath = R"(C:\Users\zfkj4090\Desktop\TestImg\lalian\Image_20250411152145599.jpg)"; // 替换为你的图片路径
-	//cv::Mat frame1 = cv::imread(imagePath, cv::IMREAD_COLOR);
-	//frame = frame1.clone();
-	//if (frame.channels() == 4) {
-	//	cv::cvtColor(frame, frame, cv::COLOR_BGRA2BGR);
-	//}
-	//if (frame.type() != CV_8UC3) {
-	//	frame.convertTo(frame, CV_8UC3);
-	//}
-
-	//if (frame.empty()) {
-	//	return; // 跳过空帧
-	//}
-
 	auto& globalStruct = GlobalData::getInstance();
 
 	QMutexLocker locker(&_mutex);
@@ -758,7 +743,7 @@ void ImageProcessingModuleZipper::onFrameCaptured(cv::Mat frame, size_t index)
 	_condition.wakeOne();
 }
 
-void ImageProcessingModuleZipper::BuildModule()
+void ImageProcessingModule::BuildModule()
 {
 	for (int i = 0; i < _numConsumers; ++i) {
 		static size_t workIndexCount = 0;
@@ -766,22 +751,22 @@ void ImageProcessingModuleZipper::BuildModule()
 		workIndexCount++;
 		processor->imageProcessingModuleIndex = index;
 		processor->buildSegModelEngine(modelEnginePath);
-		connect(processor, &ImageProcessorZipper::imageReady, this, &ImageProcessingModuleZipper::imageReady, Qt::QueuedConnection);
-		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModuleZipper::imageNGReady, Qt::QueuedConnection);
-		connect(this, &ImageProcessingModuleZipper::shibiekaungChanged, processor, &ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
-		connect(this, &ImageProcessingModuleZipper::wenziChanged, processor, &ImageProcessorZipper::updateDrawText, Qt::QueuedConnection);
-		connect(this, &ImageProcessingModuleZipper::paramMapsChanged, processor, &ImageProcessorZipper::updateParamMapsFromGlobalStruct, Qt::QueuedConnection);
+		connect(processor, &ImageProcessorZipper::imageReady, this, &ImageProcessingModule::imageReady, Qt::QueuedConnection);
+		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModule::imageNGReady, Qt::QueuedConnection);
+		connect(this, &ImageProcessingModule::shibiekaungChanged, processor, &ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
+		connect(this, &ImageProcessingModule::wenziChanged, processor, &ImageProcessorZipper::updateDrawText, Qt::QueuedConnection);
+		connect(this, &ImageProcessingModule::paramMapsChanged, processor, &ImageProcessorZipper::updateParamMapsFromGlobalStruct, Qt::QueuedConnection);
 		_processors.push_back(processor);
 		processor->start();
 	}
 }
 
-ImageProcessingModuleZipper::ImageProcessingModuleZipper(int numConsumers, QObject* parent)
+ImageProcessingModule::ImageProcessingModule(int numConsumers, QObject* parent)
 	: QObject(parent), _numConsumers(numConsumers) {
 
 }
 
-ImageProcessingModuleZipper::~ImageProcessingModuleZipper()
+ImageProcessingModule::~ImageProcessingModule()
 {
 	// 通知所有线程退出
 	for (auto processor : _processors) {

@@ -110,7 +110,7 @@ public:
 };
 
 
-class ImageProcessingModuleZipper : public QObject {
+class ImageProcessingModule : public QObject {
 	Q_OBJECT
 public:
 	QString modelEnginePath;
@@ -118,9 +118,9 @@ public:
 	// 初始化图像处理模块
 	void BuildModule();
 public:
-	ImageProcessingModuleZipper(int numConsumers, QObject* parent = nullptr);
+	ImageProcessingModule(int numConsumers, QObject* parent = nullptr);
 
-	~ImageProcessingModuleZipper();
+	~ImageProcessingModule();
 
 public slots:
 	// 相机回调函数

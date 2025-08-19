@@ -12,6 +12,22 @@
 #include "rqw_CameraObjectThread.hpp"
 #include "DetachDefectThread.h"
 
+#ifdef BUILD_WITHOUT_HARDWARE
+void ZipperScanner::cbox_testIfPushImg_clicked(bool states)
+{
+	GlobalThread::getInstance().testImgPush = states;
+}
+
+void ZipperScanner::sBox_pushImgTime_valueChanged(int value)
+{
+	auto& globalThread = GlobalThread::getInstance();
+	if (globalThread.testImgPushThread)
+	{
+		globalThread.testImgPushThread->setPushImgTime(value);
+	}
+}
+#endif
+
 ZipperScanner::ZipperScanner(QWidget* parent)
 	: QMainWindow(parent)
 	, ui(new Ui::ZipperScannerClass())
@@ -75,7 +91,31 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	ui->rbtn_strongLight->setChecked(globalStruct.generalConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
+#ifdef BUILD_WITHOUT_HARDWARE
+	auto& globalThread = GlobalThread::getInstance();
+	_testIfPushImg = new QCheckBox(this);
+	_testIfPushImg->setText("图像推送状态");
+	ui->gBox_infor->layout()->addWidget(_testIfPushImg);
+	QObject::connect(_testIfPushImg, &QCheckBox::clicked,
+		this, &ZipperScanner::cbox_testIfPushImg_clicked);
 
+	_pushImgTime = new QSpinBox(this);
+	_pushImgTime->setRange(50, 2000);
+	_pushImgTime->setSingleStep(50);
+	_pushImgTime->setValue(150);
+	ui->gBox_infor->layout()->addWidget(_pushImgTime);
+	QObject::connect(_pushImgTime, &QSpinBox::valueChanged,
+		this, &ZipperScanner::sBox_pushImgTime_valueChanged);
+
+
+	globalThread.testImgPushThread = std::make_unique<TestImgPushThread>(this);
+	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady,
+		globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured);
+	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady,
+		globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured);
+
+	globalThread.testImgPushThread->startThread();
+#endif
 }
 
 ZipperScanner::~ZipperScanner()
@@ -148,9 +188,9 @@ void ZipperScanner::build_connect()
 		this, &ZipperScanner::ckb_wenzi_checked);
 
 	// 连接显示NG图像
-	QObject::connect(GlobalStructDataZipper.modelCamera1.get(), &ImageProcessingModuleZipper::imageNGReady,
+	QObject::connect(GlobalStructDataZipper.imageProcessingModule1.get(), &ImageProcessingModule::imageNGReady,
 		this, &ZipperScanner::onCameraNGDisplay);
-	QObject::connect(GlobalStructDataZipper.modelCamera2.get(), &ImageProcessingModuleZipper::imageNGReady,
+	QObject::connect(GlobalStructDataZipper.imageProcessingModule2.get(), &ImageProcessingModule::imageNGReady,
 		this, &ZipperScanner::onCameraNGDisplay);
 
 	// 连接UI更新
@@ -381,16 +421,16 @@ void ZipperScanner::build_imageProcessorModule()
 
 	globalStruct.buildImageProcessorModules(enginePathFull);
 
-	QObject::connect(globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::imageReady, this, &ZipperScanner::onCamera1Display);
-	QObject::connect(globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::imageReady, this, &ZipperScanner::onCamera2Display);
-	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
-	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::shibiekaungChanged);
-	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::wenziChanged);
-	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::wenziChanged);
-	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::paramMapsChanged);
-	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::paramMapsChanged);
-	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.modelCamera1.get(), &ImageProcessingModuleZipper::paramMapsChanged);
-	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.modelCamera2.get(), &ImageProcessingModuleZipper::paramMapsChanged);
+	QObject::connect(globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera1Display);
+	QObject::connect(globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera2Display);
+	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::shibiekaungChanged);
+	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::shibiekaungChanged);
+	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::wenziChanged);
+	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::wenziChanged);
+	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::paramMapsChanged);
+	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::paramMapsChanged);
+	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::paramMapsChanged);
+	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::paramMapsChanged);
 }
 
 void ZipperScanner::build_imageSaveEngine()
@@ -452,7 +492,11 @@ void ZipperScanner::start_CameraMonitor()
 
 void ZipperScanner::destroyComponents()
 {
-
+#ifdef BUILD_WITHOUT_HARDWARE
+	auto& globalThread = GlobalThread::getInstance();
+	globalThread.testImgPushThread->stopThread();
+	globalThread.testImgPushThread.reset();
+#endif
 	auto& globalStructData = GlobalData::getInstance();
 	// 关闭剔废功能并停止冲孔与轴运动
 	rbtn_stop_clicked(true); // 默认停止

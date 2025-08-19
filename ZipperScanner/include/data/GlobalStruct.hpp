@@ -17,6 +17,7 @@
 #include <chrono>
 #include"rqw_ZMotion.hpp"
 #include"rqw_MonitorMotionIO.hpp"
+#include "TestImgPushThread.hpp"
 
 
 class DetachDefectThreadZipper;
@@ -51,6 +52,14 @@ public:
 private:
 	GlobalThread() = default;
 	~GlobalThread() = default;
+public:
+	void buildDetachThread();
+	void destroyDetachThread();
+#ifdef BUILD_WITHOUT_HARDWARE
+public:
+	std::unique_ptr<TestImgPushThread> testImgPushThread{ nullptr };
+	std::atomic_bool testImgPush{ false };
+#endif
 };
 
 class GlobalData
@@ -156,8 +165,8 @@ public:
 	void destroyImageProcessingModule();
 
 	// 图像处理模块
-	std::unique_ptr<ImageProcessingModuleZipper> modelCamera1 = nullptr;
-	std::unique_ptr<ImageProcessingModuleZipper> modelCamera2 = nullptr;
+	std::unique_ptr<ImageProcessingModule> imageProcessingModule1 = nullptr;
+	std::unique_ptr<ImageProcessingModule> imageProcessingModule2 = nullptr;
 
 
 public:

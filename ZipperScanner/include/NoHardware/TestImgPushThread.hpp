@@ -31,7 +31,7 @@ public:
 	void stopThread();
 
 signals:
-	void imgReady(cv::Mat frame, float location, size_t index);
+	void imgReady(cv::Mat frame, size_t index);
 
 public:
 	void readImg(size_t s);

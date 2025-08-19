@@ -9,6 +9,13 @@
 #include "rqw_CameraObjectThreadZMotion.hpp"
 
 
+void GlobalThread::buildDetachThread()
+{
+}
+
+void GlobalThread::destroyDetachThread()
+{
+}
 
 void GlobalData::destory_motion()
 {
@@ -155,7 +162,7 @@ void GlobalData::rebuild_Camera1()
 			//auto config = rw::rqw::OutTriggerConfig({ 2,8,5,DurationTime,0,0,true });
 			//camera1->setOutTriggerConfig(config);
 			QObject::connect(camera1.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
-				modelCamera1.get(), &ImageProcessingModuleZipper::onFrameCaptured, Qt::DirectConnection);
+				imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 		}
 		catch (const std::exception&)
 		{
@@ -199,7 +206,7 @@ void GlobalData::rebuild_Camera2()
 			//auto config = rw::rqw::OutTriggerConfig({ 2,8,5,DurationTime,0,0,true });
 			//camera2->setOutTriggerConfig(config);
 			QObject::connect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
-				modelCamera2.get(), &ImageProcessingModuleZipper::onFrameCaptured, Qt::DirectConnection);
+				imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 		}
 		catch (const std::exception&)
 		{
@@ -313,24 +320,24 @@ void GlobalData::buildConfigManager(rw::oso::StorageType type)
 
 void GlobalData::buildImageProcessorModules(const QString& path)
 {
-	modelCamera1 = std::make_unique<ImageProcessingModuleZipper>(2);
-	modelCamera2 = std::make_unique<ImageProcessingModuleZipper>(2);
+	imageProcessingModule1 = std::make_unique<ImageProcessingModule>(2);
+	imageProcessingModule2 = std::make_unique<ImageProcessingModule>(2);
 
-	modelCamera1->modelEnginePath = path;
-	modelCamera2->modelEnginePath = path;
+	imageProcessingModule1->modelEnginePath = path;
+	imageProcessingModule2->modelEnginePath = path;
 
-	modelCamera1->index = 1;
-	modelCamera2->index = 2;
+	imageProcessingModule1->index = 1;
+	imageProcessingModule2->index = 2;
 
-	modelCamera1->BuildModule();
-	modelCamera2->BuildModule();
+	imageProcessingModule1->BuildModule();
+	imageProcessingModule2->BuildModule();
 
 }
 
 void GlobalData::destroyImageProcessingModule()
 {
-	modelCamera1.reset();
-	modelCamera2.reset();
+	imageProcessingModule1.reset();
+	imageProcessingModule2.reset();
 }
 
 void GlobalData::buildImageSaveEngine()
@@ -411,7 +418,7 @@ bool GlobalData::buildCamera1()
 			//auto config = rw::rqw::OutTriggerConfig({2,8,5,DurationTime,0,0,true});
 			//camera1->setOutTriggerConfig(config);
 			QObject::connect(camera1.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
-				modelCamera1.get(), &ImageProcessingModuleZipper::onFrameCaptured, Qt::DirectConnection);
+				imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 
 
 			return true;
@@ -460,7 +467,7 @@ bool GlobalData::buildCamera2()
 			//auto config = rw::rqw::OutTriggerConfig({ 2,8,5,DurationTime,0,0,true });
 			//camera2->setOutTriggerConfig(config);
 			QObject::connect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
-				modelCamera2.get(), &ImageProcessingModuleZipper::onFrameCaptured, Qt::DirectConnection);
+				imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 			return true;
 		}
 		catch (const std::exception&)
@@ -495,14 +502,14 @@ void GlobalData::destroyCamera()
 void GlobalData::destroyCamera1()
 {
 	QObject::disconnect(camera1.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
-		modelCamera1.get(), &ImageProcessingModuleZipper::onFrameCaptured);
+		imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured);
 	camera1.reset();
 }
 
 void GlobalData::destroyCamera2()
 {
 	QObject::disconnect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
-		modelCamera2.get(), &ImageProcessingModuleZipper::onFrameCaptured);
+		imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured);
 	camera2.reset();
 }
 

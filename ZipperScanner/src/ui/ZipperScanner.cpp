@@ -42,6 +42,9 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	// 构建运动控制器
 	build_motion();
 
+	//开机清零
+	pbtn_resetProduct_clicked();
+
 	// 构建UI
 	build_ui();
 
@@ -139,7 +142,7 @@ void ZipperScanner::build_detachThread()
 	globalThread.buildDetachThread();
 
 	QObject::connect(globalThread.monitorProduceLengthThread.get(), &MonitorProduceLengthThread::finishProduce,
-		this, &ZipperScanner::onFinishProduce,Qt::QueuedConnection);
+		this, &ZipperScanner::onFinishProduce,Qt::BlockingQueuedConnection);
 	QObject::connect(globalThread.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
 		this, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
 	QObject::connect(GlobalThread::getInstance().detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
@@ -982,11 +985,26 @@ void ZipperScanner::pbtn_resetProduct_clicked()
 	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.generalConfig.produceLength = 0;
 	globalStruct.generalConfig.punchCount = 0;
-	ui->label_produceLength->setText(QString::number(globalStruct.generalConfig.produceLength));
+	ui->label_produceLength->setText(QString::number(globalStruct.generalConfig.produceLength, 'f', 2));
 	ui->label_punchCount->setText(QString::number(globalStruct.generalConfig.punchCount));
 
 	globalStruct.statisticalInfo.produceLength = 0;
+	globalStruct.statisticalInfo.produceLengthBeforeStart = 0;
 	globalStruct.statisticalInfo.punchCount = 0;
+	bool isGet{false};
+	auto isConnect = globalStruct.zmotion.getConnectState(isGet);
+	if (isConnect&& isGet)
+	{
+		auto& globalThread = GlobalThread::getInstance();
+		bool isGetLocation{false};
+		auto location= globalStruct.zmotion.getAxisLocation(0, isGetLocation);
+		if (isGetLocation)
+		{
+			globalThread.startLocation = location;
+		}
+		
+	}
+	
 }
 
 void ZipperScanner::lb_title_clicked()
@@ -1330,16 +1348,21 @@ void ZipperScanner::destroy_ImageEnlargedDisplay()
 
 void ZipperScanner::onFinishProduce()
 {
-	rbtn_stop_clicked(true);
-	ui->rbtn_stop->setChecked(true);
-	QMessageBox::information(this, "提示", "已生产到设定的拉带长度");
-
+	if (!isSendProduceInfo)
+	{
+		rbtn_stop_clicked(true);
+		ui->rbtn_stop->setChecked(true);
+		isSendProduceInfo = true;
+		QMessageBox::information(this, "提示", "已生产到设定的拉带长度,自动清零");
+		pbtn_resetProduct_clicked();
+		isSendProduceInfo = false;
+	}
 }
 
 void ZipperScanner::onUpdateStatisticalInfo()
 {
 	auto& globalData = GlobalData::getInstance();
-	globalData.generalConfig.produceLength = globalData.statisticalInfo.produceLength;
+	globalData.generalConfig.produceLength = globalData.statisticalInfo.produceLength + globalData.statisticalInfo.produceLengthBeforeStart.load();
 	ui->label_produceLength->setText(QString::number(globalData.generalConfig.produceLength, 'f', 2));
 	globalData.generalConfig.punchCount = globalData.statisticalInfo.punchCount;
 	ui->label_punchCount->setText(QString::number(globalData.generalConfig.punchCount));

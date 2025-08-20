@@ -73,7 +73,7 @@ void MonitorProduceLengthThread::run()
             globalStruct.statisticalInfo.produceLengthBeforeStart = globalThread.currentProducePulse.load() / 1000;//转换为米
         }
 
-        if (globalStruct.statisticalInfo.produceLength>globalStruct.generalConfig.shedingladaichangdu)
+        if (globalStruct.statisticalInfo.produceLength + globalStruct.statisticalInfo.produceLengthBeforeStart.load() >globalStruct.generalConfig.shedingladaichangdu)
         {
             emit finishProduce();
         }

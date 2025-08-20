@@ -33,7 +33,9 @@ public slots:
 public:
 	ZipperScanner(QWidget* parent = nullptr);
 	~ZipperScanner();
-
+public:
+	QMutex produceInfoMutex;
+	bool isSendProduceInfo{false};
 public:
 	void build_detachThread();
 	void destory_detachThread();

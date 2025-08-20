@@ -33,9 +33,6 @@ private:
 private:
 	void processWarningInfo(size_t s);
 	void processOneWarnGet(rw::rqw::WarningInfo& info);
-	void processOneWarnFinsh(rw::rqw::WarningInfo& info);
-private:
-	void processTrigger(size_t s);
 private:
 	void processShutdownIO(size_t s);
 private:
@@ -48,7 +45,7 @@ signals:
 	void showDlgWarn(rw::rqw::WarningInfo info);
 signals:
 	void workTriggerError(int index);
-
+	void shutdownComputer(int time);
 private:
 	std::atomic<bool> running; // 使用原子变量保证线程安全
 };

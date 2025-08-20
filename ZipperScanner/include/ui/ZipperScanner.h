@@ -13,6 +13,7 @@
 #include "ImageEnlargedDisplay.h"
 #include"rqw_LabelClickable.h"
 #include <QSpinBox>
+#include"DlgShutdownWarn.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ZipperScannerClass; };
@@ -43,7 +44,7 @@ public:
 	QVector<QWidget*> _dlgProductScoreGroupList{};
 	DlgExposureTimeSet* _dlgExposureTimeSet = nullptr;
 	DlgIOTrigger* _dlgIOTrigger = nullptr;
-
+	DlgShutdownWarn* _dlgShutdownWarn = nullptr;
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
 	rw::rqw::ClickableLabel* clickableTitle = nullptr;
@@ -151,7 +152,9 @@ public:
 private:
 	Ui::ZipperScannerClass* ui;
 	int minimizeCount{ 3 };
-
+private:
+	bool isShutdownByIO{ false };
+	bool isConnnectCard{ false };
 public slots:
 	void onFinishProduce();
 	void onUpdateStatisticalInfo();

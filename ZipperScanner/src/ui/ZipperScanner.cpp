@@ -109,6 +109,14 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 ZipperScanner::~ZipperScanner()
 {
 	destroyComponents();
+#ifdef NDEBUG
+	if (isShutdownByIO)
+	{
+		bool result = QProcess::startDetached("shutdown", QStringList() << "-s" << "-t" << "0");
+		qDebug() << "Shutdown command started:" << result;
+	}
+#endif
+
 	delete ui;
 }
 
@@ -134,6 +142,8 @@ void ZipperScanner::build_detachThread()
 		this, &ZipperScanner::onFinishProduce,Qt::QueuedConnection);
 	QObject::connect(globalThread.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
 		this, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
+	QObject::connect(GlobalThread::getInstance().detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
+		this, &ZipperScanner::shutdownComputerTrigger, Qt::QueuedConnection);
 }
 
 void ZipperScanner::destory_detachThread()
@@ -161,6 +171,8 @@ void ZipperScanner::build_ui()
 	connectSetAndScore();
 	build_DlgExposureTimeSet();
 	build_DlgIOTrigger();
+	_dlgShutdownWarn = new DlgShutdownWarn(this);
+
 }
 
 // 连接槽函数
@@ -1092,6 +1104,7 @@ void ZipperScanner::updateUiLabels(int index, bool isConnected)
 	switch (index)
 	{
 	case 0:
+		isConnnectCard = isConnected;
 		if (isConnected)
 		{
 			ui->label_cardState->setText("连接成功");
@@ -1333,7 +1346,7 @@ void ZipperScanner::onUpdateStatisticalInfo()
 
 void ZipperScanner::shutdownComputerTrigger(int time)
 {
-	/*if (!isConnnectCard)
+	if (!isConnnectCard)
 	{
 		return;
 	}
@@ -1357,7 +1370,7 @@ void ZipperScanner::shutdownComputerTrigger(int time)
 	{
 		isShutdownByIO = true;
 		this->close();
-	}*/
+	}
 }
 
 void ZipperScanner::updateCameraLabelState(int cameraIndex, bool state)

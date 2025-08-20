@@ -1643,8 +1643,8 @@ QGroupBox::title {
          <property name="title">
           <string/>
          </property>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_15" stretch="3,1">
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_24">
             <item>
              <widget class="QGroupBox" name="groupBox_17">
@@ -3346,7 +3346,7 @@ QCheckBox::indicator:pressed {
             </item>
            </layout>
           </item>
-          <item row="1" column="0">
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_47" stretch="5,2">
             <item>
              <spacer name="horizontalSpacer_3">

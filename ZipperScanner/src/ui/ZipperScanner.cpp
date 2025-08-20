@@ -1073,8 +1073,8 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 			{
 				imgNgDis1->setPixmap(image.scaled(imgNgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 				_lastNgImage1 = image;
-				_lastImage1 = image;
 			}
+			_lastImage1 = image;
 		}
 		else
 		{
@@ -1099,8 +1099,8 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 			{
 				imgNgDis2->setPixmap(image.scaled(imgNgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 				_lastNgImage2 = image;
-				_lastImage2 = image;
 			}
+			_lastImage2 = image;
 		}
 		else
 		{

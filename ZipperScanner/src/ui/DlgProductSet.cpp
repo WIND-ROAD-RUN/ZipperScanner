@@ -40,6 +40,22 @@ void DlgProductSet::build_ui()
 	imageFormatGroup->addButton(ui->rbtn_savePng);
 
 	imageFormatGroup->setExclusive(true);
+
+	//隐藏一些按钮
+	ui->cbox_DOBlow3_2->setVisible(false);
+	ui->cbox_DOBeltControl_2->setVisible(false);
+	ui->cbox_DOGreenLight_2->setVisible(false);
+	ui->cbox_DOUpLight_2->setVisible(false);
+	ui->cbox_DORedLight_2->setVisible(false);
+	ui->cbox_DOUpLight_2->setVisible(false);
+	ui->cbox_DOSideLight_2->setVisible(false);
+	ui->cbox_DOBlow4_2->setVisible(false);
+	ui->cbox_DODownLight_2->setVisible(false);
+
+	ui->cbox_DICameraTrigger1_2->setVisible(false);
+	ui->cbox_DICameraTrigger2_2->setVisible(false);
+	ui->cbox_DICameraTrigger3_2->setVisible(false);
+	ui->cbox_DICameraTrigger4_2->setVisible(false);
 }
 
 void DlgProductSet::read_config()

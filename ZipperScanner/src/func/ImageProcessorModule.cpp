@@ -141,15 +141,11 @@ void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImag
 
 	if (imageProcessingModuleIndex == 1 && setConfig.takeWork1Pictures)
 	{
-		if (globalStruct.isTakePictures) {
-			save_image_work(imageInfo, image);
-		}
+		save_image_work(imageInfo, image);
 	}
 	else if (imageProcessingModuleIndex == 2 && setConfig.takeWork2Pictures)
 	{
-		if (globalStruct.isTakePictures) {
-			save_image_work(imageInfo, image);
-		}
+		save_image_work(imageInfo, image);
 	}
 }
 
@@ -160,21 +156,22 @@ void ImageProcessorZipper::save_image_work(rw::rqw::ImageInfo& imageInfo, const 
 	if (_isbad) {
 		if (setConfig.saveNGImg)
 		{
-			imageInfo.classify = "NG";
-			globalData.imageSaveEngine->pushImage(imageInfo);
+			rw::rqw::ImageInfo NG(image);
+			NG.classify = "NG";
+			globalData.imageSaveEngine->pushImage(NG);
 		}
 		if (setConfig.saveMaskImg)
 		{
-			rw::rqw::ImageInfo mask(image);
-			mask.classify = "Mask";
-			globalData.imageSaveEngine->pushImage(mask);
+			imageInfo.classify = "Mask";
+			globalData.imageSaveEngine->pushImage(imageInfo);
 		}
 	}
 	else {
 		if (setConfig.saveOKImg)
 		{
-			imageInfo.classify = "OK";
-			globalData.imageSaveEngine->pushImage(imageInfo);
+			rw::rqw::ImageInfo Ok(image);
+			Ok.classify = "OK";
+			globalData.imageSaveEngine->pushImage(Ok);
 		}
 	}
 }

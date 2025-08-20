@@ -95,7 +95,7 @@ void DlgIOTrigger::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
 		auto& globalStruct = GlobalData::getInstance();
-		auto chongkongshijian = globalStruct.setConfig.chongkongshijian;
+		auto chongkongshijian = globalStruct.setConfig.chongkongshijian*1000;
 		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
 		QThread::msleep(yanchichongkongshijian);
 

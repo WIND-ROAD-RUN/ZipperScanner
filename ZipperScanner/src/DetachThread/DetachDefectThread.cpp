@@ -58,13 +58,16 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 		auto isshoudongsudu = globalStruct.zmotion.setAxisRunSpeed(0,globalStruct.setConfig.shoudongsudu);
 		
 
-		auto tifeichixushijian1 = setConfig.chongkongshijian;
+		auto chongkongshijian = setConfig.chongkongshijian*1000;
+		auto yanshiziqi = setConfig.yanshiziqi * 1000;
+		auto yanshichongkong = setConfig.yanshichongkong * 1000;
 		if (nowLocation - minlocation > 0)
 		{
 			std::cout << "|---------BEGIN----------|" << std::endl;
 			// 停止电机
 			bool isStop = globalStruct.zmotion.stopAllAxis();
 
+			QThread::msleep(yanshichongkong);
 			if (!isStop)
 			{
 				//QMessageBox::warning(this, "警告", "停止电机失败!");
@@ -75,10 +78,10 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 			queue->tryPopMin(minlocation);
 
 			// 等待冲孔完毕
-			QThread::msleep(tifeichixushijian1);
+			QThread::msleep(chongkongshijian);
 
 			isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
-			QThread::msleep(1000);
+			QThread::msleep(yanshiziqi);
 			++globalStruct.statisticalInfo.punchCount;
 			std::cout << "stoplocation:" << minlocation << std::endl;
 

@@ -1123,8 +1123,8 @@ void DlgProductSet::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
 		auto& globalStruct = GlobalData::getInstance();
-		auto chongkongshijian = globalStruct.setConfig.chongkongshijian;
-		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
+		auto chongkongshijian = globalStruct.setConfig.chongkongshijian*1000;
+		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong *1000;
 		QThread::msleep(yanchichongkongshijian);
 		bool isSet = globalStruct.zmotion.SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
 

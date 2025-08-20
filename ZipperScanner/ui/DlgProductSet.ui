@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>1293</width>
     <height>960</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>DlgProductSet</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_16">
    <item>
@@ -103,7 +106,7 @@ QTabBar::tab:hover {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_0">
       <attribute name="title">
@@ -144,10 +147,16 @@ QGroupBox::title {
                 <layout class="QHBoxLayout" name="horizontalLayout_18">
                  <item>
                   <widget class="QCheckBox" name="cbox_qiyongerxiangji">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -155,9 +164,9 @@ QGroupBox::title {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -210,10 +219,16 @@ QCheckBox::indicator:pressed {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_qiyongyundongkongzhiqi">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -221,9 +236,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -276,10 +291,16 @@ QCheckBox::indicator:pressed {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_yundongkongzhiqichonglian">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -287,9 +308,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -342,10 +363,16 @@ QCheckBox::indicator:pressed {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DIAirPressure">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -353,9 +380,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -412,10 +439,16 @@ QCheckBox::indicator:pressed {
                 <layout class="QHBoxLayout" name="horizontalLayout_42">
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -423,9 +456,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -478,10 +511,16 @@ QCheckBox::indicator:pressed {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -489,9 +528,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -544,10 +583,16 @@ QCheckBox::indicator:pressed {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -555,9 +600,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -610,10 +655,16 @@ QCheckBox::indicator:pressed {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
+    spacing: 12px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -621,9 +672,9 @@ QCheckBox::indicator:pressed {
 
 /* 未选中状态 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
     background: #ffffff;
 }
@@ -721,7 +772,7 @@ QGroupBox::title {
                <widget class="QLabel" name="label_43">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -748,6 +799,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -789,7 +841,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_45">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -816,6 +868,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -861,7 +914,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_47">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -888,6 +941,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -929,7 +983,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_49">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -956,6 +1010,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -1026,7 +1081,7 @@ QGroupBox::title {
                <widget class="QLabel" name="label_24">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -1053,6 +1108,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -1094,7 +1150,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_31">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -1121,6 +1177,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -1166,7 +1223,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_29">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -1193,6 +1250,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -1234,7 +1292,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_41">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -1261,6 +1319,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -1331,7 +1390,7 @@ QGroupBox::title {
                <widget class="QLabel" name="label_65">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -1358,6 +1417,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -1379,7 +1439,7 @@ QPushButton:pressed {
                <widget class="QLabel" name="label_70">
                 <property name="styleSheet">
                  <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -1599,39 +1659,79 @@ QGroupBox::title {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1644,39 +1744,79 @@ QCheckBox::indicator:checked:hover {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1689,39 +1829,79 @@ QCheckBox::indicator:checked:hover {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1731,39 +1911,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DIAirPressure_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1777,39 +1997,79 @@ QCheckBox::indicator:checked:hover {
                 <layout class="QHBoxLayout" name="horizontalLayout_46">
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger1_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1819,39 +2079,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger2_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1861,39 +2161,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger3_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1903,39 +2243,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DICameraTrigger4_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -1961,39 +2341,79 @@ QCheckBox::indicator:checked:hover {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2006,39 +2426,79 @@ QCheckBox::indicator:checked:hover {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2051,39 +2511,79 @@ QCheckBox::indicator:checked:hover {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2096,39 +2596,79 @@ QCheckBox::indicator:checked:hover {
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2138,39 +2678,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DOBlow3_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2180,39 +2760,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DOBlow4_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2226,39 +2846,79 @@ QCheckBox::indicator:checked:hover {
                 <layout class="QHBoxLayout" name="horizontalLayout_31">
                  <item>
                   <widget class="QCheckBox" name="cbox_DOBeltControl_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2268,39 +2928,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DOGreenLight_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2310,39 +3010,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DORedLight_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2352,39 +3092,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DOUpLight_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2394,39 +3174,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DOSideLight_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2436,39 +3256,79 @@ QCheckBox::indicator:checked:hover {
                  </item>
                  <item>
                   <widget class="QCheckBox" name="cbox_DODownLight_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
-    /* 默认样式 */
-    spacing: 10px; /* 文字和框框之间的间距 */
-    font-size: 14px; /* 字体大小 */
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
 QCheckBox::indicator {
-    /* 按钮的大小 */
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
 }
 
-QCheckBox::indicator:unchecked {
-    /* 未选中状态的样式 */
-    background-color:rgb(255, 0, 0); /* 背景颜色 */
-    border: 1px solid darkgray; /* 边框颜色 */
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
 }
 
-QCheckBox::indicator:unchecked:hover {
-    /* 未选中状态鼠标悬停时的样式 */
-    background-color: gray; /* 背景颜色 */
-}
-
+/* 选中状态：绿色 */
 QCheckBox::indicator:checked {
-    /* 选中状态的样式 */
-    background-color: rgb(0, 255, 0); /* 背景颜色 */
-    border: 1px solid darkred; /* 边框颜色 */
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
 }
 
-QCheckBox::indicator:checked:hover {
-    /* 选中状态鼠标悬停时的样式 */
-    background-color: darkred; /* 背景颜色 */
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
 }</string>
                    </property>
                    <property name="text">
@@ -2500,22 +3360,32 @@ QCheckBox::indicator:checked:hover {
             </item>
             <item>
              <widget class="QCheckBox" name="cbox_debugMode">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
                <string notr="true">QCheckBox {
-    spacing: 8px;
-    font-size: 20px;
-    color: #333;
-    font-weight: bold;        
-    color:  rgb(0, 0, 0);       
+    spacing: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
 
-/* 未选中状态 */
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：背景为空 */
 QCheckBox::indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px; /* 方形，圆角可适当调整 */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     border: 2px solid #999;
-    background: #ffffff;
+    background: transparent; /* 背景为空 */
 }
 
 /* 悬停效果 */
@@ -2523,7 +3393,7 @@ QCheckBox::indicator:hover {
     border: 2px solid #666;
 }
 
-/* 选中状态 */
+/* 选中状态：蓝色 */
 QCheckBox::indicator:checked {
     border: 2px solid #2196F3;
     background-color: qradialgradient(
@@ -2535,26 +3405,32 @@ QCheckBox::indicator:checked {
     );
 }
 
-/* 禁用状态 */
+/* 禁用且未选中：背景为空 */
 QCheckBox::indicator:disabled {
     border: 2px solid #ccc;
-    background: #eee;
+    background: transparent;
 }
 
-/* 选中时的文字颜色 */
+/* 禁用且选中：蓝色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #2196F3;
+}
+
+/* 选中时文字颜色为黑色 */
 QCheckBox:checked {
-    color: #2196F3;
+    color: rgb(0, 0, 0);
     font-weight: 500;
 }
 
 /* 点击动画效果 */
 QCheckBox::indicator:pressed {
-    border: 2px solid #1565C0;
+    border: 2px solid #1976D2;
     background-color: qradialgradient(
         cx:0.5, cy:0.5,
         radius:0.5,
         fx:0.5, fy:0.5,
-        stop:0 #BBDEFB,
+        stop:0 #90CAF9,
         stop:1 transparent
     );
 }</string>
@@ -2626,7 +3502,7 @@ QGroupBox::title {
                 <widget class="QLabel" name="label_15">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -2653,6 +3529,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -2674,7 +3551,7 @@ QPushButton:pressed {
                 <widget class="QLabel" name="label_16">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -2719,7 +3596,7 @@ QGroupBox::title {
                 <widget class="QLabel" name="label_19">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -2746,6 +3623,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -2767,7 +3645,7 @@ QPushButton:pressed {
                 <widget class="QLabel" name="label_20">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -2837,7 +3715,7 @@ QGroupBox::title {
                 <widget class="QLabel" name="label_17">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -2864,6 +3742,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -2914,7 +3793,7 @@ QGroupBox::title {
                 <widget class="QLabel" name="label_22">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -2941,6 +3820,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3001,7 +3881,7 @@ QGroupBox::title {
              <widget class="QLabel" name="label_34">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3028,6 +3908,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3145,7 +4026,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_32">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3172,6 +4053,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3289,7 +4171,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_38">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3316,6 +4198,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3433,7 +4316,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_36">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3460,6 +4343,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3577,7 +4461,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_66">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3604,6 +4488,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3625,7 +4510,7 @@ QPushButton:pressed {
              <widget class="QLabel" name="label_67">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3670,7 +4555,7 @@ QGroupBox::title {
              <widget class="QLabel" name="label_60">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3697,6 +4582,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3814,7 +4700,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_62">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3841,6 +4727,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -3958,7 +4845,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_56">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -3985,6 +4872,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4102,7 +4990,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_58">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4129,6 +5017,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4246,7 +5135,7 @@ QLabel.icon {
              <widget class="QLabel" name="label_68">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4273,6 +5162,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4294,7 +5184,7 @@ QPushButton:pressed {
              <widget class="QLabel" name="label_69">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4346,7 +5236,7 @@ QGroupBox::title {
              <widget class="QLabel" name="label">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4373,6 +5263,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4398,7 +5289,7 @@ QPushButton:pressed {
              <widget class="QLabel" name="label_3">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4425,6 +5316,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4475,7 +5367,7 @@ QGroupBox::title {
              <widget class="QLabel" name="label_5">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4502,6 +5394,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4527,7 +5420,7 @@ QPushButton:pressed {
              <widget class="QLabel" name="label_7">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4554,6 +5447,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4604,7 +5498,7 @@ QGroupBox::title {
              <widget class="QLabel" name="label_9">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4631,6 +5525,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -4656,7 +5551,7 @@ QPushButton:pressed {
              <widget class="QLabel" name="label_11">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -4683,6 +5578,7 @@ QPushButton:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -5169,7 +6065,7 @@ QGroupBox::title {
              <widget class="QLabel" name="label_71">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -5414,7 +6310,7 @@ QRadioButton::indicator:pressed {
              <widget class="QLabel" name="label_13">
               <property name="styleSheet">
                <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -5441,6 +6337,7 @@ QRadioButton::indicator:pressed {
     border-radius: 4px;
     background-color: white;
     color: #444;
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -5521,7 +6418,7 @@ QGroupBox::title {
                 <widget class="QLabel" name="label_21">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -5548,7 +6445,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
-    font-size: 20px; 
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -5666,7 +6563,7 @@ QLabel.icon {
                 <widget class="QLabel" name="label_27">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -5693,7 +6590,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
-    font-size: 20px; 
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -5811,7 +6708,7 @@ QLabel.icon {
                 <widget class="QLabel" name="label_26">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -5838,7 +6735,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
-    font-size: 20px; 
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -5956,7 +6853,7 @@ QLabel.icon {
                 <widget class="QLabel" name="label_72">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -5983,7 +6880,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
-    font-size: 20px; 
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -6127,7 +7024,7 @@ QGroupBox::title {
                 <widget class="QLabel" name="label_23">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -6154,7 +7051,7 @@ QGroupBox::title {
     border-radius: 4px;
     background-color: white;
     color: #444;
-    font-size: 20px; 
+	font-size: 30px; 
 }
 
 QPushButton:hover {
@@ -6272,7 +7169,7 @@ QLabel.icon {
                 <widget class="QLabel" name="label_25">
                  <property name="styleSheet">
                   <string notr="true">QLabel {
-       font-size: 20px;        
+       font-size: 30px;        
        font-weight: bold;        
        color:  rgb(141, 141, 141);       
        padding: 5px 5px;     
@@ -6299,7 +7196,7 @@ QLabel.icon {
     border-radius: 4px;
     background-color: white;
     color: #444;
-    font-size: 20px; 
+	font-size: 30px; 
 }
 
 QPushButton:hover {

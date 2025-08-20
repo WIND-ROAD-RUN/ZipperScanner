@@ -1598,6 +1598,17 @@ void DlgProductSet::monitorInPutSignal(size_t index, bool state)
 				ui->cbox_DIlalianlawan->setChecked(false);
 			}
 		}
+		else if (index == ControlLines::guanjiIn) // 拉链拉完按钮
+		{
+			if (state)
+			{
+				ui->cbox_DIguanji->setChecked(true);
+			}
+			else
+			{
+				ui->cbox_DIguanji->setChecked(false);
+			}
+		}
 
 	}
 

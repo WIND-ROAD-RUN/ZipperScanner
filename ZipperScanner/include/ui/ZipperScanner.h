@@ -154,7 +154,7 @@ private:
 	int minimizeCount{ 3 };
 private:
 	bool isShutdownByIO{ false };
-	bool isConnnectCard{ false };
+	bool _isConnnectCard{ false };
 public slots:
 	void onFinishProduce();
 	void onUpdateStatisticalInfo();

@@ -297,6 +297,7 @@ void ZipperScanner::build_motion()
 	auto& globalStruct = GlobalData::getInstance();
 	globalStruct.zmotion.setIp("192.168.0.11");
 	bool isConnected = globalStruct.zmotion.connect();
+	_isConnnectCard = isConnected;
 	if (isConnected)
 	{
 		auto& globalStructsetConfig = GlobalData::getInstance().setConfig;
@@ -1104,7 +1105,7 @@ void ZipperScanner::updateUiLabels(int index, bool isConnected)
 	switch (index)
 	{
 	case 0:
-		isConnnectCard = isConnected;
+		_isConnnectCard = isConnected;
 		if (isConnected)
 		{
 			ui->label_cardState->setText("连接成功");
@@ -1346,7 +1347,7 @@ void ZipperScanner::onUpdateStatisticalInfo()
 
 void ZipperScanner::shutdownComputerTrigger(int time)
 {
-	if (!isConnnectCard)
+	if (!_isConnnectCard)
 	{
 		return;
 	}

@@ -97,8 +97,8 @@ void DetachUtiltyThread::processShutdownIO(size_t s)
 {
 	if (s % 1 == 0)
 	{
-		auto& motion = zwy::scc::GlobalMotion::getInstance().motionPtr;
-		auto isShutdown = motion->GetIOIn(ControlLines::guanjiIn);
+		auto& motion = GlobalData::getInstance().zmotion;
+		auto isShutdown = motion.getIOIn(ControlLines::guanjiIn);
 
 		if (lastIsShutDown)
 		{

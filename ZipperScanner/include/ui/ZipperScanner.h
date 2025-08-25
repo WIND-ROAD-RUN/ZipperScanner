@@ -14,6 +14,7 @@
 #include"rqw_LabelClickable.h"
 #include <QSpinBox>
 #include"DlgShutdownWarn.h"
+#include"DlgCloseForm.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ZipperScannerClass; };
@@ -47,6 +48,7 @@ public:
 	DlgExposureTimeSet* _dlgExposureTimeSet = nullptr;
 	DlgIOTrigger* _dlgIOTrigger = nullptr;
 	DlgShutdownWarn* _dlgShutdownWarn = nullptr;
+	DlgCloseForm* _dlgCloseForm = nullptr;
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
 	rw::rqw::ClickableLabel* clickableTitle = nullptr;
@@ -73,6 +75,7 @@ public:
 
 	void start_CameraMonitor();
 
+	void build_DlgCloseForm();
 public:
 	void destroyComponents();
 

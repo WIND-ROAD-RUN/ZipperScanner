@@ -141,9 +141,9 @@ void DlgProductSet::read_config()
 	ui->ckb_zangwu->setChecked(globalConfig.isZangwu);
 	ui->ckb_suoxiao->setChecked(globalConfig.isSuoxiao);
 
-	ui->ckb_extra1->setChecked(globalConfig.isExtra1);
-	ui->ckb_extra2->setChecked(globalConfig.isExtra2);
-	ui->ckb_extra3->setChecked(globalConfig.isExtra3);
+	ui->ckb_huawen->setChecked(globalConfig.isExtra1);
+	ui->ckb_yuan->setChecked(globalConfig.isExtra2);
+	ui->ckb_huapo->setChecked(globalConfig.isExtra3);
 	ui->ckb_extra4->setChecked(globalConfig.isExtra4);
 	ui->ckb_extra5->setChecked(globalConfig.isExtra5);
 	ui->ckb_extra6->setChecked(globalConfig.isExtra6);
@@ -289,12 +289,12 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::ckb_zangwu_checked);
 	QObject::connect(ui->ckb_suoxiao, &QCheckBox::clicked,
 		this, &DlgProductSet::ckb_suoxiao_checked);
-	QObject::connect(ui->ckb_extra1, &QCheckBox::clicked,
-		this, &DlgProductSet::ckb_extra1_checked);
-	QObject::connect(ui->ckb_extra2, &QCheckBox::clicked,
-		this, &DlgProductSet::ckb_extra2_checked);
-	QObject::connect(ui->ckb_extra3, &QCheckBox::clicked,
-		this, &DlgProductSet::ckb_extra3_checked);
+	QObject::connect(ui->ckb_huawen, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_huawen_checked);
+	QObject::connect(ui->ckb_yuan, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_yuan_checked);
+	QObject::connect(ui->ckb_huapo, &QCheckBox::clicked,
+		this, &DlgProductSet::ckb_huapo_checked);
 	QObject::connect(ui->ckb_extra4, &QCheckBox::clicked,
 		this, &DlgProductSet::ckb_extra4_checked);
 	QObject::connect(ui->ckb_extra5, &QCheckBox::clicked,
@@ -1683,19 +1683,19 @@ void DlgProductSet::ckb_suoxiao_checked(bool isChecked)
 	globalStructSetConfig.isSuoxiao = isChecked;
 }
 
-void DlgProductSet::ckb_extra1_checked(bool isChecked)
+void DlgProductSet::ckb_huawen_checked(bool isChecked)
 {
 	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra1 = isChecked;
 }
 
-void DlgProductSet::ckb_extra2_checked(bool isChecked)
+void DlgProductSet::ckb_yuan_checked(bool isChecked)
 {
 	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra2 = isChecked;
 }
 
-void DlgProductSet::ckb_extra3_checked(bool isChecked)
+void DlgProductSet::ckb_huapo_checked(bool isChecked)
 {
 	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
 	globalStructSetConfig.isExtra3 = isChecked;

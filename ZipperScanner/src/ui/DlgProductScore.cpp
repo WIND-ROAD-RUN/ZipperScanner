@@ -51,20 +51,20 @@ void DlgProductScore::read_config()
 	ui->btn_suoxiaoscore->setText(QString::number(globalScoreConfig.suoXiaoScore));
 	ui->btn_suoxiaoarea->setText(QString::number(globalScoreConfig.suoXiaoArea));
 
-	// 额外1
-	ui->ckb_extra1->setChecked(globalScoreConfig.extra1);
-	ui->btn_extra1score->setText(QString::number(globalScoreConfig.extra1Score));
-	ui->btn_extra1area->setText(QString::number(globalScoreConfig.extra1Area));
+	// 花纹
+	ui->ckb_huawen->setChecked(globalScoreConfig.huaWen);
+	ui->btn_huawenscore->setText(QString::number(globalScoreConfig.huaWenScore));
+	ui->btn_huawenarea->setText(QString::number(globalScoreConfig.huaWenArea));
 
-	// 额外2
-	ui->ckb_extra2->setChecked(globalScoreConfig.extra2);
-	ui->btn_extra2score->setText(QString::number(globalScoreConfig.extra2Score));
-	ui->btn_extra2area->setText(QString::number(globalScoreConfig.extra2Area));
+	// 圆
+	ui->ckb_yuan->setChecked(globalScoreConfig.yuan);
+	ui->btn_yuanscore->setText(QString::number(globalScoreConfig.yuanScore));
+	ui->btn_yuanarea->setText(QString::number(globalScoreConfig.yuanArea));
 
-	// 额外3
-	ui->ckb_extra3->setChecked(globalScoreConfig.extra3);
-	ui->btn_extra3score->setText(QString::number(globalScoreConfig.extra3Score));
-	ui->btn_extra3area->setText(QString::number(globalScoreConfig.extra3Area));
+	// 划破
+	ui->ckb_huapo->setChecked(globalScoreConfig.huaPo);
+	ui->btn_huaposcore->setText(QString::number(globalScoreConfig.huaPoArea));
+	ui->btn_huapoarea->setText(QString::number(globalScoreConfig.huaPoArea));
 
 	// 额外4
 	ui->ckb_extra4->setChecked(globalScoreConfig.extra4);
@@ -121,24 +121,24 @@ void DlgProductScore::build_connect()
 	QObject::connect(ui->btn_suoxiaoarea, &QPushButton::clicked,
 		this, &DlgProductScore::btn_suoxiaoarea_clicked);
 
-	QObject::connect(ui->ckb_extra1, &QCheckBox::clicked,
-		this, &DlgProductScore::ckb_extra1_checked);
-	QObject::connect(ui->btn_extra1score, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra1score_clicked);
-	QObject::connect(ui->btn_extra1area, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra1area_clicked);
-	QObject::connect(ui->ckb_extra2, &QCheckBox::clicked,
-		this, &DlgProductScore::ckb_extra2_checked);
-	QObject::connect(ui->btn_extra2score, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra2score_clicked);
-	QObject::connect(ui->btn_extra2area, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra2area_clicked);
-	QObject::connect(ui->ckb_extra3, &QCheckBox::clicked,
-		this, &DlgProductScore::ckb_extra3_checked);
-	QObject::connect(ui->btn_extra3score, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra3score_clicked);
-	QObject::connect(ui->btn_extra3area, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra3area_clicked);
+	QObject::connect(ui->ckb_huawen, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_huawen_checked);
+	QObject::connect(ui->btn_huawenscore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_huawenscore_clicked);
+	QObject::connect(ui->btn_huawenarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_huawenarea_clicked);
+	QObject::connect(ui->ckb_yuan, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_yuan_checked);
+	QObject::connect(ui->btn_yuanscore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_yuanscore_clicked);
+	QObject::connect(ui->btn_yuanarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_yuanarea_clicked);
+	QObject::connect(ui->ckb_huapo, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_huapo_checked);
+	QObject::connect(ui->btn_huaposcore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_huaposcore_clicked);
+	QObject::connect(ui->btn_huapoarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_huapoarea_clicked);
 	QObject::connect(ui->ckb_extra4, &QCheckBox::clicked,
 		this, &DlgProductScore::ckb_extra4_checked);
 	QObject::connect(ui->btn_extra4score, &QPushButton::clicked,
@@ -359,14 +359,14 @@ void DlgProductScore::btn_suoxiaoarea_clicked()
 	}
 }
 
-void DlgProductScore::ckb_extra1_checked()
+void DlgProductScore::ckb_huawen_checked()
 {
 	auto& globalScoreConfig = GlobalData::getInstance().scoreConfig;
-	globalScoreConfig.extra1 = ui->ckb_extra1->isChecked();
+	globalScoreConfig.huaWen = ui->ckb_huawen->isChecked();
 	GlobalData::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::btn_extra1score_clicked()
+void DlgProductScore::btn_huawenscore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -380,12 +380,12 @@ void DlgProductScore::btn_extra1score_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra1score->setText(value);
-		globalStructScoreConfig.extra1Score = value.toDouble();
+		ui->btn_huawenscore->setText(value);
+		globalStructScoreConfig.huaWenScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::btn_extra1area_clicked()
+void DlgProductScore::btn_huawenarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -399,19 +399,19 @@ void DlgProductScore::btn_extra1area_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra1area->setText(value);
-		globalStructScoreConfig.extra1Area = value.toDouble();
+		ui->btn_huawenarea->setText(value);
+		globalStructScoreConfig.huaWenArea = value.toDouble();
 	}
 }
 
-void DlgProductScore::ckb_extra2_checked()
+void DlgProductScore::ckb_yuan_checked()
 {
 	auto& globalScoreConfig = GlobalData::getInstance().scoreConfig;
-	globalScoreConfig.extra2 = ui->ckb_extra2->isChecked();
+	globalScoreConfig.yuan = ui->ckb_yuan->isChecked();
 	GlobalData::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::btn_extra2score_clicked()
+void DlgProductScore::btn_yuanscore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -425,12 +425,12 @@ void DlgProductScore::btn_extra2score_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra2score->setText(value);
-		globalStructScoreConfig.extra2Score = value.toDouble();
+		ui->btn_yuanscore->setText(value);
+		globalStructScoreConfig.yuanScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::btn_extra2area_clicked()
+void DlgProductScore::btn_yuanarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -444,19 +444,19 @@ void DlgProductScore::btn_extra2area_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra2area->setText(value);
-		globalStructScoreConfig.extra2Area = value.toDouble();
+		ui->btn_yuanarea->setText(value);
+		globalStructScoreConfig.yuanArea = value.toDouble();
 	}
 }
 
-void DlgProductScore::ckb_extra3_checked()
+void DlgProductScore::ckb_huapo_checked()
 {
 	auto& globalScoreConfig = GlobalData::getInstance().scoreConfig;
-	globalScoreConfig.extra3 = ui->ckb_extra3->isChecked();
+	globalScoreConfig.huaPo = ui->ckb_huapo->isChecked();
 	GlobalData::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::btn_extra3score_clicked()
+void DlgProductScore::btn_huaposcore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -470,12 +470,12 @@ void DlgProductScore::btn_extra3score_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra3score->setText(value);
-		globalStructScoreConfig.extra3Score = value.toDouble();
+		ui->btn_huaposcore->setText(value);
+		globalStructScoreConfig.huaPoScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::btn_extra3area_clicked()
+void DlgProductScore::btn_huapoarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -489,8 +489,8 @@ void DlgProductScore::btn_extra3area_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra3area->setText(value);
-		globalStructScoreConfig.extra3Area = value.toDouble();
+		ui->btn_huapoarea->setText(value);
+		globalStructScoreConfig.huaPoArea = value.toDouble();
 	}
 }
 

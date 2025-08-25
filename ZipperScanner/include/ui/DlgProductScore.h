@@ -35,17 +35,17 @@ private slots:
 	void ckb_suoxiao_checked();
 	void btn_suoxiaoscore_clicked();
 	void btn_suoxiaoarea_clicked();
+	void ckb_huawen_checked();
+	void btn_huawenscore_clicked();
+	void btn_huawenarea_clicked();
+	void ckb_yuan_checked();
+	void btn_yuanscore_clicked();
+	void btn_yuanarea_clicked();
+	void ckb_huapo_checked();
+	void btn_huaposcore_clicked();
+	void btn_huapoarea_clicked();
 
 	// 暂未启用的额外缺陷
-	void ckb_extra1_checked();
-	void btn_extra1score_clicked();
-	void btn_extra1area_clicked();
-	void ckb_extra2_checked();
-	void btn_extra2score_clicked();
-	void btn_extra2area_clicked();
-	void ckb_extra3_checked();
-	void btn_extra3score_clicked();
-	void btn_extra3area_clicked();
 	void ckb_extra4_checked();
 	void btn_extra4score_clicked();
 	void btn_extra4area_clicked();

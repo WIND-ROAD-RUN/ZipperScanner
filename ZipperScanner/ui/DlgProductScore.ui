@@ -513,12 +513,12 @@ QPushButton:pressed {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="widget_extra1" native="true">
+               <widget class="QWidget" name="widget_huawen" native="true">
                 <layout class="QGridLayout" name="gridLayout_8">
                  <item row="0" column="0">
                   <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="2,1,2,0,2,0">
                    <item>
-                    <widget class="QCheckBox" name="ckb_extra1">
+                    <widget class="QCheckBox" name="ckb_huawen">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -585,7 +585,7 @@ QCheckBox::indicator:pressed {
 }</string>
                      </property>
                      <property name="text">
-                      <string>额外1</string>
+                      <string>花纹</string>
                      </property>
                     </widget>
                    </item>
@@ -606,7 +606,7 @@ QCheckBox::indicator:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra1score">
+                    <widget class="QPushButton" name="btn_huawenscore">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -661,7 +661,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra1area">
+                    <widget class="QPushButton" name="btn_huawenarea">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -721,12 +721,12 @@ QPushButton:pressed {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="widget_extra3" native="true">
+               <widget class="QWidget" name="widget_huapo" native="true">
                 <layout class="QGridLayout" name="gridLayout_12">
                  <item row="0" column="0">
                   <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="2,1,2,0,2,0">
                    <item>
-                    <widget class="QCheckBox" name="ckb_extra3">
+                    <widget class="QCheckBox" name="ckb_huapo">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -793,7 +793,7 @@ QCheckBox::indicator:pressed {
 }</string>
                      </property>
                      <property name="text">
-                      <string>额外3</string>
+                      <string>划破</string>
                      </property>
                     </widget>
                    </item>
@@ -814,7 +814,7 @@ QCheckBox::indicator:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra3score">
+                    <widget class="QPushButton" name="btn_huaposcore">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -869,7 +869,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra3area">
+                    <widget class="QPushButton" name="btn_huapoarea">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -1765,12 +1765,12 @@ QPushButton:pressed {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="widget_extra2" native="true">
+               <widget class="QWidget" name="widget_yuan" native="true">
                 <layout class="QGridLayout" name="gridLayout_11">
                  <item row="0" column="0">
                   <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="2,1,2,0,2,0">
                    <item>
-                    <widget class="QCheckBox" name="ckb_extra2">
+                    <widget class="QCheckBox" name="ckb_yuan">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -1837,7 +1837,7 @@ QCheckBox::indicator:pressed {
 }</string>
                      </property>
                      <property name="text">
-                      <string>额外2</string>
+                      <string>圆</string>
                      </property>
                     </widget>
                    </item>
@@ -1858,7 +1858,7 @@ QCheckBox::indicator:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra2score">
+                    <widget class="QPushButton" name="btn_yuanscore">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -1913,7 +1913,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra2area">
+                    <widget class="QPushButton" name="btn_yuanarea">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>

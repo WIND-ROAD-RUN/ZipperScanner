@@ -201,7 +201,7 @@ void ImageProcessorZipper::iniIndexGetContext()
 {
 	auto& context = _imgProcess->context();
 
-	context.indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info) {
+	context.indexGetContext.removeIndicesIfByInfo = [this](const rw::DetectionRectangleInfo& info,const rw::imgPro::ImageProcessContext& imageProcessContext) {
 		bool isInShieldWires = false;
 		if (-1 == leftShieldWire || -1 == rightShieldWire || -1 == topShieldWire || -1 == bottomShieldWire)
 		{
@@ -248,12 +248,12 @@ void ImageProcessorZipper::iniDefectResultInfoFunc()
 	defectConfigs[ClassId::Zangwu] = defectConfig;
 	defectConfig.isEnable = suoxiaoMap["enable"];
 	defectConfigs[ClassId::Suoxiao] = defectConfig;
-	defectConfig.isEnable = extra1Map["enable"];
-	defectConfigs[ClassId::Extra1] = defectConfig;
-	defectConfig.isEnable = extra2Map["enable"];
-	defectConfigs[ClassId::Extra2] = defectConfig;
-	defectConfig.isEnable = extra3Map["enable"];
-	defectConfigs[ClassId::Extra3] = defectConfig;
+	defectConfig.isEnable = huawenMap["enable"];
+	defectConfigs[ClassId::Huawen] = defectConfig;
+	defectConfig.isEnable = yuanMap["enable"];
+	defectConfigs[ClassId::Yuan] = defectConfig;
+	defectConfig.isEnable = huapoMap["enable"];
+	defectConfigs[ClassId::Huapo] = defectConfig;
 	defectConfig.isEnable = extra4Map["enable"];
 	defectConfigs[ClassId::Extra4] = defectConfig;
 	defectConfig.isEnable = extra5Map["enable"];
@@ -287,10 +287,13 @@ void ImageProcessorZipper::iniDefectDrawConfig()
 	updateDrawRec();
 	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Green, true);
 	drawConfig.setAllIdsWithSameColor({ 0,1,2 }, rw::rqw::RQWColor::Red, false);
-	drawConfig.classIdNameMap[0] = "缺牙";
-	drawConfig.classIdNameMap[1] = "烫伤";
-	drawConfig.classIdNameMap[2] = "脏污";
-	drawConfig.classIdNameMap[3] = "缩小";
+	drawConfig.classIdNameMap[ClassId::Queya] = "缺牙";
+	drawConfig.classIdNameMap[ClassId::Tangshang] = "烫伤";
+	drawConfig.classIdNameMap[ClassId::Zangwu] = "脏污";
+	drawConfig.classIdNameMap[ClassId::Suoxiao] = "缩小";
+	drawConfig.classIdNameMap[ClassId::Huawen] = "花纹";
+	drawConfig.classIdNameMap[ClassId::Yuan] = "圆";
+	drawConfig.classIdNameMap[ClassId::Huapo] = "划破";
 	context.defectDrawCfg = drawConfig;
 }
 
@@ -356,43 +359,43 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 		suoxiaoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
 	}
 
-	extra1Map["classId"] = ClassId::Extra1;
-	extra1Map["maxArea"] = globalStruct.scoreConfig.extra1Area;
-	extra1Map["maxScore"] = globalStruct.scoreConfig.extra1Score;
-	extra1Map["enable"] = globalStruct.scoreConfig.extra1;
+	huawenMap["classId"] = ClassId::Huawen;
+	huawenMap["maxArea"] = globalStruct.scoreConfig.huaWenArea;
+	huawenMap["maxScore"] = globalStruct.scoreConfig.huaWenScore;
+	huawenMap["enable"] = globalStruct.scoreConfig.huaWen;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra1Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		huawenMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra1Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		huawenMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
 	}
 
-	extra2Map["classId"] = ClassId::Extra2;
-	extra2Map["maxArea"] = globalStruct.scoreConfig.extra2Area;
-	extra2Map["maxScore"] = globalStruct.scoreConfig.extra2Score;
-	extra2Map["enable"] = globalStruct.scoreConfig.extra2;
+	yuanMap["classId"] = ClassId::Yuan;
+	yuanMap["maxArea"] = globalStruct.scoreConfig.yuanArea;
+	yuanMap["maxScore"] = globalStruct.scoreConfig.yuanScore;
+	yuanMap["enable"] = globalStruct.scoreConfig.yuan;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra2Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		yuanMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra2Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		yuanMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
 	}
 
-	extra3Map["classId"] = ClassId::Extra3;
-	extra3Map["maxArea"] = globalStruct.scoreConfig.extra3Area;
-	extra3Map["maxScore"] = globalStruct.scoreConfig.extra3Score;
-	extra3Map["enable"] = globalStruct.scoreConfig.extra3;
+	huapoMap["classId"] = ClassId::Huapo;
+	huapoMap["maxArea"] = globalStruct.scoreConfig.huaPoArea;
+	huapoMap["maxScore"] = globalStruct.scoreConfig.huaPoScore;
+	huapoMap["enable"] = globalStruct.scoreConfig.huaPo;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra3Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		huapoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra3Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		huapoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
 	}
 
 	extra4Map["classId"] = ClassId::Extra4;
@@ -465,9 +468,9 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 	rw::imgPro::EliminationInfoGetConfig tangshangEliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig zangwuEliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig suoxiaoEliminationInfoGetConfig;
-	rw::imgPro::EliminationInfoGetConfig extra1EliminationInfoGetConfig;
-	rw::imgPro::EliminationInfoGetConfig extra2EliminationInfoGetConfig;
-	rw::imgPro::EliminationInfoGetConfig extra3EliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig huawenEliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig yuanEliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig huapoEliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig extra4EliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig extra5EliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig extra6EliminationInfoGetConfig;
@@ -510,32 +513,32 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 	suoxiaoEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
 	eliminationInfoGetConfigs[ClassId::Suoxiao] = suoxiaoEliminationInfoGetConfig;
 
-	extra1EliminationInfoGetConfig.areaFactor = extra1Map["pixToWorld"];
-	extra1EliminationInfoGetConfig.scoreFactor = 100;
-	extra1EliminationInfoGetConfig.isUsingArea = true;
-	extra1EliminationInfoGetConfig.isUsingScore = true;
-	extra1EliminationInfoGetConfig.scoreRange = { 0, extra1Map["maxScore"] };
-	extra1EliminationInfoGetConfig.areaRange = { 0, extra1Map["maxArea"] };
-	extra1EliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
-	eliminationInfoGetConfigs[ClassId::Extra1] = extra1EliminationInfoGetConfig;
+	huawenEliminationInfoGetConfig.areaFactor = huawenMap["pixToWorld"];
+	huawenEliminationInfoGetConfig.scoreFactor = 100;
+	huawenEliminationInfoGetConfig.isUsingArea = true;
+	huawenEliminationInfoGetConfig.isUsingScore = true;
+	huawenEliminationInfoGetConfig.scoreRange = { 0, huawenMap["maxScore"] };
+	huawenEliminationInfoGetConfig.areaRange = { 0, huawenMap["maxArea"] };
+	huawenEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
+	eliminationInfoGetConfigs[ClassId::Huawen] = huawenEliminationInfoGetConfig;
 
-	extra2EliminationInfoGetConfig.areaFactor = extra2Map["pixToWorld"];
-	extra2EliminationInfoGetConfig.scoreFactor = 100;
-	extra2EliminationInfoGetConfig.isUsingArea = true;
-	extra2EliminationInfoGetConfig.isUsingScore = true;
-	extra2EliminationInfoGetConfig.scoreRange = { 0, extra2Map["maxScore"] };
-	extra2EliminationInfoGetConfig.areaRange = { 0, extra2Map["maxArea"] };
-	extra2EliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
-	eliminationInfoGetConfigs[ClassId::Extra2] = extra2EliminationInfoGetConfig;
+	yuanEliminationInfoGetConfig.areaFactor = yuanMap["pixToWorld"];
+	yuanEliminationInfoGetConfig.scoreFactor = 100;
+	yuanEliminationInfoGetConfig.isUsingArea = true;
+	yuanEliminationInfoGetConfig.isUsingScore = true;
+	yuanEliminationInfoGetConfig.scoreRange = { 0, yuanMap["maxScore"] };
+	yuanEliminationInfoGetConfig.areaRange = { 0, yuanMap["maxArea"] };
+	yuanEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
+	eliminationInfoGetConfigs[ClassId::Yuan] = yuanEliminationInfoGetConfig;
 
-	extra3EliminationInfoGetConfig.areaFactor = extra3Map["pixToWorld"];
-	extra3EliminationInfoGetConfig.scoreFactor = 100;
-	extra3EliminationInfoGetConfig.isUsingArea = true;
-	extra3EliminationInfoGetConfig.isUsingScore = true;
-	extra3EliminationInfoGetConfig.scoreRange = { 0, extra3Map["maxScore"] };
-	extra3EliminationInfoGetConfig.areaRange = { 0, extra3Map["maxArea"] };
-	extra3EliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
-	eliminationInfoGetConfigs[ClassId::Extra3] = extra3EliminationInfoGetConfig;
+	huapoEliminationInfoGetConfig.areaFactor = huapoMap["pixToWorld"];
+	huapoEliminationInfoGetConfig.scoreFactor = 100;
+	huapoEliminationInfoGetConfig.isUsingArea = true;
+	huapoEliminationInfoGetConfig.isUsingScore = true;
+	huapoEliminationInfoGetConfig.scoreRange = { 0, huapoMap["maxScore"] };
+	huapoEliminationInfoGetConfig.areaRange = { 0, huapoMap["maxArea"] };
+	huapoEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
+	eliminationInfoGetConfigs[ClassId::Huapo] = huapoEliminationInfoGetConfig;
 
 	extra4EliminationInfoGetConfig.areaFactor = extra4Map["pixToWorld"];
 	extra4EliminationInfoGetConfig.scoreFactor = 100;

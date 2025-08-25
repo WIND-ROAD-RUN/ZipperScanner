@@ -39,9 +39,9 @@ struct ClassId
 	static constexpr int Tangshang = 1;
 	static constexpr int Zangwu = 2;
 	static constexpr int Suoxiao = 3;
-	static constexpr int Extra1 = 4;
-	static constexpr int Extra2 = 5;
-	static constexpr int Extra3 = 6;
+	static constexpr int Huawen = 4;
+	static constexpr int Yuan = 5;
+	static constexpr int Huapo = 6;
 	static constexpr int Extra4 = 7;
 	static constexpr int Extra5 = 8;
 	static constexpr int Extra6 = 9;

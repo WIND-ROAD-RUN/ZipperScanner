@@ -106,7 +106,7 @@ QTabBar::tab:hover {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>8</number>
      </property>
      <widget class="QWidget" name="tab_0">
       <attribute name="title">
@@ -1668,7 +1668,7 @@ QGroupBox::title {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -1753,7 +1753,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -1838,7 +1838,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -1923,7 +1923,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2009,7 +2009,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2091,7 +2091,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2173,7 +2173,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2255,7 +2255,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2353,7 +2353,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2438,7 +2438,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2523,7 +2523,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2608,7 +2608,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2690,7 +2690,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2772,7 +2772,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2858,7 +2858,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -2940,7 +2940,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -3022,7 +3022,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -3104,7 +3104,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -3186,7 +3186,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -3268,7 +3268,7 @@ QCheckBox::indicator:pressed {
                    <property name="styleSheet">
                     <string notr="true">QCheckBox {
     spacing: 12px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: rgb(0, 0, 0); /* 默认文字为黑色 */
 }
@@ -5646,7 +5646,7 @@ QGroupBox::title {
               <property name="styleSheet">
                <string notr="true">QCheckBox {
     spacing: 8px;
-    font-size: 13px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -5721,7 +5721,7 @@ QCheckBox::indicator:pressed {
               <property name="styleSheet">
                <string notr="true">QCheckBox {
     spacing: 8px;
-    font-size: 13px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -5821,7 +5821,7 @@ QGroupBox::title {
               <property name="styleSheet">
                <string notr="true">QCheckBox {
     spacing: 8px;
-    font-size: 13px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -5896,7 +5896,7 @@ QCheckBox::indicator:pressed {
               <property name="styleSheet">
                <string notr="true">QCheckBox {
     spacing: 8px;
-    font-size: 13px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -5971,7 +5971,7 @@ QCheckBox::indicator:pressed {
               <property name="styleSheet">
                <string notr="true">QCheckBox {
     spacing: 8px;
-    font-size: 13px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -6091,7 +6091,7 @@ QGroupBox::title {
               <property name="styleSheet">
                <string notr="true">QRadioButton {
     spacing: 8px;
-    font-size: 14px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -6168,7 +6168,7 @@ QRadioButton::indicator:pressed {
               <property name="styleSheet">
                <string notr="true">QRadioButton {
     spacing: 8px;
-    font-size: 14px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -6242,7 +6242,7 @@ QRadioButton::indicator:pressed {
               <property name="styleSheet">
                <string notr="true">QRadioButton {
     spacing: 8px;
-    font-size: 14px;
+    font-size: 24px;
     color: #333;
     font-weight: bold;        
     color:  rgb(0, 0, 0);       
@@ -7643,7 +7643,7 @@ QCheckBox::indicator:pressed {
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_64">
               <item>
-               <widget class="QCheckBox" name="ckb_extra1">
+               <widget class="QCheckBox" name="ckb_huawen">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
@@ -7710,12 +7710,12 @@ QCheckBox::indicator:pressed {
 }</string>
                 </property>
                 <property name="text">
-                 <string>额外1</string>
+                 <string>花纹</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="ckb_extra2">
+               <widget class="QCheckBox" name="ckb_yuan">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
@@ -7782,12 +7782,12 @@ QCheckBox::indicator:pressed {
 }</string>
                 </property>
                 <property name="text">
-                 <string>额外2</string>
+                 <string>圆</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="ckb_extra3">
+               <widget class="QCheckBox" name="ckb_huapo">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
@@ -7854,7 +7854,7 @@ QCheckBox::indicator:pressed {
 }</string>
                 </property>
                 <property name="text">
-                 <string>额外3</string>
+                 <string>划破</string>
                 </property>
                </widget>
               </item>

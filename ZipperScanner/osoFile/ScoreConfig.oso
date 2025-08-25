@@ -20,17 +20,17 @@ namespace cdm {
 		suoXiaoScore : double :default = 0;
 		suoXiaoArea : double :default = 0;
 
-		extra1 : bool :default = false;
-		extra1Score : double :default = 0;
-		extra1Area : double :default = 0;
+		huaWen : bool :default = false;
+		huaWenScore : double :default = 0;
+		huaWenArea : double :default = 0;
 
-		extra2 : bool :default = false;
-		extra2Score : double :default = 0;
-		extra2Area : double :default = 0;
+		yuan : bool :default = false;
+		yuanScore : double :default = 0;
+		yuanArea : double :default = 0;
 
-		extra3 : bool :default = false;
-		extra3Score : double :default = 0;
-		extra3Area : double :default = 0;
+		huaPo : bool :default = false;
+		huaPoScore : double :default = 0;
+		huaPoArea : double :default = 0;
 
 		extra4 : bool :default = false;
 		extra4Score : double :default = 0;

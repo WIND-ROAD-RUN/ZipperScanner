@@ -88,7 +88,7 @@ private:
 	std::map<std::string, double> huawenMap{};
 	std::map<std::string, double> yuanMap{};
 	std::map<std::string, double> huapoMap{};
-	std::map<std::string, double> extra4Map{};
+	std::map<std::string, double> duanxianMap{};
 	std::map<std::string, double> extra5Map{};
 	std::map<std::string, double> extra6Map{};
 	std::map<std::string, double> extra7Map{};

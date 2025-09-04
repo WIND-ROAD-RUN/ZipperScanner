@@ -254,8 +254,8 @@ void ImageProcessorZipper::iniDefectResultInfoFunc()
 	defectConfigs[ClassId::Yuan] = defectConfig;
 	defectConfig.isEnable = huapoMap["enable"];
 	defectConfigs[ClassId::Huapo] = defectConfig;
-	defectConfig.isEnable = extra4Map["enable"];
-	defectConfigs[ClassId::Extra4] = defectConfig;
+	defectConfig.isEnable = duanxianMap["enable"];
+	defectConfigs[ClassId::Duanxian] = defectConfig;
 	defectConfig.isEnable = extra5Map["enable"];
 	defectConfigs[ClassId::Extra5] = defectConfig;
 	defectConfig.isEnable = extra6Map["enable"];
@@ -398,17 +398,17 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 		huapoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
 	}
 
-	extra4Map["classId"] = ClassId::Extra4;
-	extra4Map["maxArea"] = globalStruct.scoreConfig.extra4Area;
-	extra4Map["maxScore"] = globalStruct.scoreConfig.extra4Score;
-	extra4Map["enable"] = globalStruct.scoreConfig.extra4;
+	duanxianMap["classId"] = ClassId::Duanxian;
+	duanxianMap["maxArea"] = globalStruct.scoreConfig.duanXianArea;
+	duanxianMap["maxScore"] = globalStruct.scoreConfig.duanXianScore;
+	duanxianMap["enable"] = globalStruct.scoreConfig.duanXian;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra4Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		duanxianMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra4Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		duanxianMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
 	}
 
 	extra5Map["classId"] = ClassId::Extra5;
@@ -471,7 +471,7 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 	rw::imgPro::EliminationInfoGetConfig huawenEliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig yuanEliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig huapoEliminationInfoGetConfig;
-	rw::imgPro::EliminationInfoGetConfig extra4EliminationInfoGetConfig;
+	rw::imgPro::EliminationInfoGetConfig duanxianEliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig extra5EliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig extra6EliminationInfoGetConfig;
 	rw::imgPro::EliminationInfoGetConfig extra7EliminationInfoGetConfig;
@@ -540,14 +540,14 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 	huapoEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
 	eliminationInfoGetConfigs[ClassId::Huapo] = huapoEliminationInfoGetConfig;
 
-	extra4EliminationInfoGetConfig.areaFactor = extra4Map["pixToWorld"];
-	extra4EliminationInfoGetConfig.scoreFactor = 100;
-	extra4EliminationInfoGetConfig.isUsingArea = true;
-	extra4EliminationInfoGetConfig.isUsingScore = true;
-	extra4EliminationInfoGetConfig.scoreRange = { 0, extra4Map["maxScore"] };
-	extra4EliminationInfoGetConfig.areaRange = { 0, extra4Map["maxArea"] };
-	extra4EliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
-	eliminationInfoGetConfigs[ClassId::Extra4] = extra4EliminationInfoGetConfig;
+	duanxianEliminationInfoGetConfig.areaFactor = duanxianMap["pixToWorld"];
+	duanxianEliminationInfoGetConfig.scoreFactor = 100;
+	duanxianEliminationInfoGetConfig.isUsingArea = true;
+	duanxianEliminationInfoGetConfig.isUsingScore = true;
+	duanxianEliminationInfoGetConfig.scoreRange = { 0, duanxianMap["maxScore"] };
+	duanxianEliminationInfoGetConfig.areaRange = { 0, duanxianMap["maxArea"] };
+	duanxianEliminationInfoGetConfig.scoreIsUsingComplementarySet = false;
+	eliminationInfoGetConfigs[ClassId::Duanxian] = duanxianEliminationInfoGetConfig;
 
 	extra5EliminationInfoGetConfig.areaFactor = extra5Map["pixToWorld"];
 	extra5EliminationInfoGetConfig.scoreFactor = 100;

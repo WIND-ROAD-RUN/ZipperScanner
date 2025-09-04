@@ -126,7 +126,7 @@ private slots:
 	void ckb_huawen_checked(bool isChecked);
 	void ckb_yuan_checked(bool isChecked);
 	void ckb_huapo_checked(bool isChecked);
-	void ckb_extra4_checked(bool isChecked);
+	void ckb_duanxian_checked(bool isChecked);
 	void ckb_extra5_checked(bool isChecked);
 	void ckb_extra6_checked(bool isChecked);
 	void ckb_extra7_checked(bool isChecked);

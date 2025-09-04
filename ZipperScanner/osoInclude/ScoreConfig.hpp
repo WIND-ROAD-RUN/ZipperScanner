@@ -40,9 +40,9 @@ namespace cdm {
         bool huaPo{ false };
         double huaPoScore{ 0 };
         double huaPoArea{ 0 };
-        bool extra4{ false };
-        double extra4Score{ 0 };
-        double extra4Area{ 0 };
+        bool duanXian{ false };
+        double duanXianScore{ 0 };
+        double duanXianArea{ 0 };
         bool extra5{ false };
         double extra5Score{ 0 };
         double extra5Area{ 0 };
@@ -169,21 +169,21 @@ namespace cdm {
             throw std::runtime_error("$variable$huaPoArea is not found");
         }
         huaPoArea = huaPoAreaItem->getValueAsDouble();
-        auto extra4Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$extra4$"));
-        if (!extra4Item) {
-            throw std::runtime_error("$variable$extra4 is not found");
+        auto duanXianItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$duanXian$"));
+        if (!duanXianItem) {
+            throw std::runtime_error("$variable$duanXian is not found");
         }
-        extra4 = extra4Item->getValueAsBool();
-        auto extra4ScoreItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$extra4Score$"));
-        if (!extra4ScoreItem) {
-            throw std::runtime_error("$variable$extra4Score is not found");
+        duanXian = duanXianItem->getValueAsBool();
+        auto duanXianScoreItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$duanXianScore$"));
+        if (!duanXianScoreItem) {
+            throw std::runtime_error("$variable$duanXianScore is not found");
         }
-        extra4Score = extra4ScoreItem->getValueAsDouble();
-        auto extra4AreaItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$extra4Area$"));
-        if (!extra4AreaItem) {
-            throw std::runtime_error("$variable$extra4Area is not found");
+        duanXianScore = duanXianScoreItem->getValueAsDouble();
+        auto duanXianAreaItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$duanXianArea$"));
+        if (!duanXianAreaItem) {
+            throw std::runtime_error("$variable$duanXianArea is not found");
         }
-        extra4Area = extra4AreaItem->getValueAsDouble();
+        duanXianArea = duanXianAreaItem->getValueAsDouble();
         auto extra5Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$extra5$"));
         if (!extra5Item) {
             throw std::runtime_error("$variable$extra5 is not found");
@@ -269,9 +269,9 @@ namespace cdm {
         huaPo = obj.huaPo;
         huaPoScore = obj.huaPoScore;
         huaPoArea = obj.huaPoArea;
-        extra4 = obj.extra4;
-        extra4Score = obj.extra4Score;
-        extra4Area = obj.extra4Area;
+        duanXian = obj.duanXian;
+        duanXianScore = obj.duanXianScore;
+        duanXianArea = obj.duanXianArea;
         extra5 = obj.extra5;
         extra5Score = obj.extra5Score;
         extra5Area = obj.extra5Area;
@@ -310,9 +310,9 @@ namespace cdm {
             huaPo = obj.huaPo;
             huaPoScore = obj.huaPoScore;
             huaPoArea = obj.huaPoArea;
-            extra4 = obj.extra4;
-            extra4Score = obj.extra4Score;
-            extra4Area = obj.extra4Area;
+            duanXian = obj.duanXian;
+            duanXianScore = obj.duanXianScore;
+            duanXianArea = obj.duanXianArea;
             extra5 = obj.extra5;
             extra5Score = obj.extra5Score;
             extra5Area = obj.extra5Area;
@@ -417,18 +417,18 @@ namespace cdm {
         huaPoAreaItem->setName("$variable$huaPoArea$");
         huaPoAreaItem->setValueFromDouble(huaPoArea);
         assembly.addItem(huaPoAreaItem);
-        auto extra4Item = std::make_shared<rw::oso::ObjectStoreItem>();
-        extra4Item->setName("$variable$extra4$");
-        extra4Item->setValueFromBool(extra4);
-        assembly.addItem(extra4Item);
-        auto extra4ScoreItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        extra4ScoreItem->setName("$variable$extra4Score$");
-        extra4ScoreItem->setValueFromDouble(extra4Score);
-        assembly.addItem(extra4ScoreItem);
-        auto extra4AreaItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        extra4AreaItem->setName("$variable$extra4Area$");
-        extra4AreaItem->setValueFromDouble(extra4Area);
-        assembly.addItem(extra4AreaItem);
+        auto duanXianItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        duanXianItem->setName("$variable$duanXian$");
+        duanXianItem->setValueFromBool(duanXian);
+        assembly.addItem(duanXianItem);
+        auto duanXianScoreItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        duanXianScoreItem->setName("$variable$duanXianScore$");
+        duanXianScoreItem->setValueFromDouble(duanXianScore);
+        assembly.addItem(duanXianScoreItem);
+        auto duanXianAreaItem = std::make_shared<rw::oso::ObjectStoreItem>();
+        duanXianAreaItem->setName("$variable$duanXianArea$");
+        duanXianAreaItem->setValueFromDouble(duanXianArea);
+        assembly.addItem(duanXianAreaItem);
         auto extra5Item = std::make_shared<rw::oso::ObjectStoreItem>();
         extra5Item->setName("$variable$extra5$");
         extra5Item->setValueFromBool(extra5);
@@ -482,7 +482,7 @@ namespace cdm {
 
     inline bool ScoreConfig::operator==(const ScoreConfig& obj) const
     {
-        return queYa == obj.queYa && queYaScore == obj.queYaScore && queYaArea == obj.queYaArea && tangShang == obj.tangShang && tangShangScore == obj.tangShangScore && tangShangArea == obj.tangShangArea && zangWu == obj.zangWu && zangWuScore == obj.zangWuScore && zangWuArea == obj.zangWuArea && suoXiao == obj.suoXiao && suoXiaoScore == obj.suoXiaoScore && suoXiaoArea == obj.suoXiaoArea && huaWen == obj.huaWen && huaWenScore == obj.huaWenScore && huaWenArea == obj.huaWenArea && yuan == obj.yuan && yuanScore == obj.yuanScore && yuanArea == obj.yuanArea && huaPo == obj.huaPo && huaPoScore == obj.huaPoScore && huaPoArea == obj.huaPoArea && extra4 == obj.extra4 && extra4Score == obj.extra4Score && extra4Area == obj.extra4Area && extra5 == obj.extra5 && extra5Score == obj.extra5Score && extra5Area == obj.extra5Area && extra6 == obj.extra6 && extra6Score == obj.extra6Score && extra6Area == obj.extra6Area && extra7 == obj.extra7 && extra7Score == obj.extra7Score && extra7Area == obj.extra7Area && extra8 == obj.extra8 && extra8Score == obj.extra8Score && extra8Area == obj.extra8Area;
+        return queYa == obj.queYa && queYaScore == obj.queYaScore && queYaArea == obj.queYaArea && tangShang == obj.tangShang && tangShangScore == obj.tangShangScore && tangShangArea == obj.tangShangArea && zangWu == obj.zangWu && zangWuScore == obj.zangWuScore && zangWuArea == obj.zangWuArea && suoXiao == obj.suoXiao && suoXiaoScore == obj.suoXiaoScore && suoXiaoArea == obj.suoXiaoArea && huaWen == obj.huaWen && huaWenScore == obj.huaWenScore && huaWenArea == obj.huaWenArea && yuan == obj.yuan && yuanScore == obj.yuanScore && yuanArea == obj.yuanArea && huaPo == obj.huaPo && huaPoScore == obj.huaPoScore && huaPoArea == obj.huaPoArea && duanXian == obj.duanXian && duanXianScore == obj.duanXianScore && duanXianArea == obj.duanXianArea && extra5 == obj.extra5 && extra5Score == obj.extra5Score && extra5Area == obj.extra5Area && extra6 == obj.extra6 && extra6Score == obj.extra6Score && extra6Area == obj.extra6Area && extra7 == obj.extra7 && extra7Score == obj.extra7Score && extra7Area == obj.extra7Area && extra8 == obj.extra8 && extra8Score == obj.extra8Score && extra8Area == obj.extra8Area;
     }
 
     inline bool ScoreConfig::operator!=(const ScoreConfig& obj) const

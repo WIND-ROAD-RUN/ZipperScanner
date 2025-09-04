@@ -1973,12 +1973,12 @@ QPushButton:pressed {
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="widget_extra4" native="true">
+               <widget class="QWidget" name="widget_duanxian" native="true">
                 <layout class="QGridLayout" name="gridLayout_4">
                  <item row="0" column="0">
                   <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="2,1,2,0,2,0">
                    <item>
-                    <widget class="QCheckBox" name="ckb_extra4">
+                    <widget class="QCheckBox" name="ckb_duanxian">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -2045,7 +2045,7 @@ QCheckBox::indicator:pressed {
 }</string>
                      </property>
                      <property name="text">
-                      <string>额外4</string>
+                      <string>断线</string>
                      </property>
                     </widget>
                    </item>
@@ -2066,7 +2066,7 @@ QCheckBox::indicator:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra4score">
+                    <widget class="QPushButton" name="btn_duanxianscore">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>
@@ -2121,7 +2121,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="btn_extra4area">
+                    <widget class="QPushButton" name="btn_duanxianarea">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                        <horstretch>0</horstretch>

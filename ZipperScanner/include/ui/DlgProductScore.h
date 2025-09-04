@@ -46,9 +46,9 @@ private slots:
 	void btn_huapoarea_clicked();
 
 	// 暂未启用的额外缺陷
-	void ckb_extra4_checked();
-	void btn_extra4score_clicked();
-	void btn_extra4area_clicked();
+	void ckb_duanxian_checked();
+	void btn_duanxianscore_clicked();
+	void btn_duanxianarea_clicked();
 	void ckb_extra5_checked();
 	void btn_extra5score_clicked();
 	void btn_extra5area_clicked();

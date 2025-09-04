@@ -32,9 +32,9 @@ namespace cdm {
 		huaPoScore : double :default = 0;
 		huaPoArea : double :default = 0;
 
-		extra4 : bool :default = false;
-		extra4Score : double :default = 0;
-		extra4Area : double :default = 0;
+		duanXian : bool :default = false;
+		duanXianScore : double :default = 0;
+		duanXianArea : double :default = 0;
 
 		extra5 : bool :default = false;
 		extra5Score : double :default = 0;

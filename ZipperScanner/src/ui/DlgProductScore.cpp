@@ -67,9 +67,9 @@ void DlgProductScore::read_config()
 	ui->btn_huapoarea->setText(QString::number(globalScoreConfig.huaPoArea));
 
 	// 额外4
-	ui->ckb_extra4->setChecked(globalScoreConfig.extra4);
-	ui->btn_extra4score->setText(QString::number(globalScoreConfig.extra4Score));
-	ui->btn_extra4area->setText(QString::number(globalScoreConfig.extra4Area));
+	ui->ckb_duanxian->setChecked(globalScoreConfig.duanXian);
+	ui->btn_duanxianscore->setText(QString::number(globalScoreConfig.duanXianScore));
+	ui->btn_duanxianarea->setText(QString::number(globalScoreConfig.duanXianArea));
 
 	// 额外5
 	ui->ckb_extra5->setChecked(globalScoreConfig.extra5);
@@ -139,12 +139,12 @@ void DlgProductScore::build_connect()
 		this, &DlgProductScore::btn_huaposcore_clicked);
 	QObject::connect(ui->btn_huapoarea, &QPushButton::clicked,
 		this, &DlgProductScore::btn_huapoarea_clicked);
-	QObject::connect(ui->ckb_extra4, &QCheckBox::clicked,
-		this, &DlgProductScore::ckb_extra4_checked);
-	QObject::connect(ui->btn_extra4score, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra4score_clicked);
-	QObject::connect(ui->btn_extra4area, &QPushButton::clicked,
-		this, &DlgProductScore::btn_extra4area_clicked);
+	QObject::connect(ui->ckb_duanxian, &QCheckBox::clicked,
+		this, &DlgProductScore::ckb_duanxian_checked);
+	QObject::connect(ui->btn_duanxianscore, &QPushButton::clicked,
+		this, &DlgProductScore::btn_duanxianscore_clicked);
+	QObject::connect(ui->btn_duanxianarea, &QPushButton::clicked,
+		this, &DlgProductScore::btn_duanxianarea_clicked);
 	QObject::connect(ui->ckb_extra5, &QCheckBox::clicked,
 		this, &DlgProductScore::ckb_extra5_checked);
 	QObject::connect(ui->btn_extra5score, &QPushButton::clicked,
@@ -494,14 +494,14 @@ void DlgProductScore::btn_huapoarea_clicked()
 	}
 }
 
-void DlgProductScore::ckb_extra4_checked()
+void DlgProductScore::ckb_duanxian_checked()
 {
 	auto& globalScoreConfig = GlobalData::getInstance().scoreConfig;
-	globalScoreConfig.extra4 = ui->ckb_extra4->isChecked();
+	globalScoreConfig.duanXian = ui->ckb_duanxian->isChecked();
 	GlobalData::getInstance().saveDlgProductScoreConfig();
 }
 
-void DlgProductScore::btn_extra4score_clicked()
+void DlgProductScore::btn_duanxianscore_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -515,12 +515,12 @@ void DlgProductScore::btn_extra4score_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra4score->setText(value);
-		globalStructScoreConfig.extra4Score = value.toDouble();
+		ui->btn_duanxianscore->setText(value);
+		globalStructScoreConfig.duanXianScore = value.toDouble();
 	}
 }
 
-void DlgProductScore::btn_extra4area_clicked()
+void DlgProductScore::btn_duanxianarea_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -534,8 +534,8 @@ void DlgProductScore::btn_extra4area_clicked()
 			return;
 		}
 		auto& globalStructScoreConfig = GlobalData::getInstance().scoreConfig;
-		ui->btn_extra4area->setText(value);
-		globalStructScoreConfig.extra4Area = value.toDouble();
+		ui->btn_duanxianarea->setText(value);
+		globalStructScoreConfig.duanXianArea = value.toDouble();
 	}
 }
 

@@ -270,7 +270,9 @@ void ImageProcessorZipper::iniDefectResultInfoFunc()
 void ImageProcessorZipper::iniDefectResultGetContext()
 {
 	auto& context = _imgProcess->context();
-	context.defectResultGetContext.getDefectResultExtraOperate = [this](const rw::imgPro::EliminationItem& item) {
+	context.defectResultGetContext.getDefectResultExtraOperate = 
+		[this](const rw::imgPro::EliminationItem& item,
+			const rw::DetectionRectangleInfo& info) {
 		auto find = item.customFields.find("LocationX");
 		if (find != item.customFields.end())
 		{

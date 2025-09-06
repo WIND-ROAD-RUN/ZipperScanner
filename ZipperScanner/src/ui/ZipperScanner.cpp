@@ -594,6 +594,8 @@ void ZipperScanner::read_config()
 	ControlLines::guanjiIn = setCfg.guanjiIn;
 	ControlLines::chongkongOUT = setCfg.chongkongOut;
 	ControlLines::tuojiOut = setCfg.tuojiOut;
+	ControlLines::xiangjichufaOut1 = setCfg.xiangjichufapaizhao1Out;
+	ControlLines::xiangjichufaOut2 = setCfg.xiangjichufapaizhao2Out;
 }
 
 // 读取通用配置

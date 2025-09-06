@@ -60,6 +60,8 @@ namespace cdm {
 		guanjiIn : int :default = 0;
 		chongkongOut : int :default = 0;
 		tuojiOut : int :default = 0;
+		xiangjichufapaizhao1Out : int :default = 0;
+		xiangjichufapaizhao2Out : int :default = 0;
 
 		isQueya : bool :default = false;
 		isTangshang : bool :default = false;

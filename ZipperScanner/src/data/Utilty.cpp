@@ -6,6 +6,8 @@ size_t ControlLines::lalianlawanIn = 0;
 size_t ControlLines::guanjiIn = 0;
 size_t ControlLines::chongkongOUT = 0;
 size_t ControlLines::tuojiOut = 0;
+size_t ControlLines::xiangjichufaOut1 = 0;
+size_t ControlLines::xiangjichufaOut2 = 0;
 
 QImage cvMatToQImage(const cv::Mat& mat)
 {

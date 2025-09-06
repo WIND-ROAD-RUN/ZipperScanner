@@ -42,7 +42,6 @@ void DlgProductSet::build_ui()
 	imageFormatGroup->setExclusive(true);
 
 	//隐藏一些按钮
-	ui->cbox_DOBlow3_2->setVisible(false);
 	ui->cbox_DOBeltControl_2->setVisible(false);
 	ui->cbox_DOGreenLight_2->setVisible(false);
 	ui->cbox_DOUpLight_2->setVisible(false);
@@ -131,6 +130,8 @@ void DlgProductSet::read_config()
 	ui->btn_setchongkong->setText(QString::number(globalConfig.chongkongOut));
 	ui->btn_settuoji->setText(QString::number(globalConfig.tuojiOut));
 	ui->btn_guanji->setText(QString::number(globalConfig.guanjiIn));
+	ui->btn_setxiangjichufa1->setText(QString::number(globalConfig.xiangjichufapaizhao1Out));
+	ui->btn_setxiangjichufa2->setText(QString::number(globalConfig.xiangjichufapaizhao2Out));
 
 	// 默认显示第一个
 	ui->tabWidget->setCurrentIndex(0);
@@ -254,8 +255,10 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::cbox_DOchongkong_clicked);
 	QObject::connect(ui->cbox_DOtuoji, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_DOtuoji_clicked);
-	QObject::connect(ui->cbox_DOchufapaizhao, &QCheckBox::clicked,
-		this, &DlgProductSet::cbox_DOchufapaizhao_clicked);
+	QObject::connect(ui->cbox_DOchufapaizhao1, &QCheckBox::clicked,
+		this, &DlgProductSet::cbox_DOchufapaizhao1_clicked);
+	QObject::connect(ui->cbox_DOchufapaizhao2, &QCheckBox::clicked,
+		this, &DlgProductSet::cbox_DOchufapaizhao2_clicked);
 	QObject::connect(ui->tabWidget, &QTabWidget::currentChanged,
 		this, &DlgProductSet::tabWidget_indexChanged);
 
@@ -272,6 +275,10 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_settuoji_clicked);
 	QObject::connect(ui->btn_guanji,&QPushButton::clicked,
 		this, &DlgProductSet::btn_guanji_clicked);
+	QObject::connect(ui->btn_setxiangjichufa1, &QPushButton::clicked,
+		this, &DlgProductSet::btn_setxiangjichufa1_clicked);
+	QObject::connect(ui->btn_setxiangjichufa2, &QPushButton::clicked,
+		this, &DlgProductSet::btn_setxiangjichufa2_clicked);
 
 
 	// 连接监控IO信号
@@ -337,7 +344,9 @@ std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
 	auto& setConfig = GlobalData::getInstance().setConfig;
 	std::vector<int> values = {
 		setConfig.chongkongOut,
-		setConfig.tuojiOut
+		setConfig.tuojiOut,
+		setConfig.xiangjichufapaizhao1Out,
+		setConfig.xiangjichufapaizhao2Out,
 	};
 
 	std::unordered_map<int, std::vector<int>> valueToIndices;
@@ -425,6 +434,8 @@ void DlgProductSet::setDOErrorInfo(const std::vector<std::vector<int>>& index)
 {
 	ui->lb_chongkong->clear();
 	ui->lb_tuoji->clear();
+	ui->lb_xiangjichufa1->clear();
+	ui->lb_xiangjichufa2->clear();
 
 	for (const auto& classic : index)
 	{
@@ -445,6 +456,12 @@ void DlgProductSet::setDOErrorInfo(int index)
 		break;
 	case 1:
 		ui->lb_tuoji->setText(text);
+		break;
+	case 2:
+		ui->lb_xiangjichufa1->setText(text);
+		break;
+	case 3:
+		ui->lb_xiangjichufa2->setText(text);
 		break;
 	}
 }
@@ -953,41 +970,27 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 	isDebugIO = ischecked;
 	if (isDebugIO)
 	{
-		ui->cbox_DIqidonganniu->setChecked(false);
-		ui->cbox_DIjiting->setChecked(false);
-		ui->cbox_DIlalianlawan->setChecked(false);
-		ui->cbox_DObujindianjimaichong->setChecked(false);
-		ui->cbox_DOchongkong->setChecked(false);
-		ui->cbox_DOtuoji->setChecked(false);
-		ui->cbox_DOchufapaizhao->setChecked(false);
-
 		ui->cbox_DIqidonganniu->setEnabled(true);
 		ui->cbox_DIjiting->setEnabled(true);
 		ui->cbox_DIlalianlawan->setEnabled(true);
 		ui->cbox_DObujindianjimaichong->setEnabled(true);
 		ui->cbox_DOchongkong->setEnabled(true);
 		ui->cbox_DOtuoji->setEnabled(true);
-		ui->cbox_DOchufapaizhao->setEnabled(true);
+		ui->cbox_DOchufapaizhao1->setEnabled(true);
+		ui->cbox_DOchufapaizhao2->setEnabled(true);
 
 		globalStruct.monitorZMotionMonitorThread.setRunning(false);
 	}
 	else
 	{
-		ui->cbox_DIqidonganniu->setChecked(false);
-		ui->cbox_DIjiting->setChecked(false);
-		ui->cbox_DIlalianlawan->setChecked(false);
-		ui->cbox_DObujindianjimaichong->setChecked(false);
-		ui->cbox_DOchongkong->setChecked(false);
-		ui->cbox_DOtuoji->setChecked(false);
-		ui->cbox_DOchufapaizhao->setChecked(false);
-
 		ui->cbox_DIqidonganniu->setEnabled(false);
 		ui->cbox_DIjiting->setEnabled(false);
 		ui->cbox_DIlalianlawan->setEnabled(false);
 		ui->cbox_DObujindianjimaichong->setEnabled(false);
 		ui->cbox_DOchongkong->setEnabled(false);
 		ui->cbox_DOtuoji->setEnabled(false);
-		ui->cbox_DOchufapaizhao->setEnabled(false);
+		ui->cbox_DOchufapaizhao1->setEnabled(false);
+		ui->cbox_DOchufapaizhao2->setEnabled(false);
 
 		globalStruct.monitorZMotionMonitorThread.setRunning(true);
 	}
@@ -1401,13 +1404,25 @@ void DlgProductSet::cbox_DOtuoji_clicked(bool isChecked)
 	}
 }
 
-void DlgProductSet::cbox_DOchufapaizhao_clicked(bool isChecked)
+void DlgProductSet::cbox_DOchufapaizhao1_clicked(bool isChecked)
 {
 	auto& globalStruct = GlobalData::getInstance();
 	auto& globalStructSetConfig = globalStruct.setConfig;
 	if (isDebugIO)
 	{
-		//auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chufapaizhaoOUT, isChecked);
+		bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
+		ui->cbox_DOchufapaizhao1->setChecked(false);
+	}
+}
+
+void DlgProductSet::cbox_DOchufapaizhao2_clicked(bool isChecked)
+{
+	auto& globalStruct = GlobalData::getInstance();
+	auto& globalStructSetConfig = globalStruct.setConfig;
+	if (isDebugIO)
+	{
+		bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
+		ui->cbox_DOchufapaizhao2->setChecked(false);
 	}
 }
 
@@ -1549,6 +1564,52 @@ void DlgProductSet::btn_guanji_clicked()
 	}
 }
 
+void DlgProductSet::btn_setxiangjichufa1_clicked()
+{
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toInt() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		ui->btn_setxiangjichufa1->setText(value);
+		globalStructSetConfig.xiangjichufapaizhao1Out = value.toInt();
+		auto indicesDO = DOFindAllDuplicateIndices();
+		setDOErrorInfo(indicesDO);
+		auto indicesDI = DIFindAllDuplicateIndices();
+		setDIErrorInfo(indicesDI);
+	}
+}
+
+void DlgProductSet::btn_setxiangjichufa2_clicked()
+{
+	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toInt() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		ui->btn_setxiangjichufa2->setText(value);
+		globalStructSetConfig.xiangjichufapaizhao2Out = value.toInt();
+		auto indicesDO = DOFindAllDuplicateIndices();
+		setDOErrorInfo(indicesDO);
+		auto indicesDI = DIFindAllDuplicateIndices();
+		setDIErrorInfo(indicesDI);
+	}
+}
+
 void DlgProductSet::tabWidget_indexChanged(int index)
 {
 	auto& globalStruct = GlobalData::getInstance();
@@ -1654,6 +1715,28 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 			else
 			{
 				ui->cbox_DOtuoji->setChecked(false);
+			}
+		}
+		else if (index == ControlLines::xiangjichufaOut1) // 脱机按钮
+		{
+			if (state)
+			{
+				ui->cbox_DOchufapaizhao1->setChecked(true);
+			}
+			else
+			{
+				ui->cbox_DOchufapaizhao1->setChecked(false);
+			}
+		}
+		else if (index == ControlLines::xiangjichufaOut2) // 脱机按钮
+		{
+			if (state)
+			{
+				ui->cbox_DOchufapaizhao2->setChecked(true);
+			}
+			else
+			{
+				ui->cbox_DOchufapaizhao2->setChecked(false);
 			}
 		}
 	}

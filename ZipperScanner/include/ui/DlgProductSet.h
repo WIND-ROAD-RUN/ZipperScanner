@@ -99,7 +99,8 @@ private slots:
 
 	void cbox_DOchongkong_clicked(bool isChecked);
 	void cbox_DOtuoji_clicked(bool isChecked);
-	void cbox_DOchufapaizhao_clicked(bool isChecked);
+	void cbox_DOchufapaizhao1_clicked(bool isChecked);
+	void cbox_DOchufapaizhao2_clicked(bool isChecked);
 
 	void cbox_debugMode_checked(bool ischecked);
 
@@ -111,6 +112,8 @@ private slots:
 	void btn_setchongkong_clicked();
 	void btn_settuoji_clicked();
 	void btn_guanji_clicked();
+	void btn_setxiangjichufa1_clicked();
+	void btn_setxiangjichufa2_clicked();
 
 	void tabWidget_indexChanged(int index);
 

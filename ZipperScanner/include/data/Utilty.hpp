@@ -31,6 +31,8 @@ public:
 public:
 	static size_t chongkongOUT ;
 	static size_t tuojiOut ;
+	static size_t xiangjichufaOut1;
+	static size_t xiangjichufaOut2;
 };
 
 struct ClassId

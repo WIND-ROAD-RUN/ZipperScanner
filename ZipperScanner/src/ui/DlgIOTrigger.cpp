@@ -182,8 +182,8 @@ void DlgIOTrigger::btn_xiangjichufa_clicked()
 {
 	auto& globalStruct = GlobalData::getInstance();
 
-	bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, 10, true, 100);
-	bool xiangjichufa = globalStruct.zmotion.SetIOOut(3, 9, true, 100);
+	bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
+	bool xiangjichufa = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
 
 	if (!isXiangJiChuFaSet||!xiangjichufa)
 	{

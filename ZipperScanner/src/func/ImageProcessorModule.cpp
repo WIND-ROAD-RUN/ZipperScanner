@@ -55,9 +55,9 @@ void ImageProcessorZipper::run()
 		case RunningState::OpenRemoveFunc:
 			run_OpenRemoveFunc(frame);
 			break;
-			/*case RunningState::Monitor:
-				run_monitor(frame);
-				break;*/
+		case RunningState::Stop:
+			run_stop(frame);
+			break;
 		default:
 			break;
 		}
@@ -78,9 +78,18 @@ void ImageProcessorZipper::run_debug(MatInfo& frame)
 	emit imageReady(QPixmap::fromImage(maskImg));
 }
 
-void ImageProcessorZipper::run_monitor(MatInfo& frame)
+void ImageProcessorZipper::run_stop(MatInfo& frame)
 {
+	//auto& imgPro = *_imgProcess;
+	//imgPro(frame.image);
+	//// 更新屏蔽线
+	//updateShieldWires();
+	//auto maskImg = imgPro.getMaskImg(frame.image);
+	//auto defectResult = imgPro.getDefectResultInfo();
 
+	//drawBoundariesLines(maskImg);
+
+	emit imageReady(QPixmap::fromImage(rw::rqw::cvMatToQImage(frame.image)));
 }
 
 void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)

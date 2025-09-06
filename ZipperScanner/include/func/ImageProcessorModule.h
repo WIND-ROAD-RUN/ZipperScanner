@@ -38,7 +38,7 @@ protected:
 
 private:
 	void run_debug(MatInfo& frame);				// 不开剔废时候的调试模式
-	void run_monitor(MatInfo& frame);			// 单纯的显示模式
+	void run_stop(MatInfo& frame);			// 单纯的显示模式
 
 private:
 	void run_OpenRemoveFunc(MatInfo& frame);	// 开启剔废功能时的处理模式

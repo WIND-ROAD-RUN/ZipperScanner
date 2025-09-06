@@ -51,6 +51,28 @@ void DlgIOTrigger::pbtn_close_clicked()
 	if (!isTuoJiSet)
 	{
 		QMessageBox::warning(this, "警告", "关闭脱机失败!");
+		ui->btn_tuoji->setStyleSheet(
+			"QPushButton {"
+			"border-color: #388E3C;"
+			"background-color: #4CAF50;"
+			"color: #fff;"
+			"font-weight: bold;"
+			"}"
+		);
+		ui->btn_tuoji->setText("已脱机...");
+	}
+	else
+	{
+		ui->btn_tuoji->setStyleSheet(
+			"QPushButton {"
+			"padding: 6px 14px;"
+			"border: 2px solid #CCC;"
+			"border-radius: 4px;"
+			"background-color: red;"
+			"color: #444;"
+			"}"
+		);
+		ui->btn_tuoji->setText("脱机");
 	}
 
 	this->close();
@@ -161,8 +183,9 @@ void DlgIOTrigger::btn_xiangjichufa_clicked()
 	auto& globalStruct = GlobalData::getInstance();
 
 	bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, 10, true, 100);
+	bool xiangjichufa = globalStruct.zmotion.SetIOOut(3, 9, true, 100);
 
-	if (!isXiangJiChuFaSet)
+	if (!isXiangJiChuFaSet||!xiangjichufa)
 	{
 		QMessageBox::warning(this, "警告", "相机触发失败!");
 	}

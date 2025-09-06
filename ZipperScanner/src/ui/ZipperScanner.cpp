@@ -675,6 +675,7 @@ void ZipperScanner::pbtn_exit_clicked()
 #ifdef NDEBUG
 	if (_dlgCloseForm)
 	{
+		_dlgCloseForm->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 		_dlgCloseForm->exec();
 	}
 #else

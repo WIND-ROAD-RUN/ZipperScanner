@@ -37,7 +37,8 @@ signals:
 private:
 	// IO监控页面的调试模式
 	bool isDebugIO{ false };
-
+private:
+	void updateMonitorIOThread();
 private slots:
 	void pbtn_close_clicked();
 
@@ -87,8 +88,8 @@ private slots:
 	void btn_meizhuanmaichongshu_clicked();
 	void btn_zidongladaisudu_clicked();
 	void btn_shedingzhouchang_clicked();
-	void btn_yanshichongkong_clicked();
 	void btn_chongkongshijian_clicked();
+	void btn_yanshichongkong_clicked();
 	void btn_yanshiziqi_clicked();
 	void btn_jiajiansushijian_clicked();
 

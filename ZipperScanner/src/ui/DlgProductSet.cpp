@@ -502,6 +502,18 @@ std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 	return result;
 }
 
+void DlgProductSet::updateMonitorIOThread()
+{
+	auto& globalData = GlobalData::getInstance();
+	QVector<size_t> monitorIList = { ControlLines::qidonganniuIn,ControlLines::lalianlawanIn,ControlLines::jitingIn,ControlLines::guanjiIn };
+	QVector<size_t> monitorOList = { ControlLines::chongkongOUT,ControlLines::tuojiOut,ControlLines::xiangjichufaOut1 ,ControlLines::xiangjichufaOut2 };
+	globalData.monitorZMotionMonitorThread.setMonitorIList(monitorIList);
+	globalData.monitorZMotionMonitorThread.setMonitorOList(monitorOList);
+
+	QVector<size_t> monitorIList1 = { ControlLines::qidonganniuIn,ControlLines::jitingIn };
+	globalData.monitorStartOrStopThread.setMonitorIList(monitorIList);
+}
+
 void DlgProductSet::pbtn_close_clicked()
 {
 	auto& GlobalStructData = GlobalData::getInstance();
@@ -1441,11 +1453,13 @@ void DlgProductSet::btn_setqidonganniu_clicked()
 			return;
 		}
 		ui->btn_setqidonganniu->setText(value);
+		ControlLines::qidonganniuIn = value.toInt();
 		globalStructSetConfig.qidonganniuIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1464,11 +1478,13 @@ void DlgProductSet::btn_setlalianlawan_clicked()
 			return;
 		}
 		ui->btn_setlalianlawan->setText(value);
+		ControlLines::lalianlawanIn = value.toInt();
 		globalStructSetConfig.lalianlawanIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1487,11 +1503,13 @@ void DlgProductSet::btn_setjiting_clicked()
 			return;
 		}
 		ui->btn_setjiting->setText(value);
+		ControlLines::jitingIn = value.toInt();
 		globalStructSetConfig.jitingIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1510,11 +1528,13 @@ void DlgProductSet::btn_setchongkong_clicked()
 			return;
 		}
 		ui->btn_setchongkong->setText(value);
+		ControlLines::chongkongOUT = value.toInt();
 		globalStructSetConfig.chongkongOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1533,11 +1553,13 @@ void DlgProductSet::btn_settuoji_clicked()
 			return;
 		}
 		ui->btn_settuoji->setText(value);
+		ControlLines::tuojiOut = value.toInt();
 		globalStructSetConfig.tuojiOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1556,11 +1578,13 @@ void DlgProductSet::btn_guanji_clicked()
 			return;
 		}
 		ui->btn_guanji->setText(value);
+		ControlLines::guanjiIn = value.toInt();
 		globalStructSetConfig.guanjiIn = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1579,11 +1603,13 @@ void DlgProductSet::btn_setxiangjichufa1_clicked()
 			return;
 		}
 		ui->btn_setxiangjichufa1->setText(value);
+		ControlLines::xiangjichufaOut1 = value.toInt();
 		globalStructSetConfig.xiangjichufapaizhao1Out = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 
@@ -1602,11 +1628,13 @@ void DlgProductSet::btn_setxiangjichufa2_clicked()
 			return;
 		}
 		ui->btn_setxiangjichufa2->setText(value);
+		ControlLines::xiangjichufaOut2 = value.toInt();
 		globalStructSetConfig.xiangjichufapaizhao2Out = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
 		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
 	}
 }
 

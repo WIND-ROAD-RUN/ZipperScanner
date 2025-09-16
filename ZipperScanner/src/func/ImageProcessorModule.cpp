@@ -688,7 +688,7 @@ void ImageProcessorZipper::updateDrawText()
 	}
 }
 
-void ImageProcessingModule::onFrameCaptured(cv::Mat frame, size_t index)
+void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t index)
 {
 	auto& globalStruct = GlobalData::getInstance();
 
@@ -699,13 +699,13 @@ void ImageProcessingModule::onFrameCaptured(cv::Mat frame, size_t index)
 	{
 		switch (globalStruct.imgRotateCount1) {
 		case 1:
-			cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); 
+			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_90_CLOCKWISE);
 			break;
 		case 2:
-			cv::rotate(frame, frame, cv::ROTATE_180); 
+			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_180);
 			break;
 		case 3:
-			cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); 
+			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_90_COUNTERCLOCKWISE);
 			break;
 		default:
 			break;
@@ -715,13 +715,13 @@ void ImageProcessingModule::onFrameCaptured(cv::Mat frame, size_t index)
 	{
 		switch (globalStruct.imgRotateCount2) {
 		case 1:
-			cv::rotate(frame, frame, cv::ROTATE_90_CLOCKWISE); 
+			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_90_CLOCKWISE);
 			break;
 		case 2:
-			cv::rotate(frame, frame, cv::ROTATE_180); 
+			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_180);
 			break;
 		case 3:
-			cv::rotate(frame, frame, cv::ROTATE_90_COUNTERCLOCKWISE); 
+			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_90_COUNTERCLOCKWISE);
 			break;
 		default:
 			break;
@@ -729,7 +729,7 @@ void ImageProcessingModule::onFrameCaptured(cv::Mat frame, size_t index)
 	}
 
 	
-	mat.image = frame;
+	mat.image = matInfo.mat;
 	mat.index = index;
 	if (index==1)
 	{

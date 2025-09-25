@@ -117,9 +117,6 @@ signals:
 	void emit_updateUiLabels(int index, bool isConnected);
 
 public:
-	std::atomic<bool> debug_isDisplayRec{ true };
-	std::atomic<bool> debug_isDisplayText{ true };
-
 	std::atomic_bool _isUpdateMonitorInfo{ false };
 
 public:

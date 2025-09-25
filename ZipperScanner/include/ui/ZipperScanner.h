@@ -2,18 +2,13 @@
 
 #include <QMainWindow>
 #include "ui_ZipperScanner.h"
-#include "DlgProductSet.h"
-#include "DlgProductScore.h"
-#include "DlgIOTrigger.h"
 #include <rqw_LabelWarning.h>
 #include <opencv2/core/mat.hpp>
-
 #include "PictureViewerThumbnails.h"
 #include "ImageEnlargedDisplay.h"
 #include"rqw_LabelClickable.h"
 #include <QSpinBox>
-#include"DlgShutdownWarn.h"
-#include"DlgCloseForm.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ZipperScannerClass; };
@@ -95,10 +90,7 @@ signals:
 private slots:
 	void updateCameraLabelState(int cameraIndex, bool state);
 
-	void onCamera1Display(QPixmap image);
-	void onCamera2Display(QPixmap image);
-
-	void onCameraNGDisplay(QPixmap image, size_t index, bool isbad);
+	void onCameraDisplay(QPixmap image, size_t index, bool isbad);
 
 	// 更新UI
 	void updateUiLabels(int index, bool isConnected);

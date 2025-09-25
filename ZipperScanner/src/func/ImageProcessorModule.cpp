@@ -76,7 +76,7 @@ void ImageProcessorZipper::run_debug(MatInfo& frame)
 
 	drawBoundariesLines(maskImg);
 
-	emit imageReady(QPixmap::fromImage(maskImg));
+	emit imageNGReady(QPixmap::fromImage(maskImg), frame.index, defectResult.isBad);
 }
 
 void ImageProcessorZipper::run_stop(MatInfo& frame)
@@ -755,8 +755,7 @@ void ImageProcessingModule::BuildModule()
 		workIndexCount++;
 		processor->imageProcessingModuleIndex = index;
 		processor->buildSegModelEngine(modelEnginePath);
-		connect(processor, &ImageProcessorZipper::imageReady, this, &ImageProcessingModule::imageReady, Qt::QueuedConnection);
-		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModule::imageNGReady, Qt::QueuedConnection);
+		connect(processor, &ImageProcessorZipper::imageNGReady, this, &ImageProcessingModule::imageReady, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModule::shibiekaungChanged, processor, &ImageProcessorZipper::updateDrawRec, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModule::wenziChanged, processor, &ImageProcessorZipper::updateDrawText, Qt::QueuedConnection);
 		connect(this, &ImageProcessingModule::paramMapsChanged, processor, &ImageProcessorZipper::updateParamMapsFromGlobalStruct, Qt::QueuedConnection);

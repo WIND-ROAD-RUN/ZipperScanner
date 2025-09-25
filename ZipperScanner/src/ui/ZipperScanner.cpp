@@ -11,6 +11,10 @@
 #include "WarnUtilty.hpp"
 #include "rqw_CameraObjectThread.hpp"
 #include "DetachDefectThread.h"
+#include "DlgIOTrigger.h"
+#include "DlgProductScore.h"
+#include "DlgProductSet.h"
+#include "DlgShutdownWarn.h"
 #include "Modules.hpp"
 
 #ifdef BUILD_WITHOUT_HARDWARE
@@ -209,10 +213,10 @@ void ZipperScanner::build_connect()
 		this, &ZipperScanner::ckb_wenzi_checked);
 
 	// 连接显示NG图像
-	QObject::connect(GlobalStructDataZipper.imageProcessingModule1.get(), &ImageProcessingModule::imageNGReady,
-		this, &ZipperScanner::onCameraNGDisplay);
-	QObject::connect(GlobalStructDataZipper.imageProcessingModule2.get(), &ImageProcessingModule::imageNGReady,
-		this, &ZipperScanner::onCameraNGDisplay);
+	QObject::connect(GlobalStructDataZipper.imageProcessingModule1.get(), &ImageProcessingModule::imageReady,
+		this, &ZipperScanner::onCameraDisplay);
+	QObject::connect(GlobalStructDataZipper.imageProcessingModule2.get(), &ImageProcessingModule::imageReady,
+		this, &ZipperScanner::onCameraDisplay);
 
 	// 连接UI更新
 	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_updateUiLabels,
@@ -249,7 +253,16 @@ void ZipperScanner::build_connect()
 // 构建相机
 void ZipperScanner::build_camera()
 {
-	
+	auto& cameraModules = Modules::getInstance().cameraModule;
+	auto errors = cameraModules.getBuildResults();
+	updateCameraLabelState(1, true);
+	updateCameraLabelState(2, true);
+
+	for (const auto& error : errors)
+	{
+		auto index = static_cast<int>(error);
+		updateCameraLabelState(index, false);
+	}
 }
 
 void ZipperScanner::build_motion()
@@ -369,8 +382,6 @@ void ZipperScanner::build_imageProcessorModule()
 	auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
 	auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
 
-	QObject::connect(globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera1Display);
-	QObject::connect(globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera2Display);
 	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::shibiekaungChanged);
 	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::shibiekaungChanged);
 	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::wenziChanged);
@@ -848,37 +859,7 @@ void ZipperScanner::lb_title_clicked()
 	}
 }
 
-void ZipperScanner::onCamera1Display(QPixmap image)
-{
-	if (!_isImageEnlargedDisplay)
-	{
-		imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	}
-	else
-	{
-		if (0 == _currentImageEnlargedDisplayIndex) {
-			_imageEnlargedDisplay->setShowImg(image);
-		}
-	}
-	_lastImage1 = image;
-}
-
-void ZipperScanner::onCamera2Display(QPixmap image)
-{
-	if (!_isImageEnlargedDisplay)
-	{
-		imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	}
-	else
-	{
-		if (1 == _currentImageEnlargedDisplayIndex) {
-			_imageEnlargedDisplay->setShowImg(image);
-		}
-	}
-	_lastImage2 = image;
-}
-
-void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
+void ZipperScanner::onCameraDisplay(QPixmap image, size_t index, bool isbad)
 {
 	if (index == 1)
 	{

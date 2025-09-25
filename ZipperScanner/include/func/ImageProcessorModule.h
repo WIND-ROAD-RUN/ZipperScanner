@@ -129,8 +129,7 @@ public slots:
 	void onFrameCaptured(rw::rqw::MatInfo matInfo, size_t index);
 
 signals:
-	void imageReady(QPixmap image);
-	void imageNGReady(QPixmap image, size_t index, bool isbad);
+	void imageReady(QPixmap image, size_t index, bool isbad);
 	void shibiekaungChanged();
 	void wenziChanged();
 	void paramMapsChanged();

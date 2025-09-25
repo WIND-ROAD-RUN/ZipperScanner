@@ -212,12 +212,6 @@ void ZipperScanner::build_connect()
 	QObject::connect(ui->ckb_wenzi, &QCheckBox::clicked,
 		this, &ZipperScanner::ckb_wenzi_checked);
 
-	// 连接显示NG图像
-	QObject::connect(GlobalStructDataZipper.imageProcessingModule1.get(), &ImageProcessingModule::imageReady,
-		this, &ZipperScanner::onCameraDisplay);
-	QObject::connect(GlobalStructDataZipper.imageProcessingModule2.get(), &ImageProcessingModule::imageReady,
-		this, &ZipperScanner::onCameraDisplay);
-
 	// 连接UI更新
 	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_updateUiLabels,
 		this, &ZipperScanner::updateUiLabels);
@@ -376,20 +370,6 @@ void ZipperScanner::build_imageProcessorModule()
 		QApplication::quit();
 		return;
 	}
-
-	globalStruct.buildImageProcessorModules(enginePathFull);
-
-	auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
-	auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
-
-	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::shibiekaungChanged);
-	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::shibiekaungChanged);
-	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::wenziChanged);
-	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::wenziChanged);
-	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::paramMapsChanged);
-	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::paramMapsChanged);
-	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::paramMapsChanged);
-	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::paramMapsChanged);
 }
 
 void ZipperScanner::build_imageSaveEngine()
@@ -460,8 +440,6 @@ void ZipperScanner::destroyComponents()
 	destory_detachThread();
 	// 销毁运动控制器
 	globalStructData.destory_motion();
-	// 销毁图像处理模块
-	globalStructData.destroyImageProcessingModule();
 	// 销毁图片放大查看器
 	destroy_ImageEnlargedDisplay();
 	// 销毁图像保存模块
@@ -674,7 +652,7 @@ void ZipperScanner::ckb_shibiekuang_checked(bool checked)
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	generalConfig.isshibiekuang = ui->ckb_shibiekuang->isChecked();
 
-	emit shibiekaungChanged();
+	emit shibiekuangChanged();
 }
 
 void ZipperScanner::ckb_wenzi_checked(bool checked)

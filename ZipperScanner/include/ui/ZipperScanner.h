@@ -83,11 +83,11 @@ private slots:
 
 	void lb_title_clicked();
 signals:
-	void shibiekaungChanged();
+	void shibiekuangChanged();
 	void wenziChanged();
 
 
-private slots:
+public slots:
 	void updateCameraLabelState(int cameraIndex, bool state);
 
 	void onCameraDisplay(QPixmap image, size_t index, bool isbad);

@@ -126,7 +126,7 @@ void GlobalData::build_CameraAndCardStateThreadZipper()
 	// 更新UI界面
 	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::updateCameraLabelState,
 		this, &GlobalData::emit_updateUiLabels, Qt::QueuedConnection);
-	// 相机重连
+	////相机重连
 	//QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::buildCamera1,
 	//	this, &GlobalData::rebuild_Camera1, Qt::QueuedConnection);
 	//QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::buildCamera2,
@@ -183,28 +183,6 @@ void GlobalData::setLightLevel(const LightLevel& level)
 	default:
 		break;
 	}
-}
-
-void GlobalData::buildImageProcessorModules(const QString& path)
-{
-	imageProcessingModule1 = std::make_unique<ImageProcessingModule>(2);
-	imageProcessingModule2 = std::make_unique<ImageProcessingModule>(2);
-
-	imageProcessingModule1->modelEnginePath = path;
-	imageProcessingModule2->modelEnginePath = path;
-
-	imageProcessingModule1->index = 1;
-	imageProcessingModule2->index = 2;
-
-	imageProcessingModule1->BuildModule();
-	imageProcessingModule2->BuildModule();
-
-}
-
-void GlobalData::destroyImageProcessingModule()
-{
-	imageProcessingModule1.reset();
-	imageProcessingModule2.reset();
 }
 
 void GlobalData::buildImageSaveEngine()

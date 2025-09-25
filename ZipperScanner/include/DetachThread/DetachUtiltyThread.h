@@ -27,6 +27,7 @@ private:
 private:
 	bool lastIsShutDown{ false };
 	int shutdownCount{ 0 };
+public:
 signals:
 	void updateStatisticalInfo();
 signals:

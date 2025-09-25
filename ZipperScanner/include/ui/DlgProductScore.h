@@ -20,6 +20,10 @@ public:
 	void read_config();
 	void build_connect();
 
+
+signals:
+	void scoreFormClosed();
+
 private slots:
 	void btn_close_clicked();
 
@@ -62,8 +66,6 @@ private slots:
 	void btn_extra8score_clicked();
 	void btn_extra8area_clicked();
 
-signals:
-	void scoreFormClosed();
 
 public:
 	Ui::DlgProductScoreClass* ui;

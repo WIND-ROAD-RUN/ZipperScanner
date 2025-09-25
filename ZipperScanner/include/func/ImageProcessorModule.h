@@ -52,34 +52,17 @@ private:
 	void save_image_work(rw::rqw::ImageInfo& imageInfo, const QImage& image);
 
 signals:
-	void imageReady(QPixmap image);
-	void imageNGReady(QPixmap image, size_t index, bool isbad);
+	void imageReady(QPixmap image, size_t index, bool isbad);
 
 private:
 	std::unique_ptr<rw::imgPro::ImageProcess> _imgProcess;
 public:
 	// 构建模型引擎
 	void buildSegModelEngine(const QString& enginePath);		// Segmentation 模型
-
-	void iniIndexGetContext();
-	void iniEliminationInfoFunc();
-	void iniEliminationInfoGetContext();
-	void iniDefectResultInfoFunc();
-	void iniDefectResultGetContext();
-	void iniDefectDrawConfig();
-	void iniRunTextConfig();
-	
-
-public:
-	// 在指定位置画横线
-	void drawBoundariesLines(QImage& image);
-	// 更新屏蔽线
-	void updateShieldWires();
-	
 public slots:
 	void updateDrawRec();
 	void updateDrawText();
-	void updateParamMapsFromGlobalStruct();
+
 private:
 	// 判断是否有缺陷
 	bool _isbad{ false };	

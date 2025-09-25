@@ -41,7 +41,7 @@ bool Modules::build()
 	// 构建图像处理模块
 	dlg.updateMessage("构建识别模块中...");
 	QApplication::processEvents();
-	//auto imgProModuleBuild = imgProModule.build();
+	auto imgProModuleBuild = imgProModule.build();
 
 	// 构建UI模块
 	uiModule.build();
@@ -82,7 +82,7 @@ void Modules::destroy()
 	test_module.destroy();
 #endif
 	runtimeInfoModule.destroy();
-	//imgProModule.destroy();
+	imgProModule.destroy();
 	cameraModule.destroy();
 	configManagerModule.destroy();
 	uiModule.destroy();
@@ -102,7 +102,7 @@ void Modules::start()
 	//warningModule.start();
 	//imgSaveModule.start();
 	//eliminateModule.start();
-	//imgProModule.start();
+	imgProModule.start();
 	cameraModule.start();
 	//reconnectModule.start();
 
@@ -119,7 +119,7 @@ void Modules::stop()
 #endif
 	//reconnectModule.stop();
 	cameraModule.stop();
-	//imgProModule.stop();
+	imgProModule.stop();
 	//eliminateModule.stop();
 	//imgSaveModule.stop();
 	//warningModule.stop();
@@ -134,20 +134,20 @@ void Modules::connect()
 #pragma region connect camera and imgProModule
 
 	QObject::connect(&cameraModule, &CameraModule::frameCaptured1,
-		GlobalData::getInstance().imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
+		imgProModule.imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 	QObject::connect(&cameraModule, &CameraModule::frameCaptured2,
-		GlobalData::getInstance().imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
+		imgProModule.imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 
 
 #pragma endregion
 
 #pragma region connect UIModule and imgProModule
-	/*QObject::connect(imgProModule.imageProcessingModule1.get(), &ImageProcessingModuleHandleScanner::imageNGReady, uiModule._handleScanner, &HandleScanner::onCameraNGDisplay);
-	QObject::connect(imgProModule.imageProcessingModule2.get(), &ImageProcessingModuleHandleScanner::imageNGReady, uiModule._handleScanner, &HandleScanner::onCameraNGDisplay);
+	QObject::connect(imgProModule.imageProcessingModule1.get(), &ImageProcessingModule::imageReady, uiModule._zipperScanner, &ZipperScanner::onCameraDisplay);
+	QObject::connect(imgProModule.imageProcessingModule2.get(), &ImageProcessingModule::imageReady, uiModule._zipperScanner, &ZipperScanner::onCameraDisplay);
 
-	QObject::connect(uiModule._handleScanner, &HandleScanner::shibiekuangChanged, &imgProModule, &ImgProModule::onUpdateImgProContext);
-	QObject::connect(uiModule._handleScanner, &HandleScanner::wenziChanged, &imgProModule, &ImgProModule::onUpdateImgProContext);
-	QObject::connect(uiModule._dlgProductScore, &DlgProductScore::scoreFormClosed, &imgProModule, &ImgProModule::onUpdateImgProContext);*/
+	QObject::connect(uiModule._zipperScanner, &ZipperScanner::shibiekuangChanged, &imgProModule, &ImgProModule::onUpdateImgProContext);
+	QObject::connect(uiModule._zipperScanner, &ZipperScanner::wenziChanged, &imgProModule, &ImgProModule::onUpdateImgProContext);
+	QObject::connect(uiModule._dlgProductScore, &DlgProductScore::scoreFormClosed, &imgProModule, &ImgProModule::onUpdateImgProContext);
 #pragma endregion
 
 #pragma region connect UIModule and ReconnectModule
@@ -173,8 +173,8 @@ void Modules::connect()
 #pragma endregion
 
 #ifdef BUILD_WITHOUT_HARDWARE
-	QObject::connect(test_module.testImgPushThread.get(), &TestImgPushThread::imgReady,
-			imgProModule.imageProcessingModule1.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);
+	/*QObject::connect(test_module.testImgPushThread.get(), &TestImgPushThread::imgReady,
+			imgProModule.imageProcessingModule1.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);*/
 	/*QObject::connect(test_module.testImgPushThread.get(), &TestImgPushThread::imgReady,
 		imgProModule.imageProcessingModule2.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);*/
 #endif
@@ -194,7 +194,7 @@ void Modules::connect()
 bool Modules::check()
 {
 #pragma region check single instance
-	if (!rw::rqw::RunEnvCheck::isSingleInstance("HandleScanner.exe"))
+	if (!rw::rqw::RunEnvCheck::isSingleInstance("ZipperScanner.exe"))
 	{
 		QMessageBox::warning(nullptr, "错误", "已经有程序在运行，请勿多次打开");
 		return false;

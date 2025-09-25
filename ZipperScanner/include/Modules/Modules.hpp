@@ -52,7 +52,7 @@ public:
 	CameraModule cameraModule;
 	RuntimeInfoModule runtimeInfoModule;
 	ConfigManagerModule configManagerModule;
-	//ImgProModule imgProModule;
+	ImgProModule imgProModule;
 	UIModule uiModule;
 	//ReconnectModule reconnectModule;
 	//EliminateModule eliminateModule;

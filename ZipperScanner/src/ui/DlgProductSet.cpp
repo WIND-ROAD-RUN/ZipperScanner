@@ -659,7 +659,7 @@ void DlgProductSet::pbtn_xiangsudangliang1_clicked()
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_xiangsudangliang1->setText(value);
 		setConfig.xiangSuDangLiang1 = value.toDouble();
-		emit pixToWorldChanged();
+		emit
 	}
 }
 
@@ -755,7 +755,7 @@ void DlgProductSet::pbtn_xiangsudangliang2_clicked()
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_xiangsudangliang2->setText(value);
 		setConfig.xiangSuDangLiang2 = value.toDouble();
-		emit pixToWorldChanged();
+		emit
 	}
 }
 

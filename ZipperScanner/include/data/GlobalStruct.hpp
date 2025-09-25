@@ -134,15 +134,6 @@ private:
 public:
 	void setLightLevel(const LightLevel& level);
 public:
-	void buildImageProcessorModules(const QString& path);
-	void destroyImageProcessingModule();
-
-	// 图像处理模块
-	std::unique_ptr<ImageProcessingModule> imageProcessingModule1 = nullptr;
-	std::unique_ptr<ImageProcessingModule> imageProcessingModule2 = nullptr;
-
-
-public:
 	void buildImageSaveEngine();
 	void destroyImageSaveEngine();
 	std::unique_ptr<rw::rqw::ImageSaveEngine> imageSaveEngine{ nullptr };

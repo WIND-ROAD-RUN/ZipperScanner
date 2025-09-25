@@ -31,9 +31,6 @@ private:
 	// 关闭所有可以点动的IO按钮
 	void closeAllIOBtn();
 
-signals:
-	void pixToWorldChanged();
-
 private:
 	// IO监控页面的调试模式
 	bool isDebugIO{ false };

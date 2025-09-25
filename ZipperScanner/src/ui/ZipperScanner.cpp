@@ -54,8 +54,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 	build_detachThread();
 
-	build_DlgCloseForm();
-
 	// 构建图像保存引擎
 	build_imageSaveEngine();
 
@@ -162,14 +160,6 @@ void ZipperScanner::destory_detachThread()
 void ZipperScanner::build_ui()
 {
 	build_ZipperScannerData();
-	build_DlgProductSetData();
-	ini_dlgProductSetCheckList();
-	build_DlgProductScore();
-	ini_dlgProductScoreGroupList();
-	connectSetAndScore();
-	build_DlgIOTrigger();
-	_dlgShutdownWarn = new DlgShutdownWarn(this);
-
 }
 
 // 连接槽函数
@@ -347,67 +337,6 @@ void ZipperScanner::build_ZipperScannerData()
 	ini_clickableTitle();
 }
 
-// 通过实现DlgProductSet的构造函数进行初始化
-void ZipperScanner::build_DlgProductSetData()
-{
-	_dlgProductSet = new DlgProductSet(this);
-}
-
-void ZipperScanner::ini_dlgProductSetCheckList()
-{
-	_dlgProductSetCheckList = {
-		_dlgProductSet->ui->ckb_queya,
-		_dlgProductSet->ui->ckb_tangshang,
-		_dlgProductSet->ui->ckb_zangwu,
-		_dlgProductSet->ui->ckb_suoxiao,
-		_dlgProductSet->ui->ckb_huawen,
-		_dlgProductSet->ui->ckb_yuan,
-		_dlgProductSet->ui->ckb_huapo,
-		_dlgProductSet->ui->ckb_duanxian,
-		_dlgProductSet->ui->ckb_extra5,
-		_dlgProductSet->ui->ckb_extra6,
-		_dlgProductSet->ui->ckb_extra7,
-		_dlgProductSet->ui->ckb_extra8
-	};
-}
-
-// 通过实现DlgProductScore的构造函数进行初始化
-void ZipperScanner::build_DlgProductScore()
-{
-	_dlgProductScore = new DlgProductScore(this);
-}
-
-void ZipperScanner::ini_dlgProductScoreGroupList()
-{
-	_dlgProductScoreGroupList = {
-		_dlgProductScore->ui->widget_queya,
-		_dlgProductScore->ui->widget_tangshang,
-		_dlgProductScore->ui->widget_zangwu,
-		_dlgProductScore->ui->widget_suoxiao,
-		_dlgProductScore->ui->widget_huawen,
-		_dlgProductScore->ui->widget_yuan,
-		_dlgProductScore->ui->widget_huapo,
-		_dlgProductScore->ui->widget_duanxian,
-		_dlgProductScore->ui->widget_extra5,
-		_dlgProductScore->ui->widget_extra6,
-		_dlgProductScore->ui->widget_extra7,
-		_dlgProductScore->ui->widget_extra8
-	};
-}
-
-void ZipperScanner::connectSetAndScore()
-{
-	for (int i = 0; i < _dlgProductSetCheckList.size(); ++i) {
-		connect(_dlgProductSetCheckList[i], &QCheckBox::toggled, _dlgProductScoreGroupList[i], &QWidget::setVisible);
-		_dlgProductScoreGroupList[i]->setVisible(_dlgProductSetCheckList[i]->isChecked());
-	}
-}
-
-void ZipperScanner::build_DlgIOTrigger()
-{
-	_dlgIOTrigger = new DlgIOTrigger(this);
-}
-
 void ZipperScanner::ini_clickableTitle()
 {
 	// 初始化标题label
@@ -436,6 +365,9 @@ void ZipperScanner::build_imageProcessorModule()
 	}
 
 	globalStruct.buildImageProcessorModules(enginePathFull);
+
+	auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
+	auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
 
 	QObject::connect(globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera1Display);
 	QObject::connect(globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera2Display);
@@ -500,11 +432,6 @@ void ZipperScanner::start_Threads()
 
 	auto& globalThread = GlobalThread::getInstance();
 	globalThread.startDetachThread();
-}
-
-void ZipperScanner::build_DlgCloseForm()
-{
-	_dlgCloseForm = new DlgCloseForm(this);
 }
 
 void ZipperScanner::destroyComponents()
@@ -612,12 +539,10 @@ void ZipperScanner::pbtn_set_clicked()
 	if (isAccept == QDialog::Accepted)
 	{
 		if (numKeyBord.getValue() == "1234") {
+			auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
 			_dlgProductSet->setFixedSize(this->width(), this->height());
 			_dlgProductSet->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 			_dlgProductSet->exec();
-		}
-		else if (numKeyBord.getValue() == "6666")
-		{
 		}
 		else {
 			QMessageBox::warning(this, "Error", "密码错误，请重新输入");
@@ -627,6 +552,7 @@ void ZipperScanner::pbtn_set_clicked()
 
 void ZipperScanner::pbtn_score_clicked()
 {
+	auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
 	_dlgProductScore->setFixedSize(this->width(), this->height());
 	_dlgProductScore->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	_dlgProductScore->exec();
@@ -835,6 +761,7 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 
 void ZipperScanner::pbtn_IOTrigger_clicked()
 {
+	auto& _dlgIOTrigger = Modules::getInstance().uiModule._dlgIOTrigger;
 	_dlgIOTrigger->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	// 计算居中位置
 	QPoint center = this->geometry().center() - QPoint(_dlgIOTrigger->width() / 2, _dlgIOTrigger->height() / 2);
@@ -903,6 +830,9 @@ void ZipperScanner::lb_title_clicked()
 	{
 		// 最小化主窗体
 		this->showMinimized();
+
+		auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
+		auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
 
 		// 最小化所有子窗体（如果已创建且可见）
 		if (_dlgProductSet && _dlgProductSet->isVisible())
@@ -1261,6 +1191,8 @@ void ZipperScanner::shutdownComputerTrigger(int time)
 	{
 		return;
 	}
+
+	auto& _dlgShutdownWarn = Modules::getInstance().uiModule._dlgShutdownWarn;
 
 	int shutDownBoundary = 7;
 	if (time == -1)

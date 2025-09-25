@@ -9,6 +9,7 @@ int main(int argc, char* argv[])
 
 	Modules::getInstance().build();
 	ZipperScanner w;
+	Modules::getInstance().uiModule._zipperScanner = &w;
 	Modules::getInstance().connect();
 	Modules::getInstance().start();
 	

@@ -53,7 +53,7 @@ public:
 	RuntimeInfoModule runtimeInfoModule;
 	ConfigManagerModule configManagerModule;
 	//ImgProModule imgProModule;
-	//UIModule uiModule;
+	UIModule uiModule;
 	//ReconnectModule reconnectModule;
 	//EliminateModule eliminateModule;
 	//ImgSaveModule imgSaveModule;

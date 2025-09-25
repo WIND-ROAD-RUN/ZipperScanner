@@ -39,14 +39,7 @@ public:
 public:
 	void build_detachThread();
 	void destory_detachThread();
-public:
-	DlgProductSet* _dlgProductSet = nullptr;
-	QVector<QCheckBox*> _dlgProductSetCheckList{};
-	DlgProductScore* _dlgProductScore = nullptr;
-	QVector<QWidget*> _dlgProductScoreGroupList{};
-	DlgIOTrigger* _dlgIOTrigger = nullptr;
-	DlgShutdownWarn* _dlgShutdownWarn = nullptr;
-	DlgCloseForm* _dlgCloseForm = nullptr;
+
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
 	rw::rqw::ClickableLabel* clickableTitle = nullptr;
@@ -57,12 +50,6 @@ public:
 	void build_motion();
 
 	void build_ZipperScannerData();
-	void build_DlgProductSetData();
-	void ini_dlgProductSetCheckList();
-	void build_DlgProductScore();
-	void ini_dlgProductScoreGroupList();
-	void connectSetAndScore();
-	void build_DlgIOTrigger();
 	void ini_clickableTitle();
 
 	void build_imageProcessorModule();
@@ -70,7 +57,6 @@ public:
 
 	void start_Threads();
 
-	void build_DlgCloseForm();
 public:
 	void destroyComponents();
 

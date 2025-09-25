@@ -44,7 +44,7 @@ bool Modules::build()
 	//auto imgProModuleBuild = imgProModule.build();
 
 	// 构建UI模块
-	//uiModule.build();
+	uiModule.build();
 
 	// 构建重连模块
 	//reconnectModule.build();
@@ -85,7 +85,7 @@ void Modules::destroy()
 	//imgProModule.destroy();
 	cameraModule.destroy();
 	configManagerModule.destroy();
-	//uiModule.destroy();
+	uiModule.destroy();
 	//reconnectModule.destroy();
 	//eliminateModule.destroy();
 	//imgSaveModule.destroy();
@@ -95,7 +95,7 @@ void Modules::destroy()
 
 void Modules::start()
 {
-	//uiModule.start();
+	uiModule.start();
 	configManagerModule.start();
 	//motionControllerModule.start();
 	runtimeInfoModule.start();
@@ -126,7 +126,7 @@ void Modules::stop()
 	runtimeInfoModule.stop();
 	//motionControllerModule.stop();
 	configManagerModule.stop();
-	//uiModule.stop();
+	uiModule.stop();
 }
 
 void Modules::connect()

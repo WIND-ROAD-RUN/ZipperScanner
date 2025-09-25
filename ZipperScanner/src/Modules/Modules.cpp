@@ -133,10 +133,10 @@ void Modules::connect()
 {
 #pragma region connect camera and imgProModule
 
-	/*QObject::connect(&cameraModule, &CameraModule::frameCaptured1,
-		imgProModule.imageProcessingModule1.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);
+	QObject::connect(&cameraModule, &CameraModule::frameCaptured1,
+		GlobalData::getInstance().imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 	QObject::connect(&cameraModule, &CameraModule::frameCaptured2,
-		imgProModule.imageProcessingModule2.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);*/
+		GlobalData::getInstance().imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 
 
 #pragma endregion

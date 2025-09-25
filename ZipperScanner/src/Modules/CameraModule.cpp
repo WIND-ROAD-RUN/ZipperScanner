@@ -250,10 +250,10 @@ void CameraModule::onFrameCaptured(rw::rqw::MatInfo frame, size_t index)
 	switch (index)
 	{
 		case 1:
-			emit frameCaptured1(frame.mat, index);
+			emit frameCaptured1(frame, index);
 			break;
 		case 2:
-			emit frameCaptured2(frame.mat, index);
+			emit frameCaptured2(frame, index);
 			break;
 		default:
 			break;

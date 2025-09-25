@@ -48,8 +48,8 @@ public slots:
 
 	void onFrameCaptured(rw::rqw::MatInfo frame, size_t index);
 signals:
-	void frameCaptured1(cv::Mat frame, size_t index);
-	void frameCaptured2(cv::Mat frame, size_t index);
+	void frameCaptured1(rw::rqw::MatInfo matInfo, size_t index);
+	void frameCaptured2(rw::rqw::MatInfo matInfo, size_t index);
 public:
 	std::unique_ptr<rw::rqw::CameraPassiveThread> camera1{ nullptr };
 	std::unique_ptr<rw::rqw::CameraPassiveThread> camera2{ nullptr };

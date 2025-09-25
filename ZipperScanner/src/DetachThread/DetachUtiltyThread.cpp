@@ -36,8 +36,6 @@ void DetachUtiltyThread::run()
 	while (running) {
 		QThread::sleep(1);
 		CalculateRealtimeInformation(s);
-		processWarningInfo(s);
-		processShutdownIO(s);
 		++s;
 		if (s == 300)
 		{
@@ -50,45 +48,6 @@ void DetachUtiltyThread::CalculateRealtimeInformation(size_t s)
 {
 	emit updateStatisticalInfo();
 }
-
-void DetachUtiltyThread::processWarningInfo(size_t s)
-{
-	static rw::rqw::WarningInfo warningInfo;
-	if (isProcessFinish)
-	{
-		isProcessFinish = false;
-		//processOneWarnFinsh(warningInfo);
-	}
-	if (s % 2 == 0 && !isProcessing)
-	{
-		processOneWarnGet(warningInfo);
-	}
-}
-
-void DetachUtiltyThread::processOneWarnGet(rw::rqw::WarningInfo& info)
-{
-	/*isProcessFinish = false;
-	auto isEmpty = warningLabel->isEmptyWarningListThreadSafe();
-	if (isEmpty)
-	{
-		return;
-	}
-	isProcessing = true;
-	info = warningLabel->topWarningListThreadSafe();
-	auto& config = GlobalData::getInstance().dlgWarningManagerConfig;
-	auto isOpenWarn = config.findIsOpen(info.warningId);
-	if (isOpenWarn)
-	{
-		emit showDlgWarn(info);
-		openWarnAlarm(info);;
-	}
-	else
-	{
-		isProcessing = false;
-		warningLabel->popWarningListThreadSafe();
-	}*/
-}
-
 
 
 void DetachUtiltyThread::processShutdownIO(size_t s)

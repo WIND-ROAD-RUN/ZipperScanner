@@ -8,12 +8,9 @@
 #include "Utilty.hpp"
 #include "CameraAndCardStateThread.h"
 #include <chrono>
-
-#include "DetachUtiltyThread.h"
 #include "MonitorProduceLengthThread.hpp"
 #include "rqw_ZMotion.hpp"
 #include "rqw_MonitorMotionIO.hpp"
-#include "RuntimeInfoModule.hpp"
 #include "TestImgPushThread.hpp"
 
 

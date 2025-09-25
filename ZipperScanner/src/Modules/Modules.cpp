@@ -180,8 +180,8 @@ void Modules::connect()
 #endif
 
 #pragma region connect UIModule and RuntimeInfoModule
-	/*QObject::connect(runtimeInfoModule.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
-		uiModule._handleScanner, &HandleScanner::onUpdateStatisticalInfoUI, Qt::QueuedConnection);*/
+	QObject::connect(runtimeInfoModule.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
+		uiModule._zipperScanner, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
 #pragma endregion
 
 #pragma region connect MotionControllerModule and RuntimeInfoModule

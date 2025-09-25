@@ -1,12 +1,6 @@
 #pragma once
 
-#include<memory>
-
-
-#include "GeneralConfig.hpp"
-#include "ScoreConfig.hpp"
-#include "SetConfig.hpp"
-#include "oso_StorageContext.hpp"
+#include <memory>
 #include "rqw_CameraObjectCore.hpp"
 #include "rqw_CameraObjectThread.hpp"
 #include "ImageProcessorModule.h"
@@ -17,8 +11,8 @@
 
 #include "DetachUtiltyThread.h"
 #include "MonitorProduceLengthThread.hpp"
-#include"rqw_ZMotion.hpp"
-#include"rqw_MonitorMotionIO.hpp"
+#include "rqw_ZMotion.hpp"
+#include "rqw_MonitorMotionIO.hpp"
 #include "TestImgPushThread.hpp"
 
 
@@ -166,8 +160,6 @@ private:
 public:
 	void setLightLevel(const LightLevel& level);
 public:
-	void buildConfigManager(rw::oso::StorageType type);
-
 	void buildImageProcessorModules(const QString& path);
 	void destroyImageProcessingModule();
 
@@ -177,25 +169,7 @@ public:
 
 
 public:
-	// 保存参数
 	void buildImageSaveEngine();
 	void destroyImageSaveEngine();
 	std::unique_ptr<rw::rqw::ImageSaveEngine> imageSaveEngine{ nullptr };
-
-	void saveGeneralConfig();
-	void saveDlgProductSetConfig();
-	void saveDlgProductScoreConfig();
-
-public:
-	// UI界面参数
-	cdm::GeneralConfig generalConfig;
-	cdm::ScoreConfig scoreConfig;
-	cdm::SetConfig setConfig;
-
-public:
-	void start_Camera1Monitor();
-	void start_Camera2Monitor();
-
-public:
-	std::unique_ptr<rw::oso::StorageContext> storeContext{ nullptr };
 };

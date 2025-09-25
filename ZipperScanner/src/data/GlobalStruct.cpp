@@ -151,6 +151,7 @@ GlobalData::GlobalData()
 
 void GlobalData::setLightLevel(const LightLevel& level)
 {
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	auto& camera1 = Modules::getInstance().cameraModule.camera1;
 	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 	switch (level)
@@ -190,11 +191,6 @@ void GlobalData::setLightLevel(const LightLevel& level)
 	}
 }
 
-void GlobalData::buildConfigManager(rw::oso::StorageType type)
-{
-	storeContext = std::make_unique<rw::oso::StorageContext>(type);
-}
-
 void GlobalData::buildImageProcessorModules(const QString& path)
 {
 	imageProcessingModule1 = std::make_unique<ImageProcessingModule>(2);
@@ -226,40 +222,4 @@ void GlobalData::destroyImageSaveEngine()
 {
 	imageSaveEngine->stop();
 	imageSaveEngine.reset();
-}
-
-void GlobalData::saveGeneralConfig()
-{
-	std::string generalConfigPath = globalPath.generalConfigPath.toStdString();
-	storeContext->saveSafe(generalConfig, generalConfigPath);
-}
-
-void GlobalData::saveDlgProductSetConfig()
-{
-	// 调试模式默认为不开启
-	setConfig.debugMode = false;
-	std::string setConfigPath = globalPath.setConfigPath.toStdString();
-	storeContext->saveSafe(setConfig, setConfigPath);
-}
-
-void GlobalData::saveDlgProductScoreConfig()
-{
-	std::string scoreConfigPath = globalPath.scoreConfigPath.toStdString();
-	storeContext->saveSafe(scoreConfig, scoreConfigPath);
-}
-
-void GlobalData::start_Camera1Monitor()
-{
-	auto& camera1 = Modules::getInstance().cameraModule.camera1;
-	if (camera1) {
-		camera1->startMonitor();
-	}
-}
-
-void GlobalData::start_Camera2Monitor()
-{
-	auto& camera2 = Modules::getInstance().cameraModule.camera2;
-	if (camera2) {
-		camera2->startMonitor();
-	}
 }

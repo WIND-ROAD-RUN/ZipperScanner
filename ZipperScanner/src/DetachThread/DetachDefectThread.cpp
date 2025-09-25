@@ -1,5 +1,7 @@
 #include "DetachDefectThread.h"
 
+#include "Modules.hpp"
+
 DetachDefectThreadZipper::DetachDefectThreadZipper(QObject* parent)
 {
 
@@ -27,7 +29,8 @@ void DetachDefectThreadZipper::stopThread()
 void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& queue)
 {
 	auto& globalStruct = GlobalData::getInstance();
-	auto& setConfig = globalStruct.setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 
 	try
 	{
@@ -55,7 +58,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 		//如果有瑕疵直接降速
 		//std::cout << "jiansulocation" << globalStruct.zmotion.getAxisLocation(0, isget) << std::endl;
 		
-		auto isshoudongsudu = globalStruct.zmotion.setAxisRunSpeed(0,globalStruct.setConfig.shoudongsudu);
+		auto isshoudongsudu = globalStruct.zmotion.setAxisRunSpeed(0,setConfig.shoudongsudu);
 		
 
 		auto chongkongshijian = setConfig.chongkongshijian*1000;
@@ -106,10 +109,10 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 
 
-			if (globalStruct.generalConfig.isStart == true)
+			if (generalConfig.isStart == true)
 			{
 				// 启动电机
-				auto iszidongladaisudu = globalStruct.zmotion.setAxisRunSpeed(0, globalStruct.setConfig.zidongladaisudu);
+				auto iszidongladaisudu = globalStruct.zmotion.setAxisRunSpeed(0, setConfig.zidongladaisudu);
 
 				auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
 				if (!isAxisRun)

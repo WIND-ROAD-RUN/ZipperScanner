@@ -7,7 +7,7 @@
 size_t CameraAndCardStateThreadZipper::runtimeCounts=0;
 
 CameraAndCardStateThreadZipper::CameraAndCardStateThreadZipper(QObject* parent)
-	: QThread(parent), running(false), _dlgProductSet(GlobalData::getInstance().setConfig){
+	: QThread(parent), running(false), _dlgProductSet(Modules::getInstance().configManagerModule.setConfig){
 }
 
 CameraAndCardStateThreadZipper::~CameraAndCardStateThreadZipper()

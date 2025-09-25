@@ -5,6 +5,7 @@
 
 #include "GlobalStruct.hpp"
 #include"imgPro_ImagePainter.hpp"
+#include "Modules.hpp"
 #include "Utilty.hpp"
 
 ImageProcessorZipper::ImageProcessorZipper(QQueue<MatInfo>& queue, QMutex& mutex, QWaitCondition& condition, int workIndex, QObject* parent)
@@ -141,7 +142,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImage& image)
 {
 	auto& globalStruct = GlobalData::getInstance();
-	auto& setConfig = globalStruct.setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 
 	if (!globalStruct.isTakePictures)
 	{
@@ -161,7 +162,7 @@ void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImag
 void ImageProcessorZipper::save_image_work(rw::rqw::ImageInfo& imageInfo, const QImage& image)
 {
 	auto& globalData = GlobalData::getInstance();
-	auto& setConfig = globalData.setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	if (_isbad) {
 		if (setConfig.saveNGImg)
 		{
@@ -316,162 +317,163 @@ void ImageProcessorZipper::iniRunTextConfig()
 void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 {
 	auto& context = _imgProcess->context();
-	auto& globalStruct = GlobalData::getInstance();
+	auto& scoreConfig = Modules::getInstance().configManagerModule.scoreConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 
 	queyaMap["classId"] = ClassId::Queya;
-	queyaMap["maxArea"] = globalStruct.scoreConfig.queYaArea;
-	queyaMap["maxScore"] = globalStruct.scoreConfig.queYaScore;
-	queyaMap["enable"] = globalStruct.scoreConfig.queYa;
+	queyaMap["maxArea"] = scoreConfig.queYaArea;
+	queyaMap["maxScore"] = scoreConfig.queYaScore;
+	queyaMap["enable"] = scoreConfig.queYa;
 	if (1 == imageProcessingModuleIndex)
 	{
-		queyaMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		queyaMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		queyaMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		queyaMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	tangshangMap["classId"] = ClassId::Tangshang;
-	tangshangMap["maxArea"] = globalStruct.scoreConfig.tangShangArea;
-	tangshangMap["maxScore"] = globalStruct.scoreConfig.tangShangScore;
-	tangshangMap["enable"] = globalStruct.scoreConfig.tangShang;
+	tangshangMap["maxArea"] = scoreConfig.tangShangArea;
+	tangshangMap["maxScore"] = scoreConfig.tangShangScore;
+	tangshangMap["enable"] = scoreConfig.tangShang;
 	if (1 == imageProcessingModuleIndex)
 	{
-		tangshangMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		tangshangMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		tangshangMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		tangshangMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	zangwuMap["classId"] = ClassId::Zangwu;
-	zangwuMap["maxArea"] = globalStruct.scoreConfig.zangWuArea;
-	zangwuMap["maxScore"] = globalStruct.scoreConfig.zangWuScore;
-	zangwuMap["enable"] = globalStruct.scoreConfig.zangWu;
+	zangwuMap["maxArea"] = scoreConfig.zangWuArea;
+	zangwuMap["maxScore"] = scoreConfig.zangWuScore;
+	zangwuMap["enable"] = scoreConfig.zangWu;
 	if (1 == imageProcessingModuleIndex)
 	{
-		zangwuMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		zangwuMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		zangwuMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		zangwuMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	suoxiaoMap["classId"] = ClassId::Suoxiao;
-	suoxiaoMap["maxArea"] = globalStruct.scoreConfig.suoXiaoArea;
-	suoxiaoMap["maxScore"] = globalStruct.scoreConfig.suoXiaoScore;
-	suoxiaoMap["enable"] = globalStruct.scoreConfig.suoXiao;
+	suoxiaoMap["maxArea"] = scoreConfig.suoXiaoArea;
+	suoxiaoMap["maxScore"] = scoreConfig.suoXiaoScore;
+	suoxiaoMap["enable"] = scoreConfig.suoXiao;
 	if (1 == imageProcessingModuleIndex)
 	{
-		suoxiaoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		suoxiaoMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		suoxiaoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		suoxiaoMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	huawenMap["classId"] = ClassId::Huawen;
-	huawenMap["maxArea"] = globalStruct.scoreConfig.huaWenArea;
-	huawenMap["maxScore"] = globalStruct.scoreConfig.huaWenScore;
-	huawenMap["enable"] = globalStruct.scoreConfig.huaWen;
+	huawenMap["maxArea"] = scoreConfig.huaWenArea;
+	huawenMap["maxScore"] = scoreConfig.huaWenScore;
+	huawenMap["enable"] = scoreConfig.huaWen;
 	if (1 == imageProcessingModuleIndex)
 	{
-		huawenMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		huawenMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		huawenMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		huawenMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	yuanMap["classId"] = ClassId::Yuan;
-	yuanMap["maxArea"] = globalStruct.scoreConfig.yuanArea;
-	yuanMap["maxScore"] = globalStruct.scoreConfig.yuanScore;
-	yuanMap["enable"] = globalStruct.scoreConfig.yuan;
+	yuanMap["maxArea"] = scoreConfig.yuanArea;
+	yuanMap["maxScore"] = scoreConfig.yuanScore;
+	yuanMap["enable"] = scoreConfig.yuan;
 	if (1 == imageProcessingModuleIndex)
 	{
-		yuanMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		yuanMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		yuanMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		yuanMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	huapoMap["classId"] = ClassId::Huapo;
-	huapoMap["maxArea"] = globalStruct.scoreConfig.huaPoArea;
-	huapoMap["maxScore"] = globalStruct.scoreConfig.huaPoScore;
-	huapoMap["enable"] = globalStruct.scoreConfig.huaPo;
+	huapoMap["maxArea"] = scoreConfig.huaPoArea;
+	huapoMap["maxScore"] = scoreConfig.huaPoScore;
+	huapoMap["enable"] = scoreConfig.huaPo;
 	if (1 == imageProcessingModuleIndex)
 	{
-		huapoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		huapoMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		huapoMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		huapoMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	duanxianMap["classId"] = ClassId::Duanxian;
-	duanxianMap["maxArea"] = globalStruct.scoreConfig.duanXianArea;
-	duanxianMap["maxScore"] = globalStruct.scoreConfig.duanXianScore;
-	duanxianMap["enable"] = globalStruct.scoreConfig.duanXian;
+	duanxianMap["maxArea"] = scoreConfig.duanXianArea;
+	duanxianMap["maxScore"] = scoreConfig.duanXianScore;
+	duanxianMap["enable"] = scoreConfig.duanXian;
 	if (1 == imageProcessingModuleIndex)
 	{
-		duanxianMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		duanxianMap["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		duanxianMap["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		duanxianMap["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	extra5Map["classId"] = ClassId::Extra5;
-	extra5Map["maxArea"] = globalStruct.scoreConfig.extra5Area;
-	extra5Map["maxScore"] = globalStruct.scoreConfig.extra5Score;
-	extra5Map["enable"] = globalStruct.scoreConfig.extra5;
+	extra5Map["maxArea"] = scoreConfig.extra5Area;
+	extra5Map["maxScore"] = scoreConfig.extra5Score;
+	extra5Map["enable"] = scoreConfig.extra5;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra5Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		extra5Map["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra5Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		extra5Map["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	extra6Map["classId"] = ClassId::Extra6;
-	extra6Map["maxArea"] = globalStruct.scoreConfig.extra6Area;
-	extra6Map["maxScore"] = globalStruct.scoreConfig.extra6Score;
-	extra6Map["enable"] = globalStruct.scoreConfig.extra6;
+	extra6Map["maxArea"] = scoreConfig.extra6Area;
+	extra6Map["maxScore"] = scoreConfig.extra6Score;
+	extra6Map["enable"] = scoreConfig.extra6;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra6Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		extra6Map["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra6Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		extra6Map["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	extra7Map["classId"] = ClassId::Extra7;
-	extra7Map["maxArea"] = globalStruct.scoreConfig.extra7Area;
-	extra7Map["maxScore"] = globalStruct.scoreConfig.extra7Score;
-	extra7Map["enable"] = globalStruct.scoreConfig.extra7;
+	extra7Map["maxArea"] = scoreConfig.extra7Area;
+	extra7Map["maxScore"] = scoreConfig.extra7Score;
+	extra7Map["enable"] = scoreConfig.extra7;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra7Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		extra7Map["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra7Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		extra7Map["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	extra8Map["classId"] = ClassId::Extra8;
-	extra8Map["maxArea"] = globalStruct.scoreConfig.extra8Area;
-	extra8Map["maxScore"] = globalStruct.scoreConfig.extra8Score;
-	extra8Map["enable"] = globalStruct.scoreConfig.extra8;
+	extra8Map["maxArea"] = scoreConfig.extra8Area;
+	extra8Map["maxScore"] = scoreConfig.extra8Score;
+	extra8Map["enable"] = scoreConfig.extra8;
 	if (1 == imageProcessingModuleIndex)
 	{
-		extra8Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang1;
+		extra8Map["pixToWorld"] = setConfig.xiangSuDangLiang1;
 	}
 	else
 	{
-		extra8Map["pixToWorld"] = globalStruct.setConfig.xiangSuDangLiang2;
+		extra8Map["pixToWorld"] = setConfig.xiangSuDangLiang2;
 	}
 
 	rw::imgPro::EliminationInfoFunc::ClassIdWithConfigMap eliminationInfoGetConfigs;
@@ -604,7 +606,7 @@ void ImageProcessorZipper::updateParamMapsFromGlobalStruct()
 void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 {
 	auto& index = imageProcessingModuleIndex;
-	auto& setConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	rw::imgPro::ConfigDrawLine configDrawLine;
 	configDrawLine.color = rw::imgPro::Color::Orange;
 	configDrawLine.thickness = 3;
@@ -634,33 +636,33 @@ void ImageProcessorZipper::drawBoundariesLines(QImage& image)
 
 void ImageProcessorZipper::updateShieldWires()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 
 	if (1 == imageProcessingModuleIndex)
 	{
-		leftShieldWire = globalStructSetConfig.zuoXianWei1;
-		rightShieldWire = globalStructSetConfig.youXianWei1;
-		topShieldWire = globalStructSetConfig.shangXianWei1;
-		bottomShieldWire = globalStructSetConfig.xiaXianWei1;
-		pixToWorld = globalStructSetConfig.xiangSuDangLiang1;
-		tifeijuli = globalStructSetConfig.tifeijuli1;
+		leftShieldWire = setConfig.zuoXianWei1;
+		rightShieldWire = setConfig.youXianWei1;
+		topShieldWire = setConfig.shangXianWei1;
+		bottomShieldWire = setConfig.xiaXianWei1;
+		pixToWorld = setConfig.xiangSuDangLiang1;
+		tifeijuli = setConfig.tifeijuli1;
 	}
 	else if (2 == imageProcessingModuleIndex)
 	{
-		leftShieldWire = globalStructSetConfig.zuoXianWei2;
-		rightShieldWire = globalStructSetConfig.youXianWei2;
-		topShieldWire = globalStructSetConfig.shangXianWei2;
-		bottomShieldWire = globalStructSetConfig.xiaXianWei2;
-		pixToWorld = globalStructSetConfig.xiangSuDangLiang2;
-		tifeijuli = globalStructSetConfig.tifeijuli2;
+		leftShieldWire = setConfig.zuoXianWei2;
+		rightShieldWire = setConfig.youXianWei2;
+		topShieldWire = setConfig.shangXianWei2;
+		bottomShieldWire = setConfig.xiaXianWei2;
+		pixToWorld = setConfig.xiangSuDangLiang2;
+		tifeijuli = setConfig.tifeijuli2;
 	}
 }
 
 void ImageProcessorZipper::updateDrawRec()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	auto& context = _imgProcess->context();
-	if (globalStruct.generalConfig.isshibiekuang)
+	if (generalConfig.isshibiekuang)
 	{
 		context.defectDrawCfg.isDrawDefects = true;
 		context.defectDrawCfg.isDrawDisableDefects = true;
@@ -674,11 +676,11 @@ void ImageProcessorZipper::updateDrawRec()
 
 void ImageProcessorZipper::updateDrawText()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	auto& context = _imgProcess->context();
 	context.runTextCfg.isDisOperatorTime = false;
 	context.runTextCfg.processImgTimeTextColor = rw::rqw::RQWColor::Green;
-	if (globalStruct.generalConfig.iswenzi)
+	if (generalConfig.iswenzi)
 	{
 		context.runTextCfg.isDrawExtraText = true;
 	}

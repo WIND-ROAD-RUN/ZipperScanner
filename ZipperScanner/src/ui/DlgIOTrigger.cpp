@@ -4,6 +4,7 @@
 #include <QtConcurrent/qtconcurrentrun.h>
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 
 DlgIOTrigger::DlgIOTrigger(QWidget* parent)
 	: QDialog(parent)
@@ -81,7 +82,7 @@ void DlgIOTrigger::pbtn_close_clicked()
 void DlgIOTrigger::btn_shoudongladai_pressed()
 {
 	auto& globalStruct = GlobalData::getInstance();
-	auto setConfig = globalStruct.setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
 	// 启动电机
@@ -117,8 +118,9 @@ void DlgIOTrigger::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
 		auto& globalStruct = GlobalData::getInstance();
-		auto chongkongshijian = globalStruct.setConfig.chongkongshijian*1000;
-		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto chongkongshijian = setConfig.chongkongshijian*1000;
+		auto yanchichongkongshijian = setConfig.yanshichongkong;
 		QThread::msleep(yanchichongkongshijian);
 
 		// 停止电机

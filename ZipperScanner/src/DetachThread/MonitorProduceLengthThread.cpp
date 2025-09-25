@@ -1,6 +1,7 @@
 #include"MonitorProduceLengthThread.hpp"
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 
 MonitorProduceLengthThread::MonitorProduceLengthThread(QObject* parent)
     : QThread(parent), running(false)
@@ -31,7 +32,7 @@ void MonitorProduceLengthThread::run()
     static size_t s = 0;
     auto& globalStruct = GlobalData::getInstance();
     auto& globalThread = GlobalThread::getInstance();
-
+    auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
     double lastValidPulse = 0.0;
     bool firstRun = true;
 
@@ -73,7 +74,7 @@ void MonitorProduceLengthThread::run()
             globalStruct.statisticalInfo.produceLengthBeforeStart = globalThread.currentProducePulse.load() / 1000;//转换为米
         }
 
-        if (globalStruct.statisticalInfo.produceLength + globalStruct.statisticalInfo.produceLengthBeforeStart.load() >globalStruct.generalConfig.shedingladaichangdu)
+        if (globalStruct.statisticalInfo.produceLength + globalStruct.statisticalInfo.produceLengthBeforeStart.load() > generalConfig.shedingladaichangdu)
         {
             emit finishProduce();
         }

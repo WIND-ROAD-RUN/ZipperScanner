@@ -5,6 +5,7 @@
 #include <QButtonGroup>
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 #include "NumberKeyboard.h"
 
 DlgProductSet::DlgProductSet(QWidget* parent)
@@ -776,18 +777,20 @@ void DlgProductSet::pbtn_qiangbaoguang_clicked()
 		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
 		ui->pbtn_qiangbaoguang->setText(value);
 		globalStructSetConfig.qiangBaoGuang = value.toDouble();
 		if (globalStructGeneralConfig.qiangGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.qiangBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.qiangBaoGuang));
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.qiangBaoGuang));
+				camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.qiangBaoGuang));
 			}
 		}
 	}
@@ -809,17 +812,19 @@ void DlgProductSet::pbtn_qiangzengyi_clicked()
 		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_qiangzengyi->setText(value);
 		globalStructSetConfig.qiangZengYi = value.toDouble();
 		if (globalStructGeneralConfig.qiangGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setGain(static_cast<size_t>(globalStructSetConfig.qiangZengYi));
+				camera1->setGain(static_cast<size_t>(globalStructSetConfig.qiangZengYi));
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setGain(static_cast<size_t>(globalStructSetConfig.qiangZengYi));
+				camera2->setGain(static_cast<size_t>(globalStructSetConfig.qiangZengYi));
 			}
 		}
 	}
@@ -841,17 +846,19 @@ void DlgProductSet::pbtn_zhongbaoguang_clicked()
 		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_zhongbaoguang->setText(value);
 		globalStructSetConfig.zhongBaoGuang = value.toDouble();
 		if (globalStructGeneralConfig.zhongGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.zhongBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.zhongBaoGuang));
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.zhongBaoGuang));
+				camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.zhongBaoGuang));
 			}
 		}
 	}
@@ -873,18 +880,20 @@ void DlgProductSet::pbtn_ruobaoguang_clicked()
 		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_ruobaoguang->setText(value);
 		globalStructSetConfig.ruoBaoGuang = value.toDouble();
 		if (globalStructGeneralConfig.ruoGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.ruoBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.ruoBaoGuang));
 
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.ruoBaoGuang));
+				camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.ruoBaoGuang));
 			}
 		}
 	}
@@ -906,18 +915,20 @@ void DlgProductSet::pbtn_zhongzengyi_clicked()
 		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_zhongzengyi->setText(value);
 		globalStructSetConfig.zhongZengYi = value.toDouble();
 		if (globalStructGeneralConfig.zhongGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setGain(static_cast<size_t>(globalStructSetConfig.zhongZengYi));
+				camera1->setGain(static_cast<size_t>(globalStructSetConfig.zhongZengYi));
 
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setGain(static_cast<size_t>(globalStructSetConfig.zhongZengYi));
+				camera2->setGain(static_cast<size_t>(globalStructSetConfig.zhongZengYi));
 			}
 		}
 	}
@@ -939,18 +950,20 @@ void DlgProductSet::pbtn_ruozengyi_clicked()
 		auto& globalStruct = GlobalData::getInstance();
 		auto& globalStructSetConfig = globalStruct.setConfig;
 		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_ruozengyi->setText(value);
 		globalStructSetConfig.ruoZengYi = value.toDouble();
 		if (globalStructGeneralConfig.ruoGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setGain(static_cast<size_t>(globalStructSetConfig.ruoZengYi));
+				camera1->setGain(static_cast<size_t>(globalStructSetConfig.ruoZengYi));
 
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setGain(static_cast<size_t>(globalStructSetConfig.ruoZengYi));
+				camera2->setGain(static_cast<size_t>(globalStructSetConfig.ruoZengYi));
 			}
 		}
 	}

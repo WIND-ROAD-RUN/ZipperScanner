@@ -1,5 +1,9 @@
 #include"Utilty.hpp"
 
+QString Utility::cameraIp1 = "1";
+QString Utility::cameraIp2 = "2";
+QString Utility::zmotionIp = "192.168.0.11";
+
 size_t ControlLines::qidonganniuIn = 0;
 size_t ControlLines::jitingIn = 0;
 size_t ControlLines::lalianlawanIn = 0;

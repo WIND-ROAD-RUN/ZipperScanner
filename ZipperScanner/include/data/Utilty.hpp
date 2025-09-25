@@ -11,6 +11,13 @@ QPixmap cvMatToQPixmap(const cv::Mat& mat);
 
 using Time = std::chrono::system_clock::time_point;
 
+struct Utility
+{
+	static QString cameraIp1;
+	static QString cameraIp2;
+	static QString zmotionIp;
+};
+
 struct WarningId
 {
 	static constexpr int cairPressureAlarm = 0;

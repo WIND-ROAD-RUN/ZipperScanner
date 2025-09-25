@@ -9,7 +9,6 @@
 #include "oso_StorageContext.hpp"
 #include "rqw_CameraObjectCore.hpp"
 #include "rqw_CameraObjectThread.hpp"
-#include "ZipperScannerDlgExposureTimeSet.hpp"
 #include "ImageProcessorModule.h"
 #include "dsl_ThreadSafeMinHeap.h"
 #include "Utilty.hpp"
@@ -132,13 +131,6 @@ public:
 signals:
 	// 更新UI
 	void emit_updateUiLabels(int index, bool isConnected);
-public slots:
-	// 相机重连
-	void rebuild_Camera1();
-	void rebuild_Camera2();
-	void destroy_Camera1();
-	void destroy_Camera2();
-
 
 public:
 	std::atomic<RunningState> runningState{ RunningState::Stop };
@@ -193,7 +185,6 @@ public:
 	void saveGeneralConfig();
 	void saveDlgProductSetConfig();
 	void saveDlgProductScoreConfig();
-	void saveDlgExposureTimeSetConfig();
 
 public:
 	// UI界面参数
@@ -202,29 +193,8 @@ public:
 	cdm::SetConfig setConfig;
 
 public:
-	void buildCamera();
-	// 相机
-	QString cameraIp1{ "11" };
-	QString cameraIp2{ "12" };
-
-	std::unique_ptr<rw::rqw::CameraPassiveThread> camera1{ nullptr };
-	std::unique_ptr<rw::rqw::CameraPassiveThread> camera2{ nullptr };
-
-	cdm::ZipperScannerDlgExposureTimeSet dlgExposureTimeSetConfig{};
-
-	bool buildCamera1();
-	bool buildCamera2();
 	void start_Camera1Monitor();
 	void start_Camera2Monitor();
-
-	void destroyCamera();
-
-	void destroyCamera1();
-	void destroyCamera2();
-
-	bool isTargetCamera(const QString& cameraIndex, const QString& targetName);
-	rw::rqw::CameraMetaData cameraMetaDataCheck(const QString& cameraIndex, const QVector<rw::rqw::CameraMetaData>& cameraInfo);
-	void setCameraExposureTime(int cameraIndex, size_t exposureTime);
 
 public:
 	std::unique_ptr<rw::oso::StorageContext> storeContext{ nullptr };

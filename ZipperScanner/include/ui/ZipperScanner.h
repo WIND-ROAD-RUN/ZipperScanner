@@ -4,7 +4,6 @@
 #include "ui_ZipperScanner.h"
 #include "DlgProductSet.h"
 #include "DlgProductScore.h"
-#include "DlgExposureTimeSet.h"
 #include "DlgIOTrigger.h"
 #include <rqw_LabelWarning.h>
 #include <opencv2/core/mat.hpp>
@@ -45,7 +44,6 @@ public:
 	QVector<QCheckBox*> _dlgProductSetCheckList{};
 	DlgProductScore* _dlgProductScore = nullptr;
 	QVector<QWidget*> _dlgProductScoreGroupList{};
-	DlgExposureTimeSet* _dlgExposureTimeSet = nullptr;
 	DlgIOTrigger* _dlgIOTrigger = nullptr;
 	DlgShutdownWarn* _dlgShutdownWarn = nullptr;
 	DlgCloseForm* _dlgCloseForm = nullptr;
@@ -64,7 +62,6 @@ public:
 	void build_DlgProductScore();
 	void ini_dlgProductScoreGroupList();
 	void connectSetAndScore();
-	void build_DlgExposureTimeSet();
 	void build_DlgIOTrigger();
 	void ini_clickableTitle();
 

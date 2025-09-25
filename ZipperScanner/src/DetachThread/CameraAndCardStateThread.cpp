@@ -1,6 +1,7 @@
 #include "CameraAndCardStateThread.h"
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 #include "rqw_CameraObjectZMotion.hpp"
 
 size_t CameraAndCardStateThreadZipper::runtimeCounts=0;
@@ -57,13 +58,13 @@ void CameraAndCardStateThreadZipper::check_cameraState1()
 {
 	static bool isUpdateState = false;
 
-	auto& globalStruct = GlobalData::getInstance();
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
 
 	if (runtimeCounts != 0) {
 		return;
 	}
-	if (globalStruct.camera1) {
-		if (globalStruct.camera1->getConnectState()) {
+	if (camera1) {
+		if (camera1->getConnectState()) {
 			if (!isUpdateState) {
 				emit updateCameraLabelState(1, true);
 				isUpdateState = true;
@@ -72,7 +73,6 @@ void CameraAndCardStateThreadZipper::check_cameraState1()
 		else {
 			emit destroyCamera1();
 			emit updateCameraLabelState(1, false);
-			//emit addWarningInfo("相机1断连", true, 5000);
 		}
 	}
 	else {
@@ -88,13 +88,14 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 	static bool isUpdateSate = false;
 
 	auto& globalStruct = GlobalData::getInstance();
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
 	if (runtimeCounts != 1) {
 		return;
 	}
 
-	if (globalStruct.camera2) {
-		if (globalStruct.camera2->getConnectState()) {
+	if (camera2) {
+		if (camera2->getConnectState()) {
 			if (!isUpdateSate) {
 				emit updateCameraLabelState(2, true);
 				isUpdateSate = true;
@@ -103,7 +104,6 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 		else {
 			emit destroyCamera2();
 			emit updateCameraLabelState(2, false);
-			//emit addWarningInfo("相机2断连", true, 5000);
 		}
 	}
 	else {

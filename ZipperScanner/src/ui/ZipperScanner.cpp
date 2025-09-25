@@ -11,6 +11,7 @@
 #include "WarnUtilty.hpp"
 #include "rqw_CameraObjectThread.hpp"
 #include "DetachDefectThread.h"
+#include "Modules.hpp"
 
 #ifdef BUILD_WITHOUT_HARDWARE
 void ZipperScanner::cbox_testIfPushImg_clicked(bool states)
@@ -113,6 +114,8 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 ZipperScanner::~ZipperScanner()
 {
 	destroyComponents();
+	Modules::getInstance().stop();
+	Modules::getInstance().destroy();
 #ifdef NDEBUG
 	if (isShutdownByIO)
 	{
@@ -173,7 +176,6 @@ void ZipperScanner::build_ui()
 	build_DlgProductScore();
 	ini_dlgProductScoreGroupList();
 	connectSetAndScore();
-	build_DlgExposureTimeSet();
 	build_DlgIOTrigger();
 	_dlgShutdownWarn = new DlgShutdownWarn(this);
 
@@ -266,34 +268,7 @@ void ZipperScanner::build_connect()
 // 构建相机
 void ZipperScanner::build_camera()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.cameraIp1 = "1";
-	globalStruct.cameraIp2 = "2";
-
-	auto build1Result = globalStruct.buildCamera1();
-	updateCameraLabelState(1, build1Result);
-	if (!build1Result)
-	{
-		rw::rqw::WarningInfo info;
-		info.message = "相机1连接失败";
-		info.warningId = WarningId::ccameraDisconnectAlarm1;
-		info.type = rw::rqw::WarningType::Error;
-		//label_warningInfo->addWarning(info);
-	}
-	auto build2Result = false;
-	if (globalStruct.setConfig.qiyongerxiangji)
-	{
-		build2Result = globalStruct.buildCamera2();
-	}
-	updateCameraLabelState(2, build2Result);
-	if (!build2Result)
-	{
-		rw::rqw::WarningInfo info;
-		info.message = "相机2连接失败";
-		info.warningId = WarningId::ccameraDisconnectAlarm2;
-		info.type = rw::rqw::WarningType::Error;
-		//label_warningInfo->addWarning(info);
-	}
+	
 }
 
 void ZipperScanner::build_motion()
@@ -433,11 +408,6 @@ void ZipperScanner::connectSetAndScore()
 	}
 }
 
-void ZipperScanner::build_DlgExposureTimeSet()
-{
-	_dlgExposureTimeSet = new DlgExposureTimeSet(this);
-}
-
 void ZipperScanner::build_DlgIOTrigger()
 {
 	_dlgIOTrigger = new DlgIOTrigger(this);
@@ -562,8 +532,6 @@ void ZipperScanner::destroyComponents()
 	rbtn_removeFunc_checked(false);
 
 	destory_detachThread();
-	// 销毁相机
-	globalStructData.destroyCamera();
 	// 销毁运动控制器
 	globalStructData.destory_motion();
 	// 销毁图像处理模块
@@ -645,20 +613,21 @@ void ZipperScanner::read_config_SetConfig()
 void ZipperScanner::changeRemoveFucState(bool state)
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 	if (state)
 	{
 		auto& globalStruct = GlobalData::getInstance();
 		globalStruct.runningState = RunningState::OpenRemoveFunc;
-		_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
-		if (globalStruct.camera1)
+		if (camera1)
 		{
-			globalStruct.camera1->setTriggerState(true);
-			globalStruct.camera1->setFrameRate(50);
+			camera1->setTriggerState(true);
+			camera1->setFrameRate(50);
 		}
-		if (globalStruct.camera2)
+		if (camera2)
 		{
-			globalStruct.camera2->setTriggerState(true);
-			globalStruct.camera2->setFrameRate(50);
+			camera2->setTriggerState(true);
+			camera2->setFrameRate(50);
 		}
 		ui->rbtn_debug->setChecked(false);
 		ui->ckb_shibiekuang->setVisible(false);
@@ -697,9 +666,6 @@ void ZipperScanner::pbtn_set_clicked()
 		}
 		else if (numKeyBord.getValue() == "6666")
 		{
-			_dlgExposureTimeSet->setFixedSize(500, 300);
-			_dlgExposureTimeSet->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-			_dlgExposureTimeSet->exec();
 		}
 		else {
 			QMessageBox::warning(this, "Error", "密码错误，请重新输入");
@@ -718,31 +684,28 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 {
 	auto isRuning = ui->rbtn_start->isChecked();
 
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+
 	auto& GlobalStructData = GlobalData::getInstance();
 	if (!isRuning) {
 		if (checked) {
-			_dlgExposureTimeSet->SetCamera(); // 设置相机为实时采集
 			//GlobalStructData.generalConfig.isDebug = checked;
 			GlobalStructData.runningState = RunningState::Debug;
-			if (GlobalStructData.camera1)
+			if (camera1)
 			{
-				GlobalStructData.camera1->setTriggerState(false);
-				GlobalStructData.camera1->setFrameRate(5);
+				camera1->setTriggerState(false);
+				camera1->setFrameRate(5);
 			}
-			if (GlobalStructData.camera2)
+			if (camera2)
 			{
-				GlobalStructData.camera2->setTriggerState(false);
-				GlobalStructData.camera2->setFrameRate(5);
+				camera2->setTriggerState(false);
+				camera2->setFrameRate(5);
 			}
-			//GlobalThread.strobeLightThread->startThread();
 			ui->rbtn_takePicture->setChecked(false);
-			//rbtn_takePicture_checked(false);
 		}
 		else {
-			_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
-			//GlobalStructData.generalConfig.isDebug = checked;
 			GlobalStructData.runningState = RunningState::Stop;
-			//GlobalThread.strobeLightThread->stopThread();
 		}
 		ui->ckb_shibiekuang->setVisible(checked);
 		ui->ckb_wenzi->setVisible(checked);

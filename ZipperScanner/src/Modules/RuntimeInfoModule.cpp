@@ -10,16 +10,25 @@ bool RuntimeInfoModule::build()
 
 void RuntimeInfoModule::destroy()
 {
-	detachUtiltyThread.reset();
+	if (detachUtiltyThread)
+	{
+		detachUtiltyThread.reset();
+	}
 }
 
 void RuntimeInfoModule::start()
 {
-	detachUtiltyThread->startThread();
+	if (detachUtiltyThread)
+	{
+		detachUtiltyThread->startThread();
+	}
 }
 
 void RuntimeInfoModule::stop()
 {
-	detachUtiltyThread->stopThread();
-	detachUtiltyThread->wait();
+	if (detachUtiltyThread)
+	{
+		detachUtiltyThread->stopThread();
+		detachUtiltyThread->wait();
+	}
 }

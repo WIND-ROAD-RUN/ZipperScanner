@@ -29,6 +29,7 @@ void DetachDefectThreadZipper::stopThread()
 void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& queue)
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 
@@ -85,7 +86,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 			isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
 			QThread::msleep(yanshiziqi);
-			++globalStruct.statisticalInfo.punchCount;
+			++statisticalInfo.punchCount;
 			std::cout << "stoplocation:" << minlocation << std::endl;
 
 			std::cout << "queue->size() before delete:" << queue->size() << std::endl;

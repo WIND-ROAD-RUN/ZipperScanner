@@ -120,6 +120,7 @@ ZipperScanner::~ZipperScanner()
 void ZipperScanner::build_detachThread()
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto& detachUtiltyThread = Modules::getInstance().runtimeInfoModule.detachUtiltyThread;
 	// 构建运动控制器IO状态监控线程
 	globalStruct.build_MonitorZMotionIOStateThread();
 
@@ -137,9 +138,9 @@ void ZipperScanner::build_detachThread()
 
 	QObject::connect(globalThread.monitorProduceLengthThread.get(), &MonitorProduceLengthThread::finishProduce,
 		this, &ZipperScanner::onFinishProduce,Qt::BlockingQueuedConnection);
-	QObject::connect(globalThread.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
+	QObject::connect(detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
 		this, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
-	QObject::connect(GlobalThread::getInstance().detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
+	QObject::connect(detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
 		this, &ZipperScanner::shutdownComputerTrigger, Qt::QueuedConnection);
 }
 
@@ -312,13 +313,14 @@ void ZipperScanner::build_motion()
 void ZipperScanner::build_ZipperScannerData()
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
 	
 	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	// 初始化全局数据
 	ui->label_produceLength->setText(QString::number(zipperScannerConfig.produceLength));
 	ui->label_punchCount->setText(QString::number(zipperScannerConfig.punchCount));
-	globalStruct.statisticalInfo.produceLength = zipperScannerConfig.produceLength;
-	globalStruct.statisticalInfo.punchCount = zipperScannerConfig.punchCount;
+	statisticalInfo.produceLength = zipperScannerConfig.produceLength;
+	statisticalInfo.punchCount = zipperScannerConfig.punchCount;
 
 	ui->rbtn_strongLight->setChecked(zipperScannerConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(zipperScannerConfig.zhongGuang);
@@ -563,13 +565,12 @@ void ZipperScanner::read_config_GeneralConfig()
 
 void ZipperScanner::changeRemoveFucState(bool state)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& runningState = Modules::getInstance().runtimeInfoModule.runningState;
 	auto& camera1 = Modules::getInstance().cameraModule.camera1;
 	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 	if (state)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.runningState = RunningState::OpenRemoveFunc;
+		runningState = RunningState::OpenRemoveFunc;
 		if (camera1)
 		{
 			camera1->setTriggerState(true);
@@ -586,7 +587,7 @@ void ZipperScanner::changeRemoveFucState(bool state)
 	}
 	else
 	{
-		globalStruct.runningState = RunningState::Stop;
+		runningState = RunningState::Stop;
 	}
 }
 
@@ -638,11 +639,10 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 	auto& camera1 = Modules::getInstance().cameraModule.camera1;
 	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
-	auto& GlobalStructData = GlobalData::getInstance();
+	auto& runningState = Modules::getInstance().runtimeInfoModule.runningState;
 	if (!isRuning) {
 		if (checked) {
-			//GlobalStructData.generalConfig.isDebug = checked;
-			GlobalStructData.runningState = RunningState::Debug;
+			runningState = RunningState::Debug;
 			if (camera1)
 			{
 				camera1->setTriggerState(false);
@@ -656,7 +656,7 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 			ui->rbtn_takePicture->setChecked(false);
 		}
 		else {
-			GlobalStructData.runningState = RunningState::Stop;
+			runningState = RunningState::Stop;
 		}
 		ui->ckb_shibiekuang->setVisible(checked);
 		ui->ckb_wenzi->setVisible(checked);
@@ -722,9 +722,9 @@ void ZipperScanner::rbtn_takePicture_checked()
 		ui->rbtn_takePicture->setChecked(false);
 	}
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	auto& globalStruct = GlobalData::getInstance();
+	auto& isTakePictures = Modules::getInstance().runtimeInfoModule.isTakePictures;
 	generalConfig.isSaveImg = ui->rbtn_takePicture->isChecked();
-	globalStruct.isTakePictures = ui->rbtn_takePicture->isChecked();
+	isTakePictures = ui->rbtn_takePicture->isChecked();
 }
 
 void ZipperScanner::rbtn_removeFunc_checked(bool checked)
@@ -869,15 +869,16 @@ void ZipperScanner::btn_shedingladaichangdu_clicked()
 void ZipperScanner::pbtn_resetProduct_clicked()
 {
 	auto& globalStruct = GlobalData::getInstance();
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	generalConfig.produceLength = 0;
 	generalConfig.punchCount = 0;
 	ui->label_produceLength->setText(QString::number(generalConfig.produceLength, 'f', 2));
 	ui->label_punchCount->setText(QString::number(generalConfig.punchCount));
 
-	globalStruct.statisticalInfo.produceLength = 0;
-	globalStruct.statisticalInfo.produceLengthBeforeStart = 0;
-	globalStruct.statisticalInfo.punchCount = 0;
+	statisticalInfo.produceLength = 0;
+	statisticalInfo.produceLengthBeforeStart = 0;
+	statisticalInfo.punchCount = 0;
 	bool isGet{false};
 	auto isConnect = globalStruct.zmotion.getConnectState(isGet);
 	if (isConnect&& isGet)
@@ -889,9 +890,7 @@ void ZipperScanner::pbtn_resetProduct_clicked()
 		{
 			globalThread.startLocation = location;
 		}
-		
 	}
-	
 }
 
 void ZipperScanner::lb_title_clicked()
@@ -1248,11 +1247,11 @@ void ZipperScanner::onFinishProduce()
 
 void ZipperScanner::onUpdateStatisticalInfo()
 {
-	auto& globalData = GlobalData::getInstance();
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	generalConfig.produceLength = globalData.statisticalInfo.produceLength + globalData.statisticalInfo.produceLengthBeforeStart.load();
+	generalConfig.produceLength = statisticalInfo.produceLength + statisticalInfo.produceLengthBeforeStart.load();
 	ui->label_produceLength->setText(QString::number(generalConfig.produceLength, 'f', 2));
-	generalConfig.punchCount = globalData.statisticalInfo.punchCount;
+	generalConfig.punchCount = statisticalInfo.punchCount;
 	ui->label_punchCount->setText(QString::number(generalConfig.punchCount));
 }
 

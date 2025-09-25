@@ -13,13 +13,11 @@
 void GlobalThread::buildDetachThread()
 {
 	monitorProduceLengthThread = std::make_unique<MonitorProduceLengthThread>(this);
-	detachUtiltyThread = std::make_unique<DetachUtiltyThread>(this);
 }
 
 void GlobalThread::destroyDetachThread()
 {
 	monitorProduceLengthThread.reset();
-	detachUtiltyThread.reset();
 }
 
 void GlobalThread::startDetachThread()
@@ -27,10 +25,6 @@ void GlobalThread::startDetachThread()
 	if (monitorProduceLengthThread)
 	{
 		monitorProduceLengthThread->startThread();
-	}
-	if (detachUtiltyThread)
-	{
-		detachUtiltyThread->startThread();
 	}
 }
 

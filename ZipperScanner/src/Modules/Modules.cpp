@@ -36,7 +36,7 @@ bool Modules::build()
 	// 构建显示信息模块
 	dlg.updateMessage("构建处理模块中...");
 	QApplication::processEvents();
-	//auto runtimeInfoModuleBuild = runtimeInfoModule.build();
+	auto runtimeInfoModuleBuild = runtimeInfoModule.build();
 
 	// 构建图像处理模块
 	dlg.updateMessage("构建识别模块中...");
@@ -81,7 +81,7 @@ void Modules::destroy()
 #ifdef BUILD_WITHOUT_HARDWARE
 	test_module.destroy();
 #endif
-	//runtimeInfoModule.destroy();
+	runtimeInfoModule.destroy();
 	//imgProModule.destroy();
 	cameraModule.destroy();
 	configManagerModule.destroy();
@@ -98,7 +98,7 @@ void Modules::start()
 	//uiModule.start();
 	configManagerModule.start();
 	//motionControllerModule.start();
-	//runtimeInfoModule.start();
+	runtimeInfoModule.start();
 	//warningModule.start();
 	//imgSaveModule.start();
 	//eliminateModule.start();
@@ -123,7 +123,7 @@ void Modules::stop()
 	//eliminateModule.stop();
 	//imgSaveModule.stop();
 	//warningModule.stop();
-	//runtimeInfoModule.stop();
+	runtimeInfoModule.stop();
 	//motionControllerModule.stop();
 	configManagerModule.stop();
 	//uiModule.stop();

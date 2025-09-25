@@ -50,7 +50,7 @@ public:
 
 public:
 	CameraModule cameraModule;
-	//RuntimeInfoModule runtimeInfoModule;
+	RuntimeInfoModule runtimeInfoModule;
 	ConfigManagerModule configManagerModule;
 	//ImgProModule imgProModule;
 	//UIModule uiModule;

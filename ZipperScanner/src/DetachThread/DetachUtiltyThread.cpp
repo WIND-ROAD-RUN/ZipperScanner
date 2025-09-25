@@ -4,6 +4,8 @@
 #include "rqw_CameraObjectZMotion.hpp"
 #include <Utilty.hpp>
 
+#include "Modules.hpp"
+
 DetachUtiltyThread::DetachUtiltyThread(QObject* parent)
 	: QThread(parent), running(false) {
 
@@ -30,10 +32,6 @@ void DetachUtiltyThread::stopThread()
 
 void DetachUtiltyThread::run()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& statisticalInfo = globalStruct.statisticalInfo;
-
-
 	static size_t s = 0;
 	while (running) {
 		QThread::sleep(1);

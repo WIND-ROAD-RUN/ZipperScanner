@@ -13,18 +13,12 @@
 #include "MonitorProduceLengthThread.hpp"
 #include "rqw_ZMotion.hpp"
 #include "rqw_MonitorMotionIO.hpp"
+#include "RuntimeInfoModule.hpp"
 #include "TestImgPushThread.hpp"
 
 
 class DetachDefectThreadZipper;
 
-enum class RunningState
-{
-	Debug,
-	Monitor,
-	OpenRemoveFunc,
-	Stop
-};
 
 enum class LightLevel {
 	StrongLight,
@@ -54,7 +48,6 @@ public:
 	void startDetachThread();
 public:
 	std::unique_ptr<MonitorProduceLengthThread> monitorProduceLengthThread{ nullptr };
-	std::unique_ptr<DetachUtiltyThread> detachUtiltyThread{ nullptr };
 
 #ifdef BUILD_WITHOUT_HARDWARE
 public:
@@ -127,23 +120,10 @@ signals:
 	void emit_updateUiLabels(int index, bool isConnected);
 
 public:
-	std::atomic<RunningState> runningState{ RunningState::Stop };
 	std::atomic<bool> debug_isDisplayRec{ true };
 	std::atomic<bool> debug_isDisplayText{ true };
 
 	std::atomic_bool _isUpdateMonitorInfo{ false };
-
-public:
-	// 统计信息
-	struct StatisticalInfo
-	{
-		std::atomic_int punchCount{0};
-		std::atomic<double> produceLengthBeforeStart{0};
-		std::atomic<double> produceLength{ 0 };
-	} statisticalInfo;
-
-public:
-	std::atomic_bool isTakePictures{ false };
 
 public:
 	static GlobalData& getInstance()

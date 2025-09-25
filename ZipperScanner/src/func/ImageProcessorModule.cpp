@@ -38,7 +38,7 @@ void ImageProcessorZipper::run()
 			continue; // 跳过空帧
 		}
 
-		auto& globalData = GlobalData::getInstance();
+		auto& runningState = Modules::getInstance().runtimeInfoModule.runningState;
 
 		// 获取当前时间点
 		auto now = std::chrono::system_clock::now();
@@ -47,7 +47,7 @@ void ImageProcessorZipper::run()
 		// 转换为本地时间
 		std::tm* local_time = std::localtime(&now_time);
 
-		auto currentRunningState = globalData.runningState.load();
+		auto currentRunningState = runningState.load();
 		switch (currentRunningState)
 		{
 		case RunningState::Debug:
@@ -141,10 +141,10 @@ void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 
 void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImage& image)
 {
-	auto& globalStruct = GlobalData::getInstance();
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& isTakePictures = Modules::getInstance().runtimeInfoModule.isTakePictures;
 
-	if (!globalStruct.isTakePictures)
+	if (!isTakePictures)
 	{
 		return;
 	}

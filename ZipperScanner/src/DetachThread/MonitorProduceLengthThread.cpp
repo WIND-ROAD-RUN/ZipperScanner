@@ -32,6 +32,7 @@ void MonitorProduceLengthThread::run()
     static size_t s = 0;
     auto& globalStruct = GlobalData::getInstance();
     auto& globalThread = GlobalThread::getInstance();
+    auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
     auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
     double lastValidPulse = 0.0;
     bool firstRun = true;
@@ -64,17 +65,17 @@ void MonitorProduceLengthThread::run()
             globalThread.stopLocation = location;
             globalThread.goToGetStopLocation = false;
 			globalThread.isMonitorProduceLocation = false;
-            globalStruct.statisticalInfo.produceLength = globalStruct.statisticalInfo.produceLength+globalStruct.statisticalInfo.produceLengthBeforeStart.load();
-            globalStruct.statisticalInfo.produceLengthBeforeStart = 0;
+            statisticalInfo.produceLength = statisticalInfo.produceLength + statisticalInfo.produceLengthBeforeStart.load();
+            statisticalInfo.produceLengthBeforeStart = 0;
         }
 
         if (globalThread.isMonitorProduceLocation)
         {
 			globalThread.currentProducePulse = location - globalThread.startLocation;
-            globalStruct.statisticalInfo.produceLengthBeforeStart = globalThread.currentProducePulse.load() / 1000;//转换为米
+            statisticalInfo.produceLengthBeforeStart = globalThread.currentProducePulse.load() / 1000;//转换为米
         }
 
-        if (globalStruct.statisticalInfo.produceLength + globalStruct.statisticalInfo.produceLengthBeforeStart.load() > generalConfig.shedingladaichangdu)
+        if (statisticalInfo.produceLength + statisticalInfo.produceLengthBeforeStart.load() > generalConfig.shedingladaichangdu)
         {
             emit finishProduce();
         }

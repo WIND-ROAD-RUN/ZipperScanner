@@ -35,26 +35,13 @@ public:
 	std::unique_ptr<TestImgPushThread> testImgPushThread{ nullptr };
 	std::atomic_bool testImgPush{ false };
 #endif
-public:
-	std::atomic_bool goToGetStartLocation{false};
-	std::atomic_bool goToGetStopLocation{ false };
-	std::atomic_bool isMonitorProduceLocation{false};
-	std::atomic<double> startLocation{ 0.0 };
-	std::atomic<double> stopLocation{ 0.0 };
-	std::atomic<double> currentProducePulse { 0.0 };
+
 };
 
 class GlobalData
 	:public QObject
 {
 	Q_OBJECT
-public:
-	std::atomic_int imgRotateCount1{0};
-	std::atomic_int imgRotateCount2{ 0 };
-
-public:
-	float startLocation = 0;
-
 public:
 	static GlobalData& getInstance()
 	{
@@ -67,5 +54,11 @@ public:
 private:
 	GlobalData();
 	~GlobalData() = default;
-
+public:
+	std::atomic_bool goToGetStartLocation{ false };
+	std::atomic_bool goToGetStopLocation{ false };
+	std::atomic_bool isMonitorProduceLocation{ false };
+	std::atomic<double> startLocation{ 0.0 };
+	std::atomic<double> stopLocation{ 0.0 };
+	std::atomic<double> currentProducePulse{ 0.0 };
 };

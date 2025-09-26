@@ -232,14 +232,15 @@ void ImageProcessorZipper::updateDrawText()
 
 void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t index)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& imgRotateCount1 = Modules::getInstance().configManagerModule.setConfig.imgRotateCount1;
+	auto& imgRotateCount2 = Modules::getInstance().configManagerModule.setConfig.imgRotateCount2;
 	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;
 
 	if (index == 1)
 	{
-		switch (globalStruct.imgRotateCount1) {
+		switch (imgRotateCount1) {
 		case 1:
 			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_90_CLOCKWISE);
 			break;
@@ -255,7 +256,7 @@ void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t ind
 	}
 	else
 	{
-		switch (globalStruct.imgRotateCount2) {
+		switch (imgRotateCount2) {
 		case 1:
 			cv::rotate(matInfo.mat, matInfo.mat, cv::ROTATE_90_CLOCKWISE);
 			break;

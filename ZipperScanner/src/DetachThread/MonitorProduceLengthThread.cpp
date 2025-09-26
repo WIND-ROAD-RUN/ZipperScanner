@@ -31,11 +31,9 @@ void MonitorProduceLengthThread::run()
 {
 	static size_t s = 0;
 	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
-	auto& globalThread = GlobalThread::getInstance();
+	auto& globalData = GlobalData::getInstance();
 	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	double lastValidPulse = 0.0;
-	bool firstRun = true;
 
 
 	while (running) {
@@ -53,26 +51,26 @@ void MonitorProduceLengthThread::run()
 			continue;
 		}
 
-		if (globalThread.goToGetStartLocation)
+		if (globalData.goToGetStartLocation)
 		{
-			globalThread.startLocation = location;
-			globalThread.goToGetStartLocation = false;
-			globalThread.isMonitorProduceLocation = true;
+			globalData.startLocation = location;
+			globalData.goToGetStartLocation = false;
+			globalData.isMonitorProduceLocation = true;
 		}
 
-		if (globalThread.goToGetStopLocation)
+		if (globalData.goToGetStopLocation)
 		{
-			globalThread.stopLocation = location;
-			globalThread.goToGetStopLocation = false;
-			globalThread.isMonitorProduceLocation = false;
+			globalData.stopLocation = location;
+			globalData.goToGetStopLocation = false;
+			globalData.isMonitorProduceLocation = false;
 			statisticalInfo.produceLength = statisticalInfo.produceLength + statisticalInfo.produceLengthBeforeStart.load();
 			statisticalInfo.produceLengthBeforeStart = 0;
 		}
 
-		if (globalThread.isMonitorProduceLocation)
+		if (globalData.isMonitorProduceLocation)
 		{
-			globalThread.currentProducePulse = location - globalThread.startLocation;
-			statisticalInfo.produceLengthBeforeStart = globalThread.currentProducePulse.load() / 1000;//转换为米
+			globalData.currentProducePulse = location - globalData.startLocation;
+			statisticalInfo.produceLengthBeforeStart = globalData.currentProducePulse.load() / 1000;//转换为米
 		}
 
 		if (statisticalInfo.produceLength + statisticalInfo.produceLengthBeforeStart.load() > generalConfig.shedingladaichangdu)

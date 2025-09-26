@@ -154,9 +154,6 @@ void DlgProductSet::read_config()
 	//图像旋转次数
 	ui->btn_rotateImgCount1->setText(QString::number(setConfig.imgRotateCount1));
 	ui->btn_rotateImgCount2->setText(QString::number(setConfig.imgRotateCount2));
-
-	GlobalData::getInstance().imgRotateCount1 = setConfig.imgRotateCount1;
-	GlobalData::getInstance().imgRotateCount2 = setConfig.imgRotateCount2;
 }
 
 void DlgProductSet::build_connect()
@@ -1844,11 +1841,9 @@ void DlgProductSet::btn_rotateImgCount1_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到3的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->btn_rotateImgCount1->setText(value);
 		setConfig.imgRotateCount1 = value.toInt();
-		globalStruct.imgRotateCount1 = value.toInt();
 	}
 }
 
@@ -1865,10 +1860,8 @@ void DlgProductSet::btn_rotateImgCount2_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到3的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->btn_rotateImgCount2->setText(value);
 		setConfig.imgRotateCount2 = value.toInt();
-		globalStruct.imgRotateCount2 = value.toInt();
 	}
 }

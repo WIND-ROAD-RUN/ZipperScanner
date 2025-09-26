@@ -555,7 +555,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 {
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
-	auto & globalThread= GlobalThread::getInstance();
+	auto & globalData = GlobalData::getInstance();
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	if (checked)
 	{
@@ -576,12 +576,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		auto isAxisRun = zmotion->setAxisRun(0, -1);
 
 		//记录当前位置
-		float nowLocation = 0;
-		bool isget = false;
-		nowLocation = zmotion->getAxisLocation(0, isget);
-
-		GlobalData::getInstance().startLocation = nowLocation;
-
+		
 
 		if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 		{
@@ -589,7 +584,7 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		}
 		changeRemoveFucState(true);
 
-		globalThread.goToGetStartLocation = true;
+		globalData .goToGetStartLocation = true;
 	}
 	else
 	{
@@ -611,7 +606,7 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 {
 	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	auto& globalThread = GlobalThread::getInstance();
+	auto& globalData = GlobalData::getInstance();
 	if (checked)
 	{
 		changeRemoveFucState(false);
@@ -625,7 +620,7 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 		// 停止冲孔
 		isStop = zmotion->setIOOut(ControlLines::chongkongOUT, false);
 
-		globalThread.goToGetStopLocation = true;
+		globalData.goToGetStopLocation = true;
 	}
 	else
 	{
@@ -686,12 +681,12 @@ void ZipperScanner::pbtn_resetProduct_clicked()
 	auto isConnect = zmotion->getConnectState(isGet);
 	if (isConnect&& isGet)
 	{
-		auto& globalThread = GlobalThread::getInstance();
+		auto& globalData = GlobalData::getInstance();
 		bool isGetLocation{false};
 		auto location= zmotion->getAxisLocation(0, isGetLocation);
 		if (isGetLocation)
 		{
-			globalThread.startLocation = location;
+			globalData.startLocation = location;
 		}
 	}
 }
@@ -789,11 +784,6 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 			ui->rbtn_start->setChecked(true);
 			rbtn_start_clicked(state);
 			// 启动的时候记录当前位置
-			float nowLocation = 0;
-			bool isget = false;
-			auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
-			nowLocation = zmotion->getAxisLocation(0, isget);
-			GlobalData::getInstance().startLocation = nowLocation;
 		}
 		else
 		{

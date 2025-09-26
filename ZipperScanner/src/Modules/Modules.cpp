@@ -50,7 +50,7 @@ bool Modules::build()
 	reconnectModule.build();
 
 	// 构建消除模块
-	//auto eliminateModuleBuild = eliminateModule.build();
+	auto eliminateModuleBuild = eliminateModule.build();
 
 	// 构建图像保存模块
 	//imgSaveModule.build();
@@ -87,7 +87,7 @@ void Modules::destroy()
 	configManagerModule.destroy();
 	uiModule.destroy();
 	reconnectModule.destroy();
-	//eliminateModule.destroy();
+	eliminateModule.destroy();
 	//imgSaveModule.destroy();
 	//motionControllerModule.destroy();
 	//warningModule.destroy();
@@ -101,7 +101,7 @@ void Modules::start()
 	runtimeInfoModule.start();
 	//warningModule.start();
 	//imgSaveModule.start();
-	//eliminateModule.start();
+	eliminateModule.start();
 	imgProModule.start();
 	cameraModule.start();
 	reconnectModule.start();
@@ -120,7 +120,7 @@ void Modules::stop()
 	reconnectModule.stop();
 	cameraModule.stop();
 	imgProModule.stop();
-	//eliminateModule.stop();
+	eliminateModule.stop();
 	//imgSaveModule.stop();
 	//warningModule.stop();
 	runtimeInfoModule.stop();

@@ -2,41 +2,36 @@
 
 bool EliminateModule::build()
 {
-	/*detachDefectThread = std::make_unique<DetachDefectThreadHandleScanner>(this);
-	productPriorityQueue1 = std::make_unique<rw::dsl::ThreadSafeHeap<DefectInfoForPriorityQueue, rw::dsl::HeapType::MinHeap>>(50);
-	productPriorityQueue2 = std::make_unique<rw::dsl::ThreadSafeHeap<DefectInfoForPriorityQueue, rw::dsl::HeapType::MinHeap>>(50);*/
+	priorityQueue = std::make_unique<ThreadSafeMinHeap>();
+	detachDefectThread = std::make_unique<DetachDefectThreadZipper>(this);
 	return true;
 }
 
 void EliminateModule::destroy()
 {
-	/*if (detachDefectThread)
+	if (detachDefectThread)
 	{
 		detachDefectThread.reset();
 	}
-	if (productPriorityQueue1)
+	if (priorityQueue)
 	{
-		productPriorityQueue1.reset();
+		priorityQueue.reset();
 	}
-	if (productPriorityQueue2)
-	{
-		productPriorityQueue2.reset();
-	}*/
 }
 
 void EliminateModule::start()
 {
-	/*if (detachDefectThread)
+	if (detachDefectThread)
 	{
 		detachDefectThread->startThread();
-	}*/
+	}
 }
 
 void EliminateModule::stop()
 {
-	/*if (detachDefectThread)
+	if (detachDefectThread)
 	{
 		detachDefectThread->stopThread();
 		detachDefectThread->wait();
-	}*/
+	}
 }

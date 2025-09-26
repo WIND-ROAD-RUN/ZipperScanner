@@ -14,10 +14,9 @@ public:
 	void start() override;
 	void stop() override;
 public:
-	//std::unique_ptr<rw::dsl::ThreadSafeHeap<DefectInfoForPriorityQueue>> productPriorityQueue1;
-	//std::unique_ptr<rw::dsl::ThreadSafeHeap<DefectInfoForPriorityQueue>> productPriorityQueue2;
+	std::unique_ptr<ThreadSafeMinHeap> priorityQueue;
 public:
-	//std::unique_ptr<DetachDefectThreadHandleScanner> detachDefectThread{ nullptr };
+	std::unique_ptr<DetachDefectThreadZipper> detachDefectThread{ nullptr };
 
 public:
 	float lastLocation1{ 0.0f };

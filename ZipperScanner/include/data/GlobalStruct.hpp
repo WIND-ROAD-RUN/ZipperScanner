@@ -97,18 +97,7 @@ signals:
 	void emit_InPutSignal(size_t index, bool state);
 	void emit_OutPutSignal(size_t index, bool state);
 public:
-	std::unique_ptr<ThreadSafeMinHeap> priorityQueue;
-
 	float startLocation = 0;
-public:
-	void build_PriorityQueue();
-	void destroy_PriorityQueue();
-public:
-	DetachDefectThreadZipper* detachDefectThreadZipper;
-public:
-	void build_DetachDefectThreadZipper();
-	void destroy_DetachDefectThreadZipper();
-
 public:
 	std::atomic_bool _isUpdateMonitorInfo{ false };
 

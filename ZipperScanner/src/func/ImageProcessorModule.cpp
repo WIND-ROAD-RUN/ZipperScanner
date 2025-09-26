@@ -127,11 +127,11 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 
 void ImageProcessorZipper::run_OpenRemoveFunc_emitErrorInfo(bool isbad) const
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& priorityQueue = Modules::getInstance().eliminateModule.priorityQueue;
 
 	if (isbad)
 	{
-		globalStruct.priorityQueue->push(leftLocationX);
+		priorityQueue->push(leftLocationX);
 	}
 }
 

@@ -90,36 +90,6 @@ void GlobalData::getOutPutSignal(size_t index, bool state)
 	emit emit_OutPutSignal(index, state);
 }
 
-void GlobalData::build_PriorityQueue()
-{
-	auto compareNodeEqual = [](const float& a, const float& b) {
-		return a == b;
-		};
-	auto compareNodePriority = [](const float& a, const float& b) {
-		return a < b;
-		};
-
-	priorityQueue = std::make_unique<ThreadSafeMinHeap >();
-}
-
-void GlobalData::destroy_PriorityQueue()
-{
-	priorityQueue.reset();
-}
-
-void GlobalData::build_DetachDefectThreadZipper()
-{
-	detachDefectThreadZipper = new DetachDefectThreadZipper(this);
-}
-
-void GlobalData::destroy_DetachDefectThreadZipper()
-{
-	if (detachDefectThreadZipper)
-	{
-		delete detachDefectThreadZipper;
-	}
-}
-
 GlobalData::GlobalData()
 {
 

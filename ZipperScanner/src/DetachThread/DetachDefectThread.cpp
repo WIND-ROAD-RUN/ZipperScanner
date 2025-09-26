@@ -142,8 +142,7 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 
 void DetachDefectThreadZipper::run()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& priorityQueue = globalStruct.priorityQueue;
+	auto& priorityQueue = Modules::getInstance().eliminateModule.priorityQueue;
 
 	while (running) {
 		QThread::msleep(1);

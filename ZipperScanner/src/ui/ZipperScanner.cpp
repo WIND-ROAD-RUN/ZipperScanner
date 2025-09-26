@@ -53,9 +53,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	// 构建UI
 	build_ui();
 
-	// 构建优先队列
-	globalStruct.build_PriorityQueue();
-
 	build_detachThread();
 
 	// 构建图像保存引擎
@@ -129,9 +126,6 @@ void ZipperScanner::build_detachThread()
 	// 构建主窗体启停IO监控线程
 	globalStruct.build_monitorStartOrStopThread();
 
-	// 构建异步剔废线程
-	globalStruct.build_DetachDefectThreadZipper();
-
 	auto& globalThread = GlobalThread::getInstance();
 	globalThread.buildDetachThread();
 
@@ -150,8 +144,6 @@ void ZipperScanner::destory_detachThread()
 	globalStruct.destroy_monitorStartOrStopThread();
 	// 销毁运动控制器IO状态监控线程
 	globalStruct.destroy_MonitorZMotionIOStateThread();
-
-	globalStruct.destroy_DetachDefectThreadZipper();
 
 	auto& globalThread = GlobalThread::getInstance();
 	globalThread.destroyDetachThread();
@@ -408,10 +400,6 @@ void ZipperScanner::build_imageSaveEngine()
 
 void ZipperScanner::start_Threads()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	// 启动异步剔废线程
-	globalStruct.detachDefectThreadZipper->startThread();
-
 	auto& globalThread = GlobalThread::getInstance();
 	globalThread.startDetachThread();
 }
@@ -435,8 +423,6 @@ void ZipperScanner::destroyComponents()
 	destroy_ImageEnlargedDisplay();
 	// 销毁图像保存模块
 	globalStructData.destroyImageSaveEngine();
-	// 销毁剔废优先队列
-	globalStructData.destroy_PriorityQueue();
 }
 
 void ZipperScanner::read_config()

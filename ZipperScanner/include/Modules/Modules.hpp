@@ -55,7 +55,7 @@ public:
 	ImgProModule imgProModule;
 	UIModule uiModule;
 	ReconnectModule reconnectModule;
-	//EliminateModule eliminateModule;
+	EliminateModule eliminateModule;
 	//ImgSaveModule imgSaveModule;
 	//MotionControllerModule motionControllerModule;
 	//WarningModule warningModule;

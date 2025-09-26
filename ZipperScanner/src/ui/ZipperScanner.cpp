@@ -53,22 +53,14 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	// 构建UI
 	build_ui();
 
-	build_detachThread();
-
 	// 构建图片放大查看器
 	build_ImageEnlargedDisplay();
-
-	// 构建图像处理模块
-	build_imageProcessorModule();
 
 	// 连接相机
 	getCameraStateAndUpdateUi();
 
 	// 连接槽函数
 	build_connect();
-
-	// 启用所有后台线程
-	start_Threads();
 
 #ifdef BUILD_WITHOUT_HARDWARE
 	auto& globalThread = GlobalThread::getInstance();
@@ -111,18 +103,6 @@ ZipperScanner::~ZipperScanner()
 #endif
 
 	delete ui;
-}
-
-void ZipperScanner::build_detachThread()
-{
-	auto& globalStruct = GlobalData::getInstance();
-}
-
-void ZipperScanner::destory_detachThread()
-{
-	auto& globalStruct = GlobalData::getInstance();
-
-	auto& globalThread = GlobalThread::getInstance();
 }
 
 // 构建UI
@@ -270,28 +250,6 @@ void ZipperScanner::ini_clickableTitle()
 	clickableTitle->setStyleSheet("QLabel {font-size: 30px;font-weight: bold;color: rgb(255, 255, 255);padding: 5px 5px;border-bottom: 2px solid #cccccc;}");
 }
 
-void ZipperScanner::build_imageProcessorModule()
-{
-	auto& globalStruct = GlobalData::getInstance();
-
-	QDir dir;
-
-	QString enginePathFull = globalPath.modelPath;
-
-	QFileInfo engineFile(enginePathFull);
-
-	if (!engineFile.exists()) {
-		QMessageBox::critical(this, "Error", "Engine file or Name file does not exist. The application will now exit.");
-		QApplication::quit();
-		return;
-	}
-}
-
-void ZipperScanner::start_Threads()
-{
-	auto& globalThread = GlobalThread::getInstance();
-}
-
 void ZipperScanner::destroyComponents()
 {
 #ifdef BUILD_WITHOUT_HARDWARE
@@ -299,12 +257,10 @@ void ZipperScanner::destroyComponents()
 	globalThread.testImgPushThread->stopThread();
 	globalThread.testImgPushThread.reset();
 #endif
-	auto& globalStructData = GlobalData::getInstance();
 	// 关闭剔废功能并停止冲孔与轴运动
 	rbtn_stop_clicked(true); // 默认停止
 	rbtn_removeFunc_checked(false);
 
-	destory_detachThread();
 	// 销毁图片放大查看器
 	destroy_ImageEnlargedDisplay();
 }

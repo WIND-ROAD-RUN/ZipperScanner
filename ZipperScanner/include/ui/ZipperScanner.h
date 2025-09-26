@@ -32,8 +32,6 @@ public:
 	QMutex produceInfoMutex;
 	bool isSendProduceInfo{false};
 public:
-	void build_detachThread();
-	void destory_detachThread();
 
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
@@ -46,10 +44,6 @@ public:
 
 	void build_ZipperScannerData();
 	void ini_clickableTitle();
-
-	void build_imageProcessorModule();
-
-	void start_Threads();
 
 public:
 	void destroyComponents();

@@ -4,6 +4,7 @@
 #include <QPainter>
 
 #include "GlobalStruct.hpp"
+#include "ime_ModelEngineFactory.h"
 #include"imgPro_ImagePainter.hpp"
 #include "Modules.hpp"
 #include "Utilty.hpp"
@@ -102,7 +103,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	auto tempLeftLocationX = 0;
 	if (context.customFields.find("leftLocationX") != context.customFields.end())
 	{
-		tempLeftLocationX = std::any_cast<int>(context.customFields.find("leftLocationX"));
+		tempLeftLocationX = std::any_cast<int>(context.customFields.at("leftLocationX"));
 	}
 
 	if (tempLeftLocationX != 0)

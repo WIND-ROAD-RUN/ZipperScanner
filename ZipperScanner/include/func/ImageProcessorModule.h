@@ -1,14 +1,8 @@
 #pragma once
 
-#include"ime_ModelEngineFactory.h"
-
 #include <QObject>
-#include <QQueue>
-#include <QMutex>
-#include <QWaitCondition>
 #include <opencv2/opencv.hpp>
 #include <vector>
-#include <QThread>
 #include <QPixmap>
 #include <imgPro_ImageProcess.hpp>
 

@@ -47,7 +47,7 @@ bool Modules::build()
 	uiModule.build();
 
 	// 构建重连模块
-	//reconnectModule.build();
+	reconnectModule.build();
 
 	// 构建消除模块
 	//auto eliminateModuleBuild = eliminateModule.build();
@@ -86,7 +86,7 @@ void Modules::destroy()
 	cameraModule.destroy();
 	configManagerModule.destroy();
 	uiModule.destroy();
-	//reconnectModule.destroy();
+	reconnectModule.destroy();
 	//eliminateModule.destroy();
 	//imgSaveModule.destroy();
 	//motionControllerModule.destroy();
@@ -104,7 +104,7 @@ void Modules::start()
 	//eliminateModule.start();
 	imgProModule.start();
 	cameraModule.start();
-	//reconnectModule.start();
+	reconnectModule.start();
 
 
 #ifdef BUILD_WITHOUT_HARDWARE
@@ -117,7 +117,7 @@ void Modules::stop()
 #ifdef BUILD_WITHOUT_HARDWARE
 	test_module.stop();
 #endif
-	//reconnectModule.stop();
+	reconnectModule.stop();
 	cameraModule.stop();
 	imgProModule.stop();
 	//eliminateModule.stop();
@@ -151,17 +151,17 @@ void Modules::connect()
 #pragma endregion
 
 #pragma region connect UIModule and ReconnectModule
-	//// 更新UI界面
-	//QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadHandleScanner::updateCameraLabelState,
-	//	uiModule._handleScanner, &HandleScanner::updateCameraLabelState, Qt::QueuedConnection);
-	//// 相机重连
-	//QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadHandleScanner::buildCamera,
-	//	&cameraModule, &CameraModule::onBuildCamera, Qt::QueuedConnection);
-	//QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadHandleScanner::startMonitor,
-	//	&cameraModule, &CameraModule::onStartCamera, Qt::QueuedConnection);
-	//// 相机销毁
-	//QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadHandleScanner::destroyCamera,
-	//	&cameraModule, &CameraModule::onDestroyCamera, Qt::QueuedConnection);
+	// 更新UI界面
+	QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadZipper::updateCameraLabelState,
+		uiModule._zipperScanner, &ZipperScanner::updateCameraLabelState, Qt::QueuedConnection);
+	// 相机重连
+	QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadZipper::buildCamera,
+		&cameraModule, &CameraModule::onBuildCamera, Qt::QueuedConnection);
+	QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadZipper::startMonitor,
+		&cameraModule, &CameraModule::onStartCamera, Qt::QueuedConnection);
+	// 相机销毁
+	QObject::connect(reconnectModule.monitorCameraAndCardStateThread.get(), &CameraAndCardStateThreadZipper::destroyCamera,
+		&cameraModule, &CameraModule::onDestroyCamera, Qt::QueuedConnection);
 
 #pragma endregion
 

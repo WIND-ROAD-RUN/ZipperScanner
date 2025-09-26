@@ -71,13 +71,13 @@ void CameraAndCardStateThreadZipper::check_cameraState1()
 			}
 		}
 		else {
-			emit destroyCamera1();
+			emit destroyCamera(1);
 			emit updateCameraLabelState(1, false);
 		}
 	}
 	else {
-		emit buildCamera1();
-		//emit startMonitor1();
+		emit buildCamera(1);
+		emit startMonitor(1);
 		emit updateCameraLabelState(1, false);
 		isUpdateState = false;
 	}
@@ -87,7 +87,6 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 {
 	static bool isUpdateSate = false;
 
-	auto& globalStruct = GlobalData::getInstance();
 	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
 	if (runtimeCounts != 1) {
@@ -102,13 +101,13 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 			}
 		}
 		else {
-			emit destroyCamera2();
+			emit destroyCamera(2);
 			emit updateCameraLabelState(2, false);
 		}
 	}
 	else {
-		emit buildCamera2();
-		//emit startMonitor2();
+		emit buildCamera(2);
+		emit startMonitor(2);
 		emit updateCameraLabelState(2, false);
 		isUpdateSate = false;
 	}

@@ -108,13 +108,6 @@ public:
 public:
 	void build_DetachDefectThreadZipper();
 	void destroy_DetachDefectThreadZipper();
-public:
-	CameraAndCardStateThreadZipper* cameraAndCardStateThreadZipper;
-public:
-	void build_CameraAndCardStateThreadZipper();
-signals:
-	// 更新UI
-	void emit_updateUiLabels(int index, bool isConnected);
 
 public:
 	std::atomic_bool _isUpdateMonitorInfo{ false };

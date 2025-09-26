@@ -54,7 +54,7 @@ public:
 	ConfigManagerModule configManagerModule;
 	ImgProModule imgProModule;
 	UIModule uiModule;
-	//ReconnectModule reconnectModule;
+	ReconnectModule reconnectModule;
 	//EliminateModule eliminateModule;
 	//ImgSaveModule imgSaveModule;
 	//MotionControllerModule motionControllerModule;

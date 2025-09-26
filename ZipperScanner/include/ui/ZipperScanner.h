@@ -92,9 +92,6 @@ public slots:
 
 	void onCameraDisplay(QPixmap image, size_t index, bool isbad);
 
-	// 更新UI
-	void updateUiLabels(int index, bool isConnected);
-
 	// 监控启停IO
 	void getStartOrStopSignal(size_t index, bool state);
 

@@ -120,24 +120,6 @@ void GlobalData::destroy_DetachDefectThreadZipper()
 	}
 }
 
-void GlobalData::build_CameraAndCardStateThreadZipper()
-{
-	cameraAndCardStateThreadZipper = new CameraAndCardStateThreadZipper(this);
-	// 更新UI界面
-	QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::updateCameraLabelState,
-		this, &GlobalData::emit_updateUiLabels, Qt::QueuedConnection);
-	////相机重连
-	//QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::buildCamera1,
-	//	this, &GlobalData::rebuild_Camera1, Qt::QueuedConnection);
-	//QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::buildCamera2,
-	//	this, &GlobalData::rebuild_Camera2, Qt::QueuedConnection);
-	//// 相机销毁
-	//QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::destroyCamera1,
-	//	this, &GlobalData::destroy_Camera1, Qt::QueuedConnection);
-	//QObject::connect(cameraAndCardStateThreadZipper, &CameraAndCardStateThreadZipper::destroyCamera2,
-	//	this, &GlobalData::destroy_Camera2, Qt::QueuedConnection);
-}
-
 GlobalData::GlobalData()
 {
 

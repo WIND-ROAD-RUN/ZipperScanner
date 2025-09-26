@@ -2,26 +2,26 @@
 
 void ReconnectModule::build()
 {
-	//monitorCameraAndCardStateThread = std::make_unique<CameraAndCardStateThreadHandleScanner>();
+	monitorCameraAndCardStateThread = std::make_unique<CameraAndCardStateThreadZipper>();
 }
 
 void ReconnectModule::destroy()
 {
-	//monitorCameraAndCardStateThread.reset();
+	monitorCameraAndCardStateThread.reset();
 }
 
 void ReconnectModule::start()
 {
-	/*if (monitorCameraAndCardStateThread)
+	if (monitorCameraAndCardStateThread)
 	{
 		monitorCameraAndCardStateThread->startThread();
-	}*/
+	}
 }
 
 void ReconnectModule::stop()
 {
-	/*if (monitorCameraAndCardStateThread)
+	if (monitorCameraAndCardStateThread)
 	{
 		monitorCameraAndCardStateThread->stopThread();
-	}*/
+	}
 }

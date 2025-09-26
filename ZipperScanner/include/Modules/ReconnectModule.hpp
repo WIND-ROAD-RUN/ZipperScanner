@@ -15,5 +15,5 @@ public:
 	void start() override;
 	void stop() override;
 public:
-	//std::unique_ptr<CameraAndCardStateThreadHandleScanner> monitorCameraAndCardStateThread{ nullptr };
+	std::unique_ptr<CameraAndCardStateThreadZipper> monitorCameraAndCardStateThread{ nullptr };
 };

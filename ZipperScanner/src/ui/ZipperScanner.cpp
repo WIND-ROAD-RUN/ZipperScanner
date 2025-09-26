@@ -132,9 +132,6 @@ void ZipperScanner::build_detachThread()
 	// 构建异步剔废线程
 	globalStruct.build_DetachDefectThreadZipper();
 
-	// 构建相机与板卡重连线程
-	globalStruct.build_CameraAndCardStateThreadZipper();
-
 	auto& globalThread = GlobalThread::getInstance();
 	globalThread.buildDetachThread();
 
@@ -211,10 +208,6 @@ void ZipperScanner::build_connect()
 	// 是否文字
 	QObject::connect(ui->ckb_wenzi, &QCheckBox::clicked,
 		this, &ZipperScanner::ckb_wenzi_checked);
-
-	// 连接UI更新
-	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_updateUiLabels,
-		this, &ZipperScanner::updateUiLabels);
 
 	// 连接监控启停按钮
 	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_StartOrStopSignal,
@@ -418,8 +411,6 @@ void ZipperScanner::start_Threads()
 	auto& globalStruct = GlobalData::getInstance();
 	// 启动异步剔废线程
 	globalStruct.detachDefectThreadZipper->startThread();
-	// 启动相机重连线程
-	globalStruct.cameraAndCardStateThreadZipper->startThread();
 
 	auto& globalThread = GlobalThread::getInstance();
 	globalThread.startDetachThread();
@@ -890,58 +881,6 @@ void ZipperScanner::onCameraDisplay(QPixmap image, size_t index, bool isbad)
 			}
 			_lastImage2 = image;
 		}
-	}
-}
-
-void ZipperScanner::updateUiLabels(int index, bool isConnected)
-{
-	switch (index)
-	{
-	case 0:
-		_isConnnectCard = isConnected;
-		if (isConnected)
-		{
-			ui->label_cardState->setText("连接成功");
-			ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-		}
-		else
-		{
-			ui->label_cardState->setText("连接失败");
-			ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-		}
-		break;
-	case 1:
-		if (isConnected) {
-			ui->label_camera1State->setText("连接成功");
-			ui->label_camera1State->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-		}
-		else {
-			ui->label_camera1State->setText("连接失败");
-			ui->label_camera1State->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-			rw::rqw::WarningInfo info;
-			info.message = "相机1断连";
-			info.type = rw::rqw::WarningType::Error;
-			info.warningId = WarningId::ccameraDisconnectAlarm1;
-			//labelWarning->addWarning(info);
-		}
-		break;
-	case 2:
-		if (isConnected) {
-			ui->label_camera2State->setText("连接成功");
-			ui->label_camera2State->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-		}
-		else {
-			ui->label_camera2State->setText("连接失败");
-			ui->label_camera2State->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-			rw::rqw::WarningInfo info;
-			info.message = "相机2断连";
-			info.type = rw::rqw::WarningType::Error;
-			info.warningId = WarningId::ccameraDisconnectAlarm2;
-			//labelWarning->addWarning(info);
-		}
-		break;
-	default:
-		break;
 	}
 }
 

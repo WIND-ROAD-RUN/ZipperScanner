@@ -36,15 +36,12 @@ signals:
 	void addWarningInfo(QString message, bool updateTimestampIfSame, int redDuration);
 
 signals:
-	void buildCamera1();
-	void buildCamera2();
+	void buildCamera(int index);
 
-	void destroyCamera1();
-	void destroyCamera2();
+	void destroyCamera(int index);
 
-	void startMonitor1();
-	void startMonitor2();
+	void startMonitor(int index);
 
 private:
-	std::atomic<bool> running; // 使用原子变量保证线程安全
+	std::atomic<bool> running; // 浣跨敤鍘熷瓙鍙橀噺淇濊瘉绾跨▼瀹夊叏
 };

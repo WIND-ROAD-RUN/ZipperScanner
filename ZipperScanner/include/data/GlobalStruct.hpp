@@ -4,24 +4,14 @@
 #include "rqw_CameraObjectCore.hpp"
 #include "rqw_CameraObjectThread.hpp"
 #include "ImageProcessorModule.h"
-#include "dsl_ThreadSafeMinHeap.h"
 #include "Utilty.hpp"
 #include "CameraAndCardStateThread.h"
 #include <chrono>
-#include "MonitorProduceLengthThread.hpp"
-#include "rqw_ZMotion.hpp"
 #include "rqw_MonitorMotionIO.hpp"
 #include "TestImgPushThread.hpp"
 
 
 class DetachDefectThreadZipper;
-
-
-enum class LightLevel {
-	StrongLight,
-	MediumLight,
-	WeakLight
-};
 
 class GlobalThread
 	:public QObject
@@ -39,12 +29,6 @@ public:
 private:
 	GlobalThread() = default;
 	~GlobalThread() = default;
-public:
-	void buildDetachThread();
-	void destroyDetachThread();
-	void startDetachThread();
-public:
-	std::unique_ptr<MonitorProduceLengthThread> monitorProduceLengthThread{ nullptr };
 
 #ifdef BUILD_WITHOUT_HARDWARE
 public:
@@ -67,39 +51,9 @@ class GlobalData
 public:
 	std::atomic_int imgRotateCount1{0};
 	std::atomic_int imgRotateCount2{ 0 };
-public:
-	rw::rqw::ZMotion  zmotion;
-	void destory_motion();
 
-public:
-	// 监控所有IO
-	rw::rqw::MonitorZMotionIOStateThread monitorZMotionMonitorThread;
-public:
-	void build_MonitorZMotionIOStateThread();
-	void destroy_MonitorZMotionIOStateThread();
-
-	void getInPutSignal(size_t index, bool state);
-	void getOutPutSignal(size_t index, bool state);
-
-public:
-	// 监控启停按钮
-	rw::rqw::MonitorZMotionIOStateThread monitorStartOrStopThread;
-public:
-	void build_monitorStartOrStopThread();
-	void destroy_monitorStartOrStopThread();
-
-	void getStartOrStopSignal(size_t index, bool state);
-	
-signals:
-	// 监控启停IO
-	void emit_StartOrStopSignal(size_t index, bool state);
-	// 监控所有IO
-	void emit_InPutSignal(size_t index, bool state);
-	void emit_OutPutSignal(size_t index, bool state);
 public:
 	float startLocation = 0;
-public:
-	std::atomic_bool _isUpdateMonitorInfo{ false };
 
 public:
 	static GlobalData& getInstance()
@@ -113,7 +67,5 @@ public:
 private:
 	GlobalData();
 	~GlobalData() = default;
-public:
-	void setLightLevel(const LightLevel& level);
-public:
+
 };

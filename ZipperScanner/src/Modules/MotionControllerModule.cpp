@@ -5,7 +5,7 @@
 bool MotionControllerModule::build()
 {
 #pragma region build zmotion
-	/*zmotion = std::make_shared<rw::rqw::ZMotion>(Utility::zmotionIp);
+	zmotion = std::make_shared<rw::rqw::ZMotion>(Utility::zmotionIp);
 	zmotion->setIp(Utility::zmotionIp);
 	bool isConnected = zmotion->connect();
 	isConnectMotion = isConnected;
@@ -18,7 +18,7 @@ bool MotionControllerModule::build()
 		auto value = meizhuanmaichongshu / shedingzhouchang;
 
 		bool isLocationZero = zmotion->setLocationZero(0);
-		bool isAxisType = zmotion->setAxisType(0, 3);
+		bool isAxisType = zmotion->setAxisType(0,1);
 		bool isAxisPulse = zmotion->setAxisPulse(0, value);
 
 		bool isSetXiangJiChuFaChangDu = zmotion->setModbus(4, 1, setConfig.xiangjichufachangdu);
@@ -30,11 +30,11 @@ bool MotionControllerModule::build()
 		{
 			isOK&& zmotion->setIOOut(i, false);
 		}
-	}*/
+	}
 #pragma endregion
 
 #pragma region build monitorMotionIoStateThread
-	/*monitorMotionIoStateThread = std::make_unique<rw::rqw::MonitorZMotionIOStateThread>();
+	monitorMotionIoStateThread = std::make_unique<rw::rqw::MonitorZMotionIOStateThread>();
 
 	monitorMotionIoStateThread->setMonitorObject(*zmotion);
 	QVector<size_t> monitorIList = {
@@ -49,15 +49,28 @@ bool MotionControllerModule::build()
 	monitorMotionIoStateThread->setMonitorOList(monitorOList);
 	monitorMotionIoStateThread->setMonitorFrequency(20);
 	monitorMotionIoStateThread->setRunning(false);
-	monitorMotionIoStateThread->start();
 #pragma endregion
 
-	return isConnected;*/
-	return false;
+#pragma region build monitorMotionIoStateThread
+	monitorStartOrStopThread = std::make_unique<rw::rqw::MonitorZMotionIOStateThread>();
+	monitorStartOrStopThread->setMonitorObject(*zmotion);
+
+	monitorIList = { ControlLines::qidonganniuIn,ControlLines::jitingIn };
+
+	monitorStartOrStopThread->setMonitorIList(monitorIList);
+	monitorStartOrStopThread->setMonitorFrequency(20);
+	monitorStartOrStopThread->setRunning(false);
+#pragma endregion
+
+	return isConnected;
 }
 
 void MotionControllerModule::destroy()
 {
+	if (monitorStartOrStopThread)
+	{
+		monitorStartOrStopThread->destroyThread();
+	}
 	if (monitorMotionIoStateThread)
 	{
 		monitorMotionIoStateThread->destroyThread();
@@ -73,12 +86,22 @@ void MotionControllerModule::start()
 {
 	if (monitorMotionIoStateThread)
 	{
+		monitorMotionIoStateThread->setRunning(true);
 		monitorMotionIoStateThread->start();
+	}
+	if (monitorStartOrStopThread)
+	{
+		monitorStartOrStopThread->setRunning(true);
+		monitorStartOrStopThread->start();
 	}
 }
 
 void MotionControllerModule::stop()
 {
+	if (monitorStartOrStopThread)
+	{
+		monitorStartOrStopThread->setRunning(false);
+	}
 	if (monitorMotionIoStateThread)
 	{
 		monitorMotionIoStateThread->setRunning(false);

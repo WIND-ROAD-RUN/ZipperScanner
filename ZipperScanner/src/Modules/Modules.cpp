@@ -56,7 +56,7 @@ bool Modules::build()
 	imgSaveModule.build();
 
 	// 构建运动控制模块
-	//auto motionControllerModuleBuild = motionControllerModule.build();
+	auto motionControllerModuleBuild = motionControllerModule.build();
 
 	// 构建报警模块
 	//warningModule.build();
@@ -89,7 +89,7 @@ void Modules::destroy()
 	reconnectModule.destroy();
 	eliminateModule.destroy();
 	imgSaveModule.destroy();
-	//motionControllerModule.destroy();
+	motionControllerModule.destroy();
 	//warningModule.destroy();
 }
 
@@ -97,7 +97,7 @@ void Modules::start()
 {
 	uiModule.start();
 	configManagerModule.start();
-	//motionControllerModule.start();
+	motionControllerModule.start();
 	runtimeInfoModule.start();
 	//warningModule.start();
 	imgSaveModule.start();
@@ -124,7 +124,7 @@ void Modules::stop()
 	imgSaveModule.stop();
 	//warningModule.stop();
 	runtimeInfoModule.stop();
-	//motionControllerModule.stop();
+	motionControllerModule.stop();
 	configManagerModule.stop();
 	uiModule.stop();
 }
@@ -166,10 +166,13 @@ void Modules::connect()
 #pragma endregion
 
 #pragma region connect UIModule and MotionControllerModule
-	/*QObject::connect(motionControllerModule.monitorMotionIoStateThread.get(), &rw::rqw::MonitorZMotionIOStateThread::DIState,
+	QObject::connect(motionControllerModule.monitorMotionIoStateThread.get(), &rw::rqw::MonitorZMotionIOStateThread::DIState,
 		uiModule._dlgProductSet, &DlgProductSet::monitorInPutSignal, Qt::QueuedConnection);
 	QObject::connect(motionControllerModule.monitorMotionIoStateThread.get(), &rw::rqw::MonitorZMotionIOStateThread::DOState,
-		uiModule._dlgProductSet, &DlgProductSet::monitorOutPutSignal, Qt::QueuedConnection);*/
+		uiModule._dlgProductSet, &DlgProductSet::monitorOutPutSignal, Qt::QueuedConnection);
+
+	QObject::connect(motionControllerModule.monitorStartOrStopThread.get(), &rw::rqw::MonitorZMotionIOStateThread::DIState,
+		uiModule._zipperScanner, &ZipperScanner::getStartOrStopSignal, Qt::QueuedConnection);
 #pragma endregion
 
 #ifdef BUILD_WITHOUT_HARDWARE
@@ -182,12 +185,12 @@ void Modules::connect()
 #pragma region connect UIModule and RuntimeInfoModule
 	QObject::connect(runtimeInfoModule.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
 		uiModule._zipperScanner, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
+	QObject::connect(runtimeInfoModule.detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
+		uiModule._zipperScanner, &ZipperScanner::shutdownComputerTrigger, Qt::QueuedConnection);
+	QObject::connect(runtimeInfoModule.monitorProduceLengthThread.get(), &MonitorProduceLengthThread::finishProduce,
+		uiModule._zipperScanner, &ZipperScanner::onFinishProduce, Qt::BlockingQueuedConnection);
 #pragma endregion
 
-#pragma region connect MotionControllerModule and RuntimeInfoModule
-	/*QObject::connect(runtimeInfoModule.detachUtiltyThread.get(), &DetachUtiltyThread::produceCountReachingTheSetValue,
-		&motionControllerModule, &MotionControllerModule::getStopSignal, Qt::QueuedConnection);*/
-#pragma endregion
 
 }
 

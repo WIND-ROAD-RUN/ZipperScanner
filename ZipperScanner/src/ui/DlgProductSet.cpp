@@ -281,12 +281,6 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_setxiangjichufa2_clicked);
 
 
-	// 连接监控IO信号
-	QObject::connect(&globalStruct, &GlobalData::emit_InPutSignal,
-		this, &DlgProductSet::monitorInPutSignal);
-	QObject::connect(&globalStruct, &GlobalData::emit_OutPutSignal,
-		this, &DlgProductSet::monitorOutPutSignal);
-
 	// 分数界面内容可选显示
 	QObject::connect(ui->ckb_queya, &QCheckBox::clicked,
 		this, &DlgProductSet::ckb_queya_checked);
@@ -413,20 +407,20 @@ void DlgProductSet::setDIErrorInfo(int index)
 
 void DlgProductSet::closeAllIOBtn()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	bool isChongKongSet = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	bool isChongKongSet = zmotion->setIOOut(ControlLines::chongkongOUT, false);
 
 	// 冲孔
 	if (!isChongKongSet)
 	{
-		QMessageBox::warning(this, "警告", "手动冲孔失败!");
+		//QMessageBox::warning(this, "警告", "手动冲孔失败!");
 	}
 
 	// 脱机
-	bool isTuoJiSet = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, false);
+	bool isTuoJiSet = zmotion->setIOOut(ControlLines::tuojiOut, false);
 	if (!isTuoJiSet)
 	{
-		QMessageBox::warning(this, "警告", "设置脱机失败!");
+		//QMessageBox::warning(this, "警告", "设置脱机失败!");
 	}
 }
 
@@ -504,26 +498,29 @@ std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 
 void DlgProductSet::updateMonitorIOThread()
 {
-	auto& globalData = GlobalData::getInstance();
+	auto& monitorStartOrStopThread = Modules::getInstance().motionControllerModule.monitorStartOrStopThread;
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
 	QVector<size_t> monitorIList = { ControlLines::qidonganniuIn,ControlLines::lalianlawanIn,ControlLines::jitingIn,ControlLines::guanjiIn };
 	QVector<size_t> monitorOList = { ControlLines::chongkongOUT,ControlLines::tuojiOut,ControlLines::xiangjichufaOut1 ,ControlLines::xiangjichufaOut2 };
-	globalData.monitorZMotionMonitorThread.setMonitorIList(monitorIList);
-	globalData.monitorZMotionMonitorThread.setMonitorOList(monitorOList);
+	monitorZMotionMonitorThread->setMonitorIList(monitorIList);
+	monitorZMotionMonitorThread->setMonitorOList(monitorOList);
 
 	QVector<size_t> monitorIList1 = { ControlLines::qidonganniuIn,ControlLines::jitingIn };
-	globalData.monitorStartOrStopThread.setMonitorIList(monitorIList);
+	monitorStartOrStopThread->setMonitorIList(monitorIList);
 }
 
 void DlgProductSet::pbtn_close_clicked()
 {
-	auto& GlobalStructData = GlobalData::getInstance();
-
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
+	auto& _isUpdateMonitorInfo = Modules::getInstance().motionControllerModule._isUpdateMonitorInfo;
 	// 关闭所有可以点动的IO按钮
 	closeAllIOBtn();
 
 	// 关闭监控IO线程
-	GlobalData::getInstance()._isUpdateMonitorInfo = false;
-	GlobalData::getInstance().monitorZMotionMonitorThread.setRunning(false);
+	_isUpdateMonitorInfo = false;
+	monitorZMotionMonitorThread->setRunning(false);
+
+	cbox_debugMode_checked(false);
 
 	this->close();
 }
@@ -988,7 +985,7 @@ void DlgProductSet::cBox_takeOkPictures_checked()
 void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 {
 	auto& isDebug = Modules::getInstance().configManagerModule.setConfig.debugMode;
-	auto& globalStruct = GlobalData::getInstance();
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
 	isDebug = ischecked;
 	isDebugIO = ischecked;
 	if (isDebugIO)
@@ -1002,7 +999,7 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 		ui->cbox_DOchufapaizhao1->setEnabled(true);
 		ui->cbox_DOchufapaizhao2->setEnabled(true);
 
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
+		monitorZMotionMonitorThread->setRunning(false);
 	}
 	else
 	{
@@ -1015,7 +1012,7 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 		ui->cbox_DOchufapaizhao1->setEnabled(false);
 		ui->cbox_DOchufapaizhao2->setEnabled(false);
 
-		globalStruct.monitorZMotionMonitorThread.setRunning(true);
+		monitorZMotionMonitorThread->setRunning(true);
 	}
 }
 
@@ -1102,7 +1099,7 @@ void DlgProductSet::cbox_yundongkongzhiqichonglian_checked()
 
 void DlgProductSet::btn_xiangjichufachangdu_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -1117,7 +1114,7 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 		}
 		ui->btn_xiangjichufachangdu->setText(value);
 		setConfig.xiangjichufachangdu = value.toDouble();
-		bool isSet = globalStruct.zmotion.setModbus(4, 1, value.toFloat());
+		bool isSet = zmotion->setModbus(4, 1, value.toFloat());
 
 		if (!isSet)
 		{
@@ -1128,20 +1125,20 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 
 void DlgProductSet::btn_shoudongladai_pressed()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	auto setConfig = Modules::getInstance().configManagerModule.setConfig;
 	auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
 	// 启动电机
-	auto isAxisType = globalStruct.zmotion.setAxisType(0, 1);
+	auto isAxisType = zmotion->setAxisType(0, 1);
 	double unit = value;
-	auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
+	auto isAxisPulse = zmotion->setAxisPulse(0, unit);
 	double acc = setConfig.jiajiansushijian;
-	auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc * 2);
+	auto isAxisAcc = zmotion->setAxisAcc(0, acc);
+	auto isAxisDec = zmotion->setAxisDec(0, acc * 2);
 	double speed = setConfig.shoudongsudu;
-	auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
-	auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+	auto isAxisRunSpeed = zmotion->setAxisRunSpeed(0, speed);
+	auto isAxisRun = zmotion->setAxisRun(0, -1);
 
 	if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 	{
@@ -1151,9 +1148,9 @@ void DlgProductSet::btn_shoudongladai_pressed()
 
 void DlgProductSet::btn_shoudongladai_released()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	// 停止电机
-	bool isStop = globalStruct.zmotion.stopAllAxis();
+	bool isStop = zmotion->stopAllAxis();
 
 	if (!isStop)
 	{
@@ -1164,12 +1161,12 @@ void DlgProductSet::btn_shoudongladai_released()
 void DlgProductSet::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
-		auto& globalStruct = GlobalData::getInstance();
+		auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto chongkongshijian = setConfig.chongkongshijian * 1000;
 		auto yanchichongkongshijian = setConfig.yanshichongkong * 1000;
 		QThread::msleep(yanchichongkongshijian);
-		bool isSet = globalStruct.zmotion.SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
+		bool isSet = zmotion->SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
 
 		if (!isSet) {
 			QMetaObject::invokeMethod(this, [this]() {
@@ -1181,11 +1178,10 @@ void DlgProductSet::btn_shoudongchongkong_clicked()
 
 void DlgProductSet::btn_tuoji_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	bool isGetTuoJiOut = false;
-	bool tuojiState = globalStruct.zmotion.getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
-	bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, !tuojiState);
+	bool tuojiState = zmotion->getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
+	bool isSuccess = zmotion->setIOOut(ControlLines::tuojiOut, !tuojiState);
 	if (!isSuccess)
 	{
 		QMessageBox::warning(this, "警告", "设置脱机失败!");
@@ -1379,73 +1375,66 @@ void DlgProductSet::btn_jiajiansushijian_clicked()
 
 void DlgProductSet::cbox_DIqidonganniu_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::qidonganniuIn, isChecked);
-		(void)isSuccess;
+		auto isSuccess = zmotion->setIOOut(ControlLines::qidonganniuIn, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DIjiting_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::jitingIn, isChecked);
-		(void)isSuccess;
+		auto isSuccess = zmotion->setIOOut(ControlLines::jitingIn, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DIlalianlawan_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::lalianlawanIn, isChecked);
-		(void)isSuccess;
+		auto isSuccess = zmotion->setIOOut(ControlLines::lalianlawanIn, isChecked);
 	}
 }
 
 
 void DlgProductSet::cbox_DOchongkong_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, isChecked);
-		(void)isSuccess;
+		auto isSuccess = zmotion->setIOOut(ControlLines::chongkongOUT, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DOtuoji_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, isChecked);
-		(void)isSuccess;
+		auto isSuccess = zmotion->setIOOut(ControlLines::tuojiOut, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DOchufapaizhao1_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
-		(void)isXiangJiChuFaSet;
+		bool isXiangJiChuFaSet = zmotion->SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
 		ui->cbox_DOchufapaizhao1->setChecked(false);
 	}
 }
 
 void DlgProductSet::cbox_DOchufapaizhao2_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
-		(void)isXiangJiChuFaSet;
+		bool isXiangJiChuFaSet = zmotion->SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
 		ui->cbox_DOchufapaizhao2->setChecked(false);
 	}
 }
@@ -1652,28 +1641,16 @@ void DlgProductSet::btn_setxiangjichufa2_clicked()
 
 void DlgProductSet::tabWidget_indexChanged(int index)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& _isUpdateMonitorInfo = GlobalData::getInstance()._isUpdateMonitorInfo;
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
+	auto& _isUpdateMonitorInfo = Modules::getInstance().motionControllerModule._isUpdateMonitorInfo;
 	switch (index) {
-	case 0:
-		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
-		break;
-	case 1:
-		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
-		break;
 	case 2:
 		_isUpdateMonitorInfo = true;
-		globalStruct.monitorZMotionMonitorThread.setRunning(true);
-		break;
-	case 3:
-		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
+		monitorZMotionMonitorThread->setRunning(true);
 		break;
 	default:
 		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
+		monitorZMotionMonitorThread->setRunning(false);
 		break;
 	}
 }

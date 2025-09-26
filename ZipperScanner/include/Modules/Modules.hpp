@@ -57,7 +57,7 @@ public:
 	ReconnectModule reconnectModule;
 	EliminateModule eliminateModule;
 	ImgSaveModule imgSaveModule;
-	//MotionControllerModule motionControllerModule;
+	MotionControllerModule motionControllerModule;
 	//WarningModule warningModule;
 
 

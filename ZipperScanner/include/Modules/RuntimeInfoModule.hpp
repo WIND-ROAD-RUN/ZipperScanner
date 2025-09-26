@@ -5,6 +5,7 @@
 #include<QObject>
 
 #include "DetachUtiltyThread.h"
+#include "MonitorProduceLengthThread.hpp"
 
 enum class RunningState
 {
@@ -33,5 +34,6 @@ public:
 	std::atomic<RunningState> runningState{ RunningState::Stop };
 public:
 	std::unique_ptr<DetachUtiltyThread> detachUtiltyThread{ nullptr };
+	std::unique_ptr<MonitorProduceLengthThread> monitorProduceLengthThread{ nullptr };
 };
 

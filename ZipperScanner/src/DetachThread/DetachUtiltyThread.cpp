@@ -36,6 +36,7 @@ void DetachUtiltyThread::run()
 	while (running) {
 		QThread::sleep(1);
 		CalculateRealtimeInformation(s);
+		processShutdownIO(s);
 		++s;
 		if (s == 300)
 		{
@@ -54,8 +55,8 @@ void DetachUtiltyThread::processShutdownIO(size_t s)
 {
 	if (s % 1 == 0)
 	{
-		auto& motion = GlobalData::getInstance().zmotion;
-		auto isShutdown = motion.getIOIn(ControlLines::guanjiIn);
+		auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+		auto isShutdown = zmotion->getIOIn(ControlLines::guanjiIn);
 
 		if (lastIsShutDown)
 		{

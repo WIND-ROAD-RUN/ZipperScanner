@@ -5,6 +5,7 @@
 bool RuntimeInfoModule::build()
 {
 	detachUtiltyThread = std::make_unique<DetachUtiltyThread>(this);
+	monitorProduceLengthThread = std::make_unique<MonitorProduceLengthThread>(this);
 	return true;
 }
 
@@ -14,6 +15,10 @@ void RuntimeInfoModule::destroy()
 	{
 		detachUtiltyThread.reset();
 	}
+	if (monitorProduceLengthThread)
+	{
+		monitorProduceLengthThread.reset();
+	}
 }
 
 void RuntimeInfoModule::start()
@@ -21,6 +26,10 @@ void RuntimeInfoModule::start()
 	if (detachUtiltyThread)
 	{
 		detachUtiltyThread->startThread();
+	}
+	if (monitorProduceLengthThread)
+	{
+		monitorProduceLengthThread->startThread();
 	}
 }
 

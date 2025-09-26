@@ -41,8 +41,8 @@ private:
 public:
 	void build_ui();
 	void build_connect();
-	void build_camera();
-	void build_motion();
+	void getCameraStateAndUpdateUi();
+	void getZMotionStateAndUpdateUi();
 
 	void build_ZipperScannerData();
 	void ini_clickableTitle();

@@ -5,6 +5,7 @@
 
 #include"rqw_LabelWarning.h"
 #include"dsl_PriorityQueue.hpp"
+#include "dsl_ThreadSafeMinHeap.h"
 
 #include"Utilty.hpp"
 #include"GlobalStruct.hpp"

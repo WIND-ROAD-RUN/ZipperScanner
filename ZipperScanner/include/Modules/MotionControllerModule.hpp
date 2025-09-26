@@ -22,7 +22,8 @@ public:
 	void stop() override;
 public:
 	std::shared_ptr<rw::rqw::ZMotion> zmotion{ nullptr };
-	std::unique_ptr<rw::rqw::MonitorZMotionIOStateThread> monitorMotionIoStateThread{ nullptr };
+	std::unique_ptr<rw::rqw::MonitorZMotionIOStateThread> monitorMotionIoStateThread{ nullptr };	// 监控所有IO
+	std::unique_ptr<rw::rqw::MonitorZMotionIOStateThread> monitorStartOrStopThread{ nullptr };	// 监控启停IO
 signals:
 	void DIState(size_t index, bool state);
 	void DOState(size_t index, bool state);

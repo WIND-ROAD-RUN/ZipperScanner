@@ -3,6 +3,7 @@
 #include"IModule.hpp"
 #include <QObject>
 #include "DetachDefectThread.h"
+#include "dsl_ThreadSafeMinHeap.h"
 
 class EliminateModule
 	: public QObject, public IModule<bool>

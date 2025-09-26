@@ -45,7 +45,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	read_config();
 
 	// 构建运动控制器
-	build_motion();
+	getZMotionStateAndUpdateUi();
 
 	//开机清零
 	pbtn_resetProduct_clicked();
@@ -62,7 +62,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	build_imageProcessorModule();
 
 	// 连接相机
-	build_camera();
+	getCameraStateAndUpdateUi();
 
 	// 连接槽函数
 	build_connect();
@@ -116,34 +116,13 @@ ZipperScanner::~ZipperScanner()
 void ZipperScanner::build_detachThread()
 {
 	auto& globalStruct = GlobalData::getInstance();
-	auto& detachUtiltyThread = Modules::getInstance().runtimeInfoModule.detachUtiltyThread;
-	// 构建运动控制器IO状态监控线程
-	globalStruct.build_MonitorZMotionIOStateThread();
-
-	// 构建主窗体启停IO监控线程
-	globalStruct.build_monitorStartOrStopThread();
-
-	auto& globalThread = GlobalThread::getInstance();
-	globalThread.buildDetachThread();
-
-	QObject::connect(globalThread.monitorProduceLengthThread.get(), &MonitorProduceLengthThread::finishProduce,
-		this, &ZipperScanner::onFinishProduce,Qt::BlockingQueuedConnection);
-	QObject::connect(detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
-		this, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
-	QObject::connect(detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
-		this, &ZipperScanner::shutdownComputerTrigger, Qt::QueuedConnection);
 }
 
 void ZipperScanner::destory_detachThread()
 {
 	auto& globalStruct = GlobalData::getInstance();
-	// 销毁主窗体启停IO监控线程
-	globalStruct.destroy_monitorStartOrStopThread();
-	// 销毁运动控制器IO状态监控线程
-	globalStruct.destroy_MonitorZMotionIOStateThread();
 
 	auto& globalThread = GlobalThread::getInstance();
-	globalThread.destroyDetachThread();
 }
 
 // 构建UI
@@ -198,10 +177,6 @@ void ZipperScanner::build_connect()
 	QObject::connect(ui->ckb_wenzi, &QCheckBox::clicked,
 		this, &ZipperScanner::ckb_wenzi_checked);
 
-	// 连接监控启停按钮
-	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_StartOrStopSignal,
-		this, &ZipperScanner::getStartOrStopSignal);
-
 	// 连接启动按钮
 	QObject::connect(ui->rbtn_start, &QRadioButton::clicked,
 		this, &ZipperScanner::rbtn_start_clicked);
@@ -227,7 +202,7 @@ void ZipperScanner::build_connect()
 }
 
 // 构建相机
-void ZipperScanner::build_camera()
+void ZipperScanner::getCameraStateAndUpdateUi()
 {
 	auto& cameraModules = Modules::getInstance().cameraModule;
 	auto errors = cameraModules.getBuildResults();
@@ -241,51 +216,11 @@ void ZipperScanner::build_camera()
 	}
 }
 
-void ZipperScanner::build_motion()
+void ZipperScanner::getZMotionStateAndUpdateUi()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.zmotion.setIp("192.168.0.11");
-	bool isConnected = globalStruct.zmotion.connect();
-	_isConnnectCard = isConnected;
-	if (isConnected)
-	{
-		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
-		auto meizhuanmaichongshu = setConfig.meizhuanmaichongshu;
-		auto shedingzhouchang = setConfig.shedingzhouchang;
-		auto value = meizhuanmaichongshu / shedingzhouchang;
-
-		bool isLocationZero = globalStruct.zmotion.setLocationZero(0);
-		bool isAxisType = globalStruct.zmotion.setAxisType(0, 1);
-		bool isAxisPulse = globalStruct.zmotion.setAxisPulse(0, value);
-
-		bool isSetXiangJiChuFaChangDu = globalStruct.zmotion.setModbus(4, 1, setConfig.xiangjichufachangdu);
-		bool isSetdangqianweizhi = globalStruct.zmotion.setModbus(2, 1, 0);
-		 isSetdangqianweizhi = globalStruct.zmotion.setModbus(6, 1, 0);
-
-		bool isOK = true;
-		for (int i = 3; i < 13; i++)
-		{
-			isOK&& globalStruct.zmotion.setIOOut(i, false);
-		}
-
-		if (!isOK)
-		{
-			QMessageBox::warning(this, "警告", "初始化设置所有IO为false失败!");
-		}
-
-		if (!isLocationZero || !isAxisType || !isAxisPulse || !isSetXiangJiChuFaChangDu || !isSetdangqianweizhi)
-		{
-			QMessageBox::warning(this, "警告", "ZMotion参数设置失败!");
-		}
-
-		ui->label_cardState->setText("连接成功");
-		ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-	}
-	else
-	{
-		ui->label_cardState->setText("连接失败");
-		ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-	}
+	auto& motionControllerModule = Modules::getInstance().motionControllerModule;
+	auto& isBuildZmotion = motionControllerModule.isConnectMotion;
+	updateCameraLabelState(0, isBuildZmotion);
 }
 
 // 加载ZipperScanner窗体数据
@@ -355,7 +290,6 @@ void ZipperScanner::build_imageProcessorModule()
 void ZipperScanner::start_Threads()
 {
 	auto& globalThread = GlobalThread::getInstance();
-	globalThread.startDetachThread();
 }
 
 void ZipperScanner::destroyComponents()
@@ -371,8 +305,6 @@ void ZipperScanner::destroyComponents()
 	rbtn_removeFunc_checked(false);
 
 	destory_detachThread();
-	// 销毁运动控制器
-	globalStructData.destory_motion();
 	// 销毁图片放大查看器
 	destroy_ImageEnlargedDisplay();
 }
@@ -512,41 +444,68 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 
 void ZipperScanner::rbtn_strongLight_checked(bool checked)
 {
-	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	if (checked)
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+
+	if (camera1)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.setLightLevel(LightLevel::StrongLight);
-		generalConfig.zhongGuang = false;
-		generalConfig.ruoGuang = false;
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi));
 	}
-	generalConfig.qiangGuang = ui->rbtn_strongLight->isChecked();
+	if (camera2)
+	{
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+	}
+
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	zipperScannerConfig.qiangGuang = true;
+	zipperScannerConfig.zhongGuang = false;
+	zipperScannerConfig.ruoGuang = false;
 }
 
 void ZipperScanner::rbtn_mediumLight_checked(bool checked)
 {
-	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	if (checked)
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+
+	if (camera1)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.setLightLevel(LightLevel::MediumLight);
-		generalConfig.qiangGuang = false;
-		generalConfig.ruoGuang = false;
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi));
 	}
-	generalConfig.zhongGuang = ui->rbtn_mediumLight->isChecked();
+	if (camera2)
+	{
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+	}
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	zipperScannerConfig.qiangGuang = false;
+	zipperScannerConfig.zhongGuang = true;
+	zipperScannerConfig.ruoGuang = false;
 }
 
 void ZipperScanner::rbtn_weakLight_checked(bool checked)
 {
-	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	if (checked)
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+	if (camera1)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.setLightLevel(LightLevel::WeakLight);
-		generalConfig.qiangGuang = false;
-		generalConfig.zhongGuang = false;
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi));
 	}
-	generalConfig.ruoGuang = ui->rbtn_weakLight->isChecked();
+	if (camera2)
+	{
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+	}
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	zipperScannerConfig.qiangGuang = false;
+	zipperScannerConfig.zhongGuang = false;
+	zipperScannerConfig.ruoGuang = true;
 }
 
 void ZipperScanner::pbtn_openSaveLocation_clicked()
@@ -595,7 +554,7 @@ void ZipperScanner::ckb_wenzi_checked(bool checked)
 void ZipperScanner::rbtn_start_clicked(bool checked)
 {
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	auto & globalThread= GlobalThread::getInstance();
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	if (checked)
@@ -606,27 +565,27 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		// 启动电机
 		auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
-		auto isAxisType = globalStruct.zmotion.setAxisType(0, 1);
+		auto isAxisType = zmotion->setAxisType(0, 1);
 		double unit = value;
-		auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
+		auto isAxisPulse = zmotion->setAxisPulse(0, unit);
 		double acc = setConfig.jiajiansushijian;
-		auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc * 2);
+		auto isAxisAcc = zmotion->setAxisAcc(0, acc);
+		auto isAxisDec = zmotion->setAxisDec(0, acc * 2);
 		double speed = setConfig.zidongladaisudu;
-		auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
-		auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+		auto isAxisRunSpeed = zmotion->setAxisRunSpeed(0, speed);
+		auto isAxisRun = zmotion->setAxisRun(0, -1);
 
 		//记录当前位置
 		float nowLocation = 0;
 		bool isget = false;
-		nowLocation = GlobalData::getInstance().zmotion.getAxisLocation(0, isget);
+		nowLocation = zmotion->getAxisLocation(0, isget);
 
 		GlobalData::getInstance().startLocation = nowLocation;
 
 
 		if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 		{
-			QMessageBox::warning(this, "警告", "电机参数设置失败");
+			//QMessageBox::warning(this, "警告", "电机参数设置失败");
 		}
 		changeRemoveFucState(true);
 
@@ -638,11 +597,11 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 		generalConfig.isStop = true;
 
 		// 停止电机
-		bool isStop = globalStruct.zmotion.stopAllAxis();
+		bool isStop = zmotion->stopAllAxis();
 
 		if (!isStop)
 		{
-			QMessageBox::warning(this, "警告", "停止电机取消失败!");
+			//QMessageBox::warning(this, "警告", "停止电机取消失败!");
 		}
 		changeRemoveFucState(false);
 	}
@@ -650,10 +609,9 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 
 void ZipperScanner::rbtn_stop_clicked(bool checked)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	auto& globalThread = GlobalThread::getInstance();
-	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	if (checked)
 	{
 		changeRemoveFucState(false);
@@ -662,10 +620,10 @@ void ZipperScanner::rbtn_stop_clicked(bool checked)
 		generalConfig.isStop = true;
 
 		// 停止电机
-		bool isStop = globalStruct.zmotion.stopAllAxis();
+		bool isStop = zmotion->stopAllAxis();
 
 		// 停止冲孔
-		isStop = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
+		isStop = zmotion->setIOOut(ControlLines::chongkongOUT, false);
 
 		globalThread.goToGetStopLocation = true;
 	}
@@ -713,7 +671,7 @@ void ZipperScanner::btn_shedingladaichangdu_clicked()
 
 void ZipperScanner::pbtn_resetProduct_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
 	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	generalConfig.produceLength = 0;
@@ -725,12 +683,12 @@ void ZipperScanner::pbtn_resetProduct_clicked()
 	statisticalInfo.produceLengthBeforeStart = 0;
 	statisticalInfo.punchCount = 0;
 	bool isGet{false};
-	auto isConnect = globalStruct.zmotion.getConnectState(isGet);
+	auto isConnect = zmotion->getConnectState(isGet);
 	if (isConnect&& isGet)
 	{
 		auto& globalThread = GlobalThread::getInstance();
 		bool isGetLocation{false};
-		auto location= globalStruct.zmotion.getAxisLocation(0, isGetLocation);
+		auto location= zmotion->getAxisLocation(0, isGetLocation);
 		if (isGetLocation)
 		{
 			globalThread.startLocation = location;
@@ -833,7 +791,8 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 			// 启动的时候记录当前位置
 			float nowLocation = 0;
 			bool isget = false;
-			nowLocation = GlobalData::getInstance().zmotion.getAxisLocation(0, isget);
+			auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+			nowLocation = zmotion->getAxisLocation(0, isget);
 			GlobalData::getInstance().startLocation = nowLocation;
 		}
 		else

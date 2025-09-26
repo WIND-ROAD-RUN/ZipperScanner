@@ -233,7 +233,7 @@ void ImageProcessorZipper::updateDrawText()
 void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t index)
 {
 	auto& globalStruct = GlobalData::getInstance();
-
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;
 
@@ -275,12 +275,12 @@ void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t ind
 	mat.index = index;
 	if (index==1)
 	{
-		mat.location = globalStruct.zmotion.getModbus(2, 1);	// 获取拍照的位置
+		mat.location = zmotion->getModbus(2, 1);	// 获取拍照的位置
 
 	}
 	else
 	{
-		mat.location = globalStruct.zmotion.getModbus(6, 1);	// 获取拍照的位置
+		mat.location = zmotion->getModbus(6, 1);	// 获取拍照的位置
 
 	}
 	_queue.enqueue(mat);

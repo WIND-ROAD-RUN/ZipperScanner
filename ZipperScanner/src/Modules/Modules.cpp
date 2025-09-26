@@ -53,7 +53,7 @@ bool Modules::build()
 	auto eliminateModuleBuild = eliminateModule.build();
 
 	// 构建图像保存模块
-	//imgSaveModule.build();
+	imgSaveModule.build();
 
 	// 构建运动控制模块
 	//auto motionControllerModuleBuild = motionControllerModule.build();
@@ -88,7 +88,7 @@ void Modules::destroy()
 	uiModule.destroy();
 	reconnectModule.destroy();
 	eliminateModule.destroy();
-	//imgSaveModule.destroy();
+	imgSaveModule.destroy();
 	//motionControllerModule.destroy();
 	//warningModule.destroy();
 }
@@ -100,7 +100,7 @@ void Modules::start()
 	//motionControllerModule.start();
 	runtimeInfoModule.start();
 	//warningModule.start();
-	//imgSaveModule.start();
+	imgSaveModule.start();
 	eliminateModule.start();
 	imgProModule.start();
 	cameraModule.start();
@@ -121,7 +121,7 @@ void Modules::stop()
 	cameraModule.stop();
 	imgProModule.stop();
 	eliminateModule.stop();
-	//imgSaveModule.stop();
+	imgSaveModule.stop();
 	//warningModule.stop();
 	runtimeInfoModule.stop();
 	//motionControllerModule.stop();

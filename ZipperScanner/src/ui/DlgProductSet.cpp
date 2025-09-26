@@ -1033,9 +1033,9 @@ void DlgProductSet::cBox_takeCamera2Pictures_checked()
 
 void DlgProductSet::rbtn_saveJpeg_checked()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
-	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
+	imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
 	setConfig.imgIsSaveJpeg = true;
 	setConfig.imgIsSavePng = false;
 	setConfig.imgIsSaveBmp = false;
@@ -1043,9 +1043,9 @@ void DlgProductSet::rbtn_saveJpeg_checked()
 
 void DlgProductSet::rbtn_savePng_checked()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
-	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
+	imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
 	setConfig.imgIsSavePng = true;
 	setConfig.imgIsSaveJpeg = false;
 	setConfig.imgIsSaveBmp = false;
@@ -1053,9 +1053,9 @@ void DlgProductSet::rbtn_savePng_checked()
 
 void DlgProductSet::rbtn_saveBmp_checked()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
-	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
+	imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
 	setConfig.imgIsSaveBmp = true;
 	setConfig.imgIsSaveJpeg = false;
 	setConfig.imgIsSavePng = false;
@@ -1063,7 +1063,7 @@ void DlgProductSet::rbtn_saveBmp_checked()
 
 void DlgProductSet::btn_saveQuality_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -1078,7 +1078,7 @@ void DlgProductSet::btn_saveQuality_clicked()
 		}
 		ui->btn_saveQuality->setText(value);
 		setConfig.imgSaveQuality = value.toInt();
-		globalStruct.imageSaveEngine->setSaveImgQuality(setConfig.imgSaveQuality);
+		imageSaveEngine->setSaveImgQuality(setConfig.imgSaveQuality);
 	}
 }
 

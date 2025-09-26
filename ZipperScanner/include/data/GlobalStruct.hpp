@@ -116,7 +116,4 @@ private:
 public:
 	void setLightLevel(const LightLevel& level);
 public:
-	void buildImageSaveEngine();
-	void destroyImageSaveEngine();
-	std::unique_ptr<rw::rqw::ImageSaveEngine> imageSaveEngine{ nullptr };
 };

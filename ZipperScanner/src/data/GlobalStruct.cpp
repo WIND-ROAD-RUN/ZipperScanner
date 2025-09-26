@@ -136,14 +136,3 @@ void GlobalData::setLightLevel(const LightLevel& level)
 		break;
 	}
 }
-
-void GlobalData::buildImageSaveEngine()
-{
-	imageSaveEngine = std::make_unique<rw::rqw::ImageSaveEngine>(this, 2);
-}
-
-void GlobalData::destroyImageSaveEngine()
-{
-	imageSaveEngine->stop();
-	imageSaveEngine.reset();
-}

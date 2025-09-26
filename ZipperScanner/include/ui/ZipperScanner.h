@@ -48,7 +48,6 @@ public:
 	void ini_clickableTitle();
 
 	void build_imageProcessorModule();
-	void build_imageSaveEngine();
 
 	void start_Threads();
 

@@ -157,19 +157,19 @@ void ImageProcessorZipper::save_image(rw::rqw::ImageInfo& imageInfo, const QImag
 
 void ImageProcessorZipper::save_image_work(rw::rqw::ImageInfo& imageInfo, const QImage& image)
 {
-	auto& globalData = GlobalData::getInstance();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	if (_isbad) {
 		if (setConfig.saveNGImg)
 		{
 			rw::rqw::ImageInfo NG(image);
 			NG.classify = "NG";
-			globalData.imageSaveEngine->pushImage(NG);
+			imageSaveEngine->pushImage(NG);
 		}
 		if (setConfig.saveMaskImg)
 		{
 			imageInfo.classify = "Mask";
-			globalData.imageSaveEngine->pushImage(imageInfo);
+			imageSaveEngine->pushImage(imageInfo);
 		}
 	}
 	else {
@@ -177,7 +177,7 @@ void ImageProcessorZipper::save_image_work(rw::rqw::ImageInfo& imageInfo, const 
 		{
 			rw::rqw::ImageInfo Ok(image);
 			Ok.classify = "OK";
-			globalData.imageSaveEngine->pushImage(Ok);
+			imageSaveEngine->pushImage(Ok);
 		}
 	}
 }

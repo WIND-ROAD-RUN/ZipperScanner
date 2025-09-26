@@ -55,9 +55,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 	build_detachThread();
 
-	// 构建图像保存引擎
-	build_imageSaveEngine();
-
 	// 构建图片放大查看器
 	build_ImageEnlargedDisplay();
 
@@ -321,8 +318,6 @@ void ZipperScanner::build_ZipperScannerData()
 	ui->ckb_shibiekuang->setChecked(true);
 	ui->ckb_wenzi->setChecked(false);
 
-	globalStruct.buildImageSaveEngine();
-
 	// 初始化图像查看器
 	_picturesViewer = new PictureViewerThumbnails(this);
 
@@ -357,47 +352,6 @@ void ZipperScanner::build_imageProcessorModule()
 	}
 }
 
-void ZipperScanner::build_imageSaveEngine()
-{
-	QDir dir;
-	QString imageSavePath = globalPath.imageSaveRootPath;
-	//清理旧的数据
-
-	//获取当前日期并设置保存路径
-	QString currentDate = QDate::currentDate().toString("yyyy_MM_dd");
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.buildImageSaveEngine();
-	QString imageSaveEnginePath = imageSavePath + currentDate;
-
-	QString imagesFilePathFilePathFull = dir.absoluteFilePath(imageSaveEnginePath);
-	globalStruct.imageSaveEngine->setRootPath(imagesFilePathFilePathFull);
-
-	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
-	if (setConfig.imgIsSaveJpeg)
-	{
-		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
-	}
-	else if (setConfig.imgIsSavePng)
-	{
-		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
-	}
-	else if (setConfig.imgIsSaveBmp)
-	{
-		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
-	}
-	if (!setConfig.imgSaveQuality)
-	{
-		globalStruct.imageSaveEngine->setSaveImgQuality(80);
-	}
-	else
-	{
-		globalStruct.imageSaveEngine->setSaveImgQuality(setConfig.imgSaveQuality);
-	}
-
-
-	globalStruct.imageSaveEngine->startEngine();
-}
-
 void ZipperScanner::start_Threads()
 {
 	auto& globalThread = GlobalThread::getInstance();
@@ -421,8 +375,6 @@ void ZipperScanner::destroyComponents()
 	globalStructData.destory_motion();
 	// 销毁图片放大查看器
 	destroy_ImageEnlargedDisplay();
-	// 销毁图像保存模块
-	globalStructData.destroyImageSaveEngine();
 }
 
 void ZipperScanner::read_config()
@@ -599,8 +551,8 @@ void ZipperScanner::rbtn_weakLight_checked(bool checked)
 
 void ZipperScanner::pbtn_openSaveLocation_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	QString imageSavePath = globalStruct.imageSaveEngine->getRootPath();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
+	QString imageSavePath = imageSaveEngine->getRootPath();
 
 	_picturesViewer->setRootPath(imageSavePath);
 	_picturesViewer->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);

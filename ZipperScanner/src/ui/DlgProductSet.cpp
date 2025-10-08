@@ -64,6 +64,7 @@ void DlgProductSet::read_config()
 	// 剔废时间
 	ui->pbtn_tifeijuli1->setText(QString::number(setConfig.tifeijuli1));
 	ui->pbtn_tifeijuli2->setText(QString::number(setConfig.tifeijuli2));
+	ui->pbtn_tifeirongyufangdou->setText(QString::number(setConfig.tifeirongyufangdou));
 
 	// 采图
 	ui->cBox_takeCamera1Pictures->setChecked(setConfig.takeWork1Pictures);
@@ -161,9 +162,11 @@ void DlgProductSet::build_connect()
 	auto& globalStruct = GlobalData::getInstance();
 
 	QObject::connect(ui->pbtn_tifeijuli1, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_yanchitifeishijian1_clicked);
+		this, &DlgProductSet::pbtn_tifeijuli1_clicked);
 	QObject::connect(ui->pbtn_tifeijuli2, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_yanchitifeishijian2_clicked);
+		this, &DlgProductSet::pbtn_tifeijuli2_clicked);
+	QObject::connect(ui->pbtn_tifeirongyufangdou, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_tifeirongyufangdou_clicked);
 	QObject::connect(ui->pbtn_shangxianwei1, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_shangxianwei1_clicked);
 	QObject::connect(ui->pbtn_xiaxianwei1, &QPushButton::clicked,
@@ -523,7 +526,7 @@ void DlgProductSet::pbtn_close_clicked()
 }
 
 
-void DlgProductSet::pbtn_yanchitifeishijian1_clicked()
+void DlgProductSet::pbtn_tifeijuli1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -542,7 +545,7 @@ void DlgProductSet::pbtn_yanchitifeishijian1_clicked()
 	}
 }
 
-void DlgProductSet::pbtn_yanchitifeishijian2_clicked()
+void DlgProductSet::pbtn_tifeijuli2_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -558,6 +561,25 @@ void DlgProductSet::pbtn_yanchitifeishijian2_clicked()
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_tifeijuli2->setText(value);
 		setConfig.tifeijuli2 = value.toDouble();
+	}
+}
+
+void DlgProductSet::pbtn_tifeirongyufangdou_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		ui->pbtn_tifeirongyufangdou->setText(value);
+		setConfig.tifeirongyufangdou = value.toDouble();
 	}
 }
 

@@ -220,27 +220,26 @@ bool Modules::check()
 #pragma endregion
 
 #pragma region check directory exist
-	/*EnsureDirectoryExists(globalPath.projectHome);
+	EnsureDirectoryExists(globalPath.projectHome);
 	EnsureDirectoryExists(globalPath.configRootPath);
 	EnsureDirectoryExists(globalPath.modelRootPath);
-	EnsureDirectoryExists(globalPath.txtPath);
-	EnsureDirectoryExists(globalPath.imageSaveRootPath);*/
+	EnsureDirectoryExists(globalPath.imageSaveRootPath);
 #pragma endregion
 
 #pragma region check model exist
-	/*if (!rw::rqw::RunEnvCheck::isFileExist(globalPath.modelPath))
+	if (!rw::rqw::RunEnvCheck::isFileExist(globalPath.modelPath))
 	{
 		QMessageBox::warning(nullptr, "错误", "模型文件缺失");
 		return false;
-	}*/
+	}
 #pragma endregion
 
 #pragma region check config format and exist
-	/*rw::oso::StorageContext storageContext(rw::oso::StorageType::Xml);
+	rw::oso::StorageContext storageContext(rw::oso::StorageType::Xml);
 
-	checkFileExistAndFormat<cdm::HandleScannerConfig>(globalPath.HandleScannerConfigPath, storageContext);
-	checkFileExistAndFormat<cdm::SetConfig>(globalPath.DlgProductSetConfigPath, storageContext);
-	checkFileExistAndFormat<cdm::ScoreConfig>(globalPath.DlgProductScoreConfigPath, storageContext);*/
+	checkFileExistAndFormat<cdm::GeneralConfig>(globalPath.generalConfigPath, storageContext);
+	checkFileExistAndFormat<cdm::SetConfig>(globalPath.setConfigPath, storageContext); 
+	checkFileExistAndFormat<cdm::ScoreConfig>(globalPath.scoreConfigPath, storageContext);
 #pragma endregion
 
 	return true;

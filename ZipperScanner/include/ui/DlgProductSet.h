@@ -39,8 +39,9 @@ private:
 private slots:
 	void pbtn_close_clicked();
 
-	void pbtn_yanchitifeishijian1_clicked();
-	void pbtn_yanchitifeishijian2_clicked();
+	void pbtn_tifeijuli1_clicked();
+	void pbtn_tifeijuli2_clicked();
+	void pbtn_tifeirongyufangdou_clicked();
 	void pbtn_shangxianwei1_clicked();
 	void pbtn_xiaxianwei1_clicked();
 	void pbtn_zuoxianwei1_clicked();

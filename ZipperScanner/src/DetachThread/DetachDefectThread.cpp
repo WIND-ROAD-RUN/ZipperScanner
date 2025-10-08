@@ -97,7 +97,8 @@ void DetachDefectThreadZipper::processQueue(std::unique_ptr<ThreadSafeMinHeap>& 
 				queue->tryGetMin(location);
 				float nowlocation = zmotion->getAxisLocation(0, isget);
 
-				if (abs(location - nowlocation) <30)
+				int tifeirongyu = setConfig.tifeirongyufangdou;
+				if (abs(location - nowlocation) < tifeirongyu)
 				{
 					queue->tryPopMin(location);
 					std::cout << "delete location:"  <<location <<std::endl;

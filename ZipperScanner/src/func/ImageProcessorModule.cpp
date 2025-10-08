@@ -119,6 +119,8 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 
 	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);
 
+	_isbad = defectResult.isBad;
+
 	drawBoundariesLines(maskImg);
 
 	emit imageNGReady(QPixmap::fromImage(maskImg), frame.index, defectResult.isBad);

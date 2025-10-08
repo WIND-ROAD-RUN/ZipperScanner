@@ -221,6 +221,9 @@ void ImgProModule::buildImgProContextMain()
 		rw::imgPro::DefectResultInfo& defectResultInfo,
 		rw::imgPro::ImageProcessContext& context)
 		{
+			if (!defectResultInfo.isBad) {
+				return;
+			}
 			auto find = eliminationItem.customFields.find("LocationX");
 			if (find != eliminationItem.customFields.end())
 			{
@@ -271,7 +274,7 @@ void ImgProModule::buildImgProContextMain()
 
 			rw::imgPro::ConfigDrawLine configDrawLine;
 			configDrawLine.color = rw::imgPro::Color::Red;
-			configDrawLine.thickness = 20;
+			configDrawLine.thickness = 5;
 
 			configDrawLine.position = limitTop;
 			rw::imgPro::ImagePainter::drawHorizontalLine(img, configDrawLine);

@@ -389,6 +389,16 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 		}
 		else {
 			runningState = RunningState::Stop;
+			if (camera1)
+			{
+				camera1->setTriggerState(true);
+				camera1->setFrameRate(50);
+			}
+			if (camera2)
+			{
+				camera2->setTriggerState(true);
+				camera2->setFrameRate(50);
+			}
 		}
 		ui->ckb_shibiekuang->setVisible(checked);
 		ui->ckb_wenzi->setVisible(checked);

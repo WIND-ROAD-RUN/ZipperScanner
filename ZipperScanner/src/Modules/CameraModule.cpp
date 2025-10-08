@@ -77,6 +77,8 @@ bool CameraModule::build_camera1()
 			camera1 = std::make_unique<rw::rqw::CameraPassiveThread>(this);
 			// 相机触发回调
 			camera1->callBackForImgReadyBefore = [](rw::rqw::MatInfo& matInfo){
+				auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+				matInfo.customField["LocCallBack"]= static_cast<float>(zmotion->getModbus(2, 1));
 				};
 			camera1->initCamera(cameraMetaData1, rw::rqw::CameraObjectTrigger::Hardware);
 			camera1->setTriggerState(true);
@@ -126,6 +128,8 @@ bool CameraModule::build_camera2()
 			camera2 = std::make_unique<rw::rqw::CameraPassiveThread>(this);
 			// 相机触发回调
 			camera2->callBackForImgReadyBefore = [](rw::rqw::MatInfo& matInfo) {
+				auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+				matInfo.customField["LocCallBack"] = static_cast<float>(zmotion->getModbus(6, 1));
 				};
 			camera2->initCamera(cameraMetaData2, rw::rqw::CameraObjectTrigger::Hardware);
 			camera2->setTriggerState(true);

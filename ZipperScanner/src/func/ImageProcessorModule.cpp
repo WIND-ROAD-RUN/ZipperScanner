@@ -94,6 +94,7 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 {
 	leftLocationX = 0;
 	auto& imgPro = *_imgProcess;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	imgPro(frame.image);
 	auto maskImg = imgPro.getMaskImg(frame.image);
 	auto defectResult = imgPro.getDefectResultInfo();
@@ -111,9 +112,22 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 		leftLocationX = tempLeftLocationX;
 	}
 
+	if (1 == imageProcessingModuleIndex)
+	{
+		tifeijuli = setConfig.tifeijuli1;
+	}
+	else if (2 == imageProcessingModuleIndex)
+	{
+		tifeijuli = setConfig.tifeijuli2;
+	}
+
 	if (leftLocationX > 0)
 	{
 		leftLocationX = frame.location - leftLocationX * pixToWorld + tifeijuli;
+	}
+	if (defectResult.isBad) {
+		std::cout << "tifeijuli" << tifeijuli << std::endl;
+		std::cout << "leftLocationX" << leftLocationX << " frame.location:" << frame.location << std::endl;
 	}
 
 	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);
@@ -234,7 +248,6 @@ void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t ind
 {
 	auto& imgRotateCount1 = Modules::getInstance().configManagerModule.setConfig.imgRotateCount1;
 	auto& imgRotateCount2 = Modules::getInstance().configManagerModule.setConfig.imgRotateCount2;
-	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	QMutexLocker locker(&_mutex);
 	MatInfo mat;
 
@@ -274,16 +287,8 @@ void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t ind
 	
 	mat.image = matInfo.mat;
 	mat.index = index;
-	if (index==1)
-	{
-		mat.location = zmotion->getModbus(2, 1);	// 获取拍照的位置
 
-	}
-	else
-	{
-		mat.location = zmotion->getModbus(6, 1);	// 获取拍照的位置
-
-	}
+	mat.location = std::any_cast<float>(matInfo.customField.at("LocCallBack"));
 	_queue.enqueue(mat);
 	_condition.wakeOne();
 }

@@ -11,6 +11,11 @@
 #include "WarnUtilty.hpp"
 #include "rqw_CameraObjectThread.hpp"
 #include "DetachDefectThread.h"
+#include "DlgIOTrigger.h"
+#include "DlgProductScore.h"
+#include "DlgProductSet.h"
+#include "DlgShutdownWarn.h"
+#include "Modules.hpp"
 
 #ifdef BUILD_WITHOUT_HARDWARE
 void ZipperScanner::cbox_testIfPushImg_clicked(bool states)
@@ -40,7 +45,7 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	read_config();
 
 	// 构建运动控制器
-	build_motion();
+	getZMotionStateAndUpdateUi();
 
 	//开机清零
 	pbtn_resetProduct_clicked();
@@ -48,41 +53,15 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 	// 构建UI
 	build_ui();
 
-	// 构建优先队列
-	globalStruct.build_PriorityQueue();
-
-	build_detachThread();
-
-	build_DlgCloseForm();
-
-	// 构建图像保存引擎
-	build_imageSaveEngine();
-
 	// 构建图片放大查看器
 	build_ImageEnlargedDisplay();
 
-	// 构建图像处理模块
-	build_imageProcessorModule();
-
 	// 连接相机
-	build_camera();
+	getCameraStateAndUpdateUi();
 
 	// 连接槽函数
 	build_connect();
 
-	// 启用所有后台线程
-	start_Threads();
-
-	// 开启相机出图
-	start_CameraMonitor();
-
-	//默认开启剔除功能
-	globalStruct.generalConfig = *globalStruct.storeContext->load(globalPath.generalConfigPath.toStdString());
-	// 加载主窗体UI的设置
-	rbtn_stop_clicked(true); // 默认停止
-	ui->rbtn_strongLight->setChecked(globalStruct.generalConfig.qiangGuang);
-	ui->rbtn_mediumLight->setChecked(globalStruct.generalConfig.zhongGuang);
-	ui->rbtn_weakLight->setChecked(globalStruct.generalConfig.ruoGuang);
 #ifdef BUILD_WITHOUT_HARDWARE
 	auto& globalThread = GlobalThread::getInstance();
 	_testIfPushImg = new QCheckBox(this);
@@ -113,6 +92,8 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 ZipperScanner::~ZipperScanner()
 {
 	destroyComponents();
+	Modules::getInstance().stop();
+	Modules::getInstance().destroy();
 #ifdef NDEBUG
 	if (isShutdownByIO)
 	{
@@ -124,59 +105,10 @@ ZipperScanner::~ZipperScanner()
 	delete ui;
 }
 
-void ZipperScanner::build_detachThread()
-{
-	auto& globalStruct = GlobalData::getInstance();
-	// 构建运动控制器IO状态监控线程
-	globalStruct.build_MonitorZMotionIOStateThread();
-
-	// 构建主窗体启停IO监控线程
-	globalStruct.build_monitorStartOrStopThread();
-
-	// 构建异步剔废线程
-	globalStruct.build_DetachDefectThreadZipper();
-
-	// 构建相机与板卡重连线程
-	globalStruct.build_CameraAndCardStateThreadZipper();
-
-	auto& globalThread = GlobalThread::getInstance();
-	globalThread.buildDetachThread();
-
-	QObject::connect(globalThread.monitorProduceLengthThread.get(), &MonitorProduceLengthThread::finishProduce,
-		this, &ZipperScanner::onFinishProduce,Qt::BlockingQueuedConnection);
-	QObject::connect(globalThread.detachUtiltyThread.get(), &DetachUtiltyThread::updateStatisticalInfo,
-		this, &ZipperScanner::onUpdateStatisticalInfo, Qt::QueuedConnection);
-	QObject::connect(GlobalThread::getInstance().detachUtiltyThread.get(), &DetachUtiltyThread::shutdownComputer,
-		this, &ZipperScanner::shutdownComputerTrigger, Qt::QueuedConnection);
-}
-
-void ZipperScanner::destory_detachThread()
-{
-	auto& globalStruct = GlobalData::getInstance();
-	// 销毁主窗体启停IO监控线程
-	globalStruct.destroy_monitorStartOrStopThread();
-	// 销毁运动控制器IO状态监控线程
-	globalStruct.destroy_MonitorZMotionIOStateThread();
-
-	globalStruct.destroy_DetachDefectThreadZipper();
-
-	auto& globalThread = GlobalThread::getInstance();
-	globalThread.destroyDetachThread();
-}
-
 // 构建UI
 void ZipperScanner::build_ui()
 {
 	build_ZipperScannerData();
-	build_DlgProductSetData();
-	ini_dlgProductSetCheckList();
-	build_DlgProductScore();
-	ini_dlgProductScoreGroupList();
-	connectSetAndScore();
-	build_DlgExposureTimeSet();
-	build_DlgIOTrigger();
-	_dlgShutdownWarn = new DlgShutdownWarn(this);
-
 }
 
 // 连接槽函数
@@ -225,20 +157,6 @@ void ZipperScanner::build_connect()
 	QObject::connect(ui->ckb_wenzi, &QCheckBox::clicked,
 		this, &ZipperScanner::ckb_wenzi_checked);
 
-	// 连接显示NG图像
-	QObject::connect(GlobalStructDataZipper.imageProcessingModule1.get(), &ImageProcessingModule::imageNGReady,
-		this, &ZipperScanner::onCameraNGDisplay);
-	QObject::connect(GlobalStructDataZipper.imageProcessingModule2.get(), &ImageProcessingModule::imageNGReady,
-		this, &ZipperScanner::onCameraNGDisplay);
-
-	// 连接UI更新
-	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_updateUiLabels,
-		this, &ZipperScanner::updateUiLabels);
-
-	// 连接监控启停按钮
-	QObject::connect(&GlobalStructDataZipper.getInstance(), &GlobalData::emit_StartOrStopSignal,
-		this, &ZipperScanner::getStartOrStopSignal);
-
 	// 连接启动按钮
 	QObject::connect(ui->rbtn_start, &QRadioButton::clicked,
 		this, &ZipperScanner::rbtn_start_clicked);
@@ -264,100 +182,46 @@ void ZipperScanner::build_connect()
 }
 
 // 构建相机
-void ZipperScanner::build_camera()
+void ZipperScanner::getCameraStateAndUpdateUi()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.cameraIp1 = "1";
-	globalStruct.cameraIp2 = "2";
+	auto& cameraModules = Modules::getInstance().cameraModule;
+	auto errors = cameraModules.getBuildResults();
+	updateCameraLabelState(1, true);
+	updateCameraLabelState(2, true);
 
-	auto build1Result = globalStruct.buildCamera1();
-	updateCameraLabelState(1, build1Result);
-	if (!build1Result)
+	for (const auto& error : errors)
 	{
-		rw::rqw::WarningInfo info;
-		info.message = "相机1连接失败";
-		info.warningId = WarningId::ccameraDisconnectAlarm1;
-		info.type = rw::rqw::WarningType::Error;
-		//label_warningInfo->addWarning(info);
-	}
-	auto build2Result = false;
-	if (globalStruct.setConfig.qiyongerxiangji)
-	{
-		build2Result = globalStruct.buildCamera2();
-	}
-	updateCameraLabelState(2, build2Result);
-	if (!build2Result)
-	{
-		rw::rqw::WarningInfo info;
-		info.message = "相机2连接失败";
-		info.warningId = WarningId::ccameraDisconnectAlarm2;
-		info.type = rw::rqw::WarningType::Error;
-		//label_warningInfo->addWarning(info);
+		auto index = static_cast<int>(error);
+		updateCameraLabelState(index, false);
 	}
 }
 
-void ZipperScanner::build_motion()
+void ZipperScanner::getZMotionStateAndUpdateUi()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.zmotion.setIp("192.168.0.11");
-	bool isConnected = globalStruct.zmotion.connect();
-	_isConnnectCard = isConnected;
-	if (isConnected)
-	{
-		auto& globalStructsetConfig = GlobalData::getInstance().setConfig;
-		auto meizhuanmaichongshu = globalStructsetConfig.meizhuanmaichongshu;
-		auto shedingzhouchang = globalStructsetConfig.shedingzhouchang;
-		auto value = meizhuanmaichongshu / shedingzhouchang;
-
-		bool isLocationZero = globalStruct.zmotion.setLocationZero(0);
-		bool isAxisType = globalStruct.zmotion.setAxisType(0, 1);
-		bool isAxisPulse = globalStruct.zmotion.setAxisPulse(0, value);
-
-		bool isSetXiangJiChuFaChangDu = globalStruct.zmotion.setModbus(4, 1, globalStruct.setConfig.xiangjichufachangdu);
-		bool isSetdangqianweizhi = globalStruct.zmotion.setModbus(2, 1, 0);
-		 isSetdangqianweizhi = globalStruct.zmotion.setModbus(6, 1, 0);
-
-		bool isOK = true;
-		for (int i = 3; i < 13; i++)
-		{
-			isOK&& globalStruct.zmotion.setIOOut(i, false);
-		}
-
-		if (!isOK)
-		{
-			QMessageBox::warning(this, "警告", "初始化设置所有IO为false失败!");
-		}
-
-		if (!isLocationZero || !isAxisType || !isAxisPulse || !isSetXiangJiChuFaChangDu || !isSetdangqianweizhi)
-		{
-			QMessageBox::warning(this, "警告", "ZMotion参数设置失败!");
-		}
-
-		ui->label_cardState->setText("连接成功");
-		ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-	}
-	else
-	{
-		ui->label_cardState->setText("连接失败");
-		ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-	}
+	auto& motionControllerModule = Modules::getInstance().motionControllerModule;
+	auto& isBuildZmotion = motionControllerModule.isConnectMotion;
+	updateCameraLabelState(0, isBuildZmotion);
 }
 
 // 加载ZipperScanner窗体数据
 void ZipperScanner::build_ZipperScannerData()
 {
 	auto& globalStruct = GlobalData::getInstance();
-	auto& zipperScannerConfig = globalStruct.generalConfig;
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
+	
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	// 初始化全局数据
 	ui->label_produceLength->setText(QString::number(zipperScannerConfig.produceLength));
 	ui->label_punchCount->setText(QString::number(zipperScannerConfig.punchCount));
-	globalStruct.statisticalInfo.produceLength = zipperScannerConfig.produceLength;
-	globalStruct.statisticalInfo.punchCount = zipperScannerConfig.punchCount;
+	statisticalInfo.produceLength = zipperScannerConfig.produceLength;
+	statisticalInfo.punchCount = zipperScannerConfig.punchCount;
 
 	ui->rbtn_strongLight->setChecked(zipperScannerConfig.qiangGuang);
 	ui->rbtn_mediumLight->setChecked(zipperScannerConfig.zhongGuang);
 	ui->rbtn_weakLight->setChecked(zipperScannerConfig.ruoGuang);
 	ui->btn_shedingladaichangdu->setText(QString::number(zipperScannerConfig.shedingladaichangdu));
+
+	rbtn_stop_clicked(true); // 默认停止
 
 	// 去掉标题栏
 	this->setWindowFlags(Qt::FramelessWindowHint);
@@ -369,78 +233,10 @@ void ZipperScanner::build_ZipperScannerData()
 	ui->ckb_shibiekuang->setChecked(true);
 	ui->ckb_wenzi->setChecked(false);
 
-	globalStruct.buildImageSaveEngine();
-
 	// 初始化图像查看器
 	_picturesViewer = new PictureViewerThumbnails(this);
 
 	ini_clickableTitle();
-}
-
-// 通过实现DlgProductSet的构造函数进行初始化
-void ZipperScanner::build_DlgProductSetData()
-{
-	_dlgProductSet = new DlgProductSet(this);
-}
-
-void ZipperScanner::ini_dlgProductSetCheckList()
-{
-	_dlgProductSetCheckList = {
-		_dlgProductSet->ui->ckb_queya,
-		_dlgProductSet->ui->ckb_tangshang,
-		_dlgProductSet->ui->ckb_zangwu,
-		_dlgProductSet->ui->ckb_suoxiao,
-		_dlgProductSet->ui->ckb_huawen,
-		_dlgProductSet->ui->ckb_yuan,
-		_dlgProductSet->ui->ckb_huapo,
-		_dlgProductSet->ui->ckb_duanxian,
-		_dlgProductSet->ui->ckb_extra5,
-		_dlgProductSet->ui->ckb_extra6,
-		_dlgProductSet->ui->ckb_extra7,
-		_dlgProductSet->ui->ckb_extra8
-	};
-}
-
-// 通过实现DlgProductScore的构造函数进行初始化
-void ZipperScanner::build_DlgProductScore()
-{
-	_dlgProductScore = new DlgProductScore(this);
-}
-
-void ZipperScanner::ini_dlgProductScoreGroupList()
-{
-	_dlgProductScoreGroupList = {
-		_dlgProductScore->ui->widget_queya,
-		_dlgProductScore->ui->widget_tangshang,
-		_dlgProductScore->ui->widget_zangwu,
-		_dlgProductScore->ui->widget_suoxiao,
-		_dlgProductScore->ui->widget_huawen,
-		_dlgProductScore->ui->widget_yuan,
-		_dlgProductScore->ui->widget_huapo,
-		_dlgProductScore->ui->widget_duanxian,
-		_dlgProductScore->ui->widget_extra5,
-		_dlgProductScore->ui->widget_extra6,
-		_dlgProductScore->ui->widget_extra7,
-		_dlgProductScore->ui->widget_extra8
-	};
-}
-
-void ZipperScanner::connectSetAndScore()
-{
-	for (int i = 0; i < _dlgProductSetCheckList.size(); ++i) {
-		connect(_dlgProductSetCheckList[i], &QCheckBox::toggled, _dlgProductScoreGroupList[i], &QWidget::setVisible);
-		_dlgProductScoreGroupList[i]->setVisible(_dlgProductSetCheckList[i]->isChecked());
-	}
-}
-
-void ZipperScanner::build_DlgExposureTimeSet()
-{
-	_dlgExposureTimeSet = new DlgExposureTimeSet(this);
-}
-
-void ZipperScanner::build_DlgIOTrigger()
-{
-	_dlgIOTrigger = new DlgIOTrigger(this);
 }
 
 void ZipperScanner::ini_clickableTitle()
@@ -454,101 +250,6 @@ void ZipperScanner::ini_clickableTitle()
 	clickableTitle->setStyleSheet("QLabel {font-size: 30px;font-weight: bold;color: rgb(255, 255, 255);padding: 5px 5px;border-bottom: 2px solid #cccccc;}");
 }
 
-void ZipperScanner::build_imageProcessorModule()
-{
-	auto& globalStruct = GlobalData::getInstance();
-
-	QDir dir;
-
-	QString enginePathFull = globalPath.modelPath;
-
-	QFileInfo engineFile(enginePathFull);
-
-	if (!engineFile.exists()) {
-		QMessageBox::critical(this, "Error", "Engine file or Name file does not exist. The application will now exit.");
-		QApplication::quit();
-		return;
-	}
-
-	globalStruct.buildImageProcessorModules(enginePathFull);
-
-	QObject::connect(globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera1Display);
-	QObject::connect(globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::imageReady, this, &ZipperScanner::onCamera2Display);
-	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::shibiekaungChanged);
-	QObject::connect(this, &ZipperScanner::shibiekaungChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::shibiekaungChanged);
-	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::wenziChanged);
-	QObject::connect(this, &ZipperScanner::wenziChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::wenziChanged);
-	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::paramMapsChanged);
-	QObject::connect(_dlgProductScore, &DlgProductScore::scoreFormClosed,globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::paramMapsChanged);
-	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::paramMapsChanged);
-	QObject::connect(_dlgProductSet, &DlgProductSet::pixToWorldChanged, globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::paramMapsChanged);
-}
-
-void ZipperScanner::build_imageSaveEngine()
-{
-	QDir dir;
-	QString imageSavePath = globalPath.imageSaveRootPath;
-	//清理旧的数据
-
-	//获取当前日期并设置保存路径
-	QString currentDate = QDate::currentDate().toString("yyyy_MM_dd");
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.buildImageSaveEngine();
-	QString imageSaveEnginePath = imageSavePath + currentDate;
-
-	QString imagesFilePathFilePathFull = dir.absoluteFilePath(imageSaveEnginePath);
-	globalStruct.imageSaveEngine->setRootPath(imagesFilePathFilePathFull);
-
-	auto& setCfg = globalStruct.setConfig;
-	if (setCfg.imgIsSaveJpeg)
-	{
-		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
-	}
-	else if (setCfg.imgIsSavePng)
-	{
-		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
-	}
-	else if (setCfg.imgIsSaveBmp)
-	{
-		globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
-	}
-	if (!setCfg.imgSaveQuality)
-	{
-		globalStruct.imageSaveEngine->setSaveImgQuality(80);
-	}
-	else
-	{
-		globalStruct.imageSaveEngine->setSaveImgQuality(setCfg.imgSaveQuality);
-	}
-
-
-	globalStruct.imageSaveEngine->startEngine();
-}
-
-void ZipperScanner::start_Threads()
-{
-	auto& globalStruct = GlobalData::getInstance();
-	// 启动异步剔废线程
-	globalStruct.detachDefectThreadZipper->startThread();
-	// 启动相机重连线程
-	globalStruct.cameraAndCardStateThreadZipper->startThread();
-
-	auto& globalThread = GlobalThread::getInstance();
-	globalThread.startDetachThread();
-}
-
-void ZipperScanner::start_CameraMonitor()
-{
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.start_Camera1Monitor();
-	globalStruct.start_Camera2Monitor();
-}
-
-void ZipperScanner::build_DlgCloseForm()
-{
-	_dlgCloseForm = new DlgCloseForm(this);
-}
-
 void ZipperScanner::destroyComponents()
 {
 #ifdef BUILD_WITHOUT_HARDWARE
@@ -556,109 +257,62 @@ void ZipperScanner::destroyComponents()
 	globalThread.testImgPushThread->stopThread();
 	globalThread.testImgPushThread.reset();
 #endif
-	auto& globalStructData = GlobalData::getInstance();
 	// 关闭剔废功能并停止冲孔与轴运动
 	rbtn_stop_clicked(true); // 默认停止
 	rbtn_removeFunc_checked(false);
 
-	destory_detachThread();
-	// 销毁相机
-	globalStructData.destroyCamera();
-	// 销毁运动控制器
-	globalStructData.destory_motion();
-	// 销毁图像处理模块
-	globalStructData.destroyImageProcessingModule();
 	// 销毁图片放大查看器
 	destroy_ImageEnlargedDisplay();
-	// 销毁图像保存模块
-	globalStructData.destroyImageSaveEngine();
-	// 销毁剔废优先队列
-	globalStructData.destroy_PriorityQueue();
-	// 保存参数
-	globalStructData.saveGeneralConfig();
 }
 
 void ZipperScanner::read_config()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.buildConfigManager(rw::oso::StorageType::Xml);
-
 	read_config_GeneralConfig();
-	read_config_ScoreConfig();
-	read_config_SetConfig();
 
-	auto& setCfg = globalStruct.setConfig;
-	ControlLines::qidonganniuIn = setCfg.qidonganniuIn;
-	ControlLines::jitingIn = setCfg.jitingIn;
-	ControlLines::lalianlawanIn = setCfg.lalianlawanIn;
-	ControlLines::guanjiIn = setCfg.guanjiIn;
-	ControlLines::chongkongOUT = setCfg.chongkongOut;
-	ControlLines::tuojiOut = setCfg.tuojiOut;
-	ControlLines::xiangjichufaOut1 = setCfg.xiangjichufapaizhao1Out;
-	ControlLines::xiangjichufaOut2 = setCfg.xiangjichufapaizhao2Out;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	ControlLines::qidonganniuIn = setConfig.qidonganniuIn;
+	ControlLines::jitingIn = setConfig.jitingIn;
+	ControlLines::lalianlawanIn = setConfig.lalianlawanIn;
+	ControlLines::guanjiIn = setConfig.guanjiIn;
+	ControlLines::chongkongOUT = setConfig.chongkongOut;
+	ControlLines::tuojiOut = setConfig.tuojiOut;
+	ControlLines::xiangjichufaOut1 = setConfig.xiangjichufapaizhao1Out;
+	ControlLines::xiangjichufaOut2 = setConfig.xiangjichufapaizhao2Out;
 }
 
 // 读取通用配置
 void ZipperScanner::read_config_GeneralConfig()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	auto& storeContext = Modules::getInstance().configManagerModule.storeContext;
 
-	globalStruct.storeContext->ensureFileExistsSafe(globalPath.generalConfigPath.toStdString(), cdm::GeneralConfig());
-	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.generalConfigPath.toStdString());
+	storeContext->ensureFileExistsSafe(globalPath.generalConfigPath.toStdString(), cdm::GeneralConfig());
+	auto loadResult = storeContext->loadSafe(globalPath.generalConfigPath.toStdString());
 	if (!loadResult)
 	{
-		globalStruct.storeContext->saveSafe(cdm::GeneralConfig(), globalPath.generalConfigPath.toStdString());
+		storeContext->saveSafe(cdm::GeneralConfig(), globalPath.generalConfigPath.toStdString());
 		return;
 	}
-	globalStruct.generalConfig = *loadResult;
-}
-
-// 读取分数配置
-void ZipperScanner::read_config_ScoreConfig()
-{
-	auto& globalStruct = GlobalData::getInstance();
-
-	globalStruct.storeContext->ensureFileExistsSafe(globalPath.scoreConfigPath.toStdString(), cdm::ScoreConfig());
-	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.scoreConfigPath.toStdString());
-	if (!loadResult)
-	{
-		globalStruct.storeContext->saveSafe(cdm::ScoreConfig(), globalPath.scoreConfigPath.toStdString());
-		return;
-	}
-	globalStruct.scoreConfig = *loadResult;
-}
-
-// 读取设置配置
-void ZipperScanner::read_config_SetConfig()
-{
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.storeContext->ensureFileExistsSafe(globalPath.setConfigPath.toStdString(), cdm::SetConfig());
-	auto loadResult = globalStruct.storeContext->loadSafe(globalPath.setConfigPath.toStdString());
-	if (!loadResult)
-	{
-		globalStruct.storeContext->saveSafe(cdm::SetConfig(), globalPath.setConfigPath.toStdString());
-		return;
-	}
-	globalStruct.setConfig = *loadResult;
+	generalConfig = *loadResult;
 }
 
 void ZipperScanner::changeRemoveFucState(bool state)
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& runningState = Modules::getInstance().runtimeInfoModule.runningState;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 	if (state)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.runningState = RunningState::OpenRemoveFunc;
-		_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
-		if (globalStruct.camera1)
+		runningState = RunningState::OpenRemoveFunc;
+		if (camera1)
 		{
-			globalStruct.camera1->setTriggerState(true);
-			globalStruct.camera1->setFrameRate(50);
+			camera1->setTriggerState(true);
+			camera1->setFrameRate(50);
 		}
-		if (globalStruct.camera2)
+		if (camera2)
 		{
-			globalStruct.camera2->setTriggerState(true);
-			globalStruct.camera2->setFrameRate(50);
+			camera2->setTriggerState(true);
+			camera2->setFrameRate(50);
 		}
 		ui->rbtn_debug->setChecked(false);
 		ui->ckb_shibiekuang->setVisible(false);
@@ -666,7 +320,7 @@ void ZipperScanner::changeRemoveFucState(bool state)
 	}
 	else
 	{
-		globalStruct.runningState = RunningState::Stop;
+		runningState = RunningState::Stop;
 	}
 }
 
@@ -691,15 +345,10 @@ void ZipperScanner::pbtn_set_clicked()
 	if (isAccept == QDialog::Accepted)
 	{
 		if (numKeyBord.getValue() == "1234") {
+			auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
 			_dlgProductSet->setFixedSize(this->width(), this->height());
 			_dlgProductSet->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 			_dlgProductSet->exec();
-		}
-		else if (numKeyBord.getValue() == "6666")
-		{
-			_dlgExposureTimeSet->setFixedSize(500, 300);
-			_dlgExposureTimeSet->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-			_dlgExposureTimeSet->exec();
 		}
 		else {
 			QMessageBox::warning(this, "Error", "密码错误，请重新输入");
@@ -709,6 +358,7 @@ void ZipperScanner::pbtn_set_clicked()
 
 void ZipperScanner::pbtn_score_clicked()
 {
+	auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
 	_dlgProductScore->setFixedSize(this->width(), this->height());
 	_dlgProductScore->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	_dlgProductScore->exec();
@@ -718,31 +368,37 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 {
 	auto isRuning = ui->rbtn_start->isChecked();
 
-	auto& GlobalStructData = GlobalData::getInstance();
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+
+	auto& runningState = Modules::getInstance().runtimeInfoModule.runningState;
 	if (!isRuning) {
 		if (checked) {
-			_dlgExposureTimeSet->SetCamera(); // 设置相机为实时采集
-			//GlobalStructData.generalConfig.isDebug = checked;
-			GlobalStructData.runningState = RunningState::Debug;
-			if (GlobalStructData.camera1)
+			runningState = RunningState::Debug;
+			if (camera1)
 			{
-				GlobalStructData.camera1->setTriggerState(false);
-				GlobalStructData.camera1->setFrameRate(5);
+				camera1->setTriggerState(false);
+				camera1->setFrameRate(5);
 			}
-			if (GlobalStructData.camera2)
+			if (camera2)
 			{
-				GlobalStructData.camera2->setTriggerState(false);
-				GlobalStructData.camera2->setFrameRate(5);
+				camera2->setTriggerState(false);
+				camera2->setFrameRate(5);
 			}
-			//GlobalThread.strobeLightThread->startThread();
 			ui->rbtn_takePicture->setChecked(false);
-			//rbtn_takePicture_checked(false);
 		}
 		else {
-			_dlgExposureTimeSet->ResetCamera(); // 重置相机为硬件触发
-			//GlobalStructData.generalConfig.isDebug = checked;
-			GlobalStructData.runningState = RunningState::Stop;
-			//GlobalThread.strobeLightThread->stopThread();
+			runningState = RunningState::Stop;
+			if (camera1)
+			{
+				camera1->setTriggerState(true);
+				camera1->setFrameRate(50);
+			}
+			if (camera2)
+			{
+				camera2->setTriggerState(true);
+				camera2->setFrameRate(50);
+			}
 		}
 		ui->ckb_shibiekuang->setVisible(checked);
 		ui->ckb_wenzi->setVisible(checked);
@@ -754,47 +410,74 @@ void ZipperScanner::rbtn_debug_checked(bool checked)
 
 void ZipperScanner::rbtn_strongLight_checked(bool checked)
 {
-	auto& generalConfig = GlobalData::getInstance().generalConfig;
-	if (checked)
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+
+	if (camera1)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.setLightLevel(LightLevel::StrongLight);
-		generalConfig.zhongGuang = false;
-		generalConfig.ruoGuang = false;
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi));
 	}
-	generalConfig.qiangGuang = ui->rbtn_strongLight->isChecked();
+	if (camera2)
+	{
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+	}
+
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	zipperScannerConfig.qiangGuang = true;
+	zipperScannerConfig.zhongGuang = false;
+	zipperScannerConfig.ruoGuang = false;
 }
 
 void ZipperScanner::rbtn_mediumLight_checked(bool checked)
 {
-	auto& generalConfig = GlobalData::getInstance().generalConfig;
-	if (checked)
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+
+	if (camera1)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.setLightLevel(LightLevel::MediumLight);
-		generalConfig.qiangGuang = false;
-		generalConfig.ruoGuang = false;
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi));
 	}
-	generalConfig.zhongGuang = ui->rbtn_mediumLight->isChecked();
+	if (camera2)
+	{
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+	}
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	zipperScannerConfig.qiangGuang = false;
+	zipperScannerConfig.zhongGuang = true;
+	zipperScannerConfig.ruoGuang = false;
 }
 
 void ZipperScanner::rbtn_weakLight_checked(bool checked)
 {
-	auto& generalConfig = GlobalData::getInstance().generalConfig;
-	if (checked)
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
+	if (camera1)
 	{
-		auto& globalStruct = GlobalData::getInstance();
-		globalStruct.setLightLevel(LightLevel::WeakLight);
-		generalConfig.qiangGuang = false;
-		generalConfig.zhongGuang = false;
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi));
 	}
-	generalConfig.ruoGuang = ui->rbtn_weakLight->isChecked();
+	if (camera2)
+	{
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+	}
+	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	zipperScannerConfig.qiangGuang = false;
+	zipperScannerConfig.zhongGuang = false;
+	zipperScannerConfig.ruoGuang = true;
 }
 
 void ZipperScanner::pbtn_openSaveLocation_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	QString imageSavePath = globalStruct.imageSaveEngine->getRootPath();
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
+	QString imageSavePath = imageSaveEngine->getRootPath();
 
 	_picturesViewer->setRootPath(imageSavePath);
 	_picturesViewer->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -807,10 +490,10 @@ void ZipperScanner::rbtn_takePicture_checked()
 	{
 		ui->rbtn_takePicture->setChecked(false);
 	}
-	auto& generalConfig = GlobalData::getInstance().generalConfig;
-	auto& globalStruct = GlobalData::getInstance();
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	auto& isTakePictures = Modules::getInstance().runtimeInfoModule.isTakePictures;
 	generalConfig.isSaveImg = ui->rbtn_takePicture->isChecked();
-	globalStruct.isTakePictures = ui->rbtn_takePicture->isChecked();
+	isTakePictures = ui->rbtn_takePicture->isChecked();
 }
 
 void ZipperScanner::rbtn_removeFunc_checked(bool checked)
@@ -820,70 +503,66 @@ void ZipperScanner::rbtn_removeFunc_checked(bool checked)
 
 void ZipperScanner::ckb_shibiekuang_checked(bool checked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.generalConfig.isshibiekuang = ui->ckb_shibiekuang->isChecked();
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	generalConfig.isshibiekuang = ui->ckb_shibiekuang->isChecked();
 
-	emit shibiekaungChanged();
+	emit shibiekuangChanged();
 }
 
 void ZipperScanner::ckb_wenzi_checked(bool checked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.generalConfig.iswenzi = ui->ckb_wenzi->isChecked();
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	generalConfig.iswenzi = ui->ckb_wenzi->isChecked();
 
 	emit wenziChanged();
 }
 
 void ZipperScanner::rbtn_start_clicked(bool checked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto & globalThread= GlobalThread::getInstance();
-	auto& setConfig = globalStruct.setConfig;
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	auto & globalData = GlobalData::getInstance();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	if (checked)
 	{
-		globalStruct.generalConfig.isStart = true;
-		globalStruct.generalConfig.isStop = false;
+		generalConfig.isStart = true;
+		generalConfig.isStop = false;
 
 		// 启动电机
 		auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
-		auto isAxisType = globalStruct.zmotion.setAxisType(0, 1);
+		auto isAxisType = zmotion->setAxisType(0, 1);
 		double unit = value;
-		auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
+		auto isAxisPulse = zmotion->setAxisPulse(0, unit);
 		double acc = setConfig.jiajiansushijian;
-		auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-		auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc * 2);
+		auto isAxisAcc = zmotion->setAxisAcc(0, acc);
+		auto isAxisDec = zmotion->setAxisDec(0, acc * 2);
 		double speed = setConfig.zidongladaisudu;
-		auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
-		auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+		auto isAxisRunSpeed = zmotion->setAxisRunSpeed(0, speed);
+		auto isAxisRun = zmotion->setAxisRun(0, -1);
 
 		//记录当前位置
-		float nowLocation = 0;
-		bool isget = false;
-		nowLocation = GlobalData::getInstance().zmotion.getAxisLocation(0, isget);
-
-		GlobalData::getInstance().startLocation = nowLocation;
-
+		
 
 		if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 		{
-			QMessageBox::warning(this, "警告", "电机参数设置失败");
+			//QMessageBox::warning(this, "警告", "电机参数设置失败");
 		}
 		changeRemoveFucState(true);
 
-		globalThread.goToGetStartLocation = true;
+		globalData .goToGetStartLocation = true;
 	}
 	else
 	{
-		globalStruct.generalConfig.isStart = false;
-		globalStruct.generalConfig.isStop = true;
+		generalConfig.isStart = false;
+		generalConfig.isStop = true;
 
 		// 停止电机
-		bool isStop = globalStruct.zmotion.stopAllAxis();
+		bool isStop = zmotion->stopAllAxis();
 
 		if (!isStop)
 		{
-			QMessageBox::warning(this, "警告", "停止电机取消失败!");
+			//QMessageBox::warning(this, "警告", "停止电机取消失败!");
 		}
 		changeRemoveFucState(false);
 	}
@@ -891,34 +570,35 @@ void ZipperScanner::rbtn_start_clicked(bool checked)
 
 void ZipperScanner::rbtn_stop_clicked(bool checked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalThread = GlobalThread::getInstance();
-	auto& setConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	auto& globalData = GlobalData::getInstance();
 	if (checked)
 	{
 		changeRemoveFucState(false);
 		ui->rbtn_stop->setChecked(checked);
-		globalStruct.generalConfig.isStart = false;
-		globalStruct.generalConfig.isStop = true;
+		generalConfig.isStart = false;
+		generalConfig.isStop = true;
 
 		// 停止电机
-		bool isStop = globalStruct.zmotion.stopAllAxis();
+		bool isStop = zmotion->stopAllAxis();
 
 		// 停止冲孔
-		isStop = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
+		isStop = zmotion->setIOOut(ControlLines::chongkongOUT, false);
 
-		globalThread.goToGetStopLocation = true;
+		globalData.goToGetStopLocation = true;
 	}
 	else
 	{
 		changeRemoveFucState(true);
-		globalStruct.generalConfig.isStart = true;
-		globalStruct.generalConfig.isStop = false;
+		generalConfig.isStart = true;
+		generalConfig.isStop = false;
 	}
 }
 
 void ZipperScanner::pbtn_IOTrigger_clicked()
 {
+	auto& _dlgIOTrigger = Modules::getInstance().uiModule._dlgIOTrigger;
 	_dlgIOTrigger->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	// 计算居中位置
 	QPoint center = this->geometry().center() - QPoint(_dlgIOTrigger->width() / 2, _dlgIOTrigger->height() / 2);
@@ -929,7 +609,7 @@ void ZipperScanner::pbtn_IOTrigger_clicked()
 void ZipperScanner::btn_shedingladaichangdu_clicked()
 {
 	auto& globalStruct = GlobalData::getInstance();
-	auto& generalConfig = globalStruct.generalConfig;
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	// 弹出数字键盘对话框
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -952,29 +632,29 @@ void ZipperScanner::btn_shedingladaichangdu_clicked()
 
 void ZipperScanner::pbtn_resetProduct_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	globalStruct.generalConfig.produceLength = 0;
-	globalStruct.generalConfig.punchCount = 0;
-	ui->label_produceLength->setText(QString::number(globalStruct.generalConfig.produceLength, 'f', 2));
-	ui->label_punchCount->setText(QString::number(globalStruct.generalConfig.punchCount));
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	generalConfig.produceLength = 0;
+	generalConfig.punchCount = 0;
+	ui->label_produceLength->setText(QString::number(generalConfig.produceLength, 'f', 2));
+	ui->label_punchCount->setText(QString::number(generalConfig.punchCount));
 
-	globalStruct.statisticalInfo.produceLength = 0;
-	globalStruct.statisticalInfo.produceLengthBeforeStart = 0;
-	globalStruct.statisticalInfo.punchCount = 0;
+	statisticalInfo.produceLength = 0;
+	statisticalInfo.produceLengthBeforeStart = 0;
+	statisticalInfo.punchCount = 0;
 	bool isGet{false};
-	auto isConnect = globalStruct.zmotion.getConnectState(isGet);
+	auto isConnect = zmotion->getConnectState(isGet);
 	if (isConnect&& isGet)
 	{
-		auto& globalThread = GlobalThread::getInstance();
+		auto& globalData = GlobalData::getInstance();
 		bool isGetLocation{false};
-		auto location= globalStruct.zmotion.getAxisLocation(0, isGetLocation);
+		auto location= zmotion->getAxisLocation(0, isGetLocation);
 		if (isGetLocation)
 		{
-			globalThread.startLocation = location;
+			globalData.startLocation = location;
 		}
-		
 	}
-	
 }
 
 void ZipperScanner::lb_title_clicked()
@@ -987,6 +667,9 @@ void ZipperScanner::lb_title_clicked()
 	{
 		// 最小化主窗体
 		this->showMinimized();
+
+		auto& _dlgProductSet = Modules::getInstance().uiModule._dlgProductSet;
+		auto& _dlgProductScore = Modules::getInstance().uiModule._dlgProductScore;
 
 		// 最小化所有子窗体（如果已创建且可见）
 		if (_dlgProductSet && _dlgProductSet->isVisible())
@@ -1002,37 +685,7 @@ void ZipperScanner::lb_title_clicked()
 	}
 }
 
-void ZipperScanner::onCamera1Display(QPixmap image)
-{
-	if (!_isImageEnlargedDisplay)
-	{
-		imgDis1->setPixmap(image.scaled(imgDis1->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	}
-	else
-	{
-		if (0 == _currentImageEnlargedDisplayIndex) {
-			_imageEnlargedDisplay->setShowImg(image);
-		}
-	}
-	_lastImage1 = image;
-}
-
-void ZipperScanner::onCamera2Display(QPixmap image)
-{
-	if (!_isImageEnlargedDisplay)
-	{
-		imgDis2->setPixmap(image.scaled(imgDis2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	}
-	else
-	{
-		if (1 == _currentImageEnlargedDisplayIndex) {
-			_imageEnlargedDisplay->setShowImg(image);
-		}
-	}
-	_lastImage2 = image;
-}
-
-void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
+void ZipperScanner::onCameraDisplay(QPixmap image, size_t index, bool isbad)
 {
 	if (index == 1)
 	{
@@ -1088,58 +741,6 @@ void ZipperScanner::onCameraNGDisplay(QPixmap image, size_t index, bool isbad)
 	}
 }
 
-void ZipperScanner::updateUiLabels(int index, bool isConnected)
-{
-	switch (index)
-	{
-	case 0:
-		_isConnnectCard = isConnected;
-		if (isConnected)
-		{
-			ui->label_cardState->setText("连接成功");
-			ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-		}
-		else
-		{
-			ui->label_cardState->setText("连接失败");
-			ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-		}
-		break;
-	case 1:
-		if (isConnected) {
-			ui->label_camera1State->setText("连接成功");
-			ui->label_camera1State->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-		}
-		else {
-			ui->label_camera1State->setText("连接失败");
-			ui->label_camera1State->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-			rw::rqw::WarningInfo info;
-			info.message = "相机1断连";
-			info.type = rw::rqw::WarningType::Error;
-			info.warningId = WarningId::ccameraDisconnectAlarm1;
-			//labelWarning->addWarning(info);
-		}
-		break;
-	case 2:
-		if (isConnected) {
-			ui->label_camera2State->setText("连接成功");
-			ui->label_camera2State->setStyleSheet(QString("QLabel{color:rgb(0, 230, 0);} "));
-		}
-		else {
-			ui->label_camera2State->setText("连接失败");
-			ui->label_camera2State->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
-			rw::rqw::WarningInfo info;
-			info.message = "相机2断连";
-			info.type = rw::rqw::WarningType::Error;
-			info.warningId = WarningId::ccameraDisconnectAlarm2;
-			//labelWarning->addWarning(info);
-		}
-		break;
-	default:
-		break;
-	}
-}
-
 void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 {
 	if (index == ControlLines::qidonganniuIn)
@@ -1149,10 +750,6 @@ void ZipperScanner::getStartOrStopSignal(size_t index, bool state)
 			ui->rbtn_start->setChecked(true);
 			rbtn_start_clicked(state);
 			// 启动的时候记录当前位置
-			float nowLocation = 0;
-			bool isget = false;
-			nowLocation = GlobalData::getInstance().zmotion.getAxisLocation(0, isget);
-			GlobalData::getInstance().startLocation = nowLocation;
 		}
 		else
 		{
@@ -1331,11 +928,12 @@ void ZipperScanner::onFinishProduce()
 
 void ZipperScanner::onUpdateStatisticalInfo()
 {
-	auto& globalData = GlobalData::getInstance();
-	globalData.generalConfig.produceLength = globalData.statisticalInfo.produceLength + globalData.statisticalInfo.produceLengthBeforeStart.load();
-	ui->label_produceLength->setText(QString::number(globalData.generalConfig.produceLength, 'f', 2));
-	globalData.generalConfig.punchCount = globalData.statisticalInfo.punchCount;
-	ui->label_punchCount->setText(QString::number(globalData.generalConfig.punchCount));
+	auto& statisticalInfo = Modules::getInstance().runtimeInfoModule.statisticalInfo;
+	auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+	generalConfig.produceLength = statisticalInfo.produceLength + statisticalInfo.produceLengthBeforeStart.load();
+	ui->label_produceLength->setText(QString::number(generalConfig.produceLength, 'f', 2));
+	generalConfig.punchCount = statisticalInfo.punchCount;
+	ui->label_punchCount->setText(QString::number(generalConfig.punchCount));
 }
 
 void ZipperScanner::shutdownComputerTrigger(int time)
@@ -1344,6 +942,8 @@ void ZipperScanner::shutdownComputerTrigger(int time)
 	{
 		return;
 	}
+
+	auto& _dlgShutdownWarn = Modules::getInstance().uiModule._dlgShutdownWarn;
 
 	int shutDownBoundary = 7;
 	if (time == -1)

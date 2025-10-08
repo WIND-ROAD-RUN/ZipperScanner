@@ -2,19 +2,13 @@
 
 #include <QMainWindow>
 #include "ui_ZipperScanner.h"
-#include "DlgProductSet.h"
-#include "DlgProductScore.h"
-#include "DlgExposureTimeSet.h"
-#include "DlgIOTrigger.h"
 #include <rqw_LabelWarning.h>
 #include <opencv2/core/mat.hpp>
-
 #include "PictureViewerThumbnails.h"
 #include "ImageEnlargedDisplay.h"
 #include"rqw_LabelClickable.h"
 #include <QSpinBox>
-#include"DlgShutdownWarn.h"
-#include"DlgCloseForm.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ZipperScannerClass; };
@@ -38,52 +32,25 @@ public:
 	QMutex produceInfoMutex;
 	bool isSendProduceInfo{false};
 public:
-	void build_detachThread();
-	void destory_detachThread();
-public:
-	DlgProductSet* _dlgProductSet = nullptr;
-	QVector<QCheckBox*> _dlgProductSetCheckList{};
-	DlgProductScore* _dlgProductScore = nullptr;
-	QVector<QWidget*> _dlgProductScoreGroupList{};
-	DlgExposureTimeSet* _dlgExposureTimeSet = nullptr;
-	DlgIOTrigger* _dlgIOTrigger = nullptr;
-	DlgShutdownWarn* _dlgShutdownWarn = nullptr;
-	DlgCloseForm* _dlgCloseForm = nullptr;
+
 private:
 	PictureViewerThumbnails* _picturesViewer = nullptr;
 	rw::rqw::ClickableLabel* clickableTitle = nullptr;
 public:
 	void build_ui();
 	void build_connect();
-	void build_camera();
-	void build_motion();
+	void getCameraStateAndUpdateUi();
+	void getZMotionStateAndUpdateUi();
 
 	void build_ZipperScannerData();
-	void build_DlgProductSetData();
-	void ini_dlgProductSetCheckList();
-	void build_DlgProductScore();
-	void ini_dlgProductScoreGroupList();
-	void connectSetAndScore();
-	void build_DlgExposureTimeSet();
-	void build_DlgIOTrigger();
 	void ini_clickableTitle();
 
-	void build_imageProcessorModule();
-	void build_imageSaveEngine();
-
-	void start_Threads();
-
-	void start_CameraMonitor();
-
-	void build_DlgCloseForm();
 public:
 	void destroyComponents();
 
 public:
 	void read_config();
 	void read_config_GeneralConfig();
-	void read_config_ScoreConfig();
-	void read_config_SetConfig();
 
 private:
 	void changeRemoveFucState(bool state);
@@ -109,20 +76,14 @@ private slots:
 
 	void lb_title_clicked();
 signals:
-	void shibiekaungChanged();
+	void shibiekuangChanged();
 	void wenziChanged();
 
 
-private slots:
+public slots:
 	void updateCameraLabelState(int cameraIndex, bool state);
 
-	void onCamera1Display(QPixmap image);
-	void onCamera2Display(QPixmap image);
-
-	void onCameraNGDisplay(QPixmap image, size_t index, bool isbad);
-
-	// 更新UI
-	void updateUiLabels(int index, bool isConnected);
+	void onCameraDisplay(QPixmap image, size_t index, bool isbad);
 
 	// 监控启停IO
 	void getStartOrStopSignal(size_t index, bool state);

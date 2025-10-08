@@ -1,12 +1,13 @@
 #include "CameraAndCardStateThread.h"
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 #include "rqw_CameraObjectZMotion.hpp"
 
 size_t CameraAndCardStateThreadZipper::runtimeCounts=0;
 
 CameraAndCardStateThreadZipper::CameraAndCardStateThreadZipper(QObject* parent)
-	: QThread(parent), running(false), _dlgProductSet(GlobalData::getInstance().setConfig){
+	: QThread(parent), running(false), _dlgProductSet(Modules::getInstance().configManagerModule.setConfig){
 }
 
 CameraAndCardStateThreadZipper::~CameraAndCardStateThreadZipper()
@@ -57,27 +58,26 @@ void CameraAndCardStateThreadZipper::check_cameraState1()
 {
 	static bool isUpdateState = false;
 
-	auto& globalStruct = GlobalData::getInstance();
+	auto& camera1 = Modules::getInstance().cameraModule.camera1;
 
 	if (runtimeCounts != 0) {
 		return;
 	}
-	if (globalStruct.camera1) {
-		if (globalStruct.camera1->getConnectState()) {
+	if (camera1) {
+		if (camera1->getConnectState()) {
 			if (!isUpdateState) {
 				emit updateCameraLabelState(1, true);
 				isUpdateState = true;
 			}
 		}
 		else {
-			emit destroyCamera1();
+			emit destroyCamera(1);
 			emit updateCameraLabelState(1, false);
-			//emit addWarningInfo("相机1断连", true, 5000);
 		}
 	}
 	else {
-		emit buildCamera1();
-		//emit startMonitor1();
+		emit buildCamera(1);
+		emit startMonitor(1);
 		emit updateCameraLabelState(1, false);
 		isUpdateState = false;
 	}
@@ -87,28 +87,27 @@ void CameraAndCardStateThreadZipper::check_cameraState2()
 {
 	static bool isUpdateSate = false;
 
-	auto& globalStruct = GlobalData::getInstance();
+	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
 	if (runtimeCounts != 1) {
 		return;
 	}
 
-	if (globalStruct.camera2) {
-		if (globalStruct.camera2->getConnectState()) {
+	if (camera2) {
+		if (camera2->getConnectState()) {
 			if (!isUpdateSate) {
 				emit updateCameraLabelState(2, true);
 				isUpdateSate = true;
 			}
 		}
 		else {
-			emit destroyCamera2();
+			emit destroyCamera(2);
 			emit updateCameraLabelState(2, false);
-			//emit addWarningInfo("相机2断连", true, 5000);
 		}
 	}
 	else {
-		emit buildCamera2();
-		//emit startMonitor2();
+		emit buildCamera(2);
+		emit startMonitor(2);
 		emit updateCameraLabelState(2, false);
 		isUpdateSate = false;
 	}

@@ -4,7 +4,6 @@
 #include <atomic>
 #include"rqw_LabelWarning.h"
 
-
 class DetachUtiltyThread : public QThread
 {
 	Q_OBJECT
@@ -19,32 +18,19 @@ public:
 	void startThread();
 
 	void stopThread();
-private:
-	bool isStopOnce{ false };
-public:
-	rw::rqw::LabelWarning* warningLabel{ nullptr };
-private:
-	unsigned long long olderWasteCount{};
-
 protected:
 	void run() override;
 private:
 	void CalculateRealtimeInformation(size_t s);
 private:
-	void processWarningInfo(size_t s);
-	void processOneWarnGet(rw::rqw::WarningInfo& info);
-private:
 	void processShutdownIO(size_t s);
 private:
 	bool lastIsShutDown{ false };
 	int shutdownCount{ 0 };
+public:
 signals:
 	void updateStatisticalInfo();
-	void addWarningInfo(QString message, bool updateTimestampIfSame, int redDuration);
 signals:
-	void showDlgWarn(rw::rqw::WarningInfo info);
-signals:
-	void workTriggerError(int index);
 	void shutdownComputer(int time);
 private:
 	std::atomic<bool> running; // 使用原子变量保证线程安全

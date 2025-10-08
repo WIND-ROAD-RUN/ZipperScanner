@@ -31,9 +31,6 @@ private:
 	// 关闭所有可以点动的IO按钮
 	void closeAllIOBtn();
 
-signals:
-	void pixToWorldChanged();
-
 private:
 	// IO监控页面的调试模式
 	bool isDebugIO{ false };
@@ -118,10 +115,12 @@ private slots:
 
 	void tabWidget_indexChanged(int index);
 
+public slots:
 	// 监控IO函数
 	void monitorInPutSignal(size_t index, bool state);
 	void monitorOutPutSignal(size_t index, bool state);
 
+private slots:
 	// 分数界面内容可选显示
 	void ckb_queya_checked(bool isChecked);
 	void ckb_tangshang_checked(bool isChecked);

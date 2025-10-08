@@ -5,6 +5,7 @@
 #include <QButtonGroup>
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 #include "NumberKeyboard.h"
 
 DlgProductSet::DlgProductSet(QWidget* parent)
@@ -59,104 +60,100 @@ void DlgProductSet::build_ui()
 
 void DlgProductSet::read_config()
 {
-	auto& globalConfig = GlobalData::getInstance().setConfig;
-
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	// 剔废时间
-	ui->pbtn_tifeijuli1->setText(QString::number(globalConfig.tifeijuli1));
-	ui->pbtn_tifeijuli2->setText(QString::number(globalConfig.tifeijuli2));
+	ui->pbtn_tifeijuli1->setText(QString::number(setConfig.tifeijuli1));
+	ui->pbtn_tifeijuli2->setText(QString::number(setConfig.tifeijuli2));
 
 	// 采图
-	ui->cBox_takeCamera1Pictures->setChecked(globalConfig.takeWork1Pictures);
-	ui->cBox_takeCamera2Pictures->setChecked(globalConfig.takeWork2Pictures);
+	ui->cBox_takeCamera1Pictures->setChecked(setConfig.takeWork1Pictures);
+	ui->cBox_takeCamera2Pictures->setChecked(setConfig.takeWork2Pictures);
 
 	// 存图
-	ui->cBox_takeNgPictures->setChecked(globalConfig.saveNGImg);
-	ui->cBox_takeMaskPictures->setChecked(globalConfig.saveMaskImg);
-	ui->cBox_takeOkPictures->setChecked(globalConfig.saveOKImg);
-	ui->btn_saveQuality->setText(QString::number(globalConfig.imgSaveQuality));
-	ui->rbtn_saveBmp->setChecked(globalConfig.imgIsSaveBmp);
-	ui->rbtn_saveJpeg->setChecked(globalConfig.imgIsSaveJpeg);
-	ui->rbtn_savePng->setChecked(globalConfig.imgIsSavePng);
+	ui->cBox_takeNgPictures->setChecked(setConfig.saveNGImg);
+	ui->cBox_takeMaskPictures->setChecked(setConfig.saveMaskImg);
+	ui->cBox_takeOkPictures->setChecked(setConfig.saveOKImg);
+	ui->btn_saveQuality->setText(QString::number(setConfig.imgSaveQuality));
+	ui->rbtn_saveBmp->setChecked(setConfig.imgIsSaveBmp);
+	ui->rbtn_saveJpeg->setChecked(setConfig.imgIsSaveJpeg);
+	ui->rbtn_savePng->setChecked(setConfig.imgIsSavePng);
 
 
 	// 一工位的限位与像素当量
-	ui->pbtn_shangxianwei1->setText(QString::number(globalConfig.shangXianWei1));
-	ui->pbtn_xiaxianwei1->setText(QString::number(globalConfig.xiaXianWei1));
-	ui->pbtn_zuoxianwei1->setText(QString::number(globalConfig.zuoXianWei1));
-	ui->pbtn_youxianwei1->setText(QString::number(globalConfig.youXianWei1));
-	ui->pbtn_xiangsudangliang1->setText(QString::number(globalConfig.xiangSuDangLiang1));
+	ui->pbtn_shangxianwei1->setText(QString::number(setConfig.shangXianWei1));
+	ui->pbtn_xiaxianwei1->setText(QString::number(setConfig.xiaXianWei1));
+	ui->pbtn_zuoxianwei1->setText(QString::number(setConfig.zuoXianWei1));
+	ui->pbtn_youxianwei1->setText(QString::number(setConfig.youXianWei1));
+	ui->pbtn_xiangsudangliang1->setText(QString::number(setConfig.xiangSuDangLiang1));
 
 	// 二工位的限位与像素当量
-	ui->pbtn_shangxianwei2->setText(QString::number(globalConfig.shangXianWei2));
-	ui->pbtn_xiaxianwei2->setText(QString::number(globalConfig.xiaXianWei2));
-	ui->pbtn_zuoxianwei2->setText(QString::number(globalConfig.zuoXianWei2));
-	ui->pbtn_youxianwei2->setText(QString::number(globalConfig.youXianWei2));
-	ui->pbtn_xiangsudangliang2->setText(QString::number(globalConfig.xiangSuDangLiang2));
+	ui->pbtn_shangxianwei2->setText(QString::number(setConfig.shangXianWei2));
+	ui->pbtn_xiaxianwei2->setText(QString::number(setConfig.xiaXianWei2));
+	ui->pbtn_zuoxianwei2->setText(QString::number(setConfig.zuoXianWei2));
+	ui->pbtn_youxianwei2->setText(QString::number(setConfig.youXianWei2));
+	ui->pbtn_xiangsudangliang2->setText(QString::number(setConfig.xiangSuDangLiang2));
 
 	// 光源
-	ui->pbtn_qiangbaoguang->setText(QString::number(globalConfig.qiangBaoGuang));
-	ui->pbtn_qiangzengyi->setText(QString::number(globalConfig.qiangZengYi));
+	ui->pbtn_qiangbaoguang->setText(QString::number(setConfig.qiangBaoGuang));
+	ui->pbtn_qiangzengyi->setText(QString::number(setConfig.qiangZengYi));
 
-	ui->pbtn_zhongbaoguang->setText(QString::number(globalConfig.zhongBaoGuang));
-	ui->pbtn_zhongzengyi->setText(QString::number(globalConfig.zhongZengYi));
+	ui->pbtn_zhongbaoguang->setText(QString::number(setConfig.zhongBaoGuang));
+	ui->pbtn_zhongzengyi->setText(QString::number(setConfig.zhongZengYi));
 
-	ui->pbtn_ruobaoguang->setText(QString::number(globalConfig.ruoBaoGuang));
-	ui->pbtn_ruozengyi->setText(QString::number(globalConfig.ruoZengYi));
+	ui->pbtn_ruobaoguang->setText(QString::number(setConfig.ruoBaoGuang));
+	ui->pbtn_ruozengyi->setText(QString::number(setConfig.ruoZengYi));
 
 	// 调试模式默认为关闭
-	globalConfig.debugMode = false;
-	ui->cbox_debugMode->setChecked(globalConfig.debugMode);
+	setConfig.debugMode = false;
+	ui->cbox_debugMode->setChecked(setConfig.debugMode);
 
 	// 基本功能
-	ui->cbox_qiyongerxiangji->setChecked(globalConfig.qiyongerxiangji);
-	ui->cbox_qiyongyundongkongzhiqi->setChecked(globalConfig.qiyongyundongkongzhiqi);
-	ui->cbox_yundongkongzhiqichonglian->setChecked(globalConfig.yundongkongzhiqichonglian);
+	ui->cbox_qiyongerxiangji->setChecked(setConfig.qiyongerxiangji);
+	ui->cbox_qiyongyundongkongzhiqi->setChecked(setConfig.qiyongyundongkongzhiqi);
+	ui->cbox_yundongkongzhiqichonglian->setChecked(setConfig.yundongkongzhiqichonglian);
 
 	// 基本参数
-	ui->btn_xiangjichufachangdu->setText(QString::number(globalConfig.xiangjichufachangdu));
-	ui->btn_yanshichongkong->setText(QString::number(globalConfig.yanshichongkong));
-	ui->btn_chongkongshijian->setText(QString::number(globalConfig.chongkongshijian));
-	ui->btn_yanshiziqi->setText(QString::number(globalConfig.yanshiziqi));
-	ui->btn_jiajiansushijian->setText(QString::number(globalConfig.jiajiansushijian));
-	ui->btn_shoudongsudu->setText(QString::number(globalConfig.shoudongsudu));
-	ui->btn_meizhuanmaichongshu->setText(QString::number(globalConfig.meizhuanmaichongshu));
-	ui->btn_zidongladaisudu->setText(QString::number(globalConfig.zidongladaisudu));
-	ui->btn_shedingzhouchang->setText(QString::number(globalConfig.shedingzhouchang));
+	ui->btn_xiangjichufachangdu->setText(QString::number(setConfig.xiangjichufachangdu));
+	ui->btn_yanshichongkong->setText(QString::number(setConfig.yanshichongkong));
+	ui->btn_chongkongshijian->setText(QString::number(setConfig.chongkongshijian));
+	ui->btn_yanshiziqi->setText(QString::number(setConfig.yanshiziqi));
+	ui->btn_jiajiansushijian->setText(QString::number(setConfig.jiajiansushijian));
+	ui->btn_shoudongsudu->setText(QString::number(setConfig.shoudongsudu));
+	ui->btn_meizhuanmaichongshu->setText(QString::number(setConfig.meizhuanmaichongshu));
+	ui->btn_zidongladaisudu->setText(QString::number(setConfig.zidongladaisudu));
+	ui->btn_shedingzhouchang->setText(QString::number(setConfig.shedingzhouchang));
 
 	// 设置IO
-	ui->btn_setqidonganniu->setText(QString::number(globalConfig.qidonganniuIn));
-	ui->btn_setlalianlawan->setText(QString::number(globalConfig.lalianlawanIn));
-	ui->btn_setjiting->setText(QString::number(globalConfig.jitingIn));
-	ui->btn_setchongkong->setText(QString::number(globalConfig.chongkongOut));
-	ui->btn_settuoji->setText(QString::number(globalConfig.tuojiOut));
-	ui->btn_guanji->setText(QString::number(globalConfig.guanjiIn));
-	ui->btn_setxiangjichufa1->setText(QString::number(globalConfig.xiangjichufapaizhao1Out));
-	ui->btn_setxiangjichufa2->setText(QString::number(globalConfig.xiangjichufapaizhao2Out));
+	ui->btn_setqidonganniu->setText(QString::number(setConfig.qidonganniuIn));
+	ui->btn_setlalianlawan->setText(QString::number(setConfig.lalianlawanIn));
+	ui->btn_setjiting->setText(QString::number(setConfig.jitingIn));
+	ui->btn_setchongkong->setText(QString::number(setConfig.chongkongOut));
+	ui->btn_settuoji->setText(QString::number(setConfig.tuojiOut));
+	ui->btn_guanji->setText(QString::number(setConfig.guanjiIn));
+	ui->btn_setxiangjichufa1->setText(QString::number(setConfig.xiangjichufapaizhao1Out));
+	ui->btn_setxiangjichufa2->setText(QString::number(setConfig.xiangjichufapaizhao2Out));
 
 	// 默认显示第一个
 	ui->tabWidget->setCurrentIndex(0);
 
 	// 分数界面内容可选显示
-	ui->ckb_queya->setChecked(globalConfig.isQueya);
-	ui->ckb_tangshang->setChecked(globalConfig.isTangshang);
-	ui->ckb_zangwu->setChecked(globalConfig.isZangwu);
-	ui->ckb_suoxiao->setChecked(globalConfig.isSuoxiao);
+	ui->ckb_queya->setChecked(setConfig.isQueya);
+	ui->ckb_tangshang->setChecked(setConfig.isTangshang);
+	ui->ckb_zangwu->setChecked(setConfig.isZangwu);
+	ui->ckb_suoxiao->setChecked(setConfig.isSuoxiao);
 
-	ui->ckb_huawen->setChecked(globalConfig.isExtra1);
-	ui->ckb_yuan->setChecked(globalConfig.isExtra2);
-	ui->ckb_huapo->setChecked(globalConfig.isExtra3);
-	ui->ckb_duanxian->setChecked(globalConfig.isExtra4);
-	ui->ckb_extra5->setChecked(globalConfig.isExtra5);
-	ui->ckb_extra6->setChecked(globalConfig.isExtra6);
-	ui->ckb_extra7->setChecked(globalConfig.isExtra7);
-	ui->ckb_extra8->setChecked(globalConfig.isExtra8);
+	ui->ckb_huawen->setChecked(setConfig.isExtra1);
+	ui->ckb_yuan->setChecked(setConfig.isExtra2);
+	ui->ckb_huapo->setChecked(setConfig.isExtra3);
+	ui->ckb_duanxian->setChecked(setConfig.isExtra4);
+	ui->ckb_extra5->setChecked(setConfig.isExtra5);
+	ui->ckb_extra6->setChecked(setConfig.isExtra6);
+	ui->ckb_extra7->setChecked(setConfig.isExtra7);
+	ui->ckb_extra8->setChecked(setConfig.isExtra8);
 
 	//图像旋转次数
-	ui->btn_rotateImgCount1->setText(QString::number(globalConfig.imgRotateCount1));
-	ui->btn_rotateImgCount2->setText(QString::number(globalConfig.imgRotateCount2));
-
-	GlobalData::getInstance().imgRotateCount1 = globalConfig.imgRotateCount1;
-	GlobalData::getInstance().imgRotateCount2 = globalConfig.imgRotateCount2;
+	ui->btn_rotateImgCount1->setText(QString::number(setConfig.imgRotateCount1));
+	ui->btn_rotateImgCount2->setText(QString::number(setConfig.imgRotateCount2));
 }
 
 void DlgProductSet::build_connect()
@@ -273,19 +270,13 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_setchongkong_clicked);
 	QObject::connect(ui->btn_settuoji, &QPushButton::clicked,
 		this, &DlgProductSet::btn_settuoji_clicked);
-	QObject::connect(ui->btn_guanji,&QPushButton::clicked,
+	QObject::connect(ui->btn_guanji, &QPushButton::clicked,
 		this, &DlgProductSet::btn_guanji_clicked);
 	QObject::connect(ui->btn_setxiangjichufa1, &QPushButton::clicked,
 		this, &DlgProductSet::btn_setxiangjichufa1_clicked);
 	QObject::connect(ui->btn_setxiangjichufa2, &QPushButton::clicked,
 		this, &DlgProductSet::btn_setxiangjichufa2_clicked);
 
-
-	// 连接监控IO信号
-	QObject::connect(&globalStruct, &GlobalData::emit_InPutSignal,
-		this, &DlgProductSet::monitorInPutSignal);
-	QObject::connect(&globalStruct, &GlobalData::emit_OutPutSignal,
-		this, &DlgProductSet::monitorOutPutSignal);
 
 	// 分数界面内容可选显示
 	QObject::connect(ui->ckb_queya, &QCheckBox::clicked,
@@ -341,7 +332,7 @@ void DlgProductSet::build_connect()
 
 std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
 {
-	auto& setConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	std::vector<int> values = {
 		setConfig.chongkongOut,
 		setConfig.tuojiOut,
@@ -413,20 +404,20 @@ void DlgProductSet::setDIErrorInfo(int index)
 
 void DlgProductSet::closeAllIOBtn()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	bool isChongKongSet = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	bool isChongKongSet = zmotion->setIOOut(ControlLines::chongkongOUT, false);
 
 	// 冲孔
 	if (!isChongKongSet)
 	{
-		QMessageBox::warning(this, "警告", "手动冲孔失败!");
+		//QMessageBox::warning(this, "警告", "手动冲孔失败!");
 	}
 
 	// 脱机
-	bool isTuoJiSet = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, false);
+	bool isTuoJiSet = zmotion->setIOOut(ControlLines::tuojiOut, false);
 	if (!isTuoJiSet)
 	{
-		QMessageBox::warning(this, "警告", "设置脱机失败!");
+		//QMessageBox::warning(this, "警告", "设置脱机失败!");
 	}
 }
 
@@ -468,7 +459,7 @@ void DlgProductSet::setDOErrorInfo(int index)
 
 std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 {
-	auto& setConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	std::vector<int> values = {
 		setConfig.qidonganniuIn,
 		setConfig.lalianlawanIn,
@@ -504,28 +495,30 @@ std::vector<std::vector<int>> DlgProductSet::DIFindAllDuplicateIndices()
 
 void DlgProductSet::updateMonitorIOThread()
 {
-	auto& globalData = GlobalData::getInstance();
+	auto& monitorStartOrStopThread = Modules::getInstance().motionControllerModule.monitorStartOrStopThread;
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
 	QVector<size_t> monitorIList = { ControlLines::qidonganniuIn,ControlLines::lalianlawanIn,ControlLines::jitingIn,ControlLines::guanjiIn };
 	QVector<size_t> monitorOList = { ControlLines::chongkongOUT,ControlLines::tuojiOut,ControlLines::xiangjichufaOut1 ,ControlLines::xiangjichufaOut2 };
-	globalData.monitorZMotionMonitorThread.setMonitorIList(monitorIList);
-	globalData.monitorZMotionMonitorThread.setMonitorOList(monitorOList);
+	monitorZMotionMonitorThread->setMonitorIList(monitorIList);
+	monitorZMotionMonitorThread->setMonitorOList(monitorOList);
 
 	QVector<size_t> monitorIList1 = { ControlLines::qidonganniuIn,ControlLines::jitingIn };
-	globalData.monitorStartOrStopThread.setMonitorIList(monitorIList);
+	monitorStartOrStopThread->setMonitorIList(monitorIList);
 }
 
 void DlgProductSet::pbtn_close_clicked()
 {
-	auto& GlobalStructData = GlobalData::getInstance();
-
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
+	auto& _isUpdateMonitorInfo = Modules::getInstance().motionControllerModule._isUpdateMonitorInfo;
 	// 关闭所有可以点动的IO按钮
 	closeAllIOBtn();
 
 	// 关闭监控IO线程
-	GlobalData::getInstance()._isUpdateMonitorInfo = false;
-	GlobalData::getInstance().monitorZMotionMonitorThread.setRunning(false);
+	_isUpdateMonitorInfo = false;
+	monitorZMotionMonitorThread->setRunning(false);
 
-	GlobalStructData.saveDlgProductSetConfig();
+	cbox_debugMode_checked(false);
+
 	this->close();
 }
 
@@ -543,9 +536,9 @@ void DlgProductSet::pbtn_yanchitifeishijian1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_tifeijuli1->setText(value);
-		globalStructSetConfig.tifeijuli1 = value.toDouble();
+		setConfig.tifeijuli1 = value.toDouble();
 	}
 }
 
@@ -562,9 +555,9 @@ void DlgProductSet::pbtn_yanchitifeishijian2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_tifeijuli2->setText(value);
-		globalStructSetConfig.tifeijuli2 = value.toDouble();
+		setConfig.tifeijuli2 = value.toDouble();
 	}
 }
 
@@ -581,9 +574,9 @@ void DlgProductSet::pbtn_shangxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_shangxianwei1->setText(value);
-		globalStructSetConfig.shangXianWei1 = value.toDouble();
+		setConfig.shangXianWei1 = value.toDouble();
 	}
 }
 
@@ -600,9 +593,9 @@ void DlgProductSet::pbtn_xiaxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_xiaxianwei1->setText(value);
-		globalStructSetConfig.xiaXianWei1 = value.toDouble();
+		setConfig.xiaXianWei1 = value.toDouble();
 	}
 }
 
@@ -619,9 +612,9 @@ void DlgProductSet::pbtn_zuoxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_zuoxianwei1->setText(value);
-		globalStructSetConfig.zuoXianWei1 = value.toDouble();
+		setConfig.zuoXianWei1 = value.toDouble();
 	}
 }
 
@@ -638,9 +631,9 @@ void DlgProductSet::pbtn_youxianwei1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_youxianwei1->setText(value);
-		globalStructSetConfig.youXianWei1 = value.toDouble();
+		setConfig.youXianWei1 = value.toDouble();
 	}
 }
 
@@ -657,10 +650,10 @@ void DlgProductSet::pbtn_xiangsudangliang1_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_xiangsudangliang1->setText(value);
-		globalStructSetConfig.xiangSuDangLiang1 = value.toDouble();
-		emit pixToWorldChanged();
+		setConfig.xiangSuDangLiang1 = value.toDouble();
+		emit
 	}
 }
 
@@ -677,9 +670,9 @@ void DlgProductSet::pbtn_shangxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_shangxianwei2->setText(value);
-		globalStructSetConfig.shangXianWei2 = value.toDouble();
+		setConfig.shangXianWei2 = value.toDouble();
 	}
 }
 
@@ -696,9 +689,9 @@ void DlgProductSet::pbtn_xiaxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_xiaxianwei2->setText(value);
-		globalStructSetConfig.xiaXianWei2 = value.toDouble();
+		setConfig.xiaXianWei2 = value.toDouble();
 	}
 }
 
@@ -715,9 +708,9 @@ void DlgProductSet::pbtn_zuoxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_zuoxianwei2->setText(value);
-		globalStructSetConfig.zuoXianWei2 = value.toDouble();
+		setConfig.zuoXianWei2 = value.toDouble();
 	}
 }
 
@@ -734,9 +727,9 @@ void DlgProductSet::pbtn_youxianwei2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_youxianwei2->setText(value);
-		globalStructSetConfig.youXianWei2 = value.toDouble();
+		setConfig.youXianWei2 = value.toDouble();
 	}
 }
 
@@ -753,10 +746,10 @@ void DlgProductSet::pbtn_xiangsudangliang2_clicked()
 			QMessageBox::warning(this, "提示", "请输入大于0的数值");
 			return;
 		}
-		auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->pbtn_xiangsudangliang2->setText(value);
-		globalStructSetConfig.xiangSuDangLiang2 = value.toDouble();
-		emit pixToWorldChanged();
+		setConfig.xiangSuDangLiang2 = value.toDouble();
+		emit
 	}
 }
 
@@ -774,20 +767,22 @@ void DlgProductSet::pbtn_qiangbaoguang_clicked()
 			return;
 		}
 		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
-		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
 		ui->pbtn_qiangbaoguang->setText(value);
-		globalStructSetConfig.qiangBaoGuang = value.toDouble();
-		if (globalStructGeneralConfig.qiangGuang == true)
+		setConfig.qiangBaoGuang = value.toDouble();
+		if (generalConfig.qiangGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.qiangBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.qiangBaoGuang));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
 			}
 		}
 	}
@@ -807,19 +802,21 @@ void DlgProductSet::pbtn_qiangzengyi_clicked()
 			return;
 		}
 		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
-		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_qiangzengyi->setText(value);
-		globalStructSetConfig.qiangZengYi = value.toDouble();
-		if (globalStructGeneralConfig.qiangGuang == true)
+		setConfig.qiangZengYi = value.toDouble();
+		if (generalConfig.qiangGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setGain(static_cast<size_t>(globalStructSetConfig.qiangZengYi));
+				camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi));
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setGain(static_cast<size_t>(globalStructSetConfig.qiangZengYi));
+				camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi));
 			}
 		}
 	}
@@ -839,19 +836,21 @@ void DlgProductSet::pbtn_zhongbaoguang_clicked()
 			return;
 		}
 		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
-		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_zhongbaoguang->setText(value);
-		globalStructSetConfig.zhongBaoGuang = value.toDouble();
-		if (globalStructGeneralConfig.zhongGuang == true)
+		setConfig.zhongBaoGuang = value.toDouble();
+		if (generalConfig.zhongGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.zhongBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.zhongBaoGuang));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
 			}
 		}
 	}
@@ -871,20 +870,22 @@ void DlgProductSet::pbtn_ruobaoguang_clicked()
 			return;
 		}
 		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
-		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_ruobaoguang->setText(value);
-		globalStructSetConfig.ruoBaoGuang = value.toDouble();
-		if (globalStructGeneralConfig.ruoGuang == true)
+		setConfig.ruoBaoGuang = value.toDouble();
+		if (generalConfig.ruoGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setExposureTime(static_cast<size_t>(globalStructSetConfig.ruoBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
 
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setExposureTime(static_cast<size_t>(globalStructSetConfig.ruoBaoGuang));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
 			}
 		}
 	}
@@ -904,20 +905,22 @@ void DlgProductSet::pbtn_zhongzengyi_clicked()
 			return;
 		}
 		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
-		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_zhongzengyi->setText(value);
-		globalStructSetConfig.zhongZengYi = value.toDouble();
-		if (globalStructGeneralConfig.zhongGuang == true)
+		setConfig.zhongZengYi = value.toDouble();
+		if (generalConfig.zhongGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setGain(static_cast<size_t>(globalStructSetConfig.zhongZengYi));
+				camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi));
 
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setGain(static_cast<size_t>(globalStructSetConfig.zhongZengYi));
+				camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi));
 			}
 		}
 	}
@@ -937,20 +940,22 @@ void DlgProductSet::pbtn_ruozengyi_clicked()
 			return;
 		}
 		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
-		auto& globalStructGeneralConfig = globalStruct.generalConfig;
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera1 = Modules::getInstance().cameraModule.camera1;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 		ui->pbtn_ruozengyi->setText(value);
-		globalStructSetConfig.ruoZengYi = value.toDouble();
-		if (globalStructGeneralConfig.ruoGuang == true)
+		setConfig.ruoZengYi = value.toDouble();
+		if (generalConfig.ruoGuang == true)
 		{
-			if (globalStruct.camera1)
+			if (camera1)
 			{
-				globalStruct.camera1->setGain(static_cast<size_t>(globalStructSetConfig.ruoZengYi));
+				camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi));
 
 			}
-			if (globalStruct.camera2)
+			if (camera2)
 			{
-				globalStruct.camera2->setGain(static_cast<size_t>(globalStructSetConfig.ruoZengYi));
+				camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi));
 			}
 		}
 	}
@@ -958,26 +963,26 @@ void DlgProductSet::pbtn_ruozengyi_clicked()
 
 void DlgProductSet::cBox_takeNgPictures_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.saveNGImg = ui->cBox_takeNgPictures->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.saveNGImg = ui->cBox_takeNgPictures->isChecked();
 }
 
 void DlgProductSet::cBox_takeMaskPictures_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.saveMaskImg = ui->cBox_takeMaskPictures->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.saveMaskImg = ui->cBox_takeMaskPictures->isChecked();
 }
 
 void DlgProductSet::cBox_takeOkPictures_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.saveOKImg = ui->cBox_takeOkPictures->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.saveOKImg = ui->cBox_takeOkPictures->isChecked();
 }
 
 void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 {
-	auto& isDebug = GlobalData::getInstance().setConfig.debugMode;
-	auto& globalStruct = GlobalData::getInstance();
+	auto& isDebug = Modules::getInstance().configManagerModule.setConfig.debugMode;
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
 	isDebug = ischecked;
 	isDebugIO = ischecked;
 	if (isDebugIO)
@@ -991,7 +996,7 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 		ui->cbox_DOchufapaizhao1->setEnabled(true);
 		ui->cbox_DOchufapaizhao2->setEnabled(true);
 
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
+		monitorZMotionMonitorThread->setRunning(false);
 	}
 	else
 	{
@@ -1004,56 +1009,56 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 		ui->cbox_DOchufapaizhao1->setEnabled(false);
 		ui->cbox_DOchufapaizhao2->setEnabled(false);
 
-		globalStruct.monitorZMotionMonitorThread.setRunning(true);
+		monitorZMotionMonitorThread->setRunning(true);
 	}
 }
 
 void DlgProductSet::cBox_takeCamera1Pictures_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.takeWork1Pictures = ui->cBox_takeCamera1Pictures->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.takeWork1Pictures = ui->cBox_takeCamera1Pictures->isChecked();
 }
 
 void DlgProductSet::cBox_takeCamera2Pictures_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.takeWork2Pictures = ui->cBox_takeCamera2Pictures->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.takeWork2Pictures = ui->cBox_takeCamera2Pictures->isChecked();
 }
 
 void DlgProductSet::rbtn_saveJpeg_checked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
-	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
-	globalStructSetConfig.imgIsSaveJpeg = true;
-	globalStructSetConfig.imgIsSavePng = false;
-	globalStructSetConfig.imgIsSaveBmp = false;
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::JPEG);
+	setConfig.imgIsSaveJpeg = true;
+	setConfig.imgIsSavePng = false;
+	setConfig.imgIsSaveBmp = false;
 }
 
 void DlgProductSet::rbtn_savePng_checked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
-	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
-	globalStructSetConfig.imgIsSavePng = true;
-	globalStructSetConfig.imgIsSaveJpeg = false;
-	globalStructSetConfig.imgIsSaveBmp = false;
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::PNG);
+	setConfig.imgIsSavePng = true;
+	setConfig.imgIsSaveJpeg = false;
+	setConfig.imgIsSaveBmp = false;
 }
 
 void DlgProductSet::rbtn_saveBmp_checked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
-	globalStruct.imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
-	globalStructSetConfig.imgIsSaveBmp = true;
-	globalStructSetConfig.imgIsSaveJpeg = false;
-	globalStructSetConfig.imgIsSavePng = false;
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	imageSaveEngine->setSaveImgFormat(rw::rqw::ImageSaveFormat::BMP);
+	setConfig.imgIsSaveBmp = true;
+	setConfig.imgIsSaveJpeg = false;
+	setConfig.imgIsSavePng = false;
 }
 
 void DlgProductSet::btn_saveQuality_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& imageSaveEngine = Modules::getInstance().imgSaveModule.imageSaveEngine;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1066,33 +1071,33 @@ void DlgProductSet::btn_saveQuality_clicked()
 			return;
 		}
 		ui->btn_saveQuality->setText(value);
-		globalStructSetConfig.imgSaveQuality = value.toInt();
-		globalStruct.imageSaveEngine->setSaveImgQuality(globalStructSetConfig.imgSaveQuality);
+		setConfig.imgSaveQuality = value.toInt();
+		imageSaveEngine->setSaveImgQuality(setConfig.imgSaveQuality);
 	}
 }
 
 void DlgProductSet::cbox_qiyongerxiangji_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.qiyongerxiangji = ui->cbox_qiyongerxiangji->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.qiyongerxiangji = ui->cbox_qiyongerxiangji->isChecked();
 }
 
 void DlgProductSet::cbox_qiyongyundongkongzhiqi_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.qiyongyundongkongzhiqi = ui->cbox_qiyongyundongkongzhiqi->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.qiyongyundongkongzhiqi = ui->cbox_qiyongyundongkongzhiqi->isChecked();
 }
 
 void DlgProductSet::cbox_yundongkongzhiqichonglian_checked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.yundongkongzhiqichonglian = ui->cbox_yundongkongzhiqichonglian->isChecked();
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.yundongkongzhiqichonglian = ui->cbox_yundongkongzhiqichonglian->isChecked();
 }
 
 void DlgProductSet::btn_xiangjichufachangdu_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1105,8 +1110,8 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 			return;
 		}
 		ui->btn_xiangjichufachangdu->setText(value);
-		globalStructSetConfig.xiangjichufachangdu = value.toDouble();
-		bool isSet = globalStruct.zmotion.setModbus(4, 1, value.toFloat());
+		setConfig.xiangjichufachangdu = value.toDouble();
+		bool isSet = zmotion->setModbus(4, 1, value.toFloat());
 
 		if (!isSet)
 		{
@@ -1117,20 +1122,20 @@ void DlgProductSet::btn_xiangjichufachangdu_clicked()
 
 void DlgProductSet::btn_shoudongladai_pressed()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto setConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	auto setConfig = Modules::getInstance().configManagerModule.setConfig;
 	auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
 	// 启动电机
-	auto isAxisType = globalStruct.zmotion.setAxisType(0, 1);
+	auto isAxisType = zmotion->setAxisType(0, 1);
 	double unit = value;
-	auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
+	auto isAxisPulse = zmotion->setAxisPulse(0, unit);
 	double acc = setConfig.jiajiansushijian;
-	auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
+	auto isAxisAcc = zmotion->setAxisAcc(0, acc);
+	auto isAxisDec = zmotion->setAxisDec(0, acc * 2);
 	double speed = setConfig.shoudongsudu;
-	auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
-	auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+	auto isAxisRunSpeed = zmotion->setAxisRunSpeed(0, speed);
+	auto isAxisRun = zmotion->setAxisRun(0, -1);
 
 	if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 	{
@@ -1140,9 +1145,9 @@ void DlgProductSet::btn_shoudongladai_pressed()
 
 void DlgProductSet::btn_shoudongladai_released()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	// 停止电机
-	bool isStop = globalStruct.zmotion.stopAllAxis();
+	bool isStop = zmotion->stopAllAxis();
 
 	if (!isStop)
 	{
@@ -1153,11 +1158,12 @@ void DlgProductSet::btn_shoudongladai_released()
 void DlgProductSet::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
-		auto& globalStruct = GlobalData::getInstance();
-		auto chongkongshijian = globalStruct.setConfig.chongkongshijian*1000;
-		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong *1000;
+		auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto chongkongshijian = setConfig.chongkongshijian * 1000;
+		auto yanchichongkongshijian = setConfig.yanshichongkong * 1000;
 		QThread::msleep(yanchichongkongshijian);
-		bool isSet = globalStruct.zmotion.SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
+		bool isSet = zmotion->SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
 
 		if (!isSet) {
 			QMetaObject::invokeMethod(this, [this]() {
@@ -1169,11 +1175,10 @@ void DlgProductSet::btn_shoudongchongkong_clicked()
 
 void DlgProductSet::btn_tuoji_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	bool isGetTuoJiOut = false;
-	bool tuojiState = globalStruct.zmotion.getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
-	bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, !tuojiState);
+	bool tuojiState = zmotion->getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
+	bool isSuccess = zmotion->setIOOut(ControlLines::tuojiOut, !tuojiState);
 	if (!isSuccess)
 	{
 		QMessageBox::warning(this, "警告", "设置脱机失败!");
@@ -1215,7 +1220,7 @@ void DlgProductSet::btn_xiangjichufa_clicked()
 
 void DlgProductSet::btn_shoudongsudu_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1228,13 +1233,13 @@ void DlgProductSet::btn_shoudongsudu_clicked()
 			return;
 		}
 		ui->btn_shoudongsudu->setText(value);
-		globalStructSetConfig.shoudongsudu = value.toDouble();
+		setConfig.shoudongsudu = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_meizhuanmaichongshu_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1247,13 +1252,13 @@ void DlgProductSet::btn_meizhuanmaichongshu_clicked()
 			return;
 		}
 		ui->btn_meizhuanmaichongshu->setText(value);
-		globalStructSetConfig.meizhuanmaichongshu = value.toDouble();
+		setConfig.meizhuanmaichongshu = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_zidongladaisudu_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1266,13 +1271,13 @@ void DlgProductSet::btn_zidongladaisudu_clicked()
 			return;
 		}
 		ui->btn_zidongladaisudu->setText(value);
-		globalStructSetConfig.zidongladaisudu = value.toDouble();
+		setConfig.zidongladaisudu = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_shedingzhouchang_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1285,13 +1290,13 @@ void DlgProductSet::btn_shedingzhouchang_clicked()
 			return;
 		}
 		ui->btn_shedingzhouchang->setText(value);
-		globalStructSetConfig.shedingzhouchang = value.toDouble();
+		setConfig.shedingzhouchang = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_yanshichongkong_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1304,13 +1309,13 @@ void DlgProductSet::btn_yanshichongkong_clicked()
 			return;
 		}
 		ui->btn_yanshichongkong->setText(value);
-		globalStructSetConfig.yanshichongkong = value.toDouble();
+		setConfig.yanshichongkong = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_chongkongshijian_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1323,13 +1328,13 @@ void DlgProductSet::btn_chongkongshijian_clicked()
 			return;
 		}
 		ui->btn_chongkongshijian->setText(value);
-		globalStructSetConfig.chongkongshijian = value.toDouble();
+		setConfig.chongkongshijian = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_yanshiziqi_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1342,13 +1347,13 @@ void DlgProductSet::btn_yanshiziqi_clicked()
 			return;
 		}
 		ui->btn_yanshiziqi->setText(value);
-		globalStructSetConfig.yanshiziqi = value.toDouble();
+		setConfig.yanshiziqi = value.toDouble();
 	}
 }
 
 void DlgProductSet::btn_jiajiansushijian_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1361,86 +1366,79 @@ void DlgProductSet::btn_jiajiansushijian_clicked()
 			return;
 		}
 		ui->btn_jiajiansushijian->setText(value);
-		globalStructSetConfig.jiajiansushijian = value.toDouble();
+		setConfig.jiajiansushijian = value.toDouble();
 	}
 }
 
 void DlgProductSet::cbox_DIqidonganniu_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::qidonganniuIn, isChecked);
+		auto isSuccess = zmotion->setIOOut(ControlLines::qidonganniuIn, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DIjiting_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::jitingIn, isChecked);
+		auto isSuccess = zmotion->setIOOut(ControlLines::jitingIn, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DIlalianlawan_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::lalianlawanIn, isChecked);
+		auto isSuccess = zmotion->setIOOut(ControlLines::lalianlawanIn, isChecked);
 	}
 }
 
 
 void DlgProductSet::cbox_DOchongkong_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, isChecked);
+		auto isSuccess = zmotion->setIOOut(ControlLines::chongkongOUT, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DOtuoji_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		auto isSuccess = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, isChecked);
+		auto isSuccess = zmotion->setIOOut(ControlLines::tuojiOut, isChecked);
 	}
 }
 
 void DlgProductSet::cbox_DOchufapaizhao1_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
+		bool isXiangJiChuFaSet = zmotion->SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
 		ui->cbox_DOchufapaizhao1->setChecked(false);
 	}
 }
 
 void DlgProductSet::cbox_DOchufapaizhao2_clicked(bool isChecked)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& globalStructSetConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	if (isDebugIO)
 	{
-		bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
+		bool isXiangJiChuFaSet = zmotion->SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
 		ui->cbox_DOchufapaizhao2->setChecked(false);
 	}
 }
 
 void DlgProductSet::btn_setqidonganniu_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1454,7 +1452,7 @@ void DlgProductSet::btn_setqidonganniu_clicked()
 		}
 		ui->btn_setqidonganniu->setText(value);
 		ControlLines::qidonganniuIn = value.toInt();
-		globalStructSetConfig.qidonganniuIn = value.toDouble();
+		setConfig.qidonganniuIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1465,7 +1463,7 @@ void DlgProductSet::btn_setqidonganniu_clicked()
 
 void DlgProductSet::btn_setlalianlawan_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1479,7 +1477,7 @@ void DlgProductSet::btn_setlalianlawan_clicked()
 		}
 		ui->btn_setlalianlawan->setText(value);
 		ControlLines::lalianlawanIn = value.toInt();
-		globalStructSetConfig.lalianlawanIn = value.toDouble();
+		setConfig.lalianlawanIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1490,7 +1488,7 @@ void DlgProductSet::btn_setlalianlawan_clicked()
 
 void DlgProductSet::btn_setjiting_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1504,7 +1502,7 @@ void DlgProductSet::btn_setjiting_clicked()
 		}
 		ui->btn_setjiting->setText(value);
 		ControlLines::jitingIn = value.toInt();
-		globalStructSetConfig.jitingIn = value.toDouble();
+		setConfig.jitingIn = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1515,7 +1513,7 @@ void DlgProductSet::btn_setjiting_clicked()
 
 void DlgProductSet::btn_setchongkong_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1529,7 +1527,7 @@ void DlgProductSet::btn_setchongkong_clicked()
 		}
 		ui->btn_setchongkong->setText(value);
 		ControlLines::chongkongOUT = value.toInt();
-		globalStructSetConfig.chongkongOut = value.toDouble();
+		setConfig.chongkongOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1540,7 +1538,7 @@ void DlgProductSet::btn_setchongkong_clicked()
 
 void DlgProductSet::btn_settuoji_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1554,7 +1552,7 @@ void DlgProductSet::btn_settuoji_clicked()
 		}
 		ui->btn_settuoji->setText(value);
 		ControlLines::tuojiOut = value.toInt();
-		globalStructSetConfig.tuojiOut = value.toDouble();
+		setConfig.tuojiOut = value.toDouble();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1565,7 +1563,7 @@ void DlgProductSet::btn_settuoji_clicked()
 
 void DlgProductSet::btn_guanji_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1579,7 +1577,7 @@ void DlgProductSet::btn_guanji_clicked()
 		}
 		ui->btn_guanji->setText(value);
 		ControlLines::guanjiIn = value.toInt();
-		globalStructSetConfig.guanjiIn = value.toInt();
+		setConfig.guanjiIn = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1590,7 +1588,7 @@ void DlgProductSet::btn_guanji_clicked()
 
 void DlgProductSet::btn_setxiangjichufa1_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1604,7 +1602,7 @@ void DlgProductSet::btn_setxiangjichufa1_clicked()
 		}
 		ui->btn_setxiangjichufa1->setText(value);
 		ControlLines::xiangjichufaOut1 = value.toInt();
-		globalStructSetConfig.xiangjichufapaizhao1Out = value.toInt();
+		setConfig.xiangjichufapaizhao1Out = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1615,7 +1613,7 @@ void DlgProductSet::btn_setxiangjichufa1_clicked()
 
 void DlgProductSet::btn_setxiangjichufa2_clicked()
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
 	auto isAccept = numKeyBord.exec();
@@ -1629,7 +1627,7 @@ void DlgProductSet::btn_setxiangjichufa2_clicked()
 		}
 		ui->btn_setxiangjichufa2->setText(value);
 		ControlLines::xiangjichufaOut2 = value.toInt();
-		globalStructSetConfig.xiangjichufapaizhao2Out = value.toInt();
+		setConfig.xiangjichufapaizhao2Out = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();
@@ -1640,28 +1638,16 @@ void DlgProductSet::btn_setxiangjichufa2_clicked()
 
 void DlgProductSet::tabWidget_indexChanged(int index)
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto& _isUpdateMonitorInfo = GlobalData::getInstance()._isUpdateMonitorInfo;
+	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
+	auto& _isUpdateMonitorInfo = Modules::getInstance().motionControllerModule._isUpdateMonitorInfo;
 	switch (index) {
-	case 0:
-		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
-		break;
-	case 1:
-		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
-		break;
 	case 2:
 		_isUpdateMonitorInfo = true;
-		globalStruct.monitorZMotionMonitorThread.setRunning(true);
-		break;
-	case 3:
-		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
+		monitorZMotionMonitorThread->setRunning(true);
 		break;
 	default:
 		_isUpdateMonitorInfo = false;
-		globalStruct.monitorZMotionMonitorThread.setRunning(false);
+		monitorZMotionMonitorThread->setRunning(false);
 		break;
 	}
 }
@@ -1772,74 +1758,74 @@ void DlgProductSet::monitorOutPutSignal(size_t index, bool state)
 
 void DlgProductSet::ckb_queya_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isQueya = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isQueya = isChecked;
 }
 
 void DlgProductSet::ckb_tangshang_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isTangshang = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isTangshang = isChecked;
 }
 
 void DlgProductSet::ckb_zangwu_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isZangwu = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isZangwu = isChecked;
 }
 
 void DlgProductSet::ckb_suoxiao_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isSuoxiao = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isSuoxiao = isChecked;
 }
 
 void DlgProductSet::ckb_huawen_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra1 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra1 = isChecked;
 }
 
 void DlgProductSet::ckb_yuan_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra2 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra2 = isChecked;
 }
 
 void DlgProductSet::ckb_huapo_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra3 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra3 = isChecked;
 }
 
 void DlgProductSet::ckb_duanxian_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra4 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra4 = isChecked;
 }
 
 void DlgProductSet::ckb_extra5_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra5 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra5 = isChecked;
 }
 
 void DlgProductSet::ckb_extra6_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra6 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra6 = isChecked;
 }
 
 void DlgProductSet::ckb_extra7_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra7 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra7 = isChecked;
 }
 
 void DlgProductSet::ckb_extra8_checked(bool isChecked)
 {
-	auto& globalStructSetConfig = GlobalData::getInstance().setConfig;
-	globalStructSetConfig.isExtra8 = isChecked;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	setConfig.isExtra8 = isChecked;
 }
 
 void DlgProductSet::btn_rotateImgCount1_clicked()
@@ -1855,11 +1841,9 @@ void DlgProductSet::btn_rotateImgCount1_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到3的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->btn_rotateImgCount1->setText(value);
-		globalStructSetConfig.imgRotateCount1 = value.toInt();
-		globalStruct.imgRotateCount1 = value.toInt();
+		setConfig.imgRotateCount1 = value.toInt();
 	}
 }
 
@@ -1876,17 +1860,8 @@ void DlgProductSet::btn_rotateImgCount2_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到3的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
-		auto& globalStructSetConfig = globalStruct.setConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		ui->btn_rotateImgCount2->setText(value);
-		globalStructSetConfig.imgRotateCount2 = value.toInt();
-		globalStruct.imgRotateCount2 = value.toInt();
+		setConfig.imgRotateCount2 = value.toInt();
 	}
 }
-
-
-
-
-
-
-

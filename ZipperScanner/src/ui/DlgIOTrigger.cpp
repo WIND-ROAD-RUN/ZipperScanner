@@ -4,6 +4,7 @@
 #include <QtConcurrent/qtconcurrentrun.h>
 
 #include "GlobalStruct.hpp"
+#include "Modules.hpp"
 
 DlgIOTrigger::DlgIOTrigger(QWidget* parent)
 	: QDialog(parent)
@@ -37,20 +38,20 @@ void DlgIOTrigger::build_connect()
 
 void DlgIOTrigger::pbtn_close_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	bool isChongKongSet = globalStruct.zmotion.setIOOut(ControlLines::chongkongOUT, false);
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	bool isChongKongSet = zmotion->setIOOut(ControlLines::chongkongOUT, false);
 
 	// 冲孔
 	if (!isChongKongSet)
 	{
-		QMessageBox::warning(this, "警告", "关闭冲孔失败!");
+		//QMessageBox::warning(this, "警告", "关闭冲孔失败!");
 	}
 
 	// 脱机
-	bool isTuoJiSet = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, false);
+	bool isTuoJiSet = zmotion->setIOOut(ControlLines::tuojiOut, false);
 	if (!isTuoJiSet)
 	{
-		QMessageBox::warning(this, "警告", "关闭脱机失败!");
+		//QMessageBox::warning(this, "警告", "关闭脱机失败!");
 		ui->btn_tuoji->setStyleSheet(
 			"QPushButton {"
 			"border-color: #388E3C;"
@@ -80,75 +81,75 @@ void DlgIOTrigger::pbtn_close_clicked()
 
 void DlgIOTrigger::btn_shoudongladai_pressed()
 {
-	auto& globalStruct = GlobalData::getInstance();
-	auto setConfig = globalStruct.setConfig;
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 	auto value = setConfig.meizhuanmaichongshu / setConfig.shedingzhouchang;
 
 	// 启动电机
-	auto isAxisType = globalStruct.zmotion.setAxisType(0, 1);
+	auto isAxisType = zmotion->setAxisType(0, 1);
 	double unit = value;
-	auto isAxisPulse = globalStruct.zmotion.setAxisPulse(0, unit);
+	auto isAxisPulse = zmotion->setAxisPulse(0, unit);
 	double acc = setConfig.jiajiansushijian;
-	auto isAxisAcc = globalStruct.zmotion.setAxisAcc(0, acc);
-	auto isAxisDec = globalStruct.zmotion.setAxisDec(0, acc*2);
+	auto isAxisAcc = zmotion->setAxisAcc(0, acc);
+	auto isAxisDec = zmotion->setAxisDec(0, acc*2);
 	double speed = setConfig.shoudongsudu;
-	auto isAxisRunSpeed = globalStruct.zmotion.setAxisRunSpeed(0, speed);
-	auto isAxisRun = globalStruct.zmotion.setAxisRun(0, -1);
+	auto isAxisRunSpeed = zmotion->setAxisRunSpeed(0, speed);
+	auto isAxisRun = zmotion->setAxisRun(0, -1);
 
 	if (!isAxisType || !isAxisPulse || !isAxisAcc || !isAxisDec || !isAxisRunSpeed || !isAxisRun)
 	{
-		QMessageBox::warning(this, "警告", "电机参数设置失败");
+		//QMessageBox::warning(this, "警告", "电机参数设置失败");
 	}
 }
 
 void DlgIOTrigger::btn_shoudongladai_released()
 {
-	auto& globalStruct = GlobalData::getInstance();
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	// 停止电机
-	bool isStop = globalStruct.zmotion.stopAllAxis();
+	bool isStop = zmotion->stopAllAxis();
 
 	if (!isStop)
 	{
-		QMessageBox::warning(this, "警告", "手动拉带取消失败!");
+		//QMessageBox::warning(this, "警告", "手动拉带取消失败!");
 	}
 }
 
 void DlgIOTrigger::btn_shoudongchongkong_clicked()
 {
 	auto future = QtConcurrent::run([this]() {
-		auto& globalStruct = GlobalData::getInstance();
-		auto chongkongshijian = globalStruct.setConfig.chongkongshijian*1000;
-		auto yanchichongkongshijian = globalStruct.setConfig.yanshichongkong;
+		auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto chongkongshijian = setConfig.chongkongshijian*1000;
+		auto yanchichongkongshijian = setConfig.yanshichongkong;
 		QThread::msleep(yanchichongkongshijian);
 
 		// 停止电机
-		bool isStop = globalStruct.zmotion.stopAllAxis();
+		bool isStop = zmotion->stopAllAxis();
 
 		if (!isStop)
 		{
 			//QMessageBox::warning(this, "警告", "停止电机失败!");
 		}
 		// 冲孔
-		bool isSet = globalStruct.zmotion.SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
+		bool isSet = zmotion->SetIOOut(2, ControlLines::chongkongOUT, true, chongkongshijian);
 
 		if (!isSet) {
-			QMetaObject::invokeMethod(this, [this]() {
+			/*QMetaObject::invokeMethod(this, [this]() {
 				QMessageBox::warning(this, "警告", "手动冲孔失败!");
-				}, Qt::QueuedConnection);
+				}, Qt::QueuedConnection);*/
 		}
 		});
 }
 
 void DlgIOTrigger::btn_tuoji_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
 	bool isGetTuoJiOut = false;
-	bool tuojiState = globalStruct.zmotion.getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
-	bool isSuccess = globalStruct.zmotion.setIOOut(ControlLines::tuojiOut, !tuojiState);
+	bool tuojiState = zmotion->getIOOut(ControlLines::tuojiOut, isGetTuoJiOut);
+	bool isSuccess = zmotion->setIOOut(ControlLines::tuojiOut, !tuojiState);
 	if (!isSuccess)
 	{
-		QMessageBox::warning(this, "警告", "设置脱机失败!");
+		//QMessageBox::warning(this, "警告", "设置脱机失败!");
 	}
 
 	if (!tuojiState)
@@ -180,14 +181,13 @@ void DlgIOTrigger::btn_tuoji_clicked()
 
 void DlgIOTrigger::btn_xiangjichufa_clicked()
 {
-	auto& globalStruct = GlobalData::getInstance();
-
-	bool isXiangJiChuFaSet = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
-	bool xiangjichufa = globalStruct.zmotion.SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	bool isXiangJiChuFaSet = zmotion->SetIOOut(3, ControlLines::xiangjichufaOut1, true, 100);
+	bool xiangjichufa = zmotion->SetIOOut(3, ControlLines::xiangjichufaOut2, true, 100);
 
 	if (!isXiangJiChuFaSet||!xiangjichufa)
 	{
-		QMessageBox::warning(this, "警告", "相机触发失败!");
+		//QMessageBox::warning(this, "警告", "相机触发失败!");
 	}
 }
 

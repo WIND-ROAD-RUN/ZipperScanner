@@ -1,5 +1,9 @@
 #include"Utilty.hpp"
 
+QString Utility::cameraIp1 = "1";
+QString Utility::cameraIp2 = "2";
+QString Utility::zmotionIp = "192.168.0.11";
+
 size_t ControlLines::qidonganniuIn = 0;
 size_t ControlLines::jitingIn = 0;
 size_t ControlLines::lalianlawanIn = 0;
@@ -8,6 +12,28 @@ size_t ControlLines::chongkongOUT = 0;
 size_t ControlLines::tuojiOut = 0;
 size_t ControlLines::xiangjichufaOut1 = 0;
 size_t ControlLines::xiangjichufaOut2 = 0;
+
+std::unordered_map<rw::imgPro::ClassId, rw::imgPro::ClassIdName> ClassId::classIdNameMap = {
+	{ClassId::Queya,"缺牙"},
+	{ClassId::Tangshang,"烫伤"},
+	{ClassId::Zangwu,"脏污"},
+	{ClassId::Suoxiao,"缩小"},
+	{ClassId::Huawen,"花纹"},
+	{ClassId::Yuan,"圆"},
+	{ClassId::Huapo,"划破"},
+	{ClassId::Duanxian,"断线"}
+};
+
+std::vector<rw::imgPro::ClassId> ClassId::classids = {
+	ClassId::Queya,
+	ClassId::Tangshang,
+	ClassId::Zangwu,
+	ClassId::Suoxiao,
+	ClassId::Huawen,
+	ClassId::Yuan,
+	ClassId::Huapo,
+	ClassId::Duanxian
+};
 
 QImage cvMatToQImage(const cv::Mat& mat)
 {

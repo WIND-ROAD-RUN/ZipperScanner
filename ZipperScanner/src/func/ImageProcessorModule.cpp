@@ -115,19 +115,22 @@ void ImageProcessorZipper::run_OpenRemoveFunc(MatInfo& frame)
 	if (1 == imageProcessingModuleIndex)
 	{
 		tifeijuli = setConfig.tifeijuli1;
+		pixToWorld = setConfig.xiangSuDangLiang1;
 	}
 	else if (2 == imageProcessingModuleIndex)
 	{
 		tifeijuli = setConfig.tifeijuli2;
+		pixToWorld = setConfig.xiangSuDangLiang2;
 	}
 
 	if (leftLocationX > 0)
 	{
-		leftLocationX = frame.location - leftLocationX * pixToWorld + tifeijuli;
+		std::cout << "(double)leftLocationX * (double)pixToWorld" << (double)leftLocationX * (double)pixToWorld << std::endl;
+		leftLocationX = (double)frame.location - (double)leftLocationX * (double)pixToWorld + (double)tifeijuli;
 	}
 	if (defectResult.isBad) {
-		std::cout << "tifeijuli" << tifeijuli << std::endl;
-		std::cout << "leftLocationX" << leftLocationX << " frame.location:" << frame.location << std::endl;
+		//std::cout << "tifeijuli" << tifeijuli << std::endl;
+		std::cout << "leftLocationX" << leftLocationX << " frame.location:" << frame.location << "leftPixX" << tempLeftLocationX << std::endl;
 	}
 
 	run_OpenRemoveFunc_emitErrorInfo(defectResult.isBad);

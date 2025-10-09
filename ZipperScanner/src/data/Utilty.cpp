@@ -12,6 +12,8 @@ size_t ControlLines::chongkongOUT = 0;
 size_t ControlLines::tuojiOut = 0;
 size_t ControlLines::xiangjichufaOut1 = 0;
 size_t ControlLines::xiangjichufaOut2 = 0;
+size_t ControlLines::DOWarnRed = 0;
+size_t ControlLines::DOWarnGreen = 0;
 
 std::unordered_map<rw::imgPro::ClassId, rw::imgPro::ClassIdName> ClassId::classIdNameMap = {
 	{ClassId::Queya,"缺牙"},

@@ -268,16 +268,7 @@ void ZipperScanner::destroyComponents()
 void ZipperScanner::read_config()
 {
 	read_config_GeneralConfig();
-
-	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
-	ControlLines::qidonganniuIn = setConfig.qidonganniuIn;
-	ControlLines::jitingIn = setConfig.jitingIn;
-	ControlLines::lalianlawanIn = setConfig.lalianlawanIn;
-	ControlLines::guanjiIn = setConfig.guanjiIn;
-	ControlLines::chongkongOUT = setConfig.chongkongOut;
-	ControlLines::tuojiOut = setConfig.tuojiOut;
-	ControlLines::xiangjichufaOut1 = setConfig.xiangjichufapaizhao1Out;
-	ControlLines::xiangjichufaOut2 = setConfig.xiangjichufapaizhao2Out;
+	updateControllines();
 }
 
 // 读取通用配置
@@ -294,6 +285,21 @@ void ZipperScanner::read_config_GeneralConfig()
 		return;
 	}
 	generalConfig = *loadResult;
+}
+
+void ZipperScanner::updateControllines()
+{
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	ControlLines::qidonganniuIn = setConfig.qidonganniuIn;
+	ControlLines::jitingIn = setConfig.jitingIn;
+	ControlLines::lalianlawanIn = setConfig.lalianlawanIn;
+	ControlLines::guanjiIn = setConfig.guanjiIn;
+	ControlLines::chongkongOUT = setConfig.chongkongOut;
+	ControlLines::tuojiOut = setConfig.tuojiOut;
+	ControlLines::xiangjichufaOut1 = setConfig.xiangjichufapaizhao1Out;
+	ControlLines::xiangjichufaOut2 = setConfig.xiangjichufapaizhao2Out;
+	ControlLines::DOWarnRed = setConfig.DOWarnRed;
+	ControlLines::DOWarnGreen = setConfig.DOWarnGreen;
 }
 
 void ZipperScanner::changeRemoveFucState(bool state)
@@ -981,6 +987,11 @@ void ZipperScanner::updateCameraLabelState(int cameraIndex, bool state)
 		{
 			ui->label_cardState->setText("连接失败");
 			ui->label_cardState->setStyleSheet(QString("QLabel{color:rgb(230, 0, 0);} "));
+			rw::rqw::WarningInfo info;
+			info.message = "运动控制器连接失败";
+			info.type = rw::rqw::WarningType::Error;
+			info.warningId = WarningId::cZMotionDisconnectAlarm;
+			Modules::getInstance().warningModule.addWarning(info);
 		}
 		break;
 	case 1:
@@ -995,7 +1006,7 @@ void ZipperScanner::updateCameraLabelState(int cameraIndex, bool state)
 			info.message = "相机1断连";
 			info.type = rw::rqw::WarningType::Error;
 			info.warningId = WarningId::ccameraDisconnectAlarm1;
-			//labelWarning->addWarning(info);
+			Modules::getInstance().warningModule.addWarning(info);
 		}
 		break;
 	case 2:
@@ -1010,7 +1021,7 @@ void ZipperScanner::updateCameraLabelState(int cameraIndex, bool state)
 			info.message = "相机2断连";
 			info.type = rw::rqw::WarningType::Error;
 			info.warningId = WarningId::ccameraDisconnectAlarm2;
-			//labelWarning->addWarning(info);
+			Modules::getInstance().warningModule.addWarning(info);
 		}
 		break;
 	default:

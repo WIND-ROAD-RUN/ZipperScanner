@@ -58,7 +58,7 @@ public:
 	EliminateModule eliminateModule;
 	ImgSaveModule imgSaveModule;
 	MotionControllerModule motionControllerModule;
-	//WarningModule warningModule;
+	WarningModule warningModule;
 
 
 #ifdef BUILD_WITHOUT_HARDWARE

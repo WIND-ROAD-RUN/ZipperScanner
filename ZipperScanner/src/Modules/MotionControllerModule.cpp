@@ -43,7 +43,8 @@ bool MotionControllerModule::build()
 
 	QVector<size_t> monitorOList = {
 		ControlLines::chongkongOUT,ControlLines::tuojiOut,
-		ControlLines::xiangjichufaOut1,ControlLines::xiangjichufaOut2};
+		ControlLines::xiangjichufaOut1,ControlLines::xiangjichufaOut2,
+		ControlLines::DOWarnRed,ControlLines::DOWarnGreen};
 
 	monitorMotionIoStateThread->setMonitorIList(monitorIList);
 	monitorMotionIoStateThread->setMonitorOList(monitorOList);
@@ -60,6 +61,10 @@ bool MotionControllerModule::build()
 	monitorStartOrStopThread->setMonitorIList(monitorIList);
 	monitorStartOrStopThread->setMonitorFrequency(20);
 	monitorStartOrStopThread->setRunning(false);
+#pragma endregion
+
+#pragma region build ioTriggerThread
+	ioTriggerThread = std::make_unique<IOTriggerThread>();
 #pragma endregion
 
 	return isConnected;
@@ -80,6 +85,10 @@ void MotionControllerModule::destroy()
 		bool isDisconnect = zmotion->disConnect();
 		zmotion.reset();
 	}
+	if (ioTriggerThread)
+	{
+		ioTriggerThread.reset();
+	}
 }
 
 void MotionControllerModule::start()
@@ -93,6 +102,10 @@ void MotionControllerModule::start()
 	{
 		monitorStartOrStopThread->setRunning(true);
 		monitorStartOrStopThread->start();
+	}
+	if (ioTriggerThread)
+	{
+		ioTriggerThread->startThread();
 	}
 }
 
@@ -109,6 +122,10 @@ void MotionControllerModule::stop()
 	if (zmotion)
 	{
 		zmotion->stopAllAxis();
+	}
+	if (ioTriggerThread)
+	{
+		ioTriggerThread->stopThread();
 	}
 }
 

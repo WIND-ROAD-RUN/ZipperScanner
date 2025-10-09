@@ -6,18 +6,17 @@
 bool ConfigManagerModule::build()
 {
     storeContext = std::make_unique<rw::oso::StorageContext>(rw::oso::StorageType::Xml);
-	//auto& runtimeModule = Modules::getInstance().runtimeInfoModule;
+	auto& runtimeModule = Modules::getInstance().runtimeInfoModule;
 
 #pragma region readHandleScannerCfg
 	auto loadMainWindowConfig = storeContext->loadSafe(globalPath.generalConfigPath.toStdString());
 	if (loadMainWindowConfig)
 	{
 		zipperScannerConfig = *loadMainWindowConfig;
-		//runtimeModule.isTakePictures = zipperScannerConfig.isSaveImg;
-		/*runtimeModule.statisticalInfo.produceCount = zipperScannerConfig.;
-		runtimeModule.statisticalInfo.wasteCount = zipperScannerConfig.totalDefectiveVolume;
-		runtimeModule.statisticalInfo.productionYield = zipperScannerConfig.productionYield;
-		runtimeModule.statisticalInfo.handleCountForStop = zipperScannerConfig.tingjigeshu;*/
+		runtimeModule.isTakePictures = zipperScannerConfig.isSaveImg;
+		runtimeModule.statisticalInfo.punchCount = zipperScannerConfig.punchCount;
+		runtimeModule.statisticalInfo.produceLengthBeforeStart = zipperScannerConfig.shedingladaichangdu;
+		runtimeModule.statisticalInfo.produceLength = zipperScannerConfig.produceLength;
 	}
 #pragma endregion
 
@@ -37,6 +36,14 @@ bool ConfigManagerModule::build()
 	}
 #pragma endregion
 
+#pragma region readdlgWarningManagerCfg
+	loadMainWindowConfig = storeContext->loadSafe(globalPath.dlgWarningManagerConfigPath.toStdString());
+	if (loadMainWindowConfig)
+	{
+		dlgWarningManagerConfig = *loadMainWindowConfig;
+	}
+#pragma endregion
+
 	return true;
 }
 
@@ -45,6 +52,7 @@ void ConfigManagerModule::destroy()
 	storeContext->saveSafe(zipperScannerConfig, globalPath.generalConfigPath.toStdString());
 	storeContext->saveSafe(scoreConfig, globalPath.scoreConfigPath.toStdString());
 	storeContext->saveSafe(setConfig, globalPath.setConfigPath.toStdString());
+	storeContext->saveSafe(dlgWarningManagerConfig, globalPath.dlgWarningManagerConfigPath.toStdString());
 	storeContext.reset();
 }
 

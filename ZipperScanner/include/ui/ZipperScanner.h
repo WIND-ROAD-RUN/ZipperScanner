@@ -51,6 +51,7 @@ public:
 public:
 	void read_config();
 	void read_config_GeneralConfig();
+	void updateControllines();
 
 private:
 	void changeRemoveFucState(bool state);

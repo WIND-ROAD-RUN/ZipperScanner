@@ -6,6 +6,7 @@
 #include "ScoreConfig.hpp"
 #include "SetConfig.hpp"
 #include "GeneralConfig.hpp"
+#include "DlgWarningManagerConfig.hpp"
 
 class ConfigManagerModule
 	: public QObject, public IModule<bool>
@@ -22,4 +23,5 @@ public:
 	cdm::GeneralConfig zipperScannerConfig{};
 	cdm::ScoreConfig scoreConfig{};
 	cdm::SetConfig setConfig{};
+	cdm::DlgWarningManagerConfig dlgWarningManagerConfig{};
 };

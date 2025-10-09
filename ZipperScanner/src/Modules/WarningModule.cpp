@@ -9,24 +9,24 @@ void WarningModule::build()
 {
 	dlgWarn = new DlgWarn();
 	labelWarning = new rw::rqw::LabelWarning();
-	//warningInfoProcessThread = std::make_unique<WarningInfoProcessThread>(this);
+	warningInfoProcessThread = std::make_unique<WarningInfoProcessThread>(this);
 }
 
 void WarningModule::destroy()
 {
 	delete dlgWarn;
 	delete labelWarning;
-	//warningInfoProcessThread.reset();
+	warningInfoProcessThread.reset();
 }
 
 void WarningModule::start()
 {
-	//warningInfoProcessThread->startThread();
+	warningInfoProcessThread->startThread();
 }
 
 void WarningModule::stop()
 {
-	//warningInfoProcessThread->stopThread();
+	warningInfoProcessThread->stopThread();
 }
 
 void WarningModule::addWarning(const rw::rqw::WarningInfo& message, int redDuration)
@@ -70,6 +70,6 @@ void WarningModule::onShowDlgWarn(rw::rqw::WarningInfo info)
 
 void WarningModule::onDlgWarningAccept()
 {
-	//warningInfoProcessThread->isProcessingWarn = false;
-	//warningInfoProcessThread->isProcessFinishWarn = true;
+	warningInfoProcessThread->isProcessingWarn = false;
+	warningInfoProcessThread->isProcessFinishWarn = true;
 }

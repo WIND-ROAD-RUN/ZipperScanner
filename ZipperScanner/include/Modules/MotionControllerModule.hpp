@@ -3,6 +3,7 @@
 #include <QObject>
 
 #include"IModule.hpp"
+#include "IOTriggerThread.hpp"
 #include"rqw_ZMotion.hpp"
 #include"rqw_MonitorMotionIO.hpp"
 
@@ -24,6 +25,7 @@ public:
 	std::shared_ptr<rw::rqw::ZMotion> zmotion{ nullptr };
 	std::unique_ptr<rw::rqw::MonitorZMotionIOStateThread> monitorMotionIoStateThread{ nullptr };	// 监控所有IO
 	std::unique_ptr<rw::rqw::MonitorZMotionIOStateThread> monitorStartOrStopThread{ nullptr };	// 监控启停IO
+	std::unique_ptr<IOTriggerThread> ioTriggerThread{ nullptr };
 signals:
 	void DIState(size_t index, bool state);
 	void DOState(size_t index, bool state);

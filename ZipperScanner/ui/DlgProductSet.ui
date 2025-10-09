@@ -18,7 +18,40 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_16">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_14">
+    <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,6,1">
+     <item>
+      <widget class="QPushButton" name="pbtn_warningForm">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    padding: 6px 14px;
+    border: 2px solid #CCC;
+    border-radius: 4px;
+    background-color: white;
+    color: #444;
+    font-size: 30px; 
+}
+
+QPushButton:hover {
+    border-color: #999;
+    background-color: #F5F5F5;
+}
+
+QPushButton:pressed {
+    border-color: #777;
+    background-color: #EEE;
+}</string>
+       </property>
+       <property name="text">
+        <string>报警设置界面</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -106,7 +139,7 @@ QTabBar::tab:hover {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_0">
       <attribute name="title">
@@ -2837,94 +2870,15 @@ QCheckBox::indicator:pressed {
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <widget class="QCheckBox" name="cbox_DOBlow4_2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox {
-    spacing: 12px;
-    font-size: 20px;
-    font-weight: bold;
-    color: rgb(0, 0, 0); /* 默认文字为黑色 */
-}
-
-/* 禁用时文字为灰色 */
-QCheckBox:disabled {
-    color: #888888;
-}
-
-/* 未选中状态：红色 */
-QCheckBox::indicator {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    border: 2px solid #999;
-    background: #ff4444; /* 红色背景 */
-}
-
-/* 悬停效果 */
-QCheckBox::indicator:hover {
-    border: 2px solid #666;
-}
-
-/* 选中状态：绿色 */
-QCheckBox::indicator:checked {
-    border: 2px solid #4CAF50;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.4,
-        fx:0.5, fy:0.5,
-        stop:0 #4CAF50,
-        stop:1 transparent
-    );
-}
-
-/* 禁用且未选中：红色 */
-QCheckBox::indicator:disabled {
-    border: 2px solid #ccc;
-    background: #ff4444;
-}
-
-/* 禁用且选中：绿色 */
-QCheckBox::indicator:disabled:checked {
-    border: 2px solid #ccc;
-    background: #4CAF50;
-}
-
-/* 选中时文字颜色为黑色 */
-QCheckBox:checked {
-    color: rgb(0, 0, 0);
-    font-weight: 500;
-}
-
-/* 点击动画效果 */
-QCheckBox::indicator:pressed {
-    border: 2px solid #388E3C;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.5,
-        fx:0.5, fy:0.5,
-        stop:0 #A5D6A7,
-        stop:1 transparent
-    );
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>DO6</string>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_31">
                  <item>
-                  <widget class="QCheckBox" name="cbox_DOBeltControl_2">
+                  <widget class="QCheckBox" name="cbox_DOhongdeng">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                      <horstretch>0</horstretch>
@@ -3001,7 +2955,92 @@ QCheckBox::indicator:pressed {
 }</string>
                    </property>
                    <property name="text">
-                    <string>DO7</string>
+                    <string>红灯</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="cbox_DOlvdeng">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QCheckBox {
+    spacing: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(0, 0, 0); /* 默认文字为黑色 */
+}
+
+/* 禁用时文字为灰色 */
+QCheckBox:disabled {
+    color: #888888;
+}
+
+/* 未选中状态：红色 */
+QCheckBox::indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #999;
+    background: #ff4444; /* 红色背景 */
+}
+
+/* 悬停效果 */
+QCheckBox::indicator:hover {
+    border: 2px solid #666;
+}
+
+/* 选中状态：绿色 */
+QCheckBox::indicator:checked {
+    border: 2px solid #4CAF50;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.4,
+        fx:0.5, fy:0.5,
+        stop:0 #4CAF50,
+        stop:1 transparent
+    );
+}
+
+/* 禁用且未选中：红色 */
+QCheckBox::indicator:disabled {
+    border: 2px solid #ccc;
+    background: #ff4444;
+}
+
+/* 禁用且选中：绿色 */
+QCheckBox::indicator:disabled:checked {
+    border: 2px solid #ccc;
+    background: #4CAF50;
+}
+
+/* 选中时文字颜色为黑色 */
+QCheckBox:checked {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+}
+
+/* 点击动画效果 */
+QCheckBox::indicator:pressed {
+    border: 2px solid #388E3C;
+    background-color: qradialgradient(
+        cx:0.5, cy:0.5,
+        radius:0.5,
+        fx:0.5, fy:0.5,
+        stop:0 #A5D6A7,
+        stop:1 transparent
+    );
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>绿灯</string>
                    </property>
                   </widget>
                  </item>
@@ -3248,170 +3287,6 @@ QCheckBox::indicator:pressed {
                    </property>
                    <property name="text">
                     <string>DO10</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="cbox_DOSideLight_2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox {
-    spacing: 12px;
-    font-size: 20px;
-    font-weight: bold;
-    color: rgb(0, 0, 0); /* 默认文字为黑色 */
-}
-
-/* 禁用时文字为灰色 */
-QCheckBox:disabled {
-    color: #888888;
-}
-
-/* 未选中状态：红色 */
-QCheckBox::indicator {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    border: 2px solid #999;
-    background: #ff4444; /* 红色背景 */
-}
-
-/* 悬停效果 */
-QCheckBox::indicator:hover {
-    border: 2px solid #666;
-}
-
-/* 选中状态：绿色 */
-QCheckBox::indicator:checked {
-    border: 2px solid #4CAF50;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.4,
-        fx:0.5, fy:0.5,
-        stop:0 #4CAF50,
-        stop:1 transparent
-    );
-}
-
-/* 禁用且未选中：红色 */
-QCheckBox::indicator:disabled {
-    border: 2px solid #ccc;
-    background: #ff4444;
-}
-
-/* 禁用且选中：绿色 */
-QCheckBox::indicator:disabled:checked {
-    border: 2px solid #ccc;
-    background: #4CAF50;
-}
-
-/* 选中时文字颜色为黑色 */
-QCheckBox:checked {
-    color: rgb(0, 0, 0);
-    font-weight: 500;
-}
-
-/* 点击动画效果 */
-QCheckBox::indicator:pressed {
-    border: 2px solid #388E3C;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.5,
-        fx:0.5, fy:0.5,
-        stop:0 #A5D6A7,
-        stop:1 transparent
-    );
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>DO11</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="cbox_DODownLight_2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QCheckBox {
-    spacing: 12px;
-    font-size: 20px;
-    font-weight: bold;
-    color: rgb(0, 0, 0); /* 默认文字为黑色 */
-}
-
-/* 禁用时文字为灰色 */
-QCheckBox:disabled {
-    color: #888888;
-}
-
-/* 未选中状态：红色 */
-QCheckBox::indicator {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    border: 2px solid #999;
-    background: #ff4444; /* 红色背景 */
-}
-
-/* 悬停效果 */
-QCheckBox::indicator:hover {
-    border: 2px solid #666;
-}
-
-/* 选中状态：绿色 */
-QCheckBox::indicator:checked {
-    border: 2px solid #4CAF50;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.4,
-        fx:0.5, fy:0.5,
-        stop:0 #4CAF50,
-        stop:1 transparent
-    );
-}
-
-/* 禁用且未选中：红色 */
-QCheckBox::indicator:disabled {
-    border: 2px solid #ccc;
-    background: #ff4444;
-}
-
-/* 禁用且选中：绿色 */
-QCheckBox::indicator:disabled:checked {
-    border: 2px solid #ccc;
-    background: #4CAF50;
-}
-
-/* 选中时文字颜色为黑色 */
-QCheckBox:checked {
-    color: rgb(0, 0, 0);
-    font-weight: 500;
-}
-
-/* 点击动画效果 */
-QCheckBox::indicator:pressed {
-    border: 2px solid #388E3C;
-    background-color: qradialgradient(
-        cx:0.5, cy:0.5,
-        radius:0.5,
-        fx:0.5, fy:0.5,
-        stop:0 #A5D6A7,
-        stop:1 transparent
-    );
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>DO12</string>
                    </property>
                   </widget>
                  </item>
@@ -7585,6 +7460,296 @@ QPushButton:pressed {
                </item>
                <item>
                 <widget class="QLabel" name="lb_xiangjichufa2">
+                 <property name="styleSheet">
+                  <string notr="true">/* 基础标签样式 */
+QLabel {
+    color: rgb(255, 0, 0);          /* 主文字色 */
+    font-size: 14px;         /* 标准字号 */
+    background: transparent; /* 透明背景 */
+    padding: 2px 4px;        /* 基础内边距 */
+}
+
+/* 标题样式 */
+QLabel.title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+    border-bottom: 1px solid #DDDDDD; /* 下划线装饰 */
+    padding-bottom: 4px;
+}
+
+/* 副标题/次要文本 */
+QLabel.subtitle {
+    color: #666666;
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* 强调文本 */
+QLabel.emphasis {
+    color: #333333;
+    font-weight: 500;
+    background-color: #F5F5F5;
+    border-radius: 3px;
+    padding: 4px 8px;
+}
+
+/* 状态标签（成功/警告/错误） */
+QLabel[state=&quot;success&quot;] {
+    color: #228B22;          /* 森林绿 */
+    border-left: 3px solid #228B22;
+    padding-left: 8px;
+}
+
+QLabel[state=&quot;warning&quot;] {
+    color: #FF8C00;          /* 暗橙 */
+    border-left: 3px solid #FF8C00;
+    padding-left: 8px;
+}
+
+QLabel[state=&quot;error&quot;] {
+    color: #B22222;          /* 砖红 */
+    border-left: 3px solid #B22222;
+    padding-left: 8px;
+}
+
+/* 数据展示标签 */
+QLabel.data {
+    color: #2F4F4F;          /* 深石板灰 */
+    font-family: monospace;
+    border: 1px solid #E0E0E0;
+    background-color: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* 禁用状态 */
+QLabel:disabled {
+    color: #AAAAAA;
+    background-color: transparent;
+}
+
+/* 链接样式（伪链接效果） */
+QLabel.link {
+    color: #4682B4;          /* 钢蓝 */
+    text-decoration: underline;
+    border-bottom: 1px dotted #4682B4;
+}
+
+/* 图标标签 */
+QLabel.icon {
+    qproperty-alignment: AlignCenter;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 12px;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_61" stretch="3,3,1">
+               <item>
+                <widget class="QLabel" name="label_54">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+       font-size: 30px;        
+       font-weight: bold;        
+       color:  rgb(141, 141, 141);       
+       padding: 5px 5px;     
+       border-bottom: 2px solid #cccccc; 
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>红灯</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btn_sethongdeng">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    padding: 6px 14px;
+    border: 2px solid #CCC;
+    border-radius: 4px;
+    background-color: white;
+    color: #444;
+	font-size: 30px; 
+}
+
+QPushButton:hover {
+    border-color: #999;
+    background-color: #F5F5F5;
+}
+
+QPushButton:pressed {
+    border-color: #777;
+    background-color: #EEE;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>value</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="lb_hongdeng">
+                 <property name="styleSheet">
+                  <string notr="true">/* 基础标签样式 */
+QLabel {
+    color: rgb(255, 0, 0);          /* 主文字色 */
+    font-size: 14px;         /* 标准字号 */
+    background: transparent; /* 透明背景 */
+    padding: 2px 4px;        /* 基础内边距 */
+}
+
+/* 标题样式 */
+QLabel.title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+    border-bottom: 1px solid #DDDDDD; /* 下划线装饰 */
+    padding-bottom: 4px;
+}
+
+/* 副标题/次要文本 */
+QLabel.subtitle {
+    color: #666666;
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* 强调文本 */
+QLabel.emphasis {
+    color: #333333;
+    font-weight: 500;
+    background-color: #F5F5F5;
+    border-radius: 3px;
+    padding: 4px 8px;
+}
+
+/* 状态标签（成功/警告/错误） */
+QLabel[state=&quot;success&quot;] {
+    color: #228B22;          /* 森林绿 */
+    border-left: 3px solid #228B22;
+    padding-left: 8px;
+}
+
+QLabel[state=&quot;warning&quot;] {
+    color: #FF8C00;          /* 暗橙 */
+    border-left: 3px solid #FF8C00;
+    padding-left: 8px;
+}
+
+QLabel[state=&quot;error&quot;] {
+    color: #B22222;          /* 砖红 */
+    border-left: 3px solid #B22222;
+    padding-left: 8px;
+}
+
+/* 数据展示标签 */
+QLabel.data {
+    color: #2F4F4F;          /* 深石板灰 */
+    font-family: monospace;
+    border: 1px solid #E0E0E0;
+    background-color: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* 禁用状态 */
+QLabel:disabled {
+    color: #AAAAAA;
+    background-color: transparent;
+}
+
+/* 链接样式（伪链接效果） */
+QLabel.link {
+    color: #4682B4;          /* 钢蓝 */
+    text-decoration: underline;
+    border-bottom: 1px dotted #4682B4;
+}
+
+/* 图标标签 */
+QLabel.icon {
+    qproperty-alignment: AlignCenter;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 12px;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_66" stretch="3,3,1">
+               <item>
+                <widget class="QLabel" name="label_55">
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+       font-size: 30px;        
+       font-weight: bold;        
+       color:  rgb(141, 141, 141);       
+       padding: 5px 5px;     
+       border-bottom: 2px solid #cccccc; 
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>绿灯</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btn_setlvdeng">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    padding: 6px 14px;
+    border: 2px solid #CCC;
+    border-radius: 4px;
+    background-color: white;
+    color: #444;
+	font-size: 30px; 
+}
+
+QPushButton:hover {
+    border-color: #999;
+    background-color: #F5F5F5;
+}
+
+QPushButton:pressed {
+    border-color: #777;
+    background-color: #EEE;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>value</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="lb_lvdeng">
                  <property name="styleSheet">
                   <string notr="true">/* 基础标签样式 */
 QLabel {

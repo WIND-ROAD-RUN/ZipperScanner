@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QDialog>
+
+#include "DlgWarningManager.h"
 #include "ui_DlgProductSet.h"
 
 QT_BEGIN_NAMESPACE
@@ -38,6 +40,8 @@ private:
 	void updateMonitorIOThread();
 private slots:
 	void pbtn_close_clicked();
+
+	void pbtn_warningForm_clicked();
 
 	void pbtn_tifeijuli1_clicked();
 	void pbtn_tifeijuli2_clicked();
@@ -100,6 +104,8 @@ private slots:
 	void cbox_DOtuoji_clicked(bool isChecked);
 	void cbox_DOchufapaizhao1_clicked(bool isChecked);
 	void cbox_DOchufapaizhao2_clicked(bool isChecked);
+	void cbox_DOhongdeng_clicked(bool isChecked);
+	void cbox_DOlvdeng_clicked(bool isChecked);
 
 	void cbox_debugMode_checked(bool ischecked);
 
@@ -113,6 +119,8 @@ private slots:
 	void btn_guanji_clicked();
 	void btn_setxiangjichufa1_clicked();
 	void btn_setxiangjichufa2_clicked();
+	void btn_sethongdeng_clicked();
+	void btn_setlvdeng_clicked();
 
 	void tabWidget_indexChanged(int index);
 
@@ -141,5 +149,6 @@ private slots:
 	void btn_rotateImgCount2_clicked();
 public:
 	Ui::DlgProductSetClass* ui;
+	DlgWarningManager* dlgWarningManager{ nullptr };
 };
 

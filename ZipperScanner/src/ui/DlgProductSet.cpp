@@ -28,6 +28,8 @@ void DlgProductSet::build_ui()
 {
 	read_config();
 
+	dlgWarningManager = new DlgWarningManager(this);
+
 	// 查看是否有相同的输入输出IO
 	auto indicesDO = DOFindAllDuplicateIndices();
 	setDOErrorInfo(indicesDO);
@@ -43,14 +45,10 @@ void DlgProductSet::build_ui()
 	imageFormatGroup->setExclusive(true);
 
 	//隐藏一些按钮
-	ui->cbox_DOBeltControl_2->setVisible(false);
 	ui->cbox_DOGreenLight_2->setVisible(false);
 	ui->cbox_DOUpLight_2->setVisible(false);
 	ui->cbox_DORedLight_2->setVisible(false);
 	ui->cbox_DOUpLight_2->setVisible(false);
-	ui->cbox_DOSideLight_2->setVisible(false);
-	ui->cbox_DOBlow4_2->setVisible(false);
-	ui->cbox_DODownLight_2->setVisible(false);
 
 	ui->cbox_DICameraTrigger1_2->setVisible(false);
 	ui->cbox_DICameraTrigger2_2->setVisible(false);
@@ -133,6 +131,8 @@ void DlgProductSet::read_config()
 	ui->btn_guanji->setText(QString::number(setConfig.guanjiIn));
 	ui->btn_setxiangjichufa1->setText(QString::number(setConfig.xiangjichufapaizhao1Out));
 	ui->btn_setxiangjichufa2->setText(QString::number(setConfig.xiangjichufapaizhao2Out));
+	ui->btn_sethongdeng->setText(QString::number(setConfig.DOWarnRed));
+	ui->btn_setlvdeng->setText(QString::number(setConfig.DOWarnGreen));
 
 	// 默认显示第一个
 	ui->tabWidget->setCurrentIndex(0);
@@ -159,8 +159,6 @@ void DlgProductSet::read_config()
 
 void DlgProductSet::build_connect()
 {
-	auto& globalStruct = GlobalData::getInstance();
-
 	QObject::connect(ui->pbtn_tifeijuli1, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_tifeijuli1_clicked);
 	QObject::connect(ui->pbtn_tifeijuli2, &QPushButton::clicked,
@@ -214,6 +212,9 @@ void DlgProductSet::build_connect()
 	QObject::connect(ui->cbox_yundongkongzhiqichonglian, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_yundongkongzhiqichonglian_checked);
 
+	QObject::connect(ui->pbtn_warningForm, &QCheckBox::clicked,
+		this, &DlgProductSet::pbtn_warningForm_clicked);
+
 	// 基本参数
 	QObject::connect(ui->btn_xiangjichufachangdu, &QPushButton::clicked,
 		this, &DlgProductSet::btn_xiangjichufachangdu_clicked);
@@ -261,6 +262,10 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::cbox_DOchufapaizhao2_clicked);
 	QObject::connect(ui->tabWidget, &QTabWidget::currentChanged,
 		this, &DlgProductSet::tabWidget_indexChanged);
+	QObject::connect(ui->cbox_DOhongdeng, &QCheckBox::clicked,
+		this, &DlgProductSet::cbox_DOhongdeng_clicked);
+	QObject::connect(ui->cbox_DOlvdeng, &QCheckBox::clicked,
+		this, &DlgProductSet::cbox_DOlvdeng_clicked);
 
 	// 设置IO
 	QObject::connect(ui->btn_setqidonganniu, &QPushButton::clicked,
@@ -279,6 +284,10 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::btn_setxiangjichufa1_clicked);
 	QObject::connect(ui->btn_setxiangjichufa2, &QPushButton::clicked,
 		this, &DlgProductSet::btn_setxiangjichufa2_clicked);
+	QObject::connect(ui->btn_sethongdeng, &QPushButton::clicked,
+		this, &DlgProductSet::btn_sethongdeng_clicked);
+	QObject::connect(ui->btn_setlvdeng, &QPushButton::clicked,
+		this, &DlgProductSet::btn_setlvdeng_clicked);
 
 
 	// 分数界面内容可选显示
@@ -341,6 +350,8 @@ std::vector<std::vector<int>> DlgProductSet::DOFindAllDuplicateIndices()
 		setConfig.tuojiOut,
 		setConfig.xiangjichufapaizhao1Out,
 		setConfig.xiangjichufapaizhao2Out,
+		setConfig.DOWarnRed,
+		setConfig.DOWarnGreen
 	};
 
 	std::unordered_map<int, std::vector<int>> valueToIndices;
@@ -430,6 +441,8 @@ void DlgProductSet::setDOErrorInfo(const std::vector<std::vector<int>>& index)
 	ui->lb_tuoji->clear();
 	ui->lb_xiangjichufa1->clear();
 	ui->lb_xiangjichufa2->clear();
+	ui->lb_hongdeng->clear();
+	ui->lb_lvdeng->clear();
 
 	for (const auto& classic : index)
 	{
@@ -456,6 +469,12 @@ void DlgProductSet::setDOErrorInfo(int index)
 		break;
 	case 3:
 		ui->lb_xiangjichufa2->setText(text);
+		break;
+	case 4:
+		ui->lb_hongdeng->setText(text);
+		break;
+	case 5:
+		ui->lb_lvdeng->setText(text);
 		break;
 	}
 }
@@ -501,7 +520,7 @@ void DlgProductSet::updateMonitorIOThread()
 	auto& monitorStartOrStopThread = Modules::getInstance().motionControllerModule.monitorStartOrStopThread;
 	auto& monitorZMotionMonitorThread = Modules::getInstance().motionControllerModule.monitorMotionIoStateThread;
 	QVector<size_t> monitorIList = { ControlLines::qidonganniuIn,ControlLines::lalianlawanIn,ControlLines::jitingIn,ControlLines::guanjiIn };
-	QVector<size_t> monitorOList = { ControlLines::chongkongOUT,ControlLines::tuojiOut,ControlLines::xiangjichufaOut1 ,ControlLines::xiangjichufaOut2 };
+	QVector<size_t> monitorOList = { ControlLines::chongkongOUT,ControlLines::tuojiOut,ControlLines::xiangjichufaOut1 ,ControlLines::xiangjichufaOut2,ControlLines::DOWarnRed,ControlLines::DOWarnGreen };
 	monitorZMotionMonitorThread->setMonitorIList(monitorIList);
 	monitorZMotionMonitorThread->setMonitorOList(monitorOList);
 
@@ -523,6 +542,15 @@ void DlgProductSet::pbtn_close_clicked()
 	cbox_debugMode_checked(false);
 
 	this->close();
+}
+
+void DlgProductSet::pbtn_warningForm_clicked()
+{
+#ifdef NDEBUG
+	dlgWarningManager->showFullScreen();
+#else
+	dlgWarningManager->show();
+#endif
 }
 
 
@@ -1017,6 +1045,8 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 		ui->cbox_DOtuoji->setEnabled(true);
 		ui->cbox_DOchufapaizhao1->setEnabled(true);
 		ui->cbox_DOchufapaizhao2->setEnabled(true);
+		ui->cbox_DOhongdeng->setEnabled(true);
+		ui->cbox_DOlvdeng->setEnabled(true);
 
 		monitorZMotionMonitorThread->setRunning(false);
 	}
@@ -1030,6 +1060,8 @@ void DlgProductSet::cbox_debugMode_checked(bool ischecked)
 		ui->cbox_DOtuoji->setEnabled(false);
 		ui->cbox_DOchufapaizhao1->setEnabled(false);
 		ui->cbox_DOchufapaizhao2->setEnabled(false);
+		ui->cbox_DOhongdeng->setEnabled(false);
+		ui->cbox_DOlvdeng->setEnabled(false);
 
 		monitorZMotionMonitorThread->setRunning(true);
 	}
@@ -1458,6 +1490,24 @@ void DlgProductSet::cbox_DOchufapaizhao2_clicked(bool isChecked)
 	}
 }
 
+void DlgProductSet::cbox_DOhongdeng_clicked(bool isChecked)
+{
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	if (isDebugIO)
+	{
+		auto isSuccess = zmotion->setIOOut(ControlLines::DOWarnRed, isChecked);
+	}
+}
+
+void DlgProductSet::cbox_DOlvdeng_clicked(bool isChecked)
+{
+	auto& zmotion = Modules::getInstance().motionControllerModule.zmotion;
+	if (isDebugIO)
+	{
+		auto isSuccess = zmotion->setIOOut(ControlLines::DOWarnGreen, isChecked);
+	}
+}
+
 void DlgProductSet::btn_setqidonganniu_clicked()
 {
 	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
@@ -1650,6 +1700,56 @@ void DlgProductSet::btn_setxiangjichufa2_clicked()
 		ui->btn_setxiangjichufa2->setText(value);
 		ControlLines::xiangjichufaOut2 = value.toInt();
 		setConfig.xiangjichufapaizhao2Out = value.toInt();
+		auto indicesDO = DOFindAllDuplicateIndices();
+		setDOErrorInfo(indicesDO);
+		auto indicesDI = DIFindAllDuplicateIndices();
+		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
+	}
+}
+
+void DlgProductSet::btn_sethongdeng_clicked()
+{
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toInt() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		ui->btn_sethongdeng->setText(value);
+		ControlLines::DOWarnRed = value.toInt();
+		setConfig.DOWarnRed = value.toInt();
+		auto indicesDO = DOFindAllDuplicateIndices();
+		setDOErrorInfo(indicesDO);
+		auto indicesDI = DIFindAllDuplicateIndices();
+		setDIErrorInfo(indicesDI);
+		updateMonitorIOThread();
+	}
+}
+
+void DlgProductSet::btn_setlvdeng_clicked()
+{
+	auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toInt() < 0)
+		{
+			QMessageBox::warning(this, "提示", "请输入大于0的数值");
+			return;
+		}
+		ui->btn_setlvdeng->setText(value);
+		ControlLines::DOWarnGreen = value.toInt();
+		setConfig.DOWarnGreen = value.toInt();
 		auto indicesDO = DOFindAllDuplicateIndices();
 		setDOErrorInfo(indicesDO);
 		auto indicesDI = DIFindAllDuplicateIndices();

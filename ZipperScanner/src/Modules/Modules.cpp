@@ -5,6 +5,7 @@
 #include "LoadingDialog.h"
 #include "DlgProductScore.h"
 #include "DlgProductSet.h"
+#include "DlgWarn.h"
 #include "ZipperScanner.h"
 #include "rqw_RunEnvCheck.hpp"
 
@@ -59,7 +60,7 @@ bool Modules::build()
 	auto motionControllerModuleBuild = motionControllerModule.build();
 
 	// 构建报警模块
-	//warningModule.build();
+	warningModule.build();
 
 
 #ifdef BUILD_WITHOUT_HARDWARE
@@ -90,7 +91,7 @@ void Modules::destroy()
 	eliminateModule.destroy();
 	imgSaveModule.destroy();
 	motionControllerModule.destroy();
-	//warningModule.destroy();
+	warningModule.destroy();
 }
 
 void Modules::start()
@@ -99,7 +100,7 @@ void Modules::start()
 	configManagerModule.start();
 	motionControllerModule.start();
 	runtimeInfoModule.start();
-	//warningModule.start();
+	warningModule.start();
 	imgSaveModule.start();
 	eliminateModule.start();
 	imgProModule.start();
@@ -122,7 +123,7 @@ void Modules::stop()
 	imgProModule.stop();
 	eliminateModule.stop();
 	imgSaveModule.stop();
-	//warningModule.stop();
+	warningModule.stop();
 	runtimeInfoModule.stop();
 	motionControllerModule.stop();
 	configManagerModule.stop();
@@ -191,6 +192,15 @@ void Modules::connect()
 		uiModule._zipperScanner, &ZipperScanner::onFinishProduce, Qt::BlockingQueuedConnection);
 #pragma endregion
 
+#pragma region connect warningModule
+	warningModule.warningInfoProcessThread->warningLabel = Modules::getInstance().warningModule.labelWarning;
+
+	QObject::connect(warningModule.warningInfoProcessThread.get(), &WarningInfoProcessThread::showDlgWarn,
+		&warningModule, &WarningModule::onShowDlgWarn, Qt::QueuedConnection);
+	QObject::connect(warningModule.dlgWarn, &DlgWarn::isProcess,
+		&warningModule, &WarningModule::onDlgWarningAccept);
+#pragma endregion
+	
 
 }
 
@@ -240,6 +250,7 @@ bool Modules::check()
 	checkFileExistAndFormat<cdm::GeneralConfig>(globalPath.generalConfigPath, storageContext);
 	checkFileExistAndFormat<cdm::SetConfig>(globalPath.setConfigPath, storageContext); 
 	checkFileExistAndFormat<cdm::ScoreConfig>(globalPath.scoreConfigPath, storageContext);
+	checkFileExistAndFormat<cdm::DlgWarningManagerConfig>(globalPath.dlgWarningManagerConfigPath, storageContext);
 #pragma endregion
 
 	return true;

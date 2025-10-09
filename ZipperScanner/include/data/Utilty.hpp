@@ -20,14 +20,10 @@ struct Utility
 
 struct WarningId
 {
-	static constexpr int cairPressureAlarm = 0;
+	static constexpr int clalianlawanAlarm = 0;
 	static constexpr int ccameraDisconnectAlarm1 = 1;
 	static constexpr int ccameraDisconnectAlarm2 = 2;
-	static constexpr int cworkTrigger1 = 3;
-	static constexpr int cworkTrigger2 = 4;
-	static constexpr int csportControlAlarm = 5;
-	static constexpr int clongTermIdleOperationAlarm = 6;
-	static constexpr int cwork1AndWork2EmptyAlarm = 7;
+	static constexpr int cZMotionDisconnectAlarm = 3;
 };
 
 struct ControlLines
@@ -42,6 +38,8 @@ public:
 	static size_t tuojiOut ;
 	static size_t xiangjichufaOut1;
 	static size_t xiangjichufaOut2;
+	static size_t DOWarnRed;
+	static size_t DOWarnGreen;
 };
 
 struct ClassId
@@ -77,6 +75,7 @@ public:
 	QString generalConfigPath = configRootPath + R"(generalConfig.xml)";
 	QString scoreConfigPath = configRootPath + R"(scoreConfig.xml)";
 	QString setConfigPath = configRootPath + R"(setConfig.xml)";
+	QString dlgWarningManagerConfigPath = configRootPath + R"(dlgWarningManagerConfig.xml)";
 	QString modelPath = modelRootPath + R"(lalian.engine)";
 public:
 	QString imageSaveRootPath = projectHome + R"(SavedImages\)";

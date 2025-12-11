@@ -32,12 +32,18 @@ namespace cdm {
         double zuoXianWei2{ 0 };
         double youXianWei2{ 0 };
         double xiangSuDangLiang2{ 0 };
-        double qiangBaoGuang{ 0 };
-        double qiangZengYi{ 0 };
-        double zhongBaoGuang{ 0 };
-        double zhongZengYi{ 0 };
-        double ruoBaoGuang{ 0 };
-        double ruoZengYi{ 0 };
+        double qiangBaoGuang1{ 0 };
+        double qiangZengYi1{ 0 };
+        double zhongBaoGuang1{ 0 };
+        double zhongZengYi1{ 0 };
+        double ruoBaoGuang1{ 0 };
+        double ruoZengYi1{ 0 };
+        double qiangBaoGuang2{ 0 };
+        double qiangZengYi2{ 0 };
+        double zhongBaoGuang2{ 0 };
+        double zhongZengYi2{ 0 };
+        double ruoBaoGuang2{ 0 };
+        double ruoZengYi2{ 0 };
         bool saveNGImg{ false };
         bool saveMaskImg{ false };
         bool saveOKImg{ false };
@@ -160,36 +166,66 @@ namespace cdm {
             throw std::runtime_error("$variable$xiangSuDangLiang2 is not found");
         }
         xiangSuDangLiang2 = xiangSuDangLiang2Item->getValueAsDouble();
-        auto qiangBaoGuangItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangBaoGuang$"));
-        if (!qiangBaoGuangItem) {
-            throw std::runtime_error("$variable$qiangBaoGuang is not found");
+        auto qiangBaoGuang1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangBaoGuang1$"));
+        if (!qiangBaoGuang1Item) {
+            throw std::runtime_error("$variable$qiangBaoGuang1 is not found");
         }
-        qiangBaoGuang = qiangBaoGuangItem->getValueAsDouble();
-        auto qiangZengYiItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangZengYi$"));
-        if (!qiangZengYiItem) {
-            throw std::runtime_error("$variable$qiangZengYi is not found");
+        qiangBaoGuang1 = qiangBaoGuang1Item->getValueAsDouble();
+        auto qiangZengYi1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangZengYi1$"));
+        if (!qiangZengYi1Item) {
+            throw std::runtime_error("$variable$qiangZengYi1 is not found");
         }
-        qiangZengYi = qiangZengYiItem->getValueAsDouble();
-        auto zhongBaoGuangItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$zhongBaoGuang$"));
-        if (!zhongBaoGuangItem) {
-            throw std::runtime_error("$variable$zhongBaoGuang is not found");
+        qiangZengYi1 = qiangZengYi1Item->getValueAsDouble();
+        auto zhongBaoGuang1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$zhongBaoGuang1$"));
+        if (!zhongBaoGuang1Item) {
+            throw std::runtime_error("$variable$zhongBaoGuang1 is not found");
         }
-        zhongBaoGuang = zhongBaoGuangItem->getValueAsDouble();
-        auto zhongZengYiItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$zhongZengYi$"));
-        if (!zhongZengYiItem) {
-            throw std::runtime_error("$variable$zhongZengYi is not found");
+        zhongBaoGuang1 = zhongBaoGuang1Item->getValueAsDouble();
+        auto zhongZengYi1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$zhongZengYi1$"));
+        if (!zhongZengYi1Item) {
+            throw std::runtime_error("$variable$zhongZengYi1 is not found");
         }
-        zhongZengYi = zhongZengYiItem->getValueAsDouble();
-        auto ruoBaoGuangItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$ruoBaoGuang$"));
-        if (!ruoBaoGuangItem) {
-            throw std::runtime_error("$variable$ruoBaoGuang is not found");
+        zhongZengYi1 = zhongZengYi1Item->getValueAsDouble();
+        auto ruoBaoGuang1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$ruoBaoGuang1$"));
+        if (!ruoBaoGuang1Item) {
+            throw std::runtime_error("$variable$ruoBaoGuang1 is not found");
         }
-        ruoBaoGuang = ruoBaoGuangItem->getValueAsDouble();
-        auto ruoZengYiItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$ruoZengYi$"));
-        if (!ruoZengYiItem) {
-            throw std::runtime_error("$variable$ruoZengYi is not found");
+        ruoBaoGuang1 = ruoBaoGuang1Item->getValueAsDouble();
+        auto ruoZengYi1Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$ruoZengYi1$"));
+        if (!ruoZengYi1Item) {
+            throw std::runtime_error("$variable$ruoZengYi1 is not found");
         }
-        ruoZengYi = ruoZengYiItem->getValueAsDouble();
+        ruoZengYi1 = ruoZengYi1Item->getValueAsDouble();
+        auto qiangBaoGuang2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangBaoGuang2$"));
+        if (!qiangBaoGuang2Item) {
+            throw std::runtime_error("$variable$qiangBaoGuang2 is not found");
+        }
+        qiangBaoGuang2 = qiangBaoGuang2Item->getValueAsDouble();
+        auto qiangZengYi2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$qiangZengYi2$"));
+        if (!qiangZengYi2Item) {
+            throw std::runtime_error("$variable$qiangZengYi2 is not found");
+        }
+        qiangZengYi2 = qiangZengYi2Item->getValueAsDouble();
+        auto zhongBaoGuang2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$zhongBaoGuang2$"));
+        if (!zhongBaoGuang2Item) {
+            throw std::runtime_error("$variable$zhongBaoGuang2 is not found");
+        }
+        zhongBaoGuang2 = zhongBaoGuang2Item->getValueAsDouble();
+        auto zhongZengYi2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$zhongZengYi2$"));
+        if (!zhongZengYi2Item) {
+            throw std::runtime_error("$variable$zhongZengYi2 is not found");
+        }
+        zhongZengYi2 = zhongZengYi2Item->getValueAsDouble();
+        auto ruoBaoGuang2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$ruoBaoGuang2$"));
+        if (!ruoBaoGuang2Item) {
+            throw std::runtime_error("$variable$ruoBaoGuang2 is not found");
+        }
+        ruoBaoGuang2 = ruoBaoGuang2Item->getValueAsDouble();
+        auto ruoZengYi2Item = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$ruoZengYi2$"));
+        if (!ruoZengYi2Item) {
+            throw std::runtime_error("$variable$ruoZengYi2 is not found");
+        }
+        ruoZengYi2 = ruoZengYi2Item->getValueAsDouble();
         auto saveNGImgItem = rw::oso::ObjectStoreCoreToItem(assembly.getItem("$variable$saveNGImg$"));
         if (!saveNGImgItem) {
             throw std::runtime_error("$variable$saveNGImg is not found");
@@ -447,12 +483,18 @@ namespace cdm {
         zuoXianWei2 = obj.zuoXianWei2;
         youXianWei2 = obj.youXianWei2;
         xiangSuDangLiang2 = obj.xiangSuDangLiang2;
-        qiangBaoGuang = obj.qiangBaoGuang;
-        qiangZengYi = obj.qiangZengYi;
-        zhongBaoGuang = obj.zhongBaoGuang;
-        zhongZengYi = obj.zhongZengYi;
-        ruoBaoGuang = obj.ruoBaoGuang;
-        ruoZengYi = obj.ruoZengYi;
+        qiangBaoGuang1 = obj.qiangBaoGuang1;
+        qiangZengYi1 = obj.qiangZengYi1;
+        zhongBaoGuang1 = obj.zhongBaoGuang1;
+        zhongZengYi1 = obj.zhongZengYi1;
+        ruoBaoGuang1 = obj.ruoBaoGuang1;
+        ruoZengYi1 = obj.ruoZengYi1;
+        qiangBaoGuang2 = obj.qiangBaoGuang2;
+        qiangZengYi2 = obj.qiangZengYi2;
+        zhongBaoGuang2 = obj.zhongBaoGuang2;
+        zhongZengYi2 = obj.zhongZengYi2;
+        ruoBaoGuang2 = obj.ruoBaoGuang2;
+        ruoZengYi2 = obj.ruoZengYi2;
         saveNGImg = obj.saveNGImg;
         saveMaskImg = obj.saveMaskImg;
         saveOKImg = obj.saveOKImg;
@@ -519,12 +561,18 @@ namespace cdm {
             zuoXianWei2 = obj.zuoXianWei2;
             youXianWei2 = obj.youXianWei2;
             xiangSuDangLiang2 = obj.xiangSuDangLiang2;
-            qiangBaoGuang = obj.qiangBaoGuang;
-            qiangZengYi = obj.qiangZengYi;
-            zhongBaoGuang = obj.zhongBaoGuang;
-            zhongZengYi = obj.zhongZengYi;
-            ruoBaoGuang = obj.ruoBaoGuang;
-            ruoZengYi = obj.ruoZengYi;
+            qiangBaoGuang1 = obj.qiangBaoGuang1;
+            qiangZengYi1 = obj.qiangZengYi1;
+            zhongBaoGuang1 = obj.zhongBaoGuang1;
+            zhongZengYi1 = obj.zhongZengYi1;
+            ruoBaoGuang1 = obj.ruoBaoGuang1;
+            ruoZengYi1 = obj.ruoZengYi1;
+            qiangBaoGuang2 = obj.qiangBaoGuang2;
+            qiangZengYi2 = obj.qiangZengYi2;
+            zhongBaoGuang2 = obj.zhongBaoGuang2;
+            zhongZengYi2 = obj.zhongZengYi2;
+            ruoBaoGuang2 = obj.ruoBaoGuang2;
+            ruoZengYi2 = obj.ruoZengYi2;
             saveNGImg = obj.saveNGImg;
             saveMaskImg = obj.saveMaskImg;
             saveOKImg = obj.saveOKImg;
@@ -633,30 +681,54 @@ namespace cdm {
         xiangSuDangLiang2Item->setName("$variable$xiangSuDangLiang2$");
         xiangSuDangLiang2Item->setValueFromDouble(xiangSuDangLiang2);
         assembly.addItem(xiangSuDangLiang2Item);
-        auto qiangBaoGuangItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        qiangBaoGuangItem->setName("$variable$qiangBaoGuang$");
-        qiangBaoGuangItem->setValueFromDouble(qiangBaoGuang);
-        assembly.addItem(qiangBaoGuangItem);
-        auto qiangZengYiItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        qiangZengYiItem->setName("$variable$qiangZengYi$");
-        qiangZengYiItem->setValueFromDouble(qiangZengYi);
-        assembly.addItem(qiangZengYiItem);
-        auto zhongBaoGuangItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        zhongBaoGuangItem->setName("$variable$zhongBaoGuang$");
-        zhongBaoGuangItem->setValueFromDouble(zhongBaoGuang);
-        assembly.addItem(zhongBaoGuangItem);
-        auto zhongZengYiItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        zhongZengYiItem->setName("$variable$zhongZengYi$");
-        zhongZengYiItem->setValueFromDouble(zhongZengYi);
-        assembly.addItem(zhongZengYiItem);
-        auto ruoBaoGuangItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        ruoBaoGuangItem->setName("$variable$ruoBaoGuang$");
-        ruoBaoGuangItem->setValueFromDouble(ruoBaoGuang);
-        assembly.addItem(ruoBaoGuangItem);
-        auto ruoZengYiItem = std::make_shared<rw::oso::ObjectStoreItem>();
-        ruoZengYiItem->setName("$variable$ruoZengYi$");
-        ruoZengYiItem->setValueFromDouble(ruoZengYi);
-        assembly.addItem(ruoZengYiItem);
+        auto qiangBaoGuang1Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        qiangBaoGuang1Item->setName("$variable$qiangBaoGuang1$");
+        qiangBaoGuang1Item->setValueFromDouble(qiangBaoGuang1);
+        assembly.addItem(qiangBaoGuang1Item);
+        auto qiangZengYi1Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        qiangZengYi1Item->setName("$variable$qiangZengYi1$");
+        qiangZengYi1Item->setValueFromDouble(qiangZengYi1);
+        assembly.addItem(qiangZengYi1Item);
+        auto zhongBaoGuang1Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        zhongBaoGuang1Item->setName("$variable$zhongBaoGuang1$");
+        zhongBaoGuang1Item->setValueFromDouble(zhongBaoGuang1);
+        assembly.addItem(zhongBaoGuang1Item);
+        auto zhongZengYi1Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        zhongZengYi1Item->setName("$variable$zhongZengYi1$");
+        zhongZengYi1Item->setValueFromDouble(zhongZengYi1);
+        assembly.addItem(zhongZengYi1Item);
+        auto ruoBaoGuang1Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        ruoBaoGuang1Item->setName("$variable$ruoBaoGuang1$");
+        ruoBaoGuang1Item->setValueFromDouble(ruoBaoGuang1);
+        assembly.addItem(ruoBaoGuang1Item);
+        auto ruoZengYi1Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        ruoZengYi1Item->setName("$variable$ruoZengYi1$");
+        ruoZengYi1Item->setValueFromDouble(ruoZengYi1);
+        assembly.addItem(ruoZengYi1Item);
+        auto qiangBaoGuang2Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        qiangBaoGuang2Item->setName("$variable$qiangBaoGuang2$");
+        qiangBaoGuang2Item->setValueFromDouble(qiangBaoGuang2);
+        assembly.addItem(qiangBaoGuang2Item);
+        auto qiangZengYi2Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        qiangZengYi2Item->setName("$variable$qiangZengYi2$");
+        qiangZengYi2Item->setValueFromDouble(qiangZengYi2);
+        assembly.addItem(qiangZengYi2Item);
+        auto zhongBaoGuang2Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        zhongBaoGuang2Item->setName("$variable$zhongBaoGuang2$");
+        zhongBaoGuang2Item->setValueFromDouble(zhongBaoGuang2);
+        assembly.addItem(zhongBaoGuang2Item);
+        auto zhongZengYi2Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        zhongZengYi2Item->setName("$variable$zhongZengYi2$");
+        zhongZengYi2Item->setValueFromDouble(zhongZengYi2);
+        assembly.addItem(zhongZengYi2Item);
+        auto ruoBaoGuang2Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        ruoBaoGuang2Item->setName("$variable$ruoBaoGuang2$");
+        ruoBaoGuang2Item->setValueFromDouble(ruoBaoGuang2);
+        assembly.addItem(ruoBaoGuang2Item);
+        auto ruoZengYi2Item = std::make_shared<rw::oso::ObjectStoreItem>();
+        ruoZengYi2Item->setName("$variable$ruoZengYi2$");
+        ruoZengYi2Item->setValueFromDouble(ruoZengYi2);
+        assembly.addItem(ruoZengYi2Item);
         auto saveNGImgItem = std::make_shared<rw::oso::ObjectStoreItem>();
         saveNGImgItem->setName("$variable$saveNGImg$");
         saveNGImgItem->setValueFromBool(saveNGImg);
@@ -854,7 +926,7 @@ namespace cdm {
 
     inline bool SetConfig::operator==(const SetConfig& obj) const
     {
-        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && tifeirongyufangdou == obj.tifeirongyufangdou && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang == obj.qiangBaoGuang && qiangZengYi == obj.qiangZengYi && zhongBaoGuang == obj.zhongBaoGuang && zhongZengYi == obj.zhongZengYi && ruoBaoGuang == obj.ruoBaoGuang && ruoZengYi == obj.ruoZengYi && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && xiangjichufapaizhao1Out == obj.xiangjichufapaizhao1Out && xiangjichufapaizhao2Out == obj.xiangjichufapaizhao2Out && DOWarnRed == obj.DOWarnRed && DOWarnGreen == obj.DOWarnGreen && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8 && imgIsSaveJpeg == obj.imgIsSaveJpeg && imgIsSaveBmp == obj.imgIsSaveBmp && imgIsSavePng == obj.imgIsSavePng && imgSaveQuality == obj.imgSaveQuality && imgRotateCount1 == obj.imgRotateCount1 && imgRotateCount2 == obj.imgRotateCount2;
+        return tifeijuli1 == obj.tifeijuli1 && tifeijuli2 == obj.tifeijuli2 && tifeirongyufangdou == obj.tifeirongyufangdou && shangXianWei1 == obj.shangXianWei1 && xiaXianWei1 == obj.xiaXianWei1 && zuoXianWei1 == obj.zuoXianWei1 && youXianWei1 == obj.youXianWei1 && xiangSuDangLiang1 == obj.xiangSuDangLiang1 && shangXianWei2 == obj.shangXianWei2 && xiaXianWei2 == obj.xiaXianWei2 && zuoXianWei2 == obj.zuoXianWei2 && youXianWei2 == obj.youXianWei2 && xiangSuDangLiang2 == obj.xiangSuDangLiang2 && qiangBaoGuang1 == obj.qiangBaoGuang1 && qiangZengYi1 == obj.qiangZengYi1 && zhongBaoGuang1 == obj.zhongBaoGuang1 && zhongZengYi1 == obj.zhongZengYi1 && ruoBaoGuang1 == obj.ruoBaoGuang1 && ruoZengYi1 == obj.ruoZengYi1 && qiangBaoGuang2 == obj.qiangBaoGuang2 && qiangZengYi2 == obj.qiangZengYi2 && zhongBaoGuang2 == obj.zhongBaoGuang2 && zhongZengYi2 == obj.zhongZengYi2 && ruoBaoGuang2 == obj.ruoBaoGuang2 && ruoZengYi2 == obj.ruoZengYi2 && saveNGImg == obj.saveNGImg && saveMaskImg == obj.saveMaskImg && saveOKImg == obj.saveOKImg && debugMode == obj.debugMode && takeWork1Pictures == obj.takeWork1Pictures && takeWork2Pictures == obj.takeWork2Pictures && qiyongerxiangji == obj.qiyongerxiangji && qiyongyundongkongzhiqi == obj.qiyongyundongkongzhiqi && yundongkongzhiqichonglian == obj.yundongkongzhiqichonglian && chongkongjishu == obj.chongkongjishu && dangqianchangdu == obj.dangqianchangdu && xiangjichufachangdu == obj.xiangjichufachangdu && shoudongsudu == obj.shoudongsudu && meizhuanmaichongshu == obj.meizhuanmaichongshu && zidongladaisudu == obj.zidongladaisudu && shedingzhouchang == obj.shedingzhouchang && yanshichongkong == obj.yanshichongkong && chongkongshijian == obj.chongkongshijian && yanshiziqi == obj.yanshiziqi && jiajiansushijian == obj.jiajiansushijian && qidonganniuIn == obj.qidonganniuIn && lalianlawanIn == obj.lalianlawanIn && jitingIn == obj.jitingIn && guanjiIn == obj.guanjiIn && chongkongOut == obj.chongkongOut && tuojiOut == obj.tuojiOut && xiangjichufapaizhao1Out == obj.xiangjichufapaizhao1Out && xiangjichufapaizhao2Out == obj.xiangjichufapaizhao2Out && DOWarnRed == obj.DOWarnRed && DOWarnGreen == obj.DOWarnGreen && isQueya == obj.isQueya && isTangshang == obj.isTangshang && isZangwu == obj.isZangwu && isSuoxiao == obj.isSuoxiao && isExtra1 == obj.isExtra1 && isExtra2 == obj.isExtra2 && isExtra3 == obj.isExtra3 && isExtra4 == obj.isExtra4 && isExtra5 == obj.isExtra5 && isExtra6 == obj.isExtra6 && isExtra7 == obj.isExtra7 && isExtra8 == obj.isExtra8 && imgIsSaveJpeg == obj.imgIsSaveJpeg && imgIsSaveBmp == obj.imgIsSaveBmp && imgIsSavePng == obj.imgIsSavePng && imgSaveQuality == obj.imgSaveQuality && imgRotateCount1 == obj.imgRotateCount1 && imgRotateCount2 == obj.imgRotateCount2;
     }
 
     inline bool SetConfig::operator!=(const SetConfig& obj) const

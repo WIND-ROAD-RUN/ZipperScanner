@@ -56,12 +56,18 @@ private slots:
 	void pbtn_zuoxianwei2_clicked();
 	void pbtn_youxianwei2_clicked();
 	void pbtn_xiangsudangliang2_clicked();
-	void pbtn_qiangbaoguang_clicked();
-	void pbtn_qiangzengyi_clicked();
-	void pbtn_zhongbaoguang_clicked();
-	void pbtn_ruobaoguang_clicked();
-	void pbtn_zhongzengyi_clicked();
-	void pbtn_ruozengyi_clicked();
+	void pbtn_qiangbaoguang1_clicked();
+	void pbtn_qiangzengyi1_clicked();
+	void pbtn_zhongbaoguang1_clicked();
+	void pbtn_ruobaoguang1_clicked();
+	void pbtn_zhongzengyi1_clicked();
+	void pbtn_ruozengyi1_clicked();
+	void pbtn_qiangbaoguang2_clicked();
+	void pbtn_qiangzengyi2_clicked();
+	void pbtn_zhongbaoguang2_clicked();
+	void pbtn_ruobaoguang2_clicked();
+	void pbtn_zhongzengyi2_clicked();
+	void pbtn_ruozengyi2_clicked();
 
 	//存图
 	void cBox_takeNgPictures_checked();

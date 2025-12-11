@@ -21,14 +21,20 @@ namespace cdm {
 		youXianWei2 : double :default = 0;
 		xiangSuDangLiang2 : double :default = 0;
 
-		qiangBaoGuang : double :default = 0;
-		qiangZengYi : double :default = 0;
+		qiangBaoGuang1 : double :default = 0;
+		qiangZengYi1 : double :default = 0;
+		zhongBaoGuang1 : double :default = 0;
+		zhongZengYi1 : double :default = 0;
+		ruoBaoGuang1 : double :default = 0;
+		ruoZengYi1 : double :default = 0;
 
-		zhongBaoGuang : double :default = 0;
-		zhongZengYi : double :default = 0;
+		qiangBaoGuang2 : double :default = 0;
+		qiangZengYi2 : double :default = 0;
+		zhongBaoGuang2 : double :default = 0;
+		zhongZengYi2 : double :default = 0;
+		ruoBaoGuang2 : double :default = 0;
+		ruoZengYi2 : double :default = 0;
 
-		ruoBaoGuang : double :default = 0;
-		ruoZengYi : double :default = 0;
 
 		saveNGImg : bool :default = false;
 		saveMaskImg : bool :default = false;

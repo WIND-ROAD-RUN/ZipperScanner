@@ -87,18 +87,18 @@ bool CameraModule::build_camera1()
 			camera1->setHeartbeatTime(5000);
 			if (globalDataGeneralConfig.qiangGuang)
 			{
-				camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
-				camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang1));
+				camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi1));
 			}
 			else if (globalDataGeneralConfig.zhongGuang)
 			{
-				camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
-				camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang1));
+				camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi1));
 			}
 			else if (globalDataGeneralConfig.ruoGuang)
 			{
-				camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
-				camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang1));
+				camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi1));
 			}
 			QObject::connect(camera1.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
 				this, &CameraModule::onFrameCaptured);
@@ -138,18 +138,18 @@ bool CameraModule::build_camera2()
 			camera2->setHeartbeatTime(5000);
 			if (globalDataGeneralConfig.qiangGuang)
 			{
-				camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
-				camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang2));
+				camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi2));
 			}
 			else if (globalDataGeneralConfig.zhongGuang)
 			{
-				camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
-				camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang2));
+				camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi2));
 			}
 			else if (globalDataGeneralConfig.ruoGuang)
 			{
-				camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
-				camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang2));
+				camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi2));
 			}
 			QObject::connect(camera2.get(), &rw::rqw::CameraPassiveThread::frameCaptured,
 				this, &CameraModule::onFrameCaptured);

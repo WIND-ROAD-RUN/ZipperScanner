@@ -422,13 +422,13 @@ void ZipperScanner::rbtn_strongLight_checked(bool checked)
 
 	if (camera1)
 	{
-		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
-		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang1));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi1));
 	}
 	if (camera2)
 	{
-		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
-		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang2));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi2));
 	}
 
 	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
@@ -445,13 +445,13 @@ void ZipperScanner::rbtn_mediumLight_checked(bool checked)
 
 	if (camera1)
 	{
-		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
-		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang1));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi1));
 	}
 	if (camera2)
 	{
-		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
-		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang2));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi2));
 	}
 	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	zipperScannerConfig.qiangGuang = false;
@@ -466,13 +466,13 @@ void ZipperScanner::rbtn_weakLight_checked(bool checked)
 	auto& camera2 = Modules::getInstance().cameraModule.camera2;
 	if (camera1)
 	{
-		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
-		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+		auto isSuccess1 = camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang1));
+		auto isSuccess2 = camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi1));
 	}
 	if (camera2)
 	{
-		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
-		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+		auto isSuccess1 = camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang2));
+		auto isSuccess2 = camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi2));
 	}
 	auto& zipperScannerConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 	zipperScannerConfig.qiangGuang = false;

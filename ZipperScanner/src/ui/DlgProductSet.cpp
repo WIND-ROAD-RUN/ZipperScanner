@@ -93,14 +93,19 @@ void DlgProductSet::read_config()
 	ui->pbtn_xiangsudangliang2->setText(QString::number(setConfig.xiangSuDangLiang2));
 
 	// 光源
-	ui->pbtn_qiangbaoguang->setText(QString::number(setConfig.qiangBaoGuang));
-	ui->pbtn_qiangzengyi->setText(QString::number(setConfig.qiangZengYi));
+	ui->pbtn_qiangbaoguang1->setText(QString::number(setConfig.qiangBaoGuang1));
+	ui->pbtn_qiangzengyi1->setText(QString::number(setConfig.qiangZengYi1));
+	ui->pbtn_zhongbaoguang1->setText(QString::number(setConfig.zhongBaoGuang1));
+	ui->pbtn_zhongzengyi1->setText(QString::number(setConfig.zhongZengYi1));
+	ui->pbtn_ruobaoguang1->setText(QString::number(setConfig.ruoBaoGuang1));
+	ui->pbtn_ruozengyi1->setText(QString::number(setConfig.ruoZengYi1));
 
-	ui->pbtn_zhongbaoguang->setText(QString::number(setConfig.zhongBaoGuang));
-	ui->pbtn_zhongzengyi->setText(QString::number(setConfig.zhongZengYi));
-
-	ui->pbtn_ruobaoguang->setText(QString::number(setConfig.ruoBaoGuang));
-	ui->pbtn_ruozengyi->setText(QString::number(setConfig.ruoZengYi));
+	ui->pbtn_qiangbaoguang2->setText(QString::number(setConfig.qiangBaoGuang2));
+	ui->pbtn_qiangzengyi2->setText(QString::number(setConfig.qiangZengYi2));
+	ui->pbtn_zhongbaoguang2->setText(QString::number(setConfig.zhongBaoGuang2));
+	ui->pbtn_zhongzengyi2->setText(QString::number(setConfig.zhongZengYi2));
+	ui->pbtn_ruobaoguang2->setText(QString::number(setConfig.ruoBaoGuang2));
+	ui->pbtn_ruozengyi2->setText(QString::number(setConfig.ruoZengYi2));
 
 	// 调试模式默认为关闭
 	setConfig.debugMode = false;
@@ -185,18 +190,30 @@ void DlgProductSet::build_connect()
 		this, &DlgProductSet::pbtn_youxianwei2_clicked);
 	QObject::connect(ui->pbtn_xiangsudangliang2, &QPushButton::clicked,
 		this, &DlgProductSet::pbtn_xiangsudangliang2_clicked);
-	QObject::connect(ui->pbtn_qiangbaoguang, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_qiangbaoguang_clicked);
-	QObject::connect(ui->pbtn_qiangzengyi, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_qiangzengyi_clicked);
-	QObject::connect(ui->pbtn_zhongbaoguang, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_zhongbaoguang_clicked);
-	QObject::connect(ui->pbtn_ruobaoguang, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_ruobaoguang_clicked);
-	QObject::connect(ui->pbtn_zhongzengyi, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_zhongzengyi_clicked);
-	QObject::connect(ui->pbtn_ruozengyi, &QPushButton::clicked,
-		this, &DlgProductSet::pbtn_ruozengyi_clicked);
+	QObject::connect(ui->pbtn_qiangbaoguang1, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_qiangbaoguang1_clicked);
+	QObject::connect(ui->pbtn_qiangzengyi1, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_qiangzengyi1_clicked);
+	QObject::connect(ui->pbtn_zhongbaoguang1, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_zhongbaoguang1_clicked);
+	QObject::connect(ui->pbtn_ruobaoguang1, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_ruobaoguang1_clicked);
+	QObject::connect(ui->pbtn_zhongzengyi1, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_zhongzengyi1_clicked);
+	QObject::connect(ui->pbtn_ruozengyi1, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_ruozengyi1_clicked);
+	QObject::connect(ui->pbtn_qiangbaoguang2, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_qiangbaoguang2_clicked);
+	QObject::connect(ui->pbtn_qiangzengyi2, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_qiangzengyi2_clicked);
+	QObject::connect(ui->pbtn_zhongbaoguang2, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_zhongbaoguang2_clicked);
+	QObject::connect(ui->pbtn_ruobaoguang2, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_ruobaoguang2_clicked);
+	QObject::connect(ui->pbtn_zhongzengyi2, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_zhongzengyi2_clicked);
+	QObject::connect(ui->pbtn_ruozengyi2, &QPushButton::clicked,
+		this, &DlgProductSet::pbtn_ruozengyi2_clicked);
 	QObject::connect(ui->cbox_debugMode, &QCheckBox::clicked,
 		this, &DlgProductSet::cbox_debugMode_checked);
 	QObject::connect(ui->pbtn_close, &QPushButton::clicked,
@@ -803,7 +820,7 @@ void DlgProductSet::pbtn_xiangsudangliang2_clicked()
 	}
 }
 
-void DlgProductSet::pbtn_qiangbaoguang_clicked()
+void DlgProductSet::pbtn_qiangbaoguang1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -816,29 +833,23 @@ void DlgProductSet::pbtn_qiangbaoguang_clicked()
 			QMessageBox::warning(this, "提示", "请输入11到300的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto& camera1 = Modules::getInstance().cameraModule.camera1;
-		auto& camera2 = Modules::getInstance().cameraModule.camera2;
 
-		ui->pbtn_qiangbaoguang->setText(value);
-		setConfig.qiangBaoGuang = value.toDouble();
+		ui->pbtn_qiangbaoguang1->setText(value);
+		setConfig.qiangBaoGuang1 = value.toDouble();
 		if (generalConfig.qiangGuang == true)
 		{
 			if (camera1)
 			{
-				camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
-			}
-			if (camera2)
-			{
-				camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang1));
 			}
 		}
 	}
 }
 
-void DlgProductSet::pbtn_qiangzengyi_clicked()
+void DlgProductSet::pbtn_qiangzengyi1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -851,28 +862,22 @@ void DlgProductSet::pbtn_qiangzengyi_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到16的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto& camera1 = Modules::getInstance().cameraModule.camera1;
-		auto& camera2 = Modules::getInstance().cameraModule.camera2;
-		ui->pbtn_qiangzengyi->setText(value);
-		setConfig.qiangZengYi = value.toDouble();
+		ui->pbtn_qiangzengyi1->setText(value);
+		setConfig.qiangZengYi1 = value.toDouble();
 		if (generalConfig.qiangGuang == true)
 		{
 			if (camera1)
 			{
-				camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi));
-			}
-			if (camera2)
-			{
-				camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi));
+				camera1->setGain(static_cast<size_t>(setConfig.qiangZengYi1));
 			}
 		}
 	}
 }
 
-void DlgProductSet::pbtn_zhongbaoguang_clicked()
+void DlgProductSet::pbtn_zhongbaoguang1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -885,28 +890,22 @@ void DlgProductSet::pbtn_zhongbaoguang_clicked()
 			QMessageBox::warning(this, "提示", "请输入11到300的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto& camera1 = Modules::getInstance().cameraModule.camera1;
-		auto& camera2 = Modules::getInstance().cameraModule.camera2;
-		ui->pbtn_zhongbaoguang->setText(value);
-		setConfig.zhongBaoGuang = value.toDouble();
+		ui->pbtn_zhongbaoguang1->setText(value);
+		setConfig.zhongBaoGuang1 = value.toDouble();
 		if (generalConfig.zhongGuang == true)
 		{
 			if (camera1)
 			{
-				camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
-			}
-			if (camera2)
-			{
-				camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang1));
 			}
 		}
 	}
 }
 
-void DlgProductSet::pbtn_ruobaoguang_clicked()
+void DlgProductSet::pbtn_ruobaoguang1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -919,29 +918,23 @@ void DlgProductSet::pbtn_ruobaoguang_clicked()
 			QMessageBox::warning(this, "提示", "请输入11到300的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto& camera1 = Modules::getInstance().cameraModule.camera1;
-		auto& camera2 = Modules::getInstance().cameraModule.camera2;
-		ui->pbtn_ruobaoguang->setText(value);
-		setConfig.ruoBaoGuang = value.toDouble();
+		ui->pbtn_ruobaoguang1->setText(value);
+		setConfig.ruoBaoGuang1 = value.toDouble();
 		if (generalConfig.ruoGuang == true)
 		{
 			if (camera1)
 			{
-				camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
+				camera1->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang1));
 
-			}
-			if (camera2)
-			{
-				camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang));
 			}
 		}
 	}
 }
 
-void DlgProductSet::pbtn_zhongzengyi_clicked()
+void DlgProductSet::pbtn_zhongzengyi1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -954,29 +947,23 @@ void DlgProductSet::pbtn_zhongzengyi_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到16的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto& camera1 = Modules::getInstance().cameraModule.camera1;
-		auto& camera2 = Modules::getInstance().cameraModule.camera2;
-		ui->pbtn_zhongzengyi->setText(value);
-		setConfig.zhongZengYi = value.toDouble();
+		ui->pbtn_zhongzengyi1->setText(value);
+		setConfig.zhongZengYi1 = value.toDouble();
 		if (generalConfig.zhongGuang == true)
 		{
 			if (camera1)
 			{
-				camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi));
+				camera1->setGain(static_cast<size_t>(setConfig.zhongZengYi1));
 
-			}
-			if (camera2)
-			{
-				camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi));
 			}
 		}
 	}
 }
 
-void DlgProductSet::pbtn_ruozengyi_clicked()
+void DlgProductSet::pbtn_ruozengyi1_clicked()
 {
 	NumberKeyboard numKeyBord;
 	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
@@ -989,23 +976,185 @@ void DlgProductSet::pbtn_ruozengyi_clicked()
 			QMessageBox::warning(this, "提示", "请输入0到16的数值");
 			return;
 		}
-		auto& globalStruct = GlobalData::getInstance();
 		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
 		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
 		auto& camera1 = Modules::getInstance().cameraModule.camera1;
-		auto& camera2 = Modules::getInstance().cameraModule.camera2;
-		ui->pbtn_ruozengyi->setText(value);
-		setConfig.ruoZengYi = value.toDouble();
+		ui->pbtn_ruozengyi1->setText(value);
+		setConfig.ruoZengYi1 = value.toDouble();
 		if (generalConfig.ruoGuang == true)
 		{
 			if (camera1)
 			{
-				camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+				camera1->setGain(static_cast<size_t>(setConfig.ruoZengYi1));
 
 			}
+		}
+	}
+}
+
+void DlgProductSet::pbtn_qiangbaoguang2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 11 || value.toDouble() > 300)
+		{
+			QMessageBox::warning(this, "提示", "请输入11到300的数值");
+			return;
+		}
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
+		ui->pbtn_qiangbaoguang2->setText(value);
+		setConfig.qiangBaoGuang2 = value.toDouble();
+		if (generalConfig.qiangGuang == true)
+		{
 			if (camera2)
 			{
-				camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi));
+				camera2->setExposureTime(static_cast<size_t>(setConfig.qiangBaoGuang2));
+			}
+		}
+	}
+}
+
+void DlgProductSet::pbtn_qiangzengyi2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0 || value.toDouble() > 16)
+		{
+			QMessageBox::warning(this, "提示", "请输入0到16的数值");
+			return;
+		}
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
+		ui->pbtn_qiangzengyi2->setText(value);
+		setConfig.qiangZengYi2 = value.toDouble();
+		if (generalConfig.qiangGuang == true)
+		{
+			if (camera2)
+			{
+				camera2->setGain(static_cast<size_t>(setConfig.qiangZengYi2));
+			}
+		}
+	}
+}
+
+void DlgProductSet::pbtn_zhongbaoguang2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 11 || value.toDouble() > 300)
+		{
+			QMessageBox::warning(this, "提示", "请输入11到300的数值");
+			return;
+		}
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
+		ui->pbtn_zhongbaoguang2->setText(value);
+		setConfig.zhongBaoGuang2 = value.toDouble();
+		if (generalConfig.zhongGuang == true)
+		{
+			if (camera2)
+			{
+				camera2->setExposureTime(static_cast<size_t>(setConfig.zhongBaoGuang2));
+			}
+		}
+	}
+}
+
+void DlgProductSet::pbtn_ruobaoguang2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 11 || value.toDouble() > 300)
+		{
+			QMessageBox::warning(this, "提示", "请输入11到300的数值");
+			return;
+		}
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
+		ui->pbtn_ruobaoguang2->setText(value);
+		setConfig.ruoBaoGuang2 = value.toDouble();
+		if (generalConfig.ruoGuang == true)
+		{
+			if (camera2)
+			{
+				camera2->setExposureTime(static_cast<size_t>(setConfig.ruoBaoGuang2));
+			}
+		}
+	}
+}
+
+void DlgProductSet::pbtn_zhongzengyi2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0 || value.toDouble() > 16)
+		{
+			QMessageBox::warning(this, "提示", "请输入0到16的数值");
+			return;
+		}
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
+		ui->pbtn_zhongzengyi2->setText(value);
+		setConfig.zhongZengYi2 = value.toDouble();
+		if (generalConfig.zhongGuang == true)
+		{
+			if (camera2)
+			{
+				camera2->setGain(static_cast<size_t>(setConfig.zhongZengYi2));
+			}
+		}
+	}
+}
+
+void DlgProductSet::pbtn_ruozengyi2_clicked()
+{
+	NumberKeyboard numKeyBord;
+	numKeyBord.setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+	auto isAccept = numKeyBord.exec();
+	if (isAccept == QDialog::Accepted)
+	{
+		auto value = numKeyBord.getValue();
+		if (value.toDouble() < 0 || value.toDouble() > 16)
+		{
+			QMessageBox::warning(this, "提示", "请输入0到16的数值");
+			return;
+		}
+		auto& generalConfig = Modules::getInstance().configManagerModule.zipperScannerConfig;
+		auto& setConfig = Modules::getInstance().configManagerModule.setConfig;
+		auto& camera2 = Modules::getInstance().cameraModule.camera2;
+		ui->pbtn_ruozengyi2->setText(value);
+		setConfig.ruoZengYi2 = value.toDouble();
+		if (generalConfig.ruoGuang == true)
+		{
+			if (camera2)
+			{
+				camera2->setGain(static_cast<size_t>(setConfig.ruoZengYi2));
 			}
 		}
 	}

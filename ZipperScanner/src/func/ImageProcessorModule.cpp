@@ -291,7 +291,14 @@ void ImageProcessingModule::onFrameCaptured(rw::rqw::MatInfo matInfo, size_t ind
 	mat.image = matInfo.mat;
 	mat.index = index;
 
-	mat.location = std::any_cast<float>(matInfo.customField.at("LocCallBack"));
+	if (auto it = matInfo.customField.find("LocCallBack"); it != matInfo.customField.end()) {
+		try {
+			mat.location = std::any_cast<float>(it->second);
+		}
+		catch (const std::bad_any_cast&) {
+			mat.location = 0.0f;
+		}
+	}
 	_queue.enqueue(mat);
 	_condition.wakeOne();
 }

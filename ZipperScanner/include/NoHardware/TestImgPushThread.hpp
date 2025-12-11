@@ -4,6 +4,7 @@
 #include <atomic>
 #include <opencv2/core/mat.hpp>
 
+#include "rqw_CameraObjectCore.hpp"
 #include"rqw_LabelWarning.h"
 #ifdef BUILD_WITHOUT_HARDWARE
 class TestImgPushThread : public QThread
@@ -31,7 +32,7 @@ public:
 	void stopThread();
 
 signals:
-	void imgReady(cv::Mat frame, size_t index, float location);
+	void imgReady(rw::rqw::MatInfo matInfo, size_t index);
 
 public:
 	void readImg(size_t s);

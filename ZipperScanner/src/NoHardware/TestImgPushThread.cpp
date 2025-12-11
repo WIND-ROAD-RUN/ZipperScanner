@@ -86,7 +86,7 @@ void TestImgPushThread::readImg(size_t s)
 
 		selectedImg.mat = imgCache[randomIndex].clone();
 
-		emit imgReady(selectedImg.mat, 1, static_cast<float>(s * 100));
+		emit imgReady(selectedImg, 1);
 	}
 }
 

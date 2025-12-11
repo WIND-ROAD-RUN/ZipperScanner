@@ -177,8 +177,8 @@ void Modules::connect()
 #pragma endregion
 
 #ifdef BUILD_WITHOUT_HARDWARE
-	/*QObject::connect(test_module.testImgPushThread.get(), &TestImgPushThread::imgReady,
-			imgProModule.imageProcessingModule1.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);*/
+	QObject::connect(test_module.testImgPushThread.get(), &TestImgPushThread::imgReady,
+		imgProModule.imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured, Qt::DirectConnection);
 	/*QObject::connect(test_module.testImgPushThread.get(), &TestImgPushThread::imgReady,
 		imgProModule.imageProcessingModule2.get(), &ImageProcessingModuleHandleScanner::onFrameCaptured, Qt::DirectConnection);*/
 #endif

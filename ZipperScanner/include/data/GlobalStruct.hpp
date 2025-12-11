@@ -29,13 +29,6 @@ public:
 private:
 	GlobalThread() = default;
 	~GlobalThread() = default;
-
-#ifdef BUILD_WITHOUT_HARDWARE
-public:
-	std::unique_ptr<TestImgPushThread> testImgPushThread{ nullptr };
-	std::atomic_bool testImgPush{ false };
-#endif
-
 };
 
 class GlobalData

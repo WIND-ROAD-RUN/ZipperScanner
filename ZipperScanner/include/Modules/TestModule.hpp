@@ -8,7 +8,7 @@
 #include "TestImgPushThread.hpp"
 
 class TestModule
-	:public QObject,public IModule<void>
+	:public QObject, public IModule<void>
 {
 	Q_OBJECT
 public:
@@ -17,7 +17,7 @@ public:
 	void start() override;
 	void stop() override;
 public:
-	std::atomic_bool testImgPush{false};
+	std::atomic_bool testImgPush{ false };
 	std::unique_ptr<TestImgPushThread> testImgPushThread{};
 };
 #endif

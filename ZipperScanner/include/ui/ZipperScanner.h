@@ -18,12 +18,10 @@ class ZipperScanner : public QMainWindow
 {
 	Q_OBJECT
 #ifdef BUILD_WITHOUT_HARDWARE
-private:
-	QCheckBox* _testIfPushImg;
-	QSpinBox* _pushImgTime;
+public:
+	QCheckBox* cBox_testPushImg{ nullptr };
 public slots:
-	void cbox_testIfPushImg_clicked(bool states);
-	void sBox_pushImgTime_valueChanged(int value);
+	void cBox_testPushImg_checked(bool checked);
 #endif
 public:
 	ZipperScanner(QWidget* parent = nullptr);

@@ -79,5 +79,5 @@ public:
 	QString modelPath = modelRootPath + R"(lalian.engine)";
 public:
 	QString imageSaveRootPath = R"(D:\Images\)";
-	QString testImgDirPath= R"(D:\zfkjDevelopment\ImgStorage\lalian\20250607)";
+	QString testImgDirPath= R"(D:\ImgStorage\lalian\)";
 }globalPath;

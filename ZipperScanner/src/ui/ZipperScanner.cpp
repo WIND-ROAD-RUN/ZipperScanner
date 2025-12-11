@@ -19,17 +19,15 @@
 #include "DlgCloseForm.h"
 
 #ifdef BUILD_WITHOUT_HARDWARE
-void ZipperScanner::cbox_testIfPushImg_clicked(bool states)
+void ZipperScanner::cBox_testPushImg_checked(bool checked)
 {
-	GlobalThread::getInstance().testImgPush = states;
-}
-
-void ZipperScanner::sBox_pushImgTime_valueChanged(int value)
-{
-	auto& globalThread = GlobalThread::getInstance();
-	if (globalThread.testImgPushThread)
+	if (checked)
 	{
-		globalThread.testImgPushThread->setPushImgTime(value);
+		Modules::getInstance().test_module.testImgPush = true;
+	}
+	else
+	{
+		Modules::getInstance().test_module.testImgPush = false;
 	}
 }
 #endif
@@ -62,32 +60,6 @@ ZipperScanner::ZipperScanner(QWidget* parent)
 
 	// 连接槽函数
 	build_connect();
-
-#ifdef BUILD_WITHOUT_HARDWARE
-	auto& globalThread = GlobalThread::getInstance();
-	_testIfPushImg = new QCheckBox(this);
-	_testIfPushImg->setText("图像推送状态");
-	ui->gBox_infor->layout()->addWidget(_testIfPushImg);
-	QObject::connect(_testIfPushImg, &QCheckBox::clicked,
-		this, &ZipperScanner::cbox_testIfPushImg_clicked);
-
-	_pushImgTime = new QSpinBox(this);
-	_pushImgTime->setRange(50, 2000);
-	_pushImgTime->setSingleStep(50);
-	_pushImgTime->setValue(150);
-	ui->gBox_infor->layout()->addWidget(_pushImgTime);
-	QObject::connect(_pushImgTime, &QSpinBox::valueChanged,
-		this, &ZipperScanner::sBox_pushImgTime_valueChanged);
-
-
-	globalThread.testImgPushThread = std::make_unique<TestImgPushThread>(this);
-	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady1,
-		globalStruct.imageProcessingModule1.get(), &ImageProcessingModule::onFrameCaptured);
-	QObject::connect(globalThread.testImgPushThread.get(), &TestImgPushThread::imgReady2,
-		globalStruct.imageProcessingModule2.get(), &ImageProcessingModule::onFrameCaptured);
-
-	globalThread.testImgPushThread->startThread();
-#endif
 }
 
 ZipperScanner::~ZipperScanner()
@@ -110,6 +82,14 @@ ZipperScanner::~ZipperScanner()
 void ZipperScanner::build_ui()
 {
 	build_ZipperScannerData();
+
+#ifdef BUILD_WITHOUT_HARDWARE
+	cBox_testPushImg = new QCheckBox(this);
+	cBox_testPushImg->setText("图像推送状态");
+	ui->gBox_infor->layout()->addWidget(cBox_testPushImg);
+	QObject::connect(cBox_testPushImg, &QCheckBox::clicked,
+		this, &ZipperScanner::cBox_testPushImg_checked);
+#endif
 }
 
 // 连接槽函数
@@ -253,11 +233,6 @@ void ZipperScanner::ini_clickableTitle()
 
 void ZipperScanner::destroyComponents()
 {
-#ifdef BUILD_WITHOUT_HARDWARE
-	auto& globalThread = GlobalThread::getInstance();
-	globalThread.testImgPushThread->stopThread();
-	globalThread.testImgPushThread.reset();
-#endif
 	// 关闭剔废功能并停止冲孔与轴运动
 	rbtn_stop_clicked(true); // 默认停止
 	rbtn_removeFunc_checked(false);

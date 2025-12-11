@@ -1,7 +1,11 @@
 #include"TestImgPushThread.hpp"
 
-#include"GlobalStruct.hpp"
+#include <QDir>
+
+#include "Utilty.hpp"
 #include <random>
+
+#include "Modules.hpp"
 
 #ifdef BUILD_WITHOUT_HARDWARE
 void TestImgPushThread::setPushImgTime(size_t pushImgTime)
@@ -64,33 +68,25 @@ void TestImgPushThread::stopThread()
 
 void TestImgPushThread::readImg(size_t s)
 {
-	auto& isPushImg = GlobalThread::getInstance().testImgPush;
+	auto& isPushImg = Modules::getInstance().test_module.testImgPush;
 	if (!isPushImg.load())
 	{
 		return;
 	}
 
-	if (s % _pushImgTime == 0 && imgCache.size() >= 4)
+	if (s % _pushImgTime == 0 && !imgCache.isEmpty())
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> dis(0, imgCache.size() - 1);
 
-		QSet<int> indexSet;
-		while (indexSet.size() < 4) {
-			indexSet.insert(dis(gen));
-		}
+		int randomIndex = dis(gen);
 
-		QVector<cv::Mat> selectedImgs;
-		for (int idx : indexSet) {
-			selectedImgs.append(imgCache[idx]);
-		}
+		rw::rqw::MatInfo selectedImg{};
 
-		for (int i = 0; i < 2; ++i) {
+		selectedImg.mat = imgCache[randomIndex].clone();
 
-			imgReady1(selectedImgs[i], 1);
-			imgReady2(selectedImgs[i], 2);
-		}
+		emit imgReady(selectedImg.mat, 1, static_cast<float>(s * 100));
 	}
 }
 

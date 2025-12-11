@@ -4,7 +4,7 @@
 #include <atomic>
 #include <opencv2/core/mat.hpp>
 
-
+#include"rqw_LabelWarning.h"
 #ifdef BUILD_WITHOUT_HARDWARE
 class TestImgPushThread : public QThread
 {
@@ -16,7 +16,7 @@ private:
 	QVector<QString> imgsPath{};
 	QVector<cv::Mat> imgCache;
 private:
-	size_t _pushImgTime{ 150 };
+	size_t _pushImgTime{ 500 };
 public:
 	void setPushImgTime(size_t pushImgTime);
 public:
@@ -31,8 +31,8 @@ public:
 	void stopThread();
 
 signals:
-	void imgReady1(cv::Mat frame, size_t index);
-	void imgReady2(cv::Mat frame, size_t index);
+	void imgReady(cv::Mat frame, size_t index, float location);
+
 public:
 	void readImg(size_t s);
 protected:

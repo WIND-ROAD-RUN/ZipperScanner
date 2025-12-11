@@ -67,6 +67,7 @@ void ImgSaveModule::build()
 
 	QString imagesFilePathFilePathFull = dir.absoluteFilePath(imageSaveEnginePath);
 	imageSaveEngine->setRootPath(imagesFilePathFilePathFull);
+	imageSaveEngine->setMaxSaveImageNum(9999);
 	imageSaveEngine->setSavePolicy(rw::rqw::ImageSaveEnginePolicy::MaxSaveImageNum);
 }
 

@@ -78,6 +78,6 @@ public:
 	QString dlgWarningManagerConfigPath = configRootPath + R"(dlgWarningManagerConfig.xml)";
 	QString modelPath = modelRootPath + R"(lalian.engine)";
 public:
-	QString imageSaveRootPath = projectHome + R"(SavedImages\)";
+	QString imageSaveRootPath = R"(D:\Images\)";
 	QString testImgDirPath= R"(D:\zfkjDevelopment\ImgStorage\lalian\20250607)";
 }globalPath;

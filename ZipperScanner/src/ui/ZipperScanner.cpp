@@ -16,6 +16,7 @@
 #include "DlgProductSet.h"
 #include "DlgShutdownWarn.h"
 #include "Modules.hpp"
+#include "DlgCloseForm.h"
 
 #ifdef BUILD_WITHOUT_HARDWARE
 void ZipperScanner::cbox_testIfPushImg_clicked(bool states)
@@ -333,6 +334,7 @@ void ZipperScanner::changeRemoveFucState(bool state)
 void ZipperScanner::pbtn_exit_clicked()
 {
 #ifdef NDEBUG
+	auto& _dlgCloseForm = Modules::getInstance().uiModule._dlgCloseForm;
 	if (_dlgCloseForm)
 	{
 		_dlgCloseForm->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
